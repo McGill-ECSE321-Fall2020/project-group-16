@@ -1,0 +1,53 @@
+class ArtGallery
+{
+  0..1 -<@> 1 ArtGalleryApplication;
+}
+
+class UserRole
+{
+}
+
+class Artwork
+{
+}
+
+class Payment
+{
+}
+
+class Address
+{
+  * -- * ArtGallery;
+}
+
+class User
+{
+  1 <@>- 0..3 UserRole;
+}
+
+class Artist
+{
+  isA UserRole;
+}
+
+class Customer
+{
+  isA UserRole;
+}
+
+class Admin
+{
+  isA UserRole;
+  * -- 1 ArtGallery;
+}
+
+class ArtworkOffer
+{
+}
+
+class ArtGalleryApplication
+{
+  1 <@>- * User;
+}
+
+//assuming all artwork is unique
