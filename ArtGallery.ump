@@ -1,53 +1,95 @@
-class ArtGallery
-{
-  0..1 -<@> 1 ArtGalleryApplication;
-}
-
 class UserRole
 {
+  // name
 }
 
 class Artwork
 {
+  // typeOfArtwork enum?
+  1..* <- 0..1 ArtworkOffer;
 }
 
 class Payment
 {
+  // paymentForm, paymentDate
 }
 
 class Address
 {
-  * -- * ArtGallery;
+  1 <- 0..1 Shipment;
+  1 <- 0..1 ArtGallery;
+}
+
+// todo: feels awkward idk 
+class Shipment
+{
 }
 
 class User
 {
+  // username, password
   1 <@>- 0..3 UserRole;
 }
 
 class Artist
 {
+  // description (about the artist), specialty 
   isA UserRole;
+  // todo: are we not allowing multiple artists to collab and is a compposition even legal here?
+  1..* <@>- * Artwork;
 }
 
 class Customer
 {
   isA UserRole;
+  1 <@>- * PurchaseRequest;
+  1 <@>- * Order;
 }
 
 class Admin
 {
   isA UserRole;
-  * -- 1 ArtGallery;
+    * -- 1 ArtGallery;
 }
 
 class ArtworkOffer
 {
+  // todo: add shipment type enum, price
+  
+  // TODO: user role association because 
+  * -<@> 1 UserRole;
+  1 -- * PurchaseRequest;
+  
+  // todo: should next association be to Purchase request? 
+  1..* <- 0..1 Shipment;
+}
+
+class PurchaseRequest 
+{
+  * <- 0..1 Order;
 }
 
 class ArtGalleryApplication
 {
   1 <@>- * User;
 }
+
+class Order
+{
+  // todo: add orderStatus enum, totalAmount
+  1 <@>- 0..1 Payment;
+  1 <@>- 1..* Shipment;
+}
+
+class ArtGallery{
+  
+  0..1 -<@> 1 ArtGalleryApplication;
+}
+
+// TODO: necessary?
+class Profile{
+  1 -<@> 1 User;
+}
+
 
 //assuming all artwork is unique
