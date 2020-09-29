@@ -1,42 +1,80 @@
 class UserRole
 {
-  // name
 }
 
 class Artwork
 {
-  // typeOfArtwork enum?
-  1..* <- 0..1 ArtworkOffer;
+    description;
+title;
+creationDate;
+dimensions;
+  medium;
+    collection;
+  
+  imageUrl;
+1 -- 1 ArtworkOffer;
 }
 
 class Payment
 {
-  // paymentForm, paymentDate
+  enum PaymentForm {
+    CreditCard,
+      PayPal
+  }
+  PaymentForm paymentForm;
+Date paymentDate;
+Time paymentTime;
+int cardNumber;
+Date expirationDate;
+int cvv;
 }
 
 class Address
 {
-  1 <- 0..1 Shipment;
+  streetAddress;
+streetAddress2;
+city;
+postalCode;
+province;
+country;
+1 returnAddress <- 0..1 Shipment;
+  1 destination<- 0..1 Shipment;
   1 <- 0..1 ArtGallery;
+  * <- 0..1 Profile;
+
+  1 <- 0..1 Payment;
 }
 
-// todo: feels awkward idk 
-class Shipment
-{
+class Shipment {
+  enum ShipmentStatus {
+      OnRoute,
+      Delivered,
+      Canceled,
+      ReadyForPickup
+  }
+  enum ShipmentMethod {
+    Pickup,
+    Delivery
+  }
+  
+  ShipmentStatus shipmentStatus;
+  ShipmentMethod shipmentMethod;
+  Date estimatedDateOfArrival;
+  Time estimatedTimeOfArrival;
 }
 
 class User
 {
-  // username, password
-  1 <@>- 0..3 UserRole;
+  unique username;
+  password;
+  unique email;
+1 <@>- 0..3 UserRole;
 }
 
 class Artist
 {
-  // description (about the artist), specialty 
   isA UserRole;
-  // todo: are we not allowing multiple artists to collab and is a compposition even legal here?
-  1..* <@>- * Artwork;
+  1..* -- * Artwork;
 }
 
 class Customer
@@ -44,24 +82,32 @@ class Customer
   isA UserRole;
   1 <@>- * PurchaseRequest;
   1 <@>- * Order;
+  0..1 -> 1 Order shoppingCart;
 }
 
 class Admin
 {
   isA UserRole;
-    * -- 1 ArtGallery;
+  * employees -- 1 ArtGallery ;
+  0..1 owner -- 1 ArtGallery buisness;
 }
 
 class ArtworkOffer
 {
-  // todo: add shipment type enum, price
+  enum OfferStatus {
+    Available,
+    Sold
+  }
   
-  // TODO: user role association because 
+  double price;
+OfferStatus offerStatus ;
+// todo: add shipment type enum, price
+  
   * -<@> 1 UserRole;
   1 -- * PurchaseRequest;
   
-  // todo: should next association be to Purchase request? 
   1..* <- 0..1 Shipment;
+  0..1 -- * ArtworkOffer relatedPieces;
 }
 
 class PurchaseRequest 
@@ -76,20 +122,33 @@ class ArtGalleryApplication
 
 class Order
 {
-  // todo: add orderStatus enum, totalAmount
+  enum OrderStatus {
+    InCart,
+    PaymentPending, 
+    Placed,
+    Shipped,
+    Delivered
+  }
+  OrderStatus orderStatus;
+  double totalAmount;
+  Date orderDate;
+  Time orderTime;
+ autounique orderId;
   1 <@>- 0..1 Payment;
   1 <@>- 1..* Shipment;
 }
 
 class ArtGallery{
   
-  0..1 -<@> 1 ArtGalleryApplication;
+  name;
+0..1 -<@> 1 ArtGalleryApplication;
+  1 <@>- * Artwork;
 }
 
-// TODO: necessary?
 class Profile{
-  1 -<@> 1 User;
+  description;
+firstName;
+lastName;
+profileImageUrl;
+0..1 -<@> 1 User;
 }
-
-
-//assuming all artwork is unique
