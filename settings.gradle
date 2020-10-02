@@ -8,3 +8,5 @@
  */
 
 rootProject.name = 'project-group-16'
+
+include ':ArtGalleryApplication-Backend'

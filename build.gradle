@@ -11,6 +11,10 @@ plugins {
     id 'java-library'
 }
 
+task stage () {
+    dependsOn ':ArtGalleryApplication-Backend:assemble'
+}
+
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
