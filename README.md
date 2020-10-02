@@ -1,6 +1,15 @@
 # Art Gallery System - ECSE321 F20 Group 16
 
 ## Team Members
+### Deliverable 1
+|**Team Member**|**Role**|**Time Contribution (Hours)**|
+|:-------------:|:-------|:---------------------------:|
+|Evan Wechsler  |        |                             |
+|Dina Shoham    |        |                             |
+|Arian Omidi    |        |                             |
+|Rodolphe Baladi|        |                             |
+|Alena Midgen   |        |                             |
+
 an overview table with names, team roles, and individual efforts (in hours) with separated entries for each
 deliverable.
 
