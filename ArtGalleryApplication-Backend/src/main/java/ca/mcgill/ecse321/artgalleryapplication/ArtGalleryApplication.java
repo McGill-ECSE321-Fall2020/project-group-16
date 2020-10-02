@@ -15,6 +15,6 @@ public class ArtGalleryApplication {
 
 	@RequestMapping("/")
   	public String greeting(){
-   		 return "Hello world!";
+   		 return "Ratatouille!";
   	}
 }
