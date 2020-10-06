@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import java.sql.Time;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="ag_order")
 public class Order{
 @Enumerated
 private OrderStatus orderStatus;

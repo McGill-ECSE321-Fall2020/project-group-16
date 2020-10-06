@@ -37,14 +37,14 @@ this.country = value;
 public String getCountry() {
 return this.country;
     }
-private int adressId;
+private int addressId;
 
-public void setAdressId(int value) {
-this.adressId = value;
+public void setAddressId(int value) {
+this.addressId = value;
     }
 @Id
-public int getAdressId() {
-return this.adressId;
+public int getAddressId() {
+return this.addressId;
     }
 private String streetAddress;
 
