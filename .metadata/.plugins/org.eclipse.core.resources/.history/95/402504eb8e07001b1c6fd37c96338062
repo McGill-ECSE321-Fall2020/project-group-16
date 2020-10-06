@@ -1,0 +1,39 @@
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import ca.mcgill.ecse321.eventregistration.model.Person;
+import java.util.Set;
+import javax.persistence.ManyToMany;
+
+@Entity
+public class Registration{
+private Integer id;
+   
+   public void setId(Integer value) {
+this.id = value;
+    }
+public Integer getId() {
+return this.id;
+    }
+private RegistrationManager registrationManager;
+
+@ManyToOne(optional=false)
+public RegistrationManager getRegistrationManager() {
+   return this.registrationManager;
+}
+
+public void setRegistrationManager(RegistrationManager registrationManager) {
+   this.registrationManager = registrationManager;
+}
+
+private Set<Person> person;
+
+@ManyToMany
+public Set<Person> getPerson() {
+   return this.person;
+}
+
+public void setPerson(Set<Person> persons) {
+   this.person = persons;
+}
+
+}

@@ -1,6 +1,5 @@
 # Art Gallery System - ECSE321 F20 Group 16
 
-
 ## Our Team
 
 [Rodolphe](https://github.com/rodolphebaladi) is a U2 Software Engineering student at McGill. His favourite ice cream is Oreo!
@@ -73,3 +72,4 @@ More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project
 |Arian Omidi    |        |         |
 |Dina Shoham    |        |         |
 |Evan Wechsler  |        |         |
+

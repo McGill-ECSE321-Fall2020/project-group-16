@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Persistency="http:///schemas/Persistency/NS/0" xmlns:UMLLabProfile="http:///schemas/UMLLabProfile/NS/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http:///schemas/Persistency/NS/0 pathmap://PERSISTENCY_PROFILES/Persistency.profile.uml#Persistency_2-Annotation-Persistency http:///schemas/UMLLabProfile/NS/0 pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile-Annotation_2-UMLLabProfile">
+  <uml:Model xmi:id="_JB_XwAeKEeuj0q2va-Zs4Q" name="ca_mcgill_ecse321_eventregistration_model">
+    <eAnnotations xmi:id="_JuEaoAeKEeuj0q2va-Zs4Q" source="http://ns.yatta.de/umllab">
+      <contents xmi:type="ecore:EAnnotation" xmi:id="_JuyMUAeKEeuj0q2va-Zs4Q" source="codegen">
+        <details xmi:id="_axQj8AeMEeuKY8G2_HBg3Q" key="AssociatedSourceCode" value="/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/model/Person.java;4057032911/1;/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/model/Registration.java;982882179/1;/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/model/RegistrationManager.java;3037380582/1;/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/EventRegistrationApplication.java;4112702049/1;/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/dao/EventRegistrationRepository.java;2044074280/1;/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/model/Event.java;1329943775/1;/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/dao/PersonRepository.java;3610970920/1;/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/dao/EventRepository.java;1813008733/1;/ca.mcgill.ecse321.eventregistration.model/src-gen/ca/mcgill/ecse321/eventregistration/dao/RegistrationRepository.java;2701073743/1;"/>
+        <details xmi:id="_SNvjYAePEeuKY8G2_HBg3Q" key="observedFolders" value="/ca.mcgill.ecse321.eventregistration.model/src-gen"/>
+        <details xmi:id="_UJFOsAePEeuKY8G2_HBg3Q" key="codegenDirectory" value="/ca.mcgill.ecse321.eventregistration.model/src-gen"/>
+      </contents>
+      <contents xmi:type="ecore:EAnnotation" xmi:id="_WqUawAfvEeuhz6H9oPHcYQ" source="preferences">
+        <contents xmi:type="ecore:EAnnotation" xmi:id="_WqUawQfvEeuhz6H9oPHcYQ" source="com.yattasolutions.codegen.reverse">
+          <details xmi:id="_WqVB0AfvEeuhz6H9oPHcYQ" key="com.yattasolutions.codegen.reverse.roundtrip.ReverseEngineerNewFiles" value="true"/>
+          <details xmi:id="_WqVB0QfvEeuhz6H9oPHcYQ" key="com.yattasolutions.codegen.reverse.roundtrip.RemoveDeletedFiles" value="true"/>
+          <details xmi:id="_WqVB0gfvEeuhz6H9oPHcYQ" key="com.yattasolutions.codegen.reverse.roundtrip.ReverseEngineerChangedFiles" value="true"/>
+        </contents>
+      </contents>
+    </eAnnotations>
+    <elementImport xmi:id="_NNgOkAeNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+    </elementImport>
+    <elementImport xmi:id="_NNgOkQeNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#byte"/>
+    </elementImport>
+    <elementImport xmi:id="_NNgOkgeNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#char"/>
+    </elementImport>
+    <elementImport xmi:id="_NNg1oAeNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#double"/>
+    </elementImport>
+    <elementImport xmi:id="_NNg1oQeNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
+    </elementImport>
+    <elementImport xmi:id="_NNg1ogeNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+    </elementImport>
+    <elementImport xmi:id="_NNg1oweNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+    </elementImport>
+    <elementImport xmi:id="_NNg1pAeNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#short"/>
+    </elementImport>
+    <elementImport xmi:id="_NQG2oAeNEeuKY8G2_HBg3Q">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </elementImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_If4eUAeMEeuKY8G2_HBg3Q" name="ca">
+      <packagedElement xmi:type="uml:Package" xmi:id="_M_2pkAeMEeuKY8G2_HBg3Q" name="mcgill" visibility="public">
+        <packagedElement xmi:type="uml:Package" xmi:id="_OjYR0AeMEeuKY8G2_HBg3Q" name="ecse321" visibility="public">
+          <packagedElement xmi:type="uml:Package" xmi:id="_QVMNsAeMEeuKY8G2_HBg3Q" name="eventregistration" visibility="public">
+            <packagedElement xmi:type="uml:Package" xmi:id="_VPUlYAeMEeuKY8G2_HBg3Q" name="model" visibility="public">
+              <packagedElement xmi:type="uml:Class" xmi:id="_WYXREAeMEeuKY8G2_HBg3Q" name="Person">
+                <eAnnotations xmi:id="_gCEWQAeMEeuKY8G2_HBg3Q" source="http://ns.yatta.de/umllab">
+                  <contents xmi:type="ecore:EAnnotation" xmi:id="_gCE9UAeMEeuKY8G2_HBg3Q" source="codegen">
+                    <details xmi:id="_gCE9UQeMEeuKY8G2_HBg3Q" key="codegenDirectory" value="/ca.mcgill.ecse321.eventregistration.model/src-gen"/>
+                  </contents>
+                </eAnnotations>
+                <ownedAttribute xmi:id="_LB4rkAeNEeuKY8G2_HBg3Q" name="name" visibility="public">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_uy3HEAf6Eeuhz6H9oPHcYQ" name="address" visibility="public"/>
+              </packagedElement>
+              <packagedElement xmi:type="uml:Class" xmi:id="_Qy5n8AeNEeuKY8G2_HBg3Q" name="Registration">
+                <ownedAttribute xmi:id="_YKjK8AeNEeuKY8G2_HBg3Q" name="id" visibility="public">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_2zV5MAeNEeuKY8G2_HBg3Q" name="person" type="_WYXREAeMEeuKY8G2_HBg3Q" association="_2zVSIAeNEeuKY8G2_HBg3Q">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2zV5MQeNEeuKY8G2_HBg3Q" value="1"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2zV5MgeNEeuKY8G2_HBg3Q" value="1"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_uF_SEgeOEeuKY8G2_HBg3Q" name="event" type="_Q-w5sAeNEeuKY8G2_HBg3Q" association="_uF-rAAeOEeuKY8G2_HBg3Q">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uF_SEweOEeuKY8G2_HBg3Q" value="1"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uF_SFAeOEeuKY8G2_HBg3Q" value="1"/>
+                </ownedAttribute>
+              </packagedElement>
+              <packagedElement xmi:type="uml:Class" xmi:id="_Q-w5sAeNEeuKY8G2_HBg3Q" name="Event">
+                <ownedAttribute xmi:id="_buXP8AeNEeuKY8G2_HBg3Q" name="name" visibility="public">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_cDl5EAeNEeuKY8G2_HBg3Q" name="date" visibility="public" type="_ng_l8AeMEeuKY8G2_HBg3Q"/>
+                <ownedAttribute xmi:id="_c4KwoAeNEeuKY8G2_HBg3Q" name="startTime" visibility="public" type="_p0xmcAeMEeuKY8G2_HBg3Q"/>
+                <ownedAttribute xmi:id="_dJkCoAeNEeuKY8G2_HBg3Q" name="endTime" visibility="public" type="_p0xmcAeMEeuKY8G2_HBg3Q"/>
+              </packagedElement>
+              <packagedElement xmi:type="uml:Class" xmi:id="_QW4aUAeNEeuKY8G2_HBg3Q" name="RegistrationManager">
+                <ownedAttribute xmi:id="_upxxEweNEeuKY8G2_HBg3Q" name="registrations" type="_Qy5n8AeNEeuKY8G2_HBg3Q" aggregation="composite" association="_upxKAAeNEeuKY8G2_HBg3Q">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_upxxFAeNEeuKY8G2_HBg3Q"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_upyYIAeNEeuKY8G2_HBg3Q" value="*"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_F-ZHEweOEeuKY8G2_HBg3Q" name="persons" type="_WYXREAeMEeuKY8G2_HBg3Q" aggregation="composite" association="_F-YgAAeOEeuKY8G2_HBg3Q">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_F-ZuIAeOEeuKY8G2_HBg3Q"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F-ZuIQeOEeuKY8G2_HBg3Q" value="*"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_wGuQMAeNEeuKY8G2_HBg3Q" name="events" type="_Q-w5sAeNEeuKY8G2_HBg3Q" aggregation="composite" association="_wGtpIAeNEeuKY8G2_HBg3Q">
+                  <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wGuQMQeNEeuKY8G2_HBg3Q"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wGuQMgeNEeuKY8G2_HBg3Q" value="*"/>
+                </ownedAttribute>
+                <ownedAttribute xmi:id="_eUvKYAePEeuKY8G2_HBg3Q" name="id" visibility="public">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+                </ownedAttribute>
+              </packagedElement>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Class" xmi:id="_WxlgYAfvEeuhz6H9oPHcYQ" name="EventRegistrationApplication">
+              <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_W0g4kAfvEeuhz6H9oPHcYQ" name="main" specification="_WxqY4AfvEeuhz6H9oPHcYQ">
+                <ownedParameter xmi:id="_W0g4kQfvEeuhz6H9oPHcYQ" name="args">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_W0g4kgfvEeuhz6H9oPHcYQ" value="*"/>
+                </ownedParameter>
+                <language>java</language>
+                <body>SpringApplication.run(EventRegistrationApplication.class, args);
+  </body>
+              </ownedBehavior>
+              <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_W0ki8AfvEeuhz6H9oPHcYQ" name="greeting" specification="_Wxs1IAfvEeuhz6H9oPHcYQ">
+                <ownedParameter xmi:id="_W0ki8QfvEeuhz6H9oPHcYQ" direction="return">
+                  <name xsi:nil="true"/>
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                </ownedParameter>
+                <language>java</language>
+                <body>return &quot;Hello world!&quot;;
+  </body>
+              </ownedBehavior>
+              <ownedOperation xmi:id="_WxqY4AfvEeuhz6H9oPHcYQ" name="main" isStatic="true" method="_W0g4kAfvEeuhz6H9oPHcYQ">
+                <ownedParameter xmi:id="_WxqY4QfvEeuhz6H9oPHcYQ" name="args">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WxsOEQfvEeuhz6H9oPHcYQ" value="*"/>
+                </ownedParameter>
+              </ownedOperation>
+              <ownedOperation xmi:id="_Wxs1IAfvEeuhz6H9oPHcYQ" name="greeting" method="_W0ki8AfvEeuhz6H9oPHcYQ">
+                <ownedParameter xmi:id="_WxuDQAfvEeuhz6H9oPHcYQ" direction="return">
+                  <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                </ownedParameter>
+              </ownedOperation>
+            </packagedElement>
+            <packagedElement xmi:type="uml:Package" xmi:id="_qvXoAAfwEeuhz6H9oPHcYQ" name="dao">
+              <packagedElement xmi:type="uml:Class" xmi:id="_qvY2IAfwEeuhz6H9oPHcYQ" name="EventRegistrationRepository">
+                <ownedAttribute xmi:id="_4ZZdIAfyEeuhz6H9oPHcYQ" name="entityManager" visibility="package" type="_4YMjQAfyEeuhz6H9oPHcYQ" association="_4aK5MAfyEeuhz6H9oPHcYQ"/>
+                <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_Sf_goAf1Eeuhz6H9oPHcYQ" name="createPerson" specification="_Sf6oIAf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_Sf_goQf1Eeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_Sf_gogf1Eeuhz6H9oPHcYQ" type="_WYXREAeMEeuKY8G2_HBg3Q" direction="return"/>
+                  <language>java</language>
+                  <body>Person p = new Person();
+		p.setName(name);
+		entityManager.persist(p);
+		return p;
+	</body>
+                </ownedBehavior>
+                <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_Sf_gowf1Eeuhz6H9oPHcYQ" name="getPerson" specification="_Sf7PMgf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_Sf_gpAf1Eeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_Sf_gpQf1Eeuhz6H9oPHcYQ" type="_WYXREAeMEeuKY8G2_HBg3Q" direction="return"/>
+                  <language>java</language>
+                  <body>Person p = entityManager.find(Person.class, name);
+		return p;
+	</body>
+                </ownedBehavior>
+                <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_Sf_gpgf1Eeuhz6H9oPHcYQ" name="createEvent" specification="_Sf9EYAf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_Sf_gpwf1Eeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_Sf_gqAf1Eeuhz6H9oPHcYQ" name="date" type="_ng_l8AeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_Sf_gqQf1Eeuhz6H9oPHcYQ" name="startTime" type="_p0xmcAeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_Sf_gqgf1Eeuhz6H9oPHcYQ" name="endTime" type="_p0xmcAeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_Sf_gqwf1Eeuhz6H9oPHcYQ" type="_Q-w5sAeNEeuKY8G2_HBg3Q" direction="return"/>
+                  <language>java</language>
+                  <body>Event e = new Event();
+		e.setName(name);
+		e.setDate(date);
+		e.setStartTime(startTime);
+		e.setEndTime(endTime);
+		entityManager.persist(e);
+		return e;
+	</body>
+                </ownedBehavior>
+                <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_SgAHsAf1Eeuhz6H9oPHcYQ" name="getEvent" specification="_Sf-SgAf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_SgAHsQf1Eeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_SgAHsgf1Eeuhz6H9oPHcYQ" type="_Q-w5sAeNEeuKY8G2_HBg3Q" direction="return"/>
+                  <language>java</language>
+                  <body>Event e = entityManager.find(Event.class, name);
+		return e;
+	</body>
+                </ownedBehavior>
+                <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_SgAHswf1Eeuhz6H9oPHcYQ" name="getEventsBeforeADeadline" specification="_Sf0hgAf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_SgAHtAf1Eeuhz6H9oPHcYQ" name="deadline" type="_ng_l8AeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_SgAHtQf1Eeuhz6H9oPHcYQ" type="_Q-w5sAeNEeuKY8G2_HBg3Q" isOrdered="true" direction="return">
+                    <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SgAHtgf1Eeuhz6H9oPHcYQ" value="*"/>
+                  </ownedParameter>
+                  <language>java</language>
+                  <body>TypedQuery&lt;Event> q = entityManager.createQuery(&quot;select e from Event e where e.date &lt; :deadline&quot;,Event.class);
+		q.setParameter(&quot;deadline&quot;, deadline);
+		List&lt;Event> resultList = q.getResultList();
+		return resultList;
+	</body>
+                </ownedBehavior>
+                <ownedOperation xmi:id="_Sf0hgAf1Eeuhz6H9oPHcYQ" name="getEventsBeforeADeadline" method="_SgAHswf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_Sf0hgQf1Eeuhz6H9oPHcYQ" name="deadline" type="_ng_l8AeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_Sf0hggf1Eeuhz6H9oPHcYQ" type="_Q-w5sAeNEeuKY8G2_HBg3Q" isOrdered="true" direction="return">
+                    <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Sf1IkAf1Eeuhz6H9oPHcYQ" value="*"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_Sf6oIAf1Eeuhz6H9oPHcYQ" name="createPerson" method="_Sf_goAf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_Sf6oIQf1Eeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_Sf6oIgf1Eeuhz6H9oPHcYQ" type="_WYXREAeMEeuKY8G2_HBg3Q" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_Sf7PMgf1Eeuhz6H9oPHcYQ" name="getPerson" method="_Sf_gowf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_Sf7PMwf1Eeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_Sf7PNAf1Eeuhz6H9oPHcYQ" type="_WYXREAeMEeuKY8G2_HBg3Q" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_Sf9EYAf1Eeuhz6H9oPHcYQ" name="createEvent" method="_Sf_gpgf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_Sf9EYQf1Eeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_Sf9EYgf1Eeuhz6H9oPHcYQ" name="date" type="_ng_l8AeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_Sf9EYwf1Eeuhz6H9oPHcYQ" name="startTime" type="_p0xmcAeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_Sf9EZAf1Eeuhz6H9oPHcYQ" name="endTime" type="_p0xmcAeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_Sf9rcAf1Eeuhz6H9oPHcYQ" type="_Q-w5sAeNEeuKY8G2_HBg3Q" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_Sf-SgAf1Eeuhz6H9oPHcYQ" name="getEvent" method="_SgAHsAf1Eeuhz6H9oPHcYQ">
+                  <ownedParameter xmi:id="_Sf-SgQf1Eeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_Sf-Sggf1Eeuhz6H9oPHcYQ" type="_Q-w5sAeNEeuKY8G2_HBg3Q" direction="return"/>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_haAwQAfyEeuhz6H9oPHcYQ" name="EventRepository">
+                <generalization xmi:id="_4iegoAfyEeuhz6H9oPHcYQ" general="_r6ivwQfyEeuhz6H9oPHcYQ"/>
+                <ownedOperation xmi:id="_4ikAMAfyEeuhz6H9oPHcYQ" name="findEventByName">
+                  <ownedParameter xmi:id="_4ikAMQfyEeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_4iknQAfyEeuhz6H9oPHcYQ" type="_Q-w5sAeNEeuKY8G2_HBg3Q" direction="return"/>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_jqPtgAfyEeuhz6H9oPHcYQ" name="RegistrationRepository">
+                <generalization xmi:id="_r6qrkAfyEeuhz6H9oPHcYQ" general="_r6ivwQfyEeuhz6H9oPHcYQ"/>
+                <ownedOperation xmi:id="_r6VUYAfyEeuhz6H9oPHcYQ" name="existsByPersonAndEvent">
+                  <ownedParameter xmi:id="_r6VUYQfyEeuhz6H9oPHcYQ" name="person" type="_WYXREAeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_r6V7cAfyEeuhz6H9oPHcYQ" name="eventName" type="_Q-w5sAeNEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_r6YXsAfyEeuhz6H9oPHcYQ" direction="return">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+                  </ownedParameter>
+                </ownedOperation>
+                <ownedOperation xmi:id="_r6V7cQfyEeuhz6H9oPHcYQ" name="findByPersonAndEvent">
+                  <ownedParameter xmi:id="_r6V7cgfyEeuhz6H9oPHcYQ" name="person" type="_WYXREAeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_r6V7cwfyEeuhz6H9oPHcYQ" name="eventName" type="_Q-w5sAeNEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_r6V7dAfyEeuhz6H9oPHcYQ" type="_Qy5n8AeNEeuKY8G2_HBg3Q" direction="return"/>
+                </ownedOperation>
+                <ownedOperation xmi:id="_ssmiAAf2Eeuhz6H9oPHcYQ" name="findByPerson">
+                  <ownedParameter xmi:id="_ssnJEAf2Eeuhz6H9oPHcYQ" name="personName" type="_WYXREAeMEeuKY8G2_HBg3Q"/>
+                  <ownedParameter xmi:id="_ssnJEQf2Eeuhz6H9oPHcYQ" type="_Qy5n8AeNEeuKY8G2_HBg3Q" isOrdered="true" direction="return">
+                    <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ssnJEgf2Eeuhz6H9oPHcYQ" value="*"/>
+                  </ownedParameter>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_38gs0AfyEeuhz6H9oPHcYQ" name="PersonRepository">
+                <generalization xmi:id="_39ngEAfyEeuhz6H9oPHcYQ" general="_r6ivwQfyEeuhz6H9oPHcYQ"/>
+                <ownedOperation xmi:id="_39wqAAfyEeuhz6H9oPHcYQ" name="findPersonByName">
+                  <ownedParameter xmi:id="_39wqAQfyEeuhz6H9oPHcYQ" name="name">
+                    <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+                  </ownedParameter>
+                  <ownedParameter xmi:id="_39xREAfyEeuhz6H9oPHcYQ" type="_WYXREAeMEeuKY8G2_HBg3Q" direction="return"/>
+                </ownedOperation>
+              </packagedElement>
+              <packagedElement xmi:type="uml:Association" xmi:id="_4aK5MAfyEeuhz6H9oPHcYQ" name="" memberEnd="_4aK5MQfyEeuhz6H9oPHcYQ _4ZZdIAfyEeuhz6H9oPHcYQ">
+                <ownedEnd xmi:id="_4aK5MQfyEeuhz6H9oPHcYQ" name="" type="_qvY2IAfwEeuhz6H9oPHcYQ" association="_4aK5MAfyEeuhz6H9oPHcYQ"/>
+              </packagedElement>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_5Ah-8AeMEeuKY8G2_HBg3Q" name="java">
+      <packagedElement xmi:type="uml:Package" xmi:id="__qwbQAeMEeuKY8G2_HBg3Q" name="sql">
+        <packagedElement xmi:type="uml:Package" xmi:id="__qxCUAeMEeuKY8G2_HBg3Q" name="Time"/>
+        <packagedElement xmi:type="uml:Package" xmi:id="_FBdaMAeNEeuKY8G2_HBg3Q" name="Date"/>
+        <packagedElement xmi:type="uml:DataType" xmi:id="_p0xmcAeMEeuKY8G2_HBg3Q" name="Time"/>
+        <packagedElement xmi:type="uml:DataType" xmi:id="_ng_l8AeMEeuKY8G2_HBg3Q" name="Date"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="__Tax8AePEeuKY8G2_HBg3Q" name="sql:"/>
+      <packagedElement xmi:type="uml:Package" xmi:id="_r6S4IAfyEeuhz6H9oPHcYQ" name="util">
+        <packagedElement xmi:type="uml:Class" xmi:id="_r6aM4AfyEeuhz6H9oPHcYQ" name="List"/>
+        <packagedElement xmi:type="uml:Interface" xmi:id="_uicCQAf2Eeuhz6H9oPHcYQ" name="Set"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_6vroYAeMEeuKY8G2_HBg3Q" name="cjave">
+      <packagedElement xmi:type="uml:Package" xmi:id="_6vroYQeMEeuKY8G2_HBg3Q" name="sql">
+        <packagedElement xmi:type="uml:Package" xmi:id="_6vsPcAeMEeuKY8G2_HBg3Q" name="Time"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_upxKAAeNEeuKY8G2_HBg3Q" name="" memberEnd="_upxxEAeNEeuKY8G2_HBg3Q _upxxEweNEeuKY8G2_HBg3Q">
+      <ownedEnd xmi:id="_upxxEAeNEeuKY8G2_HBg3Q" name="registrationManager" type="_QW4aUAeNEeuKY8G2_HBg3Q" association="_upxKAAeNEeuKY8G2_HBg3Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_upxxEQeNEeuKY8G2_HBg3Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_upxxEgeNEeuKY8G2_HBg3Q" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_wGtpIAeNEeuKY8G2_HBg3Q" name="" memberEnd="_wGtpIQeNEeuKY8G2_HBg3Q _wGuQMAeNEeuKY8G2_HBg3Q">
+      <ownedEnd xmi:id="_wGtpIQeNEeuKY8G2_HBg3Q" name="registrationManager" type="_QW4aUAeNEeuKY8G2_HBg3Q" association="_wGtpIAeNEeuKY8G2_HBg3Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_wGtpIgeNEeuKY8G2_HBg3Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_wGtpIweNEeuKY8G2_HBg3Q" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_2zVSIAeNEeuKY8G2_HBg3Q" name="" memberEnd="_2zVSIQeNEeuKY8G2_HBg3Q _2zV5MAeNEeuKY8G2_HBg3Q">
+      <ownedEnd xmi:id="_2zVSIQeNEeuKY8G2_HBg3Q" name="registration" type="_Qy5n8AeNEeuKY8G2_HBg3Q" association="_2zVSIAeNEeuKY8G2_HBg3Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2zVSIgeNEeuKY8G2_HBg3Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2zVSIweNEeuKY8G2_HBg3Q" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_F-YgAAeOEeuKY8G2_HBg3Q" name="" memberEnd="_F-ZHEAeOEeuKY8G2_HBg3Q _F-ZHEweOEeuKY8G2_HBg3Q">
+      <ownedEnd xmi:id="_F-ZHEAeOEeuKY8G2_HBg3Q" name="registrationManager" type="_QW4aUAeNEeuKY8G2_HBg3Q" association="_F-YgAAeOEeuKY8G2_HBg3Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_F-ZHEQeOEeuKY8G2_HBg3Q" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_F-ZHEgeOEeuKY8G2_HBg3Q" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_uF-rAAeOEeuKY8G2_HBg3Q" name="" memberEnd="_uF-rAQeOEeuKY8G2_HBg3Q _uF_SEgeOEeuKY8G2_HBg3Q">
+      <ownedEnd xmi:id="_uF-rAQeOEeuKY8G2_HBg3Q" name="registration" type="_Qy5n8AeNEeuKY8G2_HBg3Q" association="_uF-rAAeOEeuKY8G2_HBg3Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uF_SEAeOEeuKY8G2_HBg3Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uF_SEQeOEeuKY8G2_HBg3Q" value="*"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_WxR-YAfvEeuhz6H9oPHcYQ" name="org">
+      <packagedElement xmi:type="uml:Package" xmi:id="_WxTzkAfvEeuhz6H9oPHcYQ" name="springframework">
+        <packagedElement xmi:type="uml:Package" xmi:id="_WxUaoAfvEeuhz6H9oPHcYQ" name="boot">
+          <packagedElement xmi:type="uml:Package" xmi:id="_WxUaoQfvEeuhz6H9oPHcYQ" name="autoconfigure">
+            <packagedElement xmi:type="uml:Class" xmi:id="_WzVz4AfvEeuhz6H9oPHcYQ" name="SpringBootApplication"/>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Class" xmi:id="_WzrLEAfvEeuhz6H9oPHcYQ" name="SpringApplication"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_WxVowAfvEeuhz6H9oPHcYQ" name="web">
+          <packagedElement xmi:type="uml:Package" xmi:id="_WxVowQfvEeuhz6H9oPHcYQ" name="bind">
+            <packagedElement xmi:type="uml:Package" xmi:id="_WxWP0AfvEeuhz6H9oPHcYQ" name="annotation">
+              <packagedElement xmi:type="uml:Class" xmi:id="_Wz7pwAfvEeuhz6H9oPHcYQ" name="RestController"/>
+              <packagedElement xmi:type="uml:Class" xmi:id="_W0IeEQfvEeuhz6H9oPHcYQ" name="RequestMapping"/>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_r6S4IQfyEeuhz6H9oPHcYQ" name="data">
+          <packagedElement xmi:type="uml:Package" xmi:id="_r6S4IgfyEeuhz6H9oPHcYQ" name="repository">
+            <packagedElement xmi:type="uml:Interface" xmi:id="_r6ivwQfyEeuhz6H9oPHcYQ" name="CrudRepository"/>
+          </packagedElement>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_4XpJoAfyEeuhz6H9oPHcYQ" name="beans">
+          <packagedElement xmi:type="uml:Package" xmi:id="_4XpJoQfyEeuhz6H9oPHcYQ" name="factory">
+            <packagedElement xmi:type="uml:Package" xmi:id="_4XpJogfyEeuhz6H9oPHcYQ" name="annotation">
+              <packagedElement xmi:type="uml:Class" xmi:id="_4Ye3IQfyEeuhz6H9oPHcYQ" name="Autowired"/>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_4XpJowfyEeuhz6H9oPHcYQ" name="stereotype">
+          <packagedElement xmi:type="uml:Class" xmi:id="_4ZBCoAfyEeuhz6H9oPHcYQ" name="Repository"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_4XpJpAfyEeuhz6H9oPHcYQ" name="transaction">
+          <packagedElement xmi:type="uml:Package" xmi:id="_4XpwsAfyEeuhz6H9oPHcYQ" name="annotation">
+            <packagedElement xmi:type="uml:Class" xmi:id="_4ZFUEQfyEeuhz6H9oPHcYQ" name="Transactional"/>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_4XnUcQfyEeuhz6H9oPHcYQ" name="javax">
+      <packagedElement xmi:type="uml:Package" xmi:id="_4Xn7gAfyEeuhz6H9oPHcYQ" name="persistence">
+        <packagedElement xmi:type="uml:Class" xmi:id="_4YMjQAfyEeuhz6H9oPHcYQ" name="EntityManager"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_4YYJcQfyEeuhz6H9oPHcYQ" name="TypedQuery"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_uiWisAf2Eeuhz6H9oPHcYQ" name="Entity"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_ui1D0Qf2Eeuhz6H9oPHcYQ" name="CascadeType"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_ui8YkAf2Eeuhz6H9oPHcYQ" name="OneToMany"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_ujBREQf2Eeuhz6H9oPHcYQ" name="Id"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_y1U28Af6Eeuhz6H9oPHcYQ" name="xml">
+        <packagedElement xmi:type="uml:Package" xmi:id="_y1VeAAf6Eeuhz6H9oPHcYQ" name="registry">
+          <packagedElement xmi:type="uml:Package" xmi:id="_y1VeAQf6Eeuhz6H9oPHcYQ" name="infomodel"/>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_ujLpIAf2Eeuhz6H9oPHcYQ" name="Registration"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_ujkDoAf2Eeuhz6H9oPHcYQ" name="Person"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_ujqKQQf2Eeuhz6H9oPHcYQ" name="Event"/>
+    <profileApplication xmi:id="_Ju0BgAeKEeuj0q2va-Zs4Q">
+      <eAnnotations xmi:id="_Jv6NsAeKEeuj0q2va-Zs4Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile-Annotation_2-UMLLabProfile"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile"/>
+    </profileApplication>
+    <profileApplication xmi:id="_DMJ64AeMEeuKY8G2_HBg3Q">
+      <eAnnotations xmi:id="_DMMXIAeMEeuKY8G2_HBg3Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PERSISTENCY_PROFILES/Persistency.profile.uml#Persistency_2-Annotation-Persistency"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://PERSISTENCY_PROFILES/Persistency.profile.uml#Persistency_2"/>
+    </profileApplication>
+    <profileApplication xmi:id="_DPnekAeMEeuKY8G2_HBg3Q">
+      <eAnnotations xmi:id="_DPoFoAeMEeuKY8G2_HBg3Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PHP_PROFILES/PHP.profile.uml#PHPProfile-Annotation-PHPProfile"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://PHP_PROFILES/PHP.profile.uml#PHPProfile"/>
+    </profileApplication>
+  </uml:Model>
+  <UMLLabProfile:TargetLanguage xmi:id="_JwAUUAeKEeuj0q2va-Zs4Q" base_Package="_JB_XwAeKEeuj0q2va-Zs4Q">
+    <languageName>java</languageName>
+  </UMLLabProfile:TargetLanguage>
+  <Persistency:JPA1StyledElement xmi:id="_wsfFIAeMEeuKY8G2_HBg3Q" base_Element="_WYXREAeMEeuKY8G2_HBg3Q"/>
+  <Persistency:JPA1StyledElement xmi:id="_xU1ekAeMEeuKY8G2_HBg3Q" base_Element="_If4eUAeMEeuKY8G2_HBg3Q"/>
+  <Persistency:JPA1StyledElement xmi:id="_x3ZZEAeMEeuKY8G2_HBg3Q" base_Element="_M_2pkAeMEeuKY8G2_HBg3Q"/>
+  <Persistency:JPA1StyledElement xmi:id="_yKG5sAeMEeuKY8G2_HBg3Q" base_Element="_OjYR0AeMEeuKY8G2_HBg3Q"/>
+  <Persistency:JPA1StyledElement xmi:id="_ygBfUAeMEeuKY8G2_HBg3Q" base_Element="_QVMNsAeMEeuKY8G2_HBg3Q"/>
+  <Persistency:JPA1StyledElement xmi:id="_y4_Y8AeMEeuKY8G2_HBg3Q" base_Element="_VPUlYAeMEeuKY8G2_HBg3Q"/>
+  <Persistency:JPA1StyledElement xmi:id="_zQcPoAeMEeuKY8G2_HBg3Q" base_Element="_ng_l8AeMEeuKY8G2_HBg3Q"/>
+  <Persistency:JPA1StyledElement xmi:id="_znNJ0AeMEeuKY8G2_HBg3Q" base_Element="_p0xmcAeMEeuKY8G2_HBg3Q"/>
+  <Persistency:JPA1StyledElement xmi:id="_0iefQAeMEeuKY8G2_HBg3Q" base_Element="_JB_XwAeKEeuj0q2va-Zs4Q"/>
+  <Persistency:PrimaryKey xmi:id="_GBb-kAePEeuKY8G2_HBg3Q" base_Property="_buXP8AeNEeuKY8G2_HBg3Q"/>
+  <Persistency:PrimaryKey xmi:id="_HIu90AePEeuKY8G2_HBg3Q" base_Property="_YKjK8AeNEeuKY8G2_HBg3Q"/>
+  <Persistency:PrimaryKey xmi:id="_HvnXoAePEeuKY8G2_HBg3Q" base_Property="_LB4rkAeNEeuKY8G2_HBg3Q"/>
+  <Persistency:PrimaryKey xmi:id="_hKRNEAePEeuKY8G2_HBg3Q" base_Property="_eUvKYAePEeuKY8G2_HBg3Q"/>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_WxojsAfvEeuhz6H9oPHcYQ" base_Element="_WxlgYAfvEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:StyledElement xmi:id="_WxsOEAfvEeuhz6H9oPHcYQ" base_Element="_WxqY4AfvEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Annotations xmi:id="_WxvRYAfvEeuhz6H9oPHcYQ" base_Element="_Wxs1IAfvEeuhz6H9oPHcYQ">
+    <annotations xmi:id="_WxvRYQfvEeuhz6H9oPHcYQ" name="RequestMapping">
+      <annotationParameters xmi:id="_Wxv4cAfvEeuhz6H9oPHcYQ" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_47QNAAfyEeuhz6H9oPHcYQ" value="&quot;/&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_WxwfgAfvEeuhz6H9oPHcYQ" base_Element="_WxlgYAfvEeuhz6H9oPHcYQ">
+    <annotations xmi:id="_WxwfgQfvEeuhz6H9oPHcYQ" name="RestController"/>
+    <annotations xmi:id="_WxwfggfvEeuhz6H9oPHcYQ" name="SpringBootApplication"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_Wzp88AfvEeuhz6H9oPHcYQ" base_Element="_WzVz4AfvEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_Wz7CsAfvEeuhz6H9oPHcYQ" base_Element="_WzrLEAfvEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_W0IeEAfvEeuhz6H9oPHcYQ" base_Element="_Wz7pwAfvEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_W0TdMAfvEeuhz6H9oPHcYQ" base_Element="_W0IeEQfvEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:StyledElement xmi:id="_haBXUAfyEeuhz6H9oPHcYQ" base_Element="_haAwQAfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:StyledElement xmi:id="_jqQUkAfyEeuhz6H9oPHcYQ" base_Element="_jqPtgAfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_r6ivwAfyEeuhz6H9oPHcYQ" base_Element="_r6aM4AfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_r6o2YAfyEeuhz6H9oPHcYQ" base_Element="_r6ivwQfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Generics xmi:id="_r6wyMAfyEeuhz6H9oPHcYQ" genericsValue="Registration, Integer" base_Element="_r6qrkAfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:StyledElement xmi:id="_39e9MAfyEeuhz6H9oPHcYQ" base_Element="_38gs0AfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Generics xmi:id="_39vb4AfyEeuhz6H9oPHcYQ" genericsValue="Person, String" base_Element="_39ngEAfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_4XnUcAfyEeuhz6H9oPHcYQ" base_Element="_qvY2IAfwEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Annotations xmi:id="_4XsM8AfyEeuhz6H9oPHcYQ" base_Element="_qvY2IAfwEeuhz6H9oPHcYQ">
+    <annotations xmi:id="_4XsM8QfyEeuhz6H9oPHcYQ" name="Repository"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_4YYJcAfyEeuhz6H9oPHcYQ" base_Element="_4YMjQAfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_4Ye3IAfyEeuhz6H9oPHcYQ" base_Element="_4YYJcQfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_4ZAbkAfyEeuhz6H9oPHcYQ" base_Element="_4Ye3IQfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_4ZFUEAfyEeuhz6H9oPHcYQ" base_Element="_4ZBCoAfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_4ZXn8AfyEeuhz6H9oPHcYQ" base_Element="_4ZFUEQfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Annotations xmi:id="_4Z2JEAfyEeuhz6H9oPHcYQ" base_Element="_4ZZdIAfyEeuhz6H9oPHcYQ">
+    <annotations xmi:id="_4Z2JEQfyEeuhz6H9oPHcYQ" name="Autowired"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_4akh0AfyEeuhz6H9oPHcYQ" base_Element="_4aK5MAfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Generics xmi:id="_4ijZIAfyEeuhz6H9oPHcYQ" genericsValue="Event, String" base_Element="_4iegoAfyEeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Annotations xmi:id="_Sf1IkQf1Eeuhz6H9oPHcYQ" base_Element="_Sf0hgAf1Eeuhz6H9oPHcYQ">
+    <annotations xmi:id="_Sf1Ikgf1Eeuhz6H9oPHcYQ" name="Transactional"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_Sf7PMAf1Eeuhz6H9oPHcYQ" base_Element="_Sf6oIAf1Eeuhz6H9oPHcYQ">
+    <annotations xmi:id="_Sf7PMQf1Eeuhz6H9oPHcYQ" name="Transactional"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_Sf72QAf1Eeuhz6H9oPHcYQ" base_Element="_Sf7PMgf1Eeuhz6H9oPHcYQ">
+    <annotations xmi:id="_Sf72QQf1Eeuhz6H9oPHcYQ" name="Transactional"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_Sf9rcQf1Eeuhz6H9oPHcYQ" base_Element="_Sf9EYAf1Eeuhz6H9oPHcYQ">
+    <annotations xmi:id="_Sf9rcgf1Eeuhz6H9oPHcYQ" name="Transactional"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_Sf-Sgwf1Eeuhz6H9oPHcYQ" base_Element="_Sf-SgAf1Eeuhz6H9oPHcYQ">
+    <annotations xmi:id="_Sf-5kAf1Eeuhz6H9oPHcYQ" name="Transactional"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_uibbMAf2Eeuhz6H9oPHcYQ" base_Element="_uiWisAf2Eeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_ui1D0Af2Eeuhz6H9oPHcYQ" base_Element="_uicCQAf2Eeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_ui7xgAf2Eeuhz6H9oPHcYQ" base_Element="_ui1D0Qf2Eeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_ujBREAf2Eeuhz6H9oPHcYQ" base_Element="_ui8YkAf2Eeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_ujKbAAf2Eeuhz6H9oPHcYQ" base_Element="_ujBREQf2Eeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_ujgZQAf2Eeuhz6H9oPHcYQ" base_Element="_ujLpIAf2Eeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_ujqKQAf2Eeuhz6H9oPHcYQ" base_Element="_ujkDoAf2Eeuhz6H9oPHcYQ"/>
+  <UMLLabProfile:Reference xmi:id="_uj2-kAf2Eeuhz6H9oPHcYQ" base_Element="_ujqKQQf2Eeuhz6H9oPHcYQ"/>
+</xmi:XMI>

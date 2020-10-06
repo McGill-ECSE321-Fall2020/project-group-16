@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="EventRegistrationApplicationTests" project="EventRegistration-Backend" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="ca.mcgill.ecse321.eventregistration.EventRegistrationApplicationTests" time="0.069" displayname="EventRegistrationApplicationTests" uniqueid="[engine:junit-jupiter]/[class:ca.mcgill.ecse321.eventregistration.EventRegistrationApplicationTests]">
+    <testcase name="contextLoads" classname="ca.mcgill.ecse321.eventregistration.EventRegistrationApplicationTests" time="0.069" displayname="contextLoads()" uniqueid="[engine:junit-jupiter]/[class:ca.mcgill.ecse321.eventregistration.EventRegistrationApplicationTests]/[method:contextLoads()]"/>
+  </testsuite>
+</testrun>

@@ -1,0 +1,26 @@
+package ca.mcgill.ecse321.eventregistration.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.xml.registry.infomodel.Address;
+
+@Entity
+public class Person{
+private String name;
+   
+   public void setName(String value) {
+this.name = value;
+    }
+@Id
+public String getName() {
+return this.name;
+    }
+private Address address;
+
+public void setAddress(Address value) {
+this.address = value;
+    }
+public Address getAddress() {
+return this.address;
+       }
+   }
