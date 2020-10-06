@@ -9,7 +9,7 @@
 
 @dina-shoham: Dina is a U2 Software Engineering student at McGill. Her favourite ice cream flavour is chocolate chip cookie dough!
 
-@evanwechsler: Evan is a U1 Mechanical Engineering student at McGill. His favourite ice cream flavour is _____________.
+@evanwechsler: Evan is a U1 Mechanical Engineering student at McGill. His favourite ice cream flavour is moose tracks :)
 
 
 ## Project Scope
