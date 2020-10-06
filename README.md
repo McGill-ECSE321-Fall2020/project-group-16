@@ -24,21 +24,11 @@ The implementation of this system requires:
 * System Validation through unit testing
 * Automation of the software delivery process
 
-## Deliverables
+## Sprints
 
-More details indexed in [Home](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki)
+### Sprint 1
 
-### Deliverable 1
-
-|**Team Member**|**Role**|**Hours**|
-|:-------------:|:-------|:-------:|
-|Rodolphe Baladi|        |         |
-|Alena Midgen   |        |         |
-|Arian Omidi    |        |         |
-|Dina Shoham    |        |         |
-|Evan Wechsler  |        |         |
-
-### Deliverable 2
+More details about [Sprint 1](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-1)
 
 |**Team Member**|**Role**|**Hours**|
 |:-------------:|:-------|:-------:|
@@ -48,7 +38,9 @@ More details indexed in [Home](https://github.com/McGill-ECSE321-Fall2020/projec
 |Dina Shoham    |        |         |
 |Evan Wechsler  |        |         |
 
-### Deliverable 3
+### Sprint 2
+
+More details about [Sprint 2](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-2)
 
 |**Team Member**|**Role**|**Hours**|
 |:-------------:|:-------|:-------:|
@@ -58,7 +50,21 @@ More details indexed in [Home](https://github.com/McGill-ECSE321-Fall2020/projec
 |Dina Shoham    |        |         |
 |Evan Wechsler  |        |         |
 
-### Deliverable 4
+### Sprint 3
+
+More details about [Sprint 3](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-3)
+
+|**Team Member**|**Role**|**Hours**|
+|:-------------:|:-------|:-------:|
+|Rodolphe Baladi|        |         |
+|Alena Midgen   |        |         |
+|Arian Omidi    |        |         |
+|Dina Shoham    |        |         |
+|Evan Wechsler  |        |         |
+
+### Sprint 4
+
+More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-4)
 
 |**Team Member**|**Role**|**Hours**|
 |:-------------:|:-------|:-------:|
