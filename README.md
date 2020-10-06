@@ -3,15 +3,15 @@
 
 ## Our Team
 
-@rodolphebaladi: Rodolphe is a U2 Software Engineering student at McGill. His favourite ice cream is Oreo!
+[Rodolphe](https://github.com/rodolphebaladi) is a U2 Software Engineering student at McGill. His favourite ice cream is Oreo!
 
-@alenamidgen: A McGill U2 Software Engineering student, Alena's favourite ice cream flavour is chocolate peanut butter.
+[Alena](https://github.com/alenamidgen) is a McGill U2 Software Engineering student, Alena's favourite ice cream flavour is chocolate peanut butter.
 
-@ArianOmidi: Also a U2 Software Engineering student, Arian's favourite ice cream flavour is cookie dough.
+[Arian](https://github.com/ArianOmidi) is a U2 Software Engineering student, Arian's favourite ice cream flavour is cookie dough.
 
-@dina-shoham: Dina is a U2 Software Engineering student at McGill. Her favourite ice cream flavour is chocolate chip cookie dough!
+[Dina](https://github.com/dina-shoham) is a U2 Software Engineering student at McGill. Her favourite ice cream flavour is chocolate chip cookie dough!
 
-@evanwechsler: Evan is a U1 Mechanical Engineering student at McGill. His favourite ice cream flavour is moose tracks :)
+[Evan](https://github.com/evanwechsler) is a U1 Mechanical Engineering student at McGill. His favourite ice cream flavour is moose tracks :)
 
 
 ## Project Overview and Scope
