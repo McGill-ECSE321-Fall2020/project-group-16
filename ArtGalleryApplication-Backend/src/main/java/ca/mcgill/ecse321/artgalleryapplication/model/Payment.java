@@ -1,12 +1,14 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import java.sql.Date;
 import javax.persistence.Id;
 import java.sql.Time;
 
 @Entity
 public class Payment{
+@Enumerated
 private PaymentForm paymentForm;
    
    public void setPaymentForm(PaymentForm value) {

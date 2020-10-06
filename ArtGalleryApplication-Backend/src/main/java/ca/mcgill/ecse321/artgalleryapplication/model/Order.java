@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+
 import java.sql.Date;
 import javax.persistence.Id;
 import java.sql.Time;
@@ -9,6 +11,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Order{
+@Enumerated
 private OrderStatus orderStatus;
    
    public void setOrderStatus(OrderStatus value) {

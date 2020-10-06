@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.sql.Date;
 import java.util.Set;
@@ -65,6 +66,8 @@ this.price = value;
 public double getPrice() {
 return this.price;
     }
+
+@Enumerated
 private ArtworkStatus artworkStatus;
 
 public void setArtworkStatus(ArtworkStatus value) {
