@@ -23,6 +23,11 @@ The implementation of this system requires:
 * System Validation through unit testing
 * Automation of the software delivery process
 
+## Important links:
+[Software Requirements Specification](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification)
+     [System Requirements](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#2-requirements)
+     [Use Cases](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#3-use-cases-)
+
 ## Sprints
 
 ### Sprint 1
