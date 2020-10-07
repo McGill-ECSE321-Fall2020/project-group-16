@@ -5,6 +5,7 @@ import java.sql.Time;
 import javax.persistence.Id;
 import java.sql.Date;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Shipment{
@@ -43,7 +44,7 @@ return this.estimatedArrivalDate;
     }
 private Address returnAddress;
 
-@ManyToOne
+@OneToOne
 public Address getReturnAddress() {
    return this.returnAddress;
 }
@@ -54,7 +55,7 @@ public void setReturnAddress(Address returnAddress) {
 
 private Address destination;
 
-@ManyToOne
+@OneToOne
 public Address getDestination() {
    return this.destination;
 }
