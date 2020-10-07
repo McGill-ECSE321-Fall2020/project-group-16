@@ -24,9 +24,9 @@ The implementation of this system requires:
 * Automation of the software delivery process
 
 ## Important links:
-[Software Requirements Specification](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification)
-     [System Requirements](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#2-requirements)
-     [Use Cases](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#3-use-cases-)
+* [Software Requirements Specification](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification)
+  * [System Requirements](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#2-requirements)
+  * [Use Cases](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#3-use-cases-)
 
 ## Sprints
 
