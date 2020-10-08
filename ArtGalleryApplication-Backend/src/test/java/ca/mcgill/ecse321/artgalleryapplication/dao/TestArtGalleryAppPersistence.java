@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.artgalleryapplication.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -37,11 +38,17 @@ public class TestArtGalleryAppPersistence {
 	private GalleryEventRepository galleryEventRepository;
 	@Autowired
 	private ArtworkRepository artworkRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
+		galleryEventRepository.deleteAll();
+		orderRepository.deleteAll();
 		userRepository.deleteAll();
+		artworkRepository.deleteAll();
 		shipmentRepository.deleteAll();
+		paymentRepository.deleteAll();
 		addressRepository.deleteAll();
 	}
 	
@@ -272,7 +279,7 @@ public class TestArtGalleryAppPersistence {
 		galleryEventRepository.save(galleryEvent);
 		
 		galleryEvent = null;
-		galleryEvent = GalleryEventRepository.findGalleryEventByEventId(eventId);
+		galleryEvent = galleryEventRepository.findGalleryEventByEventId(eventId);
 		assertNotNull(galleryEvent);
 		assertEquals(eventId, galleryEvent.getEventId());
 		assertEquals(eventName, galleryEvent.getEventName());
@@ -303,6 +310,7 @@ public class TestArtGalleryAppPersistence {
 		paymentRepository.save(payment);
 		
 		Address address = getRandAddress();
+		addressRepository.save(address);
 		
 		//shipment
 		Shipment shipment = new Shipment();
@@ -364,7 +372,7 @@ public class TestArtGalleryAppPersistence {
 		
 		order = orderRepository.findOrderByOrderId(orderId);
 		assertNotNull(order);
-		assertEquals(artwork, order.getArtwork());
+		assertEquals(artwork.getArtworkId(), order.getArtwork().getArtworkId());
 		assertEquals(customer, order.getCustomer());
 		assertEquals(orderDate, order.getOrderDate());
 		assertEquals(orderId, order.getOrderId());

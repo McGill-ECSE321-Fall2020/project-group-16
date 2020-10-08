@@ -1,10 +1,10 @@
 package ca.mcgill.ecse321.artgalleryapplication.dao;
 import org.springframework.data.repository.CrudRepository;
 
-import ca.mcgill.ecse321.artgalleryapplication.model.Address;
+import ca.mcgill.ecse321.artgalleryapplication.model.GalleryEvent;
 
-public interface GalleryEventRepository extends CrudRepository<GalleryEventRepository, String>{
+public interface GalleryEventRepository extends CrudRepository<GalleryEvent, String>{
 
-	Address findGalleryEventByEventId(int eventId);
+	GalleryEvent findGalleryEventByEventId(int eventId);
 
 }
