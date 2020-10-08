@@ -403,4 +403,37 @@ public class TestArtGalleryAppPersistence {
 		return address;
 	}
 	
+	@Test
+	public void testPersistAndLoadPayment() {
+		Date paymentDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19));
+		long cardNumber = (long) 1234567891234567L;
+		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
+		int cvv = 123;
+		int paymentId = 12345;
+		Time paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		
+		Payment payment = new Payment();
+		payment.setPaymentDate(paymentDate);
+		payment.setCardNumber(cardNumber);
+		payment.setExpirationDate(expirationDate);
+		payment.setCvv(cvv);
+		payment.setPaymentId(paymentId);
+		payment.setPaymentTime(paymentTime);
+		
+		paymentRepository.save(payment);
+		
+		payment = null;
+		
+		payment = paymentRepository.findPaymentByPaymentId(paymentId);
+		
+		assertNotNull(payment);
+		assertEquals(paymentId, payment.getPaymentId());
+		assertEquals(paymentDate, payment.getPaymentDate());
+		assertEquals(cardNumber, payment.getCardNumber());
+		assertEquals(expirationDate, payment.getExpirationDate());
+		assertEquals(cvv, payment.getCvv());
+		assertEquals(paymentTime, payment.getPaymentTime());
+		
+	}
+	
 }
