@@ -441,4 +441,65 @@ public class TestArtGalleryAppPersistence {
 		
 	}
 	
+	public void testPersistAndLoadArtGalleryApplication() {
+		int applicationId=1234;
+		
+		Artwork artwork = new Artwork();
+		//artwork.setArtist(artists);
+		artwork.setArtworkId(123);
+		artwork.setArtworkStatus(ArtworkStatus.ForSale);
+		artwork.setCollection("non");
+		artwork.setCreationDate(java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19)));
+		artwork.setDescription("boring");
+		artwork.setDimensions("12x12");
+		artwork.setImageUrl("idc.org");
+		artwork.setMedium("chalk");
+		artwork.setPrice(12.99);
+		artwork.setTitle("Example");
+		artworkRepository.save(artwork);
+		
+		Set<Artwork> art;
+		
+		String username = "tester1";
+		String password = "testPass1";
+		String firstName = "Fname";
+		String lastName = "Lname";
+		String description = "test case for user profile";
+		String profileImageUrl = "http://test.png";
+		Boolean isAdmin = true;
+		UserProfile user = new UserProfile();
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setDescription(description);
+		user.setProfileImageUrl(profileImageUrl);
+		user.setIsAdmin(isAdmin);
+		userRepository.save(user);
+		
+		Set<UserProfile> users;
+		
+		GalleryEvent event;
+		Set<GalleryEvent> events;
+		
+		String streetAddress = "1001 Test Rd";
+		String streetAddress2 = "101";
+		String postalCode = "S7NGT5";
+		String city = "Test";
+		String province = "TS";
+		String country = "Canada";
+		int addressId = 101;
+		Address address = new Address();
+		address.setAddressId(addressId);
+		address.setStreetAddress(streetAddress);
+		address.setStreetAddress2(streetAddress2);
+		address.setPostalCode(postalCode);
+		address.setCity(city);
+		address.setProvince(province);
+		address.setCountry(country);
+		addressRepository.save(address);
+		
+		Set<Address> addresses;
+	}
+	
 }
