@@ -40,6 +40,8 @@ public class TestArtGalleryAppPersistence {
 	private ArtworkRepository artworkRepository;
 	@Autowired
 	private OrderRepository orderRepository;
+	@Autowired
+	private ArtGalleryApplicationRepository artGalleryApplicationRepository;
 	
 	@AfterEach
 	public void clearDatabase() {
@@ -50,6 +52,7 @@ public class TestArtGalleryAppPersistence {
 		shipmentRepository.deleteAll();
 		paymentRepository.deleteAll();
 		addressRepository.deleteAll();
+		artGalleryApplicationRepository.deleteAll();
 	}
 	
 	@Test
@@ -440,14 +443,14 @@ public class TestArtGalleryAppPersistence {
 		assertEquals(paymentTime, payment.getPaymentTime());
 		
 	}
-	
+
+	@Test
 	public void testPersistAndLoadArtGalleryApplication() {
 		int applicationId=1234;
 		
 		ArtGalleryApplication artGalleryApp = new ArtGalleryApplication();
 		artGalleryApp.setApplicationId(applicationId);
-		
-		
+
 		artGalleryApplicationRepository.save(artGalleryApp);
 		
 	}
