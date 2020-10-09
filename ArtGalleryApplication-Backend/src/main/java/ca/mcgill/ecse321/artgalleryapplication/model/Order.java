@@ -1,17 +1,19 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+
 import java.sql.Date;
 import javax.persistence.Id;
 import java.sql.Time;
-import javax.persistence.ManyToOne;
-import java.util.Set;
 import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="ag_order")
 public class Order{
+@Enumerated
 private OrderStatus orderStatus;
    
    public void setOrderStatus(OrderStatus value) {
@@ -53,31 +55,21 @@ this.orderTime = value;
 public Time getOrderTime() {
 return this.orderTime;
     }
-private UserProfile userProfile;
 
-@ManyToOne(optional=false)
-public UserProfile getUserProfile() {
-   return this.userProfile;
-}
+private Payment payment;
 
-public void setUserProfile(UserProfile userProfile) {
-   this.userProfile = userProfile;
-}
-
-private Set<Payment> payment;
-
-@OneToMany(mappedBy="order", cascade={CascadeType.ALL})
-public Set<Payment> getPayment() {
+@OneToOne(cascade={CascadeType.ALL})
+public Payment getPayment() {
    return this.payment;
 }
 
-public void setPayment(Set<Payment> payments) {
-   this.payment = payments;
+public void setPayment(Payment payment) {
+   this.payment = payment;
 }
 
 private Shipment shipment;
 
-@OneToOne(mappedBy="order", cascade={CascadeType.ALL})
+@OneToOne(cascade={CascadeType.ALL})
 public Shipment getShipment() {
    return this.shipment;
 }
@@ -86,15 +78,15 @@ public void setShipment(Shipment shipment) {
    this.shipment = shipment;
 }
 
-private Set<Artwork> artwork;
+private Artwork artwork;
 
-@OneToMany(mappedBy="order")
-public Set<Artwork> getArtwork() {
+@OneToOne(optional=false)
+public Artwork getArtwork() {
    return this.artwork;
 }
 
-public void setArtwork(Set<Artwork> artworks) {
-   this.artwork = artworks;
+public void setArtwork(Artwork artwork) {
+   this.artwork = artwork;
 }
 
 private UserProfile customer;

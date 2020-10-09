@@ -2,12 +2,12 @@ package ca.mcgill.ecse321.artgalleryapplication.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class UserProfile{
@@ -76,48 +76,15 @@ this.firstName = value;
 public String getFirstName() {
 return this.firstName;
     }
-private ArtGalleryApplication artGalleryApplication;
-
-@ManyToOne(optional=false)
-public ArtGalleryApplication getArtGalleryApplication() {
-   return this.artGalleryApplication;
-}
-
-public void setArtGalleryApplication(ArtGalleryApplication artGalleryApplication) {
-   this.artGalleryApplication = artGalleryApplication;
-}
-
 private Set<Order> pastOrders;
 
-@OneToMany(mappedBy="userProfile", cascade={CascadeType.ALL})
+@OneToMany(cascade={CascadeType.ALL})
 public Set<Order> getPastOrders() {
    return this.pastOrders;
 }
 
 public void setPastOrders(Set<Order> pastOrderss) {
    this.pastOrders = pastOrderss;
-}
-
-private Set<Artwork> artwork;
-
-@ManyToMany
-public Set<Artwork> getArtwork() {
-   return this.artwork;
-}
-
-public void setArtwork(Set<Artwork> artworks) {
-   this.artwork = artworks;
-}
-
-private Set<GalleryEvent> galleryEvent;
-
-@ManyToMany(mappedBy="participants")
-public Set<GalleryEvent> getGalleryEvent() {
-   return this.galleryEvent;
-}
-
-public void setGalleryEvent(Set<GalleryEvent> galleryEvents) {
-   this.galleryEvent = galleryEvents;
 }
 
 private Address address;
@@ -142,4 +109,25 @@ public void setCurrentOrder(Order currentOrder) {
    this.currentOrder = currentOrder;
 }
 
+private Set<GalleryEvent> galleryEvent;
+
+@ManyToMany(mappedBy="participants")
+public Set<GalleryEvent> getGalleryEvent() {
+   return this.galleryEvent;
+}
+
+public void setGalleryEvent(Set<GalleryEvent> galleryEvents) {
+   this.galleryEvent = galleryEvents;
+}
+
+private Set<Artwork> artwork;
+
+@ManyToMany
+public Set<Artwork> getArtwork() {
+   return this.artwork;
+}
+
+public void setArtwork(Set<Artwork> artworks) {
+   this.artwork = artworks;
+}
 }
