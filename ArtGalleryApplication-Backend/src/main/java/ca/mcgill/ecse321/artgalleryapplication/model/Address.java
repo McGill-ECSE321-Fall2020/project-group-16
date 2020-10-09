@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.artgalleryapplication.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Address{
@@ -38,14 +37,15 @@ this.country = value;
 public String getCountry() {
 return this.country;
     }
-private int adressId;
 
-public void setAdressId(int value) {
-this.adressId = value;
+private int addressId;
+
+public void setAddressId(int value) {
+this.addressId = value;
     }
 @Id
-public int getAdressId() {
-return this.adressId;
+public int getAddressId() {
+return this.addressId;
     }
 private String streetAddress;
 
@@ -62,16 +62,6 @@ this.province = value;
     }
 public String getProvince() {
 return this.province;
-    }
-private ArtGalleryApplication artGalleryApplication;
 
-@ManyToOne(optional=false)
-public ArtGalleryApplication getArtGalleryApplication() {
-   return this.artGalleryApplication;
-}
-
-public void setArtGalleryApplication(ArtGalleryApplication artGalleryApplication) {
-   this.artGalleryApplication = artGalleryApplication;
-}
-
-}
+       }
+   }

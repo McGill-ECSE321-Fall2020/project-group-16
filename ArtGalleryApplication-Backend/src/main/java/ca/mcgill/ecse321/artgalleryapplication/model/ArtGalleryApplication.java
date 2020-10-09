@@ -19,7 +19,8 @@ return this.applicationId;
     }
 private Set<Artwork> artwork;
 
-@OneToMany(mappedBy="artGalleryApplication", cascade={CascadeType.ALL})
+
+@OneToMany(cascade={CascadeType.ALL})
 public Set<Artwork> getArtwork() {
    return this.artwork;
 }
@@ -30,7 +31,7 @@ public void setArtwork(Set<Artwork> artworks) {
 
 private Set<UserProfile> userProfile;
 
-@OneToMany(mappedBy="artGalleryApplication", cascade={CascadeType.ALL})
+@OneToMany(cascade={CascadeType.ALL})
 public Set<UserProfile> getUserProfile() {
    return this.userProfile;
 }
@@ -41,7 +42,7 @@ public void setUserProfile(Set<UserProfile> userProfiles) {
 
 private Set<GalleryEvent> galleryEvent;
 
-@OneToMany(mappedBy="artGalleryApplication", cascade={CascadeType.ALL})
+@OneToMany(cascade={CascadeType.ALL})
 public Set<GalleryEvent> getGalleryEvent() {
    return this.galleryEvent;
 }
@@ -52,7 +53,7 @@ public void setGalleryEvent(Set<GalleryEvent> galleryEvents) {
 
 private Set<Address> address;
 
-@OneToMany(mappedBy="artGalleryApplication", cascade={CascadeType.ALL})
+@OneToMany(cascade={CascadeType.ALL})
 public Set<Address> getAddress() {
    return this.address;
 }

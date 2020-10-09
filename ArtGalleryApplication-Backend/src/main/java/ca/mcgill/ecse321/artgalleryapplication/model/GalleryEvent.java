@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
-import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.ManyToMany;
 
@@ -67,16 +66,6 @@ this.endTime = value;
 public Time getEndTime() {
 return this.endTime;
     }
-private ArtGalleryApplication artGalleryApplication;
-
-@ManyToOne(optional=false)
-public ArtGalleryApplication getArtGalleryApplication() {
-   return this.artGalleryApplication;
-}
-
-public void setArtGalleryApplication(ArtGalleryApplication artGalleryApplication) {
-   this.artGalleryApplication = artGalleryApplication;
-}
 
 private Set<UserProfile> participants;
 

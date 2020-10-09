@@ -1,9 +1,9 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.sql.Date;
-import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.ManyToMany;
 
@@ -66,6 +66,8 @@ this.price = value;
 public double getPrice() {
 return this.price;
     }
+
+@Enumerated
 private ArtworkStatus artworkStatus;
 
 public void setArtworkStatus(ArtworkStatus value) {
@@ -90,16 +92,6 @@ this.collection = value;
 public String getCollection() {
 return this.collection;
     }
-private ArtGalleryApplication artGalleryApplication;
-
-@ManyToOne(optional=false)
-public ArtGalleryApplication getArtGalleryApplication() {
-   return this.artGalleryApplication;
-}
-
-public void setArtGalleryApplication(ArtGalleryApplication artGalleryApplication) {
-   this.artGalleryApplication = artGalleryApplication;
-}
 
 private Set<UserProfile> artist;
 
@@ -111,16 +103,4 @@ public Set<UserProfile> getArtist() {
 public void setArtist(Set<UserProfile> artists) {
    this.artist = artists;
 }
-
-private Order order;
-
-@ManyToOne
-public Order getOrder() {
-   return this.order;
-}
-
-public void setOrder(Order order) {
-   this.order = order;
-}
-
 }
