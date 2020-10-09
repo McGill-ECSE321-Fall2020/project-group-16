@@ -2,15 +2,15 @@
 
 ## Our Team
 
-[Rodolphe](https://github.com/rodolphebaladi) is a U2 Software Engineering student at McGill. His favourite ice cream is Oreo!
+[Rodolphe Baladi](https://github.com/rodolphebaladi) is a U2 Software Engineering student at McGill. His favourite ice cream is Oreo!
 
-[Alena](https://github.com/alenamidgen) is a McGill U2 Software Engineering student, Alena's favourite ice cream flavour is chocolate peanut butter.
+[Alena Midgen](https://github.com/alenamidgen) is a McGill U2 Software Engineering student, Alena's favourite ice cream flavour is chocolate peanut butter.
 
-[Arian](https://github.com/ArianOmidi) is a U2 Software Engineering student, Arian's favourite ice cream flavour is cookie dough.
+[Arian Omidi](https://github.com/ArianOmidi) is a U2 Software Engineering student, Arian's favourite ice cream flavour is cookie dough.
 
-[Dina](https://github.com/dina-shoham) is a U2 Software Engineering student at McGill. Her favourite ice cream flavour is chocolate chip cookie dough!
+[Dina Shoham](https://github.com/dina-shoham) is a U2 Software Engineering student at McGill. Her favourite ice cream flavour is chocolate chip cookie dough!
 
-[Evan](https://github.com/evanwechsler) is a U1 Mechanical Engineering student at McGill. His favourite ice cream flavour is moose tracks :)
+[Evan Wechsler](https://github.com/evanwechsler) is a U1 Mechanical Engineering student at McGill. His favourite ice cream flavour is moose tracks :)
 
 
 ## Project Overview and Scope
@@ -34,47 +34,48 @@ The implementation of this system requires:
 
 More details about [Sprint 1](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-1)
 
-|**Team Member**|**Role**|**Hours**|
-|:-------------:|:-------|:-------:|
-|Rodolphe Baladi|        |         |
-|Alena Midgen   |        |         |
-|Arian Omidi    |        |         |
-|Dina Shoham    |        |         |
-|Evan Wechsler  |        |         |
+|**Team Member**|**Responsibilities**|**Hours**|
+|:-------------:|:-------------------|:-------:|
+|Rodolphe Baladi|Persistence testing, use cases, requirements                        |  17  |
+|Alena Midgen   |Persistence layer setup, persistence testing, documentation         |  17  |
+|Arian Omidi    |Continuous integration, persistence layer setup, persistence testing|  17  |
+|Dina Shoham    |UML class diagram, persistence testing, documentation               |  17  |
+|Evan Wechsler  |Documentation, persistence layer, use case diagram                  |  17  |
+* Note: all members were involved in the development of the domain model, system requirements, and use cases
 
 ### Sprint 2
 
 More details about [Sprint 2](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-2)
 
-|**Team Member**|**Role**|**Hours**|
-|:-------------:|:-------|:-------:|
-|Rodolphe Baladi|        |         |
-|Alena Midgen   |        |         |
-|Arian Omidi    |        |         |
-|Dina Shoham    |        |         |
-|Evan Wechsler  |        |         |
+|**Team Member**|**Responsibilities**|**Hours**|
+|:-------------:|:-------------------|:-------:|
+|Rodolphe Baladi|                    |         |
+|Alena Midgen   |                    |         |
+|Arian Omidi    |                    |         |
+|Dina Shoham    |                    |         |
+|Evan Wechsler  |                    |         |
 
 ### Sprint 3
 
 More details about [Sprint 3](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-3)
 
-|**Team Member**|**Role**|**Hours**|
-|:-------------:|:-------|:-------:|
-|Rodolphe Baladi|        |         |
-|Alena Midgen   |        |         |
-|Arian Omidi    |        |         |
-|Dina Shoham    |        |         |
-|Evan Wechsler  |        |         |
+|**Team Member**|**Responsibilities**|**Hours**|
+|:-------------:|:-------------------|:-------:|
+|Rodolphe Baladi|                    |         |
+|Alena Midgen   |                    |         |
+|Arian Omidi    |                    |         |
+|Dina Shoham    |                    |         |
+|Evan Wechsler  |                    |         |
 
 ### Sprint 4
 
 More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-4)
 
-|**Team Member**|**Role**|**Hours**|
-|:-------------:|:-------|:-------:|
-|Rodolphe Baladi|        |         |
-|Alena Midgen   |        |         |
-|Arian Omidi    |        |         |
-|Dina Shoham    |        |         |
-|Evan Wechsler  |        |         |
+|**Team Member**|**Responsibilities**|**Hours**|
+|:-------------:|:-------------------|:-------:|
+|Rodolphe Baladi|                    |         |
+|Alena Midgen   |                    |         |
+|Arian Omidi    |                    |         |
+|Dina Shoham    |                    |         |
+|Evan Wechsler  |                    |         |
 
