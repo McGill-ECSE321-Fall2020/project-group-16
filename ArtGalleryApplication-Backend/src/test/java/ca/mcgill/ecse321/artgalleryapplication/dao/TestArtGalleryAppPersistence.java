@@ -354,7 +354,7 @@ public class TestArtGalleryAppPersistence {
 		int orderId = 123;
 		Time orderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		Payment payment = new Payment();
-		payment.setCardNumber(1234);
+		payment.setCardNumber("1234");
 		payment.setCvv(123);
 		payment.setExpirationDate(java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19)));
 		payment.setPaymentDate(java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19)));
@@ -465,7 +465,7 @@ public class TestArtGalleryAppPersistence {
 	@Test
 	public void testPersistAndLoadPayment() {
 		Date paymentDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19));
-		long cardNumber = (long) 1234567891234567L;
+		String cardNumber = "1234567891234567";
 		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
 		int cvv = 123;
 		int paymentId = 12345;

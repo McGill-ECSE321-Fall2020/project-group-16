@@ -25,12 +25,12 @@ this.paymentDate = value;
 public Date getPaymentDate() {
 return this.paymentDate;
     }
-private long cardNumber;
+private String cardNumber;
 
-public void setCardNumber(long value) {
+public void setCardNumber(String value) {
 this.cardNumber = value;
     }
-public long getCardNumber() {
+public String getCardNumber() {
 return this.cardNumber;
     }
 private Date expirationDate;
