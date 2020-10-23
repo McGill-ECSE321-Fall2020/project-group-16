@@ -1,11 +1,11 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.ManyToMany;
 
 @Entity
 public class GalleryEvent{
@@ -67,9 +67,15 @@ public Time getEndTime() {
 return this.endTime;
     }
 
-private Set<UserProfile> participants;
 
-@ManyToMany
+private Set<UserProfile> participants = new HashSet<>();
+
+        @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "gallery_event_participants",
+            joinColumns = {@JoinColumn(name = "gallery_event_event_id")},
+            inverseJoinColumns = {@JoinColumn(name = "participants_username")}
+    )
 public Set<UserProfile> getParticipants() {
    return this.participants;
 }

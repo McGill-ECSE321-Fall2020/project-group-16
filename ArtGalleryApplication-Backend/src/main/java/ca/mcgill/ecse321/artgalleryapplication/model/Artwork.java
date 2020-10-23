@@ -1,11 +1,12 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import org.apache.catalina.User;
+
+import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Time;
+import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.ManyToMany;
 
 @Entity
 public class Artwork{
@@ -93,14 +94,19 @@ public String getCollection() {
 return this.collection;
     }
 
-private Set<UserProfile> artist;
+    private Set<UserProfile> artists = new HashSet<>();
 
-@ManyToMany(mappedBy="artwork")
+    @ManyToMany(mappedBy = "artwork", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 public Set<UserProfile> getArtist() {
-   return this.artist;
+   return this.artists;
 }
 
 public void setArtist(Set<UserProfile> artists) {
-   this.artist = artists;
+   this.artists = artists;
+}
+
+public void addArtist(UserProfile artist) {
+        artists.add(artist);
+        artist.getArtwork().add(this);
 }
 }

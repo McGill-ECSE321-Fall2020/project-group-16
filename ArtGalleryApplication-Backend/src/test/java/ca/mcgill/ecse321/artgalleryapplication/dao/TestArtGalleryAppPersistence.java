@@ -12,6 +12,7 @@ import java.time.Month;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.catalina.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -191,8 +192,12 @@ public class TestArtGalleryAppPersistence {
 		artwork.setArtworkId(123);
 		order.setArtwork(artwork);
 
-		userRepository.save(user);
+		HashSet<Artwork> artworks = new HashSet<>();
+		artworks.add(artwork);
+		user.setArtwork(artworks);
+
 		artworkRepository.save(artwork);
+		userRepository.save(user);
 		orderRepository.save(order);
 
 		user = null;
@@ -256,13 +261,13 @@ public class TestArtGalleryAppPersistence {
 		artwork.setDescription(description);
 
 
-//		Set<UserProfile> artists = new HashSet<UserProfile>();
-//		artists.add(user);
-//		artwork.setArtist(artists);
-//
-//		HashSet<Artwork> artworks = new HashSet<Artwork>();
-//		artworks.add(artwork);
-//		user.setArtwork(artworks);
+		Set<UserProfile> artists = new HashSet<UserProfile>();
+		artists.add(user);
+		artwork.setArtist(artists);
+
+		HashSet<Artwork> artworks = new HashSet<Artwork>();
+		artworks.add(artwork);
+		user.setArtwork(artworks);
 
 
 		//userRepository.save(user);
@@ -335,6 +340,7 @@ public class TestArtGalleryAppPersistence {
 		galleryEvent = null;
 		galleryEvent = galleryEventRepository.findGalleryEventByEventId(eventId);
 		assertNotNull(galleryEvent);
+
 		assertEquals(eventId, galleryEvent.getEventId());
 		assertEquals(eventName, galleryEvent.getEventName());
 		assertEquals(eventDescription, galleryEvent.getEventDescription());
@@ -342,6 +348,11 @@ public class TestArtGalleryAppPersistence {
 		assertEquals(eventDate, galleryEvent.getEventDate());
 		assertEquals(startTime, galleryEvent.getStartTime());
 		assertEquals(endTime, galleryEvent.getEndTime());
+
+		participant = null;
+		participant = userRepository.findUserProfileByUsername(username);
+		assertNotNull(participant);
+
 		//Object[] p = participants.toArray();
 		//Object[] geP = galleryEvent.getParticipants().toArray();
 		//assertTrue(p[0].equals(geP[0]));
