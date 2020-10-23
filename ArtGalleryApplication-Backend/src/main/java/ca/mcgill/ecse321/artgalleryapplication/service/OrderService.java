@@ -26,8 +26,6 @@ public class OrderService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
     private ShipmentRepository shipmentRepository;
     @Autowired
     private PaymentRepository paymentRepository;
@@ -76,6 +74,16 @@ public class OrderService {
         orderRepository.save(order);
 
         return order;
+    }
+
+
+    @Transactional
+    public Order placeOrder(Artwork artwork,UserProfile customer){
+        int orderId = artwork.hashCode() * customer.getUsername().hashCode();
+        Date orderDate = new Date(System.currentTimeMillis());
+        Time orderTime = new Time(System.currentTimeMillis());
+
+        return createOrder(orderId, artwork.getArtworkId(), customer.getUsername(), orderDate, orderTime);
     }
 
 
