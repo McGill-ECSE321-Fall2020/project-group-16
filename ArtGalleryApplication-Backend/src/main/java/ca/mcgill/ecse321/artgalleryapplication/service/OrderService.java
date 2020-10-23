@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
@@ -76,30 +78,48 @@ public class OrderService {
         return order;
     }
 
-
     @Transactional
-    public Order placeOrder(Artwork artwork,UserProfile customer){
-        int orderId = artwork.hashCode() * customer.getUsername().hashCode();
-        Date orderDate = new Date(System.currentTimeMillis());
-        Time orderTime = new Time(System.currentTimeMillis());
+    public Order placeOrder(int artworkId, String username){
+        int orderId = artworkId * username.hashCode();
+        Date orderDate = Date.valueOf(LocalDate.now());
+        Time orderTime = Time.valueOf(LocalTime.now());
 
-        return createOrder(orderId, artwork.getArtworkId(), customer.getUsername(), orderDate, orderTime);
+        if (username == null || username.trim().length() == 0)
+            throw new IllegalArgumentException("Customer Username cannot be empty or have spaces.");
+
+        Artwork artwork = artworkRepository.findArtworkByArtworkId(artworkId);
+        if (artwork == null) {
+            throw new IllegalArgumentException("No artwork associated with this artworkId.");
+        }
+
+        UserProfile customer = userRepository.findUserProfileByUsername(username);
+        if (customer == null) {
+            throw new IllegalArgumentException("No user associated with this username.");
+        }
+
+        Order order = new Order();
+        order.setOrderStatus(PaymentPending);
+        order.setOrderDate(orderDate);
+        order.setOrderTime(orderTime);
+        order.setTotalAmount(artwork.getPrice());
+        order.setArtwork(artwork);
+        order.setCustomer(customer);
+        orderRepository.save(order);
+
+        return order;
     }
 
 
     // --- Delete --- //
 
     @Transactional
-    public boolean deleteOrder(Order order) {
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be deleted.");
-
-        Order orderTBD = orderRepository.findOrderByOrderId(order.getOrderId());
+    public boolean deleteOrder(int orderId) {
+        Order orderTBD = orderRepository.findOrderByOrderId(orderId);
         if (orderTBD == null) {
             throw new IllegalArgumentException("Order does not exist to be deleted.");
         }
 
-        orderRepository.deleteByOrderId(order.getOrderId());
+        orderRepository.deleteByOrderId(orderId);
         return true;
     }
 
@@ -126,18 +146,18 @@ public class OrderService {
         return orderRepository.findByCustomer(customer);
     }
 
+    @Transactional
+    public List<Order> getAllOrders() {
+        return toList(orderRepository.findAll());
+    }
+
 
     // -- Associations -- //
 
     @Transactional
-    public Order addPaymentToOrder(Order order, Payment payment){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-        if (payment == null)
-            throw new IllegalArgumentException("Payment does not exist.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
-        Payment addedPayment = paymentRepository.findPaymentByPaymentId(payment.getPaymentId());
+    public Order addPaymentToOrder(int orderId, int paymentId){
+        Order updateOrder = orderRepository.findOrderByOrderId(orderId);
+        Payment addedPayment = paymentRepository.findPaymentByPaymentId(paymentId);
         if (updateOrder == null)
             throw new IllegalArgumentException("Order does not exist in database.");
         if (addedPayment == null)
@@ -150,14 +170,9 @@ public class OrderService {
     }
 
     @Transactional
-    public Order addShipmentToOrder(Order order, Shipment shipment){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-        if (shipment == null)
-            throw new IllegalArgumentException("Shipment does not exist.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
-        Shipment addedShipment = shipmentRepository.findShipmentByShipmentId(shipment.getShipmentId());
+    public Order addShipmentToOrder(int orderId, int shipmentId){
+        Order updateOrder = orderRepository.findOrderByOrderId(orderId);
+        Shipment addedShipment = shipmentRepository.findShipmentByShipmentId(shipmentId);
         if (updateOrder == null)
             throw new IllegalArgumentException("Order does not exist in database.");
         if (addedShipment == null)
