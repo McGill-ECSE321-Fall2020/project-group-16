@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.Order;
+import ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus;
 import ca.mcgill.ecse321.artgalleryapplication.service.ArtworkService;
 import ca.mcgill.ecse321.artgalleryapplication.service.OrderService;
 import ca.mcgill.ecse321.artgalleryapplication.service.UserService;
@@ -49,14 +50,13 @@ public class OrderRestController {
     }
 
 
-    @PostMapping(value = { "/placeOrder/{id}", "/placeOrder/{id}/" })
+    @PostMapping(value = { "/placeOrder", "/placeOrder/" })
     public OrderDto placeOrder(
-            @PathVariable("id") int id,
             @RequestParam("username") String username,
             @RequestParam("artworkId") int artworkId
     ) throws IllegalArgumentException {
-        Order order = orderService.placeOrder(artworkId, username);
 
+        Order order = orderService.placeOrder(artworkId, username);
         return convertToDto(order);
     }
 
@@ -65,8 +65,6 @@ public class OrderRestController {
 
     @PutMapping(value = { "/order/addPayment", "/order/addPayment/" })
     public OrderDto addPaymentToOrder(OrderDto orderDto, PaymentDto paymentDto) {
-        if (paymentDto == null)
-            throw new NullPointerException("A payment is required to update order");
         // Todo: get PaymentDto
         //OrderDto updatedOrder = orderService.addPaymentToOrder(orderDto.getOrderId(), paymentDto.getId());
 
@@ -76,12 +74,17 @@ public class OrderRestController {
 
     @PutMapping(value = { "/order/addShipment", "/order/addShipment/" })
     public OrderDto addShipmentToOrder(OrderDto orderDto, ShipmentDto shipmentDto) {
-        if (shipmentDto == null)
-            throw new NullPointerException("A payment is required to update order");
         // Todo: get ShipmentDto
         //OrderDto updatedOrder = orderService.addShipmentToOrder(orderDto.getOrderId(), shipmentDto.getId());
 
         Order updatedOrder = orderService.addShipmentToOrder(orderDto.getOrderId(), 0);
+        return convertToDto(updatedOrder);
+    }
+
+    @PutMapping(value = { "/order/updateStatus/{id}", "/order/updateStatus/{id}/" })
+    public OrderDto updateOrderStatus(@PathVariable("id") int id, OrderStatus orderStatus) {
+
+        Order updatedOrder = orderService.updateOrderStatus(id, orderStatus);
         return convertToDto(updatedOrder);
     }
 
@@ -110,8 +113,7 @@ public class OrderRestController {
 
 //        UserProfileDto userDto = convertToDto(order.getCustomer());
 //        OrderDto orderDto = new OrderDto(order.getOrderId(), userDto, artworkDto, order.getOrderDate(), order.getOrderTime());
-        OrderDto orderDto = new OrderDto(order.getOrderId(), new UserProfileDto(), new ArtworkDto(), order.getOrderDate(), order.getOrderTime());
-        return orderDto;
+        return new OrderDto(order.getOrderId(), new UserProfileDto(), new ArtworkDto(), order.getOrderDate(), order.getOrderTime());
     }
 //
 //    private OrderDto convertToDto(Order order) {

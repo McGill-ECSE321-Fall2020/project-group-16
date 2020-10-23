@@ -40,51 +40,12 @@ public class OrderService {
     // --- Create --- //
 
     @Transactional
-    public Order createOrder(int orderId, int artworkId, String customerUsername, Date orderDate, Time orderTime){
-        String error = "";
-        if (orderDate == null) {
-            error += "Order date cannot be empty.";
-        }
-        if (orderTime == null) {
-            error += "Order time cannot be empty.";
-        }
-        if (customerUsername == null || customerUsername.trim().length() == 0) {
-            error += "Customer Username cannot be empty or have spaces.";
-        }
-
-        Artwork artwork = artworkRepository.findArtworkByArtworkId(artworkId);
-        if (artwork == null) {
-            error += "No artwork associated with this artworkId.";
-        }
-
-        UserProfile customer = userRepository.findUserProfileByUsername(customerUsername);
-        if (customer != null) {
-            error += "No user associated with this username.";
-        }
-        if (error.length() > 0) {
-            throw new IllegalArgumentException(error);
-        }
-
-        Order order = new Order();
-        order.setOrderId(orderId);
-        order.setOrderStatus(PaymentPending);
-        order.setOrderDate(orderDate);
-        order.setOrderTime(orderTime);
-        order.setTotalAmount(artwork.getPrice());
-        order.setArtwork(artwork);
-        order.setCustomer(customer);
-        orderRepository.save(order);
-
-        return order;
-    }
-
-    @Transactional
     public Order placeOrder(int artworkId, String username){
         int orderId = artworkId * username.hashCode();
         Date orderDate = Date.valueOf(LocalDate.now());
         Time orderTime = Time.valueOf(LocalTime.now());
 
-        if (username == null || username.trim().length() == 0)
+        if (username.trim().length() == 0)
             throw new IllegalArgumentException("Customer Username cannot be empty or have spaces.");
 
         Artwork artwork = artworkRepository.findArtworkByArtworkId(artworkId);
@@ -98,6 +59,7 @@ public class OrderService {
         }
 
         Order order = new Order();
+        order.setOrderId(orderId);
         order.setOrderStatus(PaymentPending);
         order.setOrderDate(orderDate);
         order.setOrderTime(orderTime);
@@ -310,11 +272,8 @@ public class OrderService {
     }
 
     @Transactional
-    public Order updateOrderStatus(Order order, OrderStatus orderStatus){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
+    public Order updateOrderStatus(int orderId, OrderStatus orderStatus){
+        Order updateOrder = orderRepository.findOrderByOrderId(orderId);
         if (updateOrder == null)
             throw new IllegalArgumentException("Order does not exist in database.");
         if (orderStatus == null)

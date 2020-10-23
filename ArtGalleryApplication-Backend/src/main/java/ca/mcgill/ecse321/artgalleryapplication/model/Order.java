@@ -34,12 +34,12 @@ public Date getOrderDate() {
 return this.orderDate;
     }
 
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+
 private int orderId;
 public void setOrderId(int value) {
 this.orderId = value;
     }
+@Id
 public int getOrderId() {
 return this.orderId;
     }
