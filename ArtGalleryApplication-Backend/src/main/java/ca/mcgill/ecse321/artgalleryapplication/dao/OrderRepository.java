@@ -10,5 +10,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface OrderRepository extends CrudRepository<Order, String>{
 
 	Order findOrderByOrderId(int orderId);
-	
+
+	void deleteByOrderId(int orderId);
+
 }
