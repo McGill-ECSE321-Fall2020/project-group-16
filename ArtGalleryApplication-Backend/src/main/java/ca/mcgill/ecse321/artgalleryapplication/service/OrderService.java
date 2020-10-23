@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
+import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
@@ -31,14 +32,9 @@ public class OrderService {
     @Autowired
     private PaymentRepository paymentRepository;
     @Autowired
-    private GalleryEventRepository galleryEventRepository;
-    @Autowired
     private ArtworkRepository artworkRepository;
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private ArtGalleryApplicationRepository artGalleryApplicationRepository;
-
 
 
     // --- Create --- //
@@ -83,6 +79,46 @@ public class OrderService {
     }
 
 
+    // --- Delete --- //
+
+    @Transactional
+    public boolean deleteOrder(Order order) {
+        if (order == null)
+            throw new IllegalArgumentException("An order is required to be deleted.");
+
+        Order orderTBD = orderRepository.findOrderByOrderId(order.getOrderId());
+        if (orderTBD == null) {
+            throw new IllegalArgumentException("Order does not exist to be deleted.");
+        }
+
+        orderRepository.deleteByOrderId(order.getOrderId());
+        return true;
+    }
+
+
+    // --- Getters --- //
+
+    @Transactional
+    public Order getOrderById(int orderId){
+        Order order = orderRepository.findOrderByOrderId(orderId);
+
+        if (order == null) {
+            throw new IllegalArgumentException("No Order associated with this id.");
+        }
+
+        return order;
+    }
+
+    public List<Order> getOrdersByUser(String username) {
+        UserProfile customer = userRepository.findUserProfileByUsername(username);
+
+        if (customer == null)
+            throw new IllegalArgumentException("No user associated with this username.");
+
+        return orderRepository.findByCustomer(customer);
+    }
+
+
     // -- Associations -- //
 
     @Transactional
@@ -100,6 +136,7 @@ public class OrderService {
             throw new IllegalArgumentException("Payment does not exist in database.");
 
         updateOrder.setPayment(addedPayment);
+        updateOrder.setOrderStatus(Placed);
         orderRepository.save(updateOrder);
         return updateOrder;
     }
@@ -119,23 +156,12 @@ public class OrderService {
             throw new IllegalArgumentException("Shipment does not exist in database.");
 
         updateOrder.setShipment(addedShipment);
+        updateOrder.setOrderStatus(Shipped);
         orderRepository.save(updateOrder);
         return updateOrder;
     }
 
-
-    // --- Delete --- //
-
-    @Transactional
-    public boolean deleteOrder(Order order) {
-        int id = order.getOrderId();
-        Order orderTBD = orderRepository.findOrderByOrderId(id);
-        if (orderTBD == null) {
-            throw new IllegalArgumentException("Order does not exist to be deleted.");
-        }
-        orderRepository.deleteByOrderId(id);
-        return true;
-    }
+    // TODO: add create new shippment field
 
 
     // --- Update --- //
@@ -172,6 +198,42 @@ public class OrderService {
             throw new IllegalArgumentException("No user associated with this username.");
 
         updateOrder.setCustomer(customer);
+        orderRepository.save(updateOrder);
+        return updateOrder;
+    }
+
+    @Transactional
+    public Order updateOrderPayment(Order order, int paymentId){
+        if (order == null)
+            throw new IllegalArgumentException("An order is required to be updated.");
+
+        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
+        if (updateOrder == null)
+            throw new IllegalArgumentException("Order does not exist in database.");
+
+        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
+        if (payment == null)
+            throw new IllegalArgumentException("No Payment associated with this id.");
+
+        updateOrder.setPayment(payment);
+        orderRepository.save(updateOrder);
+        return updateOrder;
+    }
+
+    @Transactional
+    public Order updateOrderShippment(Order order, int shipmentId){
+        if (order == null)
+            throw new IllegalArgumentException("An order is required to be updated.");
+
+        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
+        if (updateOrder == null)
+            throw new IllegalArgumentException("Order does not exist in database.");
+
+        Shipment shipment = shipmentRepository.findShipmentByShipmentId(shipmentId);
+        if (shipment == null)
+            throw new IllegalArgumentException("No Shipment associated with this id.");
+
+        updateOrder.setShipment(shipment);
         orderRepository.save(updateOrder);
         return updateOrder;
     }
@@ -240,7 +302,8 @@ public class OrderService {
         return updateOrder;
     }
 
-    //helper methods
+
+    // --- Helper Methods --- //
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();
