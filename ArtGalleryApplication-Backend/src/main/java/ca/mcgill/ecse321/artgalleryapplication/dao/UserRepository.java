@@ -8,9 +8,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "user_data", path = "user_data")
 public interface UserRepository extends CrudRepository<UserProfile, String>{
 
-	UserProfile findUserProfileByUsername(String username);
-	UserProfile findUserProfileByEmail(String email);
-	boolean userProfileExistsByUsername(String username);
-	boolean userProfileExistsByEmail(String email);
+	UserProfile findByUsername(String username);
+	UserProfile findByEmail(String email);
+	boolean existsByUsername(String username);
+	boolean existsByEmail(String email);
 
 }

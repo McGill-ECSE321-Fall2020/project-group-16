@@ -196,7 +196,7 @@ public class TestArtGalleryAppPersistence {
 		orderRepository.save(order);
 
 		user = null;
-		user = userRepository.findUserProfileByUsername(username);
+		user = userRepository.findByUsername(username);
 
 		assertNotNull(user);
 		assertEquals(username, user.getUsername());
@@ -411,7 +411,7 @@ public class TestArtGalleryAppPersistence {
 		userRepository.save(customer);
 		
 		customer = null;
-		customer = userRepository.findUserProfileByUsername(username);
+		customer = userRepository.findByUsername(username);
 		
 		
 		Order order = new Order();

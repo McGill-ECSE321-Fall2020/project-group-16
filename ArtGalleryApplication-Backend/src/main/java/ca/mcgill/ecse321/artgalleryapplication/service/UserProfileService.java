@@ -1,23 +1,18 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
-import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
-import com.sun.tools.javac.comp.Todo;
-import com.sun.xml.bind.v2.TODO;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.orm.ObjectRetrievalFailureException;
 
 import javax.transaction.Transactional;
-import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.regex.*;
 
 @Service
@@ -25,21 +20,6 @@ public class UserProfileService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
-    private ShipmentRepository shipmentRepository;
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    private GalleryEventRepository galleryEventRepository;
-    @Autowired
-    private ArtworkRepository artworkRepository;
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private ArtGalleryApplicationRepository artGalleryApplicationRepository;
-
 
 
     //create the Transactional methods
@@ -47,32 +27,39 @@ public class UserProfileService {
     public UserProfile createUserProfile(String firstName, String lastName, String username, String email, String password, boolean isAdmin) throws IllegalArgumentException {
         String error = "";
 
-        firstName = firstName.toLowerCase();
-        lastName = lastName.toLowerCase();
-        email = email.toLowerCase();
 
         //Validate inputs
         if (username == null || username.trim().length() < 5) {
             error += "The username must be at least 5 characters long.\n";
         }
 
-        error += validateEmail(email);
+        email = email.toLowerCase();
 
-        error += validatePassword(password);
+        try {
+            validateEmail(email);
+        } catch (IllegalArgumentException e) {
+            error += e.getMessage();
+        }
 
-        String nameError = validateName(firstName, lastName);
-        error += nameError;
+        try {
+            validatePassword(password);
+        } catch (IllegalArgumentException e) {
+            error += e.getMessage();
+        }
 
-        if (nameError.length() == 0) {
-            firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
-            lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
+        try {
+            String[] name = formatName(firstName, lastName);
+            firstName = name[0];
+            lastName = name[1];
+        } catch (IllegalArgumentException e) {
+            error += e.getMessage();
         }
 
         //Check if user has been taken already
-        if (userRepository.userProfileExistsByEmail(email)) {
+        if (userRepository.existsByEmail(email)) {
             error += "This email has already been taken.\n";
         }
-        if (userRepository.userProfileExistsByUsername(username)) {
+        if (userRepository.existsByUsername(username)) {
             error += "This username has already been taken.\n";
         }
 
@@ -80,7 +67,7 @@ public class UserProfileService {
             throw new IllegalArgumentException(error);
         }
 
-        //Creat new user
+        //Create new user
         UserProfile user = new UserProfile();
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -95,27 +82,200 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile createAdminProfile(String firstName, String lastName, String username, String email, String password) {
+    public UserProfile createAdminProfile(String firstName, String lastName, String username, String email, String password) throws IllegalArgumentException{
         return createUserProfile(firstName, lastName, username, email, password, true);
     }
 
     @Transactional
-    public UserProfile createRegularUserProfile(String firstName, String lastName, String username, String email, String password) {
+    public UserProfile createRegularUserProfile(String firstName, String lastName, String username, String email, String password) throws IllegalArgumentException{
         return createUserProfile(firstName, lastName, username, email, password, false);
     }
 
     //TODO update email
+    @Transactional
+    public UserProfile updateEmail(String username, String password,String newEmail) throws IllegalArgumentException, DataAccessException {
+        newEmail = newEmail.toLowerCase();
+
+        UserProfile user = getUserProfileByUsername(username, password);
+
+        String error = "";
+
+        try {
+            validateEmail(newEmail);
+        } catch (IllegalArgumentException e) {
+            error += e.getMessage();
+        }
+
+        if (error.length()>0) {
+            throw new IllegalArgumentException(error);
+        } else {
+                user.setEmail(newEmail);
+                userRepository.save(user);
+        }
+
+        return user;
+
+    }
 
     //TODO update username
+    @Transactional
+    public UserProfile updateUsername(String username, String password, String newUsername) throws IllegalArgumentException, DataAccessException {
 
-    //TODO update first name
-    //TODO update last name
+        UserProfile user = getUserProfileByUsername(username, password);
+
+        if (newUsername == null || newUsername.trim().length() < 5) {
+            throw new IllegalArgumentException("The new username must be at least 5 characters long.");
+        } else {
+                user.setEmail(newUsername);
+                userRepository.save(user);
+        }
+
+        return user;
+
+    }
+
+    //TODO update first and last name
+    @Transactional
+    public UserProfile updateFirstName(String username, String password, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
+        UserProfile user = getUserProfileByUsername(username, password);
+            String[] newName = formatName(newFirstName, newLastName);
+            newFirstName = newName[0];
+            newLastName = newName[1];
+
+            user.setFirstName(newFirstName);
+            user.setLastName(newLastName);
+            userRepository.save(user);
+
+        return user;
+
+
+
+
+
+    }
 
     //TODO update password
+    @Transactional
+    public UserProfile updatePassword(String username, String password, String newPassword) throws DataAccessException, IllegalArgumentException{
+        UserProfile user = getUserProfileByUsername(username, password);
+
+        validatePassword(newPassword);
+
+            user.setPassword(newPassword);
+            userRepository.save(user);
+
+        return user;
+
+
+    }
 
     //TODO update admin status
+    @Transactional
+    public UserProfile updateAdminStatus(String username, String password, boolean isAdmin) throws DataAccessException{
+        UserProfile user = getUserProfileByUsername(username, password);
+
+            user.setIsAdmin(isAdmin);
+            userRepository.save(user);
+
+        return user;
+    }
+
+    @Transactional
+    public UserProfile deleteUserProfile(String username) throws DataAccessException{
+        UserProfile user = getUserProfileByUsername(username);
+
+            userRepository.delete(user);
+
+        return user;
+    }
 
 
+    @Transactional
+    public UserProfile getUserProfileByUsername(String username, String password) throws DataAccessException{
+        UserProfile user = null;
+
+        try {
+            user = userRepository.findByUsername(username);
+        } catch (DataAccessException e) {
+            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
+        }
+
+        if (user == null) {
+            throw new ObjectRetrievalFailureException(UserProfile.class, username);
+        }
+
+        if (!password.equals(user.getPassword())) {
+            throw new PermissionDeniedDataAccessException("The entered password does not match the password of the user profile.\n", new IllegalAccessError());
+        }
+
+        return user;
+
+    }
+
+    @Transactional
+    public UserProfile getUserProfileByUsername(String username) throws DataAccessException{
+        UserProfile user = null;
+
+        try {
+            user = userRepository.findByUsername(username);
+        } catch (DataAccessException e) {
+            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
+        }
+
+        if (user == null) {
+            throw new ObjectRetrievalFailureException(UserProfile.class, username);
+        }
+
+        return user;
+
+    }
+
+    @Transactional
+    public UserProfile getUserProfileByEmail(String email, String password) throws DataAccessException{
+        UserProfile user = null;
+
+        try {
+            user = userRepository.findByEmail(email);
+        } catch (DataAccessException e) {
+            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
+        }
+
+        if (user == null) {
+            throw new ObjectRetrievalFailureException(UserProfile.class, email);
+        }
+
+        if (!password.equals(user.getPassword())) {
+            throw new PermissionDeniedDataAccessException("The entered password does not match the password of the user profile.\n", new IllegalAccessError());
+        }
+
+        return user;
+
+    }
+
+    @Transactional
+    public UserProfile getUserProfileByEmail(String email) throws DataAccessException{
+        UserProfile user = null;
+
+        try {
+            user = userRepository.findByEmail(email);
+        } catch (DataAccessException e) {
+            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
+        }
+
+        if (user == null) {
+            throw new ObjectRetrievalFailureException(UserProfile.class, email);
+        }
+
+        return user;
+
+    }
+
+
+
+    @Transactional
+    public List<UserProfile> getAllUsers() {
+        return toList(userRepository.findAll());
+    }
 
 
 
@@ -130,27 +290,28 @@ public class UserProfileService {
         return resultList;
     }
 
-    private static String validateEmail(String email) {
+    private static boolean validateEmail(String email) throws IllegalArgumentException{
 
-        if (email == null || email.trim().length() == 0) {
-            return "The email cannot me empty.\n";}
+        if (isEmpty(email)) {
+            throw new IllegalArgumentException("The email cannot me empty.\n");
+        }
 
         String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
 
         if (!matcher.matches()) {
-            return "The email entered is not a valid email address.\n";
+            throw new IllegalArgumentException("The email entered is not a valid email address.\n");
         }
 
-        return "";
+        return true;
 
     }
 
-    private static String validatePassword(String password){
+    private static boolean validatePassword(String password) throws IllegalArgumentException{
 
         if (password == null || password.trim().length() < 8) {
-            return "The password must be at least 8 characters long.\n";
+            throw new IllegalArgumentException("The password must be at least 8 characters long.\n");
         }
 
         String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[~!@#$%^&*()_+])(?=.*\\d).*$";
@@ -158,16 +319,16 @@ public class UserProfileService {
         Matcher matcher = pattern.matcher(password);
 
         if (!matcher.matches()) {
-            return "The password must contain at least one lowercase letter, one uppercase letter, one number and one special character.\n";
+            throw new IllegalArgumentException("The password must contain at least one lowercase letter, one uppercase letter, one number and one special character.\n");
         }
 
-        return "";
+        return true;
     }
 
-    private static String validateName(String firstName, String lastName){
+    private static boolean validateName(String firstName, String lastName) throws IllegalArgumentException{
         String error = "";
 
-        String regex = "[a-z]+";
+        String regex = "[a-zA-Z]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher firstNameMatcher = pattern.matcher(firstName);
         Matcher lastNameMatcher = pattern.matcher(lastName);
@@ -179,9 +340,6 @@ public class UserProfileService {
             error += "The last name must contain at least 2 characters.\n";
         }
 
-        if (error.length() > 0){
-            return error;
-        }
 
         if (!firstNameMatcher.matches()) {
             error += "The first name must only contain letters.\n";
@@ -191,33 +349,40 @@ public class UserProfileService {
             error += "The last name must only contain letters.\n";
         }
 
-        return error;
+        if (error.length() > 0){
+            throw new IllegalArgumentException(error);
+        }
+        return true;
 
     }
 
-    public static void main(String[] args) {
-//        ArrayList<String> passwords = new ArrayList<String>();
-//        passwords.add("Redhead123$");
-//        passwords.add("redhead123");
-//        passwords.add("readhead123%");
-//        passwords.add("Redhead123");
-//        passwords.add("");
-//        passwords.add("REDHEAD123$");
-//        passwords.add("1234556");
-//        passwords.add("!@#$%^&*");
-//        passwords.add("Jinjaboy18&");
-//
-//        for (String password : passwords){
-//            System.out.println(validatePassword(password));
-//        }
+    private static String[] formatName(String firstName, String lastName) throws IllegalArgumentException{
 
-//        ArrayList<String> names = new ArrayList<String>();
-//        names.add("evan");
-//        names.add("evan1");
-//        names.add("123");
-//
-//        for (String name : names){
-//            System.out.println(validateName(name));
-//        }
+        firstName = firstName.toLowerCase();
+        lastName = lastName.toLowerCase();
+        String nameError = "";
+
+        try {
+            validateName(firstName, lastName);
+        } catch (IllegalArgumentException e) {
+            nameError += e.getMessage();
+        }
+
+        if (nameError.length() == 0) {
+            firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+            lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
+        } else {
+            throw new IllegalArgumentException(nameError);
+        }
+
+        return new String[]{firstName, lastName};
+    }
+
+    private static boolean isEmpty(String s) {
+        if(s == null || s.trim().length() == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
