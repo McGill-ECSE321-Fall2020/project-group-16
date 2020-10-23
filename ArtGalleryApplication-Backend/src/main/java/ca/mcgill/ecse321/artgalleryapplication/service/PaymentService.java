@@ -44,6 +44,31 @@ public class PaymentService {
     
     public Payment createPayment(PaymentForm pf, Date pd, String cardNumber, Date expiration, int cvv, int paymentId, Time paymentTime){
     	//check if anything is null that shouldn't be
+    	List<String> errors = new ArrayList<String>();
+    	if(pf == null) {
+    		errors.add("PaymentForm must not be null");
+    	}
+    	if(pd == null) {
+    		errors.add("PaymentDate must not be null");
+    	}
+    	if(cardNumber == null) {
+    		errors.add("Card number must not be null");
+    	}
+    	if(expiration == null) {
+    		errors.add("Expiration date must not be null");
+    	}
+    	if(paymentTime == null) {
+    		errors.add("Payment time must not be null");
+    	}
+    	if(paymentRepository.findPaymentByPaymentId(paymentId)!=null) {
+    		throw new IllegalArgumentException("A payment with this payment ID already exists");
+    	}
+    	if(errors.size()>0) {
+    		for (String e:errors){
+    			throw new IllegalArgumentException(e);
+    		}
+    	}
+    	
     	
     	Payment payment = new Payment();
     	payment.setCardNumber(cardNumber);
@@ -69,7 +94,7 @@ public class PaymentService {
     	}
     	
     	List<Payment> payments = paymentRepository.findAllPaymentByCardNumber(cardNumber);
-    	if (payments == null) {
+    	if (payments.isEmpty()) {
     		throw new IllegalArgumentException("No payments under this card number");
     	}
     	return payments;
@@ -81,7 +106,7 @@ public class PaymentService {
     	}
     	
     	List<Payment> payments = paymentRepository.findAllPaymentByPaymentDate(pd);
-    	if (payments == null) {
+    	if (payments.isEmpty()) {
     		throw new IllegalArgumentException("No payments made on this date");
     	}
     	return payments;
@@ -93,7 +118,7 @@ public class PaymentService {
     	}
     	
     	List<Payment> payments = paymentRepository.findAllPaymentByPaymentTime(pt);
-    	if (payments == null) {
+    	if (payments.isEmpty()) {
     		throw new IllegalArgumentException("No payments made at this time");
     	}
     	return payments;
@@ -101,7 +126,7 @@ public class PaymentService {
     
     public Payment updatePayment(PaymentForm pf, Date pd, String cardNumber, Date expiration, int cvv, int paymentId, Time paymentTime){
     	if(paymentRepository.findPaymentByPaymentId(paymentId)==null) {
-    		throw new IllegalArgumentException("must enter a payment id");
+    		throw new IllegalArgumentException("must enter a payment id that is in the table");
     	}
     	
     	Payment p = paymentRepository.findPaymentByPaymentId(paymentId);
@@ -117,7 +142,7 @@ public class PaymentService {
     		p.setPaymentTime(paymentTime);
     	}				
     	p.setCvv(cvv);
-
+    	paymentRepository.save(p);
     	return p;
     }	
     //helper methods

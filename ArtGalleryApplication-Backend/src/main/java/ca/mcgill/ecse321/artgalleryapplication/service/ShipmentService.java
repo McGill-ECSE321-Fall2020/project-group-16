@@ -40,11 +40,134 @@ public class ShipmentService {
 
     //create the Transactional methods
 
+    public Shipment createShipment(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
+    	List<String> errors = new ArrayList<String>();
+    	if(toGal == null) {
+    		errors.add("toGallery variable must not be null");
+    	}
+    	if(eta == null) {
+    		errors.add("ETA must not be null");
+    	}
+    	if(estimatedArrival == null) {
+    		errors.add("Estimated arrival date must not be null");
+    	}
+    	if(r == null) {
+    		errors.add("Return address must not be null");
+    	}
+    	if(d == null) {
+    		errors.add("Destination address must not be null");
+    	}
+    	if(shipmentRepository.findShipmentByShipmentId(shipmentId)!= null) {
+    		throw new IllegalArgumentException("A shipment with this shipment ID already exists");
+    	}
+    	if(errors.size()>0) {
+    		for (String e:errors){
+    			throw new IllegalArgumentException(e);
+    		}
+    	}
+    	
+    	Shipment s = new Shipment();
+    	s.setDestination(d);
+    	s.setEstimatedArrivalDate(estimatedArrival);
+    	s.setEstimatedArrivalTime(eta);
+    	s.setReturnAddress(r);
+    	s.setShipmentId(shipmentId);
+    	s.setToGallery(toGal);
+    	
+    	shipmentRepository.save(s);
+    	return s;
+    }
 
+    public List<Shipment> getAllShipments(){
+    	return toList(shipmentRepository.findAll());
+    }
 
+    public List<Shipment> getAllShipmentByToGallery(Boolean toGal){
+    	if(toGal == null) {
+    		throw new IllegalArgumentException("Must enter a boolean variable");
+    	}
+    	
+    	List<Shipment> s = shipmentRepository.findShipmentByToGallery(toGal);
+    	if(s.isEmpty()) {
+    		throw new IllegalArgumentException("No shipments made with this toGallery value");
+    	}
+    	return s;
+    }
+    
+    public List<Shipment> getAllShipmentByETA(Time eta){
+    	if(eta == null) {
+    		throw new IllegalArgumentException("Must enter a Time variable");
+    	}
+    	
+    	List<Shipment> s = shipmentRepository.findShipmentByEstimatedArrivalTime(eta);
+    	if(s.isEmpty()) {
+    		throw new IllegalArgumentException("No shipments made with this eta");
+    	}
+    	return s;
+    }
+    public List<Shipment> getAllShipmentByEstimatedArrival(Date arrivalDate){
+    	if(arrivalDate == null) {
+    		throw new IllegalArgumentException("Must enter a Date variable");
+    	}
+    	
+    	List<Shipment> s = shipmentRepository.findShipmentByEstimatedArrivalDate(arrivalDate);
+    	if(s.isEmpty()) {
+    		throw new IllegalArgumentException("No shipments made with this estimated arrival date");
+    	}
+    	return s;
+    }
+    public List<Shipment> getAllShipmentByReturnAddress(Address r){
+    	if(r == null) {
+    		throw new IllegalArgumentException("Must enter a return address");
+    	}
+    	
+    	List<Shipment> s = shipmentRepository.findShipmentByReturnAddress(r);
+    	if(s.isEmpty()) {
+    		throw new IllegalArgumentException("No shipments made with this return address");
+    	}
+    	return s;
+    }
+    public List<Shipment> getAllShipmentByDestination(Address d){
+    	if(d == null) {
+    		throw new IllegalArgumentException("Must enter a destination address");
+    	}
+    	
+    	List<Shipment> s = shipmentRepository.findShipmentByDestination(d);
+    	if(s.isEmpty()) {
+    		throw new IllegalArgumentException("No shipments made to this destination");
+    	}
+    	return s;
+    }
+    
+    public Shipment updateShipment(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
+    	if(shipmentRepository.findShipmentByShipmentId(shipmentId)==null) {
+    		throw new IllegalArgumentException("must enter a shipment id that is in the table");
+    	}
+    	
+    	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
+    	if(toGal!= null) {
+    		s.setToGallery(toGal);
+    	} if (eta != null) {
+    		s.setEstimatedArrivalTime(eta);
+    	} if (estimatedArrival != null) {
+    		s.setEstimatedArrivalDate(estimatedArrival);
+    	} if (r != null) {
+    		s.setReturnAddress(r);
+    	} if(d != null){
+    		s.setDestination(d);
+    	}				
+    	shipmentRepository.save(s);
+    	return s;
+    }
 
-
-
+    public void deleteShipment(int shipmentId) {
+    	if(shipmentRepository.findShipmentByShipmentId(shipmentId) == null) {
+    		throw new IllegalArgumentException("No shipment with this ID exists");
+    	}
+    	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
+    	shipmentRepository.delete(s);
+    }
+    
     //helper methods
 
     private <T> List<T> toList(Iterable<T> iterable){
