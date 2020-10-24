@@ -64,7 +64,11 @@ public class EventService {
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
         if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
 
-        galleryEventRepository.delete(eventInSystem);
+        //ISSUE: does this create a new event entry?
+        //       Or will it be rejected b/c we are trying to create a new entry with PK already taken?
+        //       Or will it update the existing entry?
+
+        //galleryEventRepository.delete(eventInSystem);
         HashSet<UserProfile> participants = (HashSet<UserProfile>) eventInSystem.getParticipants();
         participants.add(user);
         galleryEventRepository.save(eventInSystem);
@@ -76,8 +80,10 @@ public class EventService {
      */
     @Transactional
     public void deleteEvent(Integer eventId) {
-        //arguments validation inside getEventById method
-        galleryEventRepository.deleteById(eventId + "");
+        if(eventId == null) throw new IllegalArgumentException("Event ID to be deleted is null");
+        GalleryEvent event = galleryEventRepository.findGalleryEventByEventId(eventId);
+        if(event == null) throw new NullPointerException("There is no Event with this ID");
+        galleryEventRepository.deleteGalleryEventByEventId(eventId);
     }
 
     /**
