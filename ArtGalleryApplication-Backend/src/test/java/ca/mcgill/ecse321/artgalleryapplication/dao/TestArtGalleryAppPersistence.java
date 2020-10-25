@@ -75,9 +75,8 @@ public class TestArtGalleryAppPersistence {
 		String city = "Test";
 		String province = "TS";
 		String country = "Canada";
-		int addressId = 101;
+		//int addressId = 101;
 		Address address = new Address();
-		address.setAddressId(addressId);
 		address.setStreetAddress(streetAddress);
 		address.setStreetAddress2(streetAddress2);
 		address.setPostalCode(postalCode);
@@ -85,6 +84,7 @@ public class TestArtGalleryAppPersistence {
 		address.setProvince(province);
 		address.setCountry(country);
 		addressRepository.save(address);
+		int addressId = address.getAddressId();
 
 		address = null;
 
@@ -101,7 +101,7 @@ public class TestArtGalleryAppPersistence {
 	
 	@Test
 	public void testPersistAndLoadShipment() {	
-		int returnAddressId = 101;
+		//int returnAddressId = 101;
 		String returnStreetAddress = "1001 Test Rd";
 		String returnStreetAddress2 = "101";
 		String returnPostalCode = "S7N3T5";
@@ -109,7 +109,7 @@ public class TestArtGalleryAppPersistence {
 		String returnProvince = "TS";
 		String returnCountry = "Canada";
 		Address returnAddress = new Address();
-		returnAddress.setAddressId(returnAddressId);
+		//returnAddress.setAddressId(returnAddressId);
 		returnAddress.setStreetAddress(returnStreetAddress);
 		returnAddress.setStreetAddress2(returnStreetAddress2);
 		returnAddress.setPostalCode(returnPostalCode);
@@ -117,8 +117,9 @@ public class TestArtGalleryAppPersistence {
 		returnAddress.setProvince(returnProvince);
 		returnAddress.setCountry(returnCountry);
 		addressRepository.save(returnAddress);
+		int returnAddressId = returnAddress.getAddressId();
 		
-		int deliveryAddressId = 100;
+		//int deliveryAddressId = 100;
 		String deliveryStreetAddress = "100 Test Blv";
 		String deliveryStreetAddress2 = "100";
 		String deliveryPostalCode = "S7N5H5";
@@ -126,7 +127,7 @@ public class TestArtGalleryAppPersistence {
 		String deliveryProvince = "TE";
 		String deliveryCountry = "Canada";
 		Address deliveryAddress = new Address();
-		deliveryAddress.setAddressId(deliveryAddressId);
+		//deliveryAddress.setAddressId(deliveryAddressId);
 		deliveryAddress.setStreetAddress(deliveryStreetAddress);
 		deliveryAddress.setStreetAddress2(deliveryStreetAddress2);
 		deliveryAddress.setPostalCode(deliveryPostalCode);
@@ -134,21 +135,22 @@ public class TestArtGalleryAppPersistence {
 		deliveryAddress.setProvince(deliveryProvince);
 		deliveryAddress.setCountry(deliveryCountry);
 		addressRepository.save(deliveryAddress);
-
+		int deliveryAddressId = deliveryAddress.getAddressId();
 
 		int shipmentId = 1;
 		Boolean toGallery = false;
 		Date estimatedArrivalDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.JANUARY, 31));
 		Time estimatedArrivalTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		Shipment shipment = new Shipment();
-		shipment.setShipmentId(shipmentId);
+		//shipment.setShipmentId(shipmentId);
 		shipment.setToGallery(toGallery);
 		shipment.setEstimatedArrivalDate(estimatedArrivalDate);
 		shipment.setEstimatedArrivalTime(estimatedArrivalTime);
 		shipment.setReturnAddress(returnAddress);
 		shipment.setDestination(deliveryAddress);
 		shipmentRepository.save(shipment);
-			
+		shipmentId  =shipment.getShipmentId();
+
 		shipment = null;
 		
 		shipment = shipmentRepository.findShipmentByShipmentId(shipmentId);
