@@ -1,19 +1,14 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
-import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
@@ -39,6 +34,12 @@ public class OrderService {
 
     // --- Create --- //
 
+    /**
+     * 
+     * @param artworkId
+     * @param username
+     * @return an order
+     */
     @Transactional
     public Order placeOrder(int artworkId, String username){
         int orderId = artworkId * username.hashCode();
@@ -74,6 +75,11 @@ public class OrderService {
 
     // --- Delete --- //
 
+    /**
+     * 
+     * @param orderId
+     * @return delete successful
+     */
     @Transactional
     public boolean deleteOrder(int orderId) {
         Order orderTBD = orderRepository.findOrderByOrderId(orderId);
@@ -88,6 +94,11 @@ public class OrderService {
 
     // --- Getters --- //
 
+    /**
+     * 
+     * @param orderId
+     * @return an order
+     */
     @Transactional
     public Order getOrderById(int orderId){
         Order order = orderRepository.findOrderByOrderId(orderId);
@@ -99,6 +110,11 @@ public class OrderService {
         return order;
     }
 
+    /**
+     * 
+      * @param username
+     * @return list of orders
+     */  
     public List<Order> getOrdersByUser(String username) {
         UserProfile customer = userRepository.findUserProfileByUsername(username);
 
@@ -108,6 +124,10 @@ public class OrderService {
         return orderRepository.findByCustomer(customer);
     }
 
+    /**
+     * 
+     * @return list of all orders
+     */
     @Transactional
     public List<Order> getAllOrders() {
         return toList(orderRepository.findAll());
@@ -116,6 +136,12 @@ public class OrderService {
 
     // -- Associations -- //
 
+    /**
+     * 
+     * @param orderId
+     * @param paymentId
+     * @return an updated order
+     */
     @Transactional
     public Order addPaymentToOrder(int orderId, int paymentId){
         Order updateOrder = orderRepository.findOrderByOrderId(orderId);
@@ -131,6 +157,12 @@ public class OrderService {
         return updateOrder;
     }
 
+    /**
+     * 
+     * @param orderId
+     * @param shipmentId
+     * @return an updated order
+     */
     @Transactional
     public Order addShipmentToOrder(int orderId, int shipmentId){
         Order updateOrder = orderRepository.findOrderByOrderId(orderId);
@@ -151,6 +183,12 @@ public class OrderService {
 
     // --- Update --- //
 
+    /**
+     * 
+     * @param order
+     * @param artworkId
+     * @return an updated order
+     */
     @Transactional
     public Order updateOrderArtwork(Order order, int artworkId){
         if (order == null)
@@ -169,6 +207,12 @@ public class OrderService {
         return updateOrder;
     }
 
+    /**
+     * 
+     * @param order
+     * @param customerUsername
+     * @return an updated order
+     */
     @Transactional
     public Order updateOrderCustomer(Order order, String customerUsername){
         if (order == null)
@@ -187,6 +231,12 @@ public class OrderService {
         return updateOrder;
     }
 
+    /**
+     * 
+     * @param order
+     * @param paymentId
+     * @return an updated order
+     */
     @Transactional
     public Order updateOrderPayment(Order order, int paymentId){
         if (order == null)
@@ -205,6 +255,12 @@ public class OrderService {
         return updateOrder;
     }
 
+    /**
+     * 
+     * @param order
+     * @param shipmentId
+     * @return an updated order
+     */
     @Transactional
     public Order updateOrderShippment(Order order, int shipmentId){
         if (order == null)
@@ -223,6 +279,12 @@ public class OrderService {
         return updateOrder;
     }
 
+    /**
+     * 
+     * @param order
+     * @param orderDate
+     * @return an updated order
+     */
     @Transactional
     public Order updateOrderDate(Order order, Date orderDate){
         if (order == null)
@@ -239,6 +301,12 @@ public class OrderService {
         return updateOrder;
     }
 
+    /**
+     * 
+     * @param order
+     * @param orderTime
+     * @return an updated order
+     */
     @Transactional
     public Order updateOrderTime(Order order, Time orderTime){
         if (order == null)
@@ -255,12 +323,15 @@ public class OrderService {
         return updateOrder;
     }
 
+    /**
+     * 
+     * @param orderId
+     * @param amount
+     * @return an updated order
+     */
     @Transactional
-    public Order updateOrderAmount(Order order, double amount){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
+    public Order updateOrderAmount(int orderId, double amount){
+       Order updateOrder = orderRepository.findOrderByOrderId(orderId);
         if (updateOrder == null)
             throw new IllegalArgumentException("Order does not exist in database.");
         if (amount < 0)
@@ -271,6 +342,12 @@ public class OrderService {
         return updateOrder;
     }
 
+    /**
+     * 
+     * @param orderId
+     * @param orderStatus
+     * @return an updated order
+     */
     @Transactional
     public Order updateOrderStatus(int orderId, OrderStatus orderStatus){
         Order updateOrder = orderRepository.findOrderByOrderId(orderId);
