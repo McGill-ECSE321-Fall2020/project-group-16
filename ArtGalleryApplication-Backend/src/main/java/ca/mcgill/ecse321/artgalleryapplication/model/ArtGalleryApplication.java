@@ -1,10 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
 
 @Entity
 public class ArtGalleryApplication{
@@ -14,6 +11,7 @@ private int applicationId;
 this.applicationId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getApplicationId() {
 return this.applicationId;
     }

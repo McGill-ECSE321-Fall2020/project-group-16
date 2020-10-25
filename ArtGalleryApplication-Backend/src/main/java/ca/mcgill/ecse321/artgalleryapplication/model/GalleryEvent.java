@@ -39,6 +39,7 @@ public void setEventId(int value) {
 this.eventId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getEventId() {
 return this.eventId;
     }

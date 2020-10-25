@@ -16,6 +16,7 @@ private int artworkId;
 this.artworkId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getArtworkId() {
 return this.artworkId;
     }

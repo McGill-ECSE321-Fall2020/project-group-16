@@ -1,14 +1,9 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 import java.sql.Date;
-import javax.persistence.Id;
 import java.sql.Time;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="ag_order")
@@ -44,6 +39,7 @@ public void setOrderId(int value) {
 this.orderId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getOrderId() {
 return this.orderId;
     }

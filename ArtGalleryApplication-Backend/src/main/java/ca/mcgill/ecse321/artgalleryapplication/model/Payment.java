@@ -1,9 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.sql.Date;
-import javax.persistence.Id;
 import java.sql.Time;
 
 @Entity
@@ -55,6 +53,7 @@ public void setPaymentId(int value) {
 this.paymentId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getPaymentId() {
 return this.paymentId;
     }

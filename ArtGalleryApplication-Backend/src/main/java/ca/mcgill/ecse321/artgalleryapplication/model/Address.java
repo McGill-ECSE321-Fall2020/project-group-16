@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -44,6 +46,7 @@ public void setAddressId(int value) {
 this.addressId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getAddressId() {
 return this.addressId;
     }
