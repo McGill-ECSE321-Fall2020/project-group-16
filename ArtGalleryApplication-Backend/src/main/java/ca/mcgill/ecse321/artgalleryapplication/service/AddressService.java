@@ -61,6 +61,19 @@ public class AddressService {
         addressRepository.deleteAddressByAddressId(addressId);
     }
 
+    /**
+     * Service Method to retrieve address by ID
+     * @param addressId
+     * @return
+     */
+    @Transactional
+    public Address getAddressById(Integer addressId) {
+        if(addressId == null) throw new IllegalArgumentException("AddressID is null. Please enter a valid addressID");
+        Address address = addressRepository.findAddressByAddressId(addressId);
+        if(address == null) throw new IllegalReceiveException("No address in system associated with addressID: " + addressId);
+        return address;
+    }
+
 
 
 

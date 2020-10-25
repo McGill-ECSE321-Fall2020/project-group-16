@@ -84,6 +84,7 @@ public class EventService {
         if(eventId == null) throw new IllegalArgumentException("Event ID to be deleted is null");
         GalleryEvent event = galleryEventRepository.findGalleryEventByEventId(eventId);
         if(event == null) throw new NullPointerException("There is no Event with this ID");
+        System.out.println("I HAVE REACHED REPO.DELETE");
         galleryEventRepository.deleteGalleryEventByEventId(eventId);
     }
 

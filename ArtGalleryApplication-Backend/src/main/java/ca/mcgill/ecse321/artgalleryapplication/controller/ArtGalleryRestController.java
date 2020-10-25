@@ -5,6 +5,7 @@ import ca.mcgill.ecse321.artgalleryapplication.model.*;
 import ca.mcgill.ecse321.artgalleryapplication.service.ArtGalleryApplicationService;
 import ca.mcgill.ecse321.artgalleryapplication.service.*;
 
+import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -135,10 +136,53 @@ public class ArtGalleryRestController {
      * @throws IllegalArgumentException
      */
     @DeleteMapping(value = { "/events/{id}", "/events/{id}/" })
-    public void deleteEvent(@PathVariable("id") int id) throws IllegalArgumentException {
+    public void deleteEvent(@PathVariable("id") Integer id) throws IllegalArgumentException {
         eventService.deleteEvent(id);
     }
 
+
+    /////// ------------ ADDRESS STUFF ------------ ///////
+    /**
+     * Get address by ID
+     * @param id
+     * @return
+     * @throws IllegalArgumentException
+     */
+    @GetMapping(value = { "/address/{id}", "/address/{id}/" })
+    public AddressDto getAddress(@PathVariable("id") int id) throws IllegalArgumentException {
+        Address address = addressService.getAddressById(id);
+        return convertAddressToDto(address);
+    }
+
+    /**
+     * Create an address
+     * @param streetAddress
+     * @param streetAddress2
+     * @param postalCode
+     * @param city
+     * @param province
+     * @param country
+     * @return
+     * @throws IllegalArgumentException
+     */
+    @PostMapping(value = { "/address", "/address/" })
+    public AddressDto createAddress(
+            @RequestParam String streetAddress,
+            @RequestParam String streetAddress2,
+            @RequestParam String postalCode,
+            @RequestParam String city,
+            @RequestParam String province,
+            @RequestParam String country)
+            throws IllegalArgumentException {
+
+        Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
+        return convertAddressToDto(address);
+    }
+
+    @DeleteMapping(value = { "/address/{id}", "/address/{id}/" })
+    public void deleteAddress(@PathVariable("id") int id) throws IllegalArgumentException {
+        addressService.deleteAddress(id);
+    }
 
 
     //convertToDto methods
@@ -150,11 +194,23 @@ public class ArtGalleryRestController {
      */
     private GalleryEventDto convertEventToDto(GalleryEvent e) {
         if (e == null) {
-            throw new IllegalArgumentException("There is no such Event!");
+            throw new IllegalArgumentException("Event is null");
         }
         GalleryEventDto eventDto = new GalleryEventDto(e.getEventName(),e.getEventDescription(), e.getEventImageUrl(), e.getEventDate(), e.getStartTime(),e.getEndTime());
         return eventDto;
     }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    private AddressDto convertAddressToDto(Address a) {
+        if(a == null) throw new IllegalArgumentException("Address is null");
+        AddressDto addressDto = new AddressDto(a.getAddressId(), a.getStreetAddress(), a.getStreetAddress2(), a.getPostalCode(), a.getCity(), a.getProvince(), a.getCountry());
+        return addressDto;
+    }
+
 
     private UserProfileDto convertUserToDto(UserProfile user) throws IllegalArgumentException{
         if (user == null) {
