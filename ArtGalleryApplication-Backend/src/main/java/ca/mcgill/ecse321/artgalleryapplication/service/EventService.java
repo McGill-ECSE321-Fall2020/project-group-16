@@ -25,23 +25,24 @@ public class EventService {
     private GalleryEventRepository galleryEventRepository;
 
 
-
     /**
-     * Service Method to create an Event
+     * Service Method to create an event
      * @param name
      * @param description
+     * @param imageUrl
      * @param date
      * @param startTime
      * @param endTime
      * @return
      */
     @Transactional
-    public GalleryEvent createEvent(String name, String description,  Date date, Time startTime, Time endTime) {
+    public GalleryEvent createEvent(String name, String description, String imageUrl,  Date date, Time startTime, Time endTime) {
         if(name == null || name.trim().length() == 0) throw new IllegalArgumentException("Name is currently null or length 0. Please enter a valid name.");
         if(description == null || description.trim().length() == 0) throw new IllegalArgumentException("Description is currently null or length 0. Please enter a valid description.");
         if(date == null) throw new IllegalArgumentException("Date is currently null. Please enter a valid date");
         if(startTime == null) throw new IllegalArgumentException("Start time is currently null. Please enter a valid start time");
         if(endTime == null) throw new IllegalArgumentException("End time is currently null. Please enter a valid end time");
+        if(imageUrl == null || imageUrl.trim().length() == 0) throw new IllegalArgumentException("Image is currently null or length 0. Please enter a valid image url string.");
 
         GalleryEvent event = new GalleryEvent();
         event.setEventName(name);
@@ -49,6 +50,7 @@ public class EventService {
         event.setEventDate(date);
         event.setStartTime(startTime);
         event.setEndTime(endTime);
+        event.setEventImageUrl(imageUrl);
         galleryEventRepository.save(event);
         return event;
     }
@@ -59,7 +61,7 @@ public class EventService {
      * @param event
      */
     @Transactional
-    public void register(UserProfile user, GalleryEvent event) {
+    public void registerUserToEvent(UserProfile user, GalleryEvent event) {
         if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
         if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
@@ -69,8 +71,7 @@ public class EventService {
         //       Or will it update the existing entry?
 
         //galleryEventRepository.delete(eventInSystem);
-        HashSet<UserProfile> participants = (HashSet<UserProfile>) eventInSystem.getParticipants();
-        participants.add(user);
+        eventInSystem.getParticipants().add(user);
         galleryEventRepository.save(eventInSystem);
     }
 
@@ -118,7 +119,7 @@ public class EventService {
         if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
         if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
-        return toList(eventInSystem.getParticipants());
+        return new ArrayList<>(eventInSystem.getParticipants());
     }
 
     private <T> List<T> toList(Iterable<T> iterable){
