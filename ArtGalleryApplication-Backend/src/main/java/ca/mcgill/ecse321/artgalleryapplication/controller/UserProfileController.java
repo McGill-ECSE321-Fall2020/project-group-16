@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -46,14 +48,15 @@ public class UserProfileController {
     }
 
 
-    //convertToDto methods
-    public UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException{
-        if (user == null) {
-            throw new IllegalArgumentException("The user cannot be null");
-        }
 
-        return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin());
-
-    }
+//    //convertToDto methods
+//    public UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException{
+//        if (user == null) {
+//            throw new IllegalArgumentException("The user cannot be null");
+//        }
+//
+//        return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin());
+//
+//    }
 
 }

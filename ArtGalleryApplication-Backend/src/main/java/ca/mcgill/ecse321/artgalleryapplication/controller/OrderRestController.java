@@ -1,12 +1,13 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
+import ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.*;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.Order;
 import ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus;
 import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
 import ca.mcgill.ecse321.artgalleryapplication.service.ArtworkService;
 import ca.mcgill.ecse321.artgalleryapplication.service.OrderService;
-import ca.mcgill.ecse321.artgalleryapplication.service.UserService;
+import ca.mcgill.ecse321.artgalleryapplication.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class OrderRestController {
@@ -27,7 +30,7 @@ public class OrderRestController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private UserService userService;
+    private UserProfileService userService;
     @Autowired
     private ArtworkService artworkService;
 
@@ -184,15 +187,15 @@ public class OrderRestController {
 
     // --- Dto Conversion --- //
 
-    // TODO: Need UserProfileDto and ArtworkDto
-    private OrderDto convertToDto(Order order) {
-        if (order == null)
-            throw new IllegalArgumentException("Order does not exist");
-
+//    // TODO: Need UserProfileDto and ArtworkDto
+//    public OrderDto convertToDto(Order order) {
+//        if (order == null)
+//            throw new IllegalArgumentException("Order does not exist");
+//
 //        UserProfileDto userDto = convertToDto(order.getCustomer());
-//        OrderDto orderDto = new OrderDto(order.getOrderId(), userDto, artworkDto, order.getOrderDate(), order.getOrderTime());
-        return new OrderDto(order.getOrderId(), new UserProfileDto(), new ArtworkDto(), order.getOrderDate(), order.getOrderTime());
-    }
+////        OrderDto orderDto = new OrderDto(order.getOrderId(), userDto, artworkDto, order.getOrderDate(), order.getOrderTime());
+//        return new OrderDto(order.getOrderId(), userDto, new ArtworkDto(), order.getOrderDate(), order.getOrderTime());
+//    }
 //
 //    private OrderDto convertToDto(Order order) {
 //        if (order == null)
