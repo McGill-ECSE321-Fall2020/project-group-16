@@ -50,6 +50,7 @@ public class ArtworkService {
      * @param dimensions	dimensions of the artwork
      * @param collection	optional attribute - if the artwork is part of a collection of pieces
      * @return the Artwork object with all attributes set
+     * @TODO add error handling for inputs?
      */
     @Transactional
     public Artwork createArtwork(int id, String title,  String description,  Date creationDate, 
@@ -74,7 +75,7 @@ public class ArtworkService {
     
     @Transactional
     public Artwork getArtwork(int id) {
-    	Artwork artwork = artworkRepository.findArtworkById(id);
+    	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
     	return artwork;
     }
 
@@ -86,33 +87,85 @@ public class ArtworkService {
     @Transactional
     //method that returns first n artworks instead of all of them
     public List<Artwork> getFirstNArtworks(int n) {
-    	List<Artwork> list = new ArrayList<Artwork>();
+    	List<Artwork> firstNArtworks = new ArrayList<Artwork>();
     	for(int i = 0; i < n; i++) {
-    		list.add( (toList(artworkRepository.findAll())).get(i) );
+    		firstNArtworks.add( (toList(artworkRepository.findAll())).get(i) );
     	}
-    	return list;
+    	return firstNArtworks;
     }
     
     @Transactional
     public List<Artwork> getArtworkByArtist(UserProfile artist) {
-    	return toList(artworkRepository.getAllArtworkByArtist(artist));
+    	return toList(artworkRepository.findAllArtworkByArtist(artist));
     }
     
     @Transactional
     public List<Artwork> getArtworkByPrice(Double minPrice, Double maxPrice) {
-    	//range of prices?
+    	List<Artwork> allArtwork = toList(artworkRepository.findAll());
+    	List<Artwork> filteredArtwork = new ArrayList<Artwork>();
+    	
+    	//error handling
+    	//users don't have to input a max or min price  	
+    	if(minPrice == null || minPrice < 0) {
+    		minPrice = 0.00;
+    	}
+    	
+    	if(maxPrice == null || maxPrice < 0) {
+    		maxPrice = 1000000.00;
+    	}
+    	
+    	if(minPrice >= maxPrice) {
+    		throw new IllegalArgumentException("Minimum price must be less than maximum price");
+    	}
+    	
+    	//filtering results
+    	for(Artwork a : allArtwork) {
+    		if(a.getPrice() >= minPrice && a.getPrice() <= maxPrice) {
+    			filteredArtwork.add(a);
+    		}
+    	}
+
+    	return filteredArtwork;   	
     }
-    
+
+   
     @Transactional
     public List<Artwork> getArtworkByCreationDate(Date minDate, Date maxDate) {
+    	List<Artwork> allArtwork = toList(artworkRepository.findAll());
+    	List<Artwork> filteredArtwork = new ArrayList<Artwork>();
     	
+    	//error handling
+    	//users don't have to input a max or min price  	
+    	if(minDate == null) {
+    		String s = "1900-01-01";
+    		minDate = Date.valueOf(s);
+    	}
+    	
+    	if(maxDate == null) {
+    		Date today = new Date(System.currentTimeMillis());
+    		maxDate = today;
+    	}
+    	
+    	//@TODO might've gotten Date.compareTo backwards, need to double check
+    	if(minDate.compareTo(maxDate) >= 0) { //if minDate is on or after maxDate
+    		throw new IllegalArgumentException("Minimum price must be less than maximum price");
+    	}
+    	
+    	//filtering results
+    	for(Artwork a : allArtwork) {
+    		if(a.getCreationDate().compareTo(minDate) <= 0 && a.getCreationDate().compareTo(maxDate) >= 0) {
+    			filteredArtwork.add(a);
+    		}
+    	}
+
+    	return filteredArtwork;   	
     }
     
     @Transactional
     public List<Artwork> getArtworkByStatus(ArtworkStatus status) {
-    	
+    	return toList(artworkRepository.findAllArtworkByArtworkStatus(status));
     }
-
+    
     //helper methods
 
     private <T> List<T> toList(Iterable<T> iterable){
