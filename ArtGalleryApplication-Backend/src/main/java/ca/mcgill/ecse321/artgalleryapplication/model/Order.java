@@ -1,14 +1,9 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 import java.sql.Date;
-import javax.persistence.Id;
 import java.sql.Time;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="ag_order")
@@ -38,8 +33,9 @@ this.orderDate = value;
 public Date getOrderDate() {
 return this.orderDate;
     }
-private int orderId;
 
+
+private int orderId;
 public void setOrderId(int value) {
 this.orderId = value;
     }
@@ -47,8 +43,8 @@ this.orderId = value;
 public int getOrderId() {
 return this.orderId;
     }
-private Time orderTime;
 
+private Time orderTime;
 public void setOrderTime(Time value) {
 this.orderTime = value;
     }
@@ -57,12 +53,10 @@ return this.orderTime;
     }
 
 private Payment payment;
-
 @OneToOne(cascade={CascadeType.ALL})
 public Payment getPayment() {
    return this.payment;
 }
-
 public void setPayment(Payment payment) {
    this.payment = payment;
 }
