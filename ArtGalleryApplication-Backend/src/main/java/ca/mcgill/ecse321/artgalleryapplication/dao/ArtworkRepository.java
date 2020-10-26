@@ -17,5 +17,6 @@ public interface ArtworkRepository extends CrudRepository<Artwork, String>{
 	List<Artwork> findAllArtworkByArtist(UserProfile artist);
 	List<Artwork> findAllArtworkByArtworkStatus(ArtworkStatus status);
 	
-
 }
+
+
