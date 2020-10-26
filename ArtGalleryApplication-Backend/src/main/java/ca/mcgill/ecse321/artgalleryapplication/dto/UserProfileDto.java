@@ -17,48 +17,16 @@ public class UserProfileDto {
     //private Set<EventDto> events;
     private Set<ArtworkDto> artworks;
 
-    public UserProfileDto(String firstName, String lastName, String username, String email, String password){
+    public UserProfileDto(String firstName, String lastName, String username, String email, String password) {
         this(firstName, lastName, username, email, password, false);
     }
 
-    public UserProfileDto(String firstName, String lastName, String username, String email, String password, boolean isAdmin){
+    public UserProfileDto(String firstName, String lastName, String username, String email, String password, boolean isAdmin) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public AddressDto getAddress() {
-        return address;
-    }
-
-    public OrderDto getCurrentOrder() {
-        return currentOrder;
-    }
-
-    public Set<OrderDto> getPastOrders() {
-        return pastOrders;
     }
 }

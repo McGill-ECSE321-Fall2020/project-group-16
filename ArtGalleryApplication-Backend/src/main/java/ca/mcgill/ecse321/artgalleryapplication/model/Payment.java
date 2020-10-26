@@ -53,6 +53,7 @@ public void setPaymentId(int value) {
 this.paymentId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getPaymentId() {
 return this.paymentId;
     }

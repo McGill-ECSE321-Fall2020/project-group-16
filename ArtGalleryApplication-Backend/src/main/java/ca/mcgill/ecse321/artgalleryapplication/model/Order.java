@@ -40,6 +40,7 @@ public void setOrderId(int value) {
 this.orderId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getOrderId() {
 return this.orderId;
     }

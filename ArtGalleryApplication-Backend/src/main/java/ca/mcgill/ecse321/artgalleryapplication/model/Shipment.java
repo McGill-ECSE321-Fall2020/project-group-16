@@ -1,11 +1,8 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.sql.Time;
-import javax.persistence.Id;
 import java.sql.Date;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Shipment{
@@ -31,6 +28,7 @@ public void setShipmentId(int value) {
 this.shipmentId = value;
     }
 @Id
+@GeneratedValue(strategy= GenerationType.AUTO)
 public int getShipmentId() {
 return this.shipmentId;
     }

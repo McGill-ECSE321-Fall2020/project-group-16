@@ -10,4 +10,6 @@ public interface GalleryEventRepository extends CrudRepository<GalleryEvent, Str
 
 	GalleryEvent findGalleryEventByEventId(int eventId);
 
+	void deleteGalleryEventByEventId(int eventId);
+
 }
