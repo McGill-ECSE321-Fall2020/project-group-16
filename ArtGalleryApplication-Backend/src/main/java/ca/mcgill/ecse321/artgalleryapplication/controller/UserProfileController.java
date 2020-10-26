@@ -26,7 +26,11 @@ public class UserProfileController {
     }
 
     @PostMapping(value = {"/users/{username}", "/users/{username}/"})
-    public UserProfileDto creatUserProfile(@PathVariable("username") String username, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String email, @RequestParam String password) throws IllegalArgumentException{
+    public UserProfileDto creatUserProfile(@PathVariable("username") String username,
+                                           @RequestParam String firstName,
+                                           @RequestParam String lastName,
+                                           @RequestParam String email,
+                                           @RequestParam String password) throws IllegalArgumentException{
         UserProfile user = service.createRegularUserProfile(firstName, lastName, username, email, password);
         return convertToDto(user);
     }
@@ -36,12 +40,14 @@ public class UserProfileController {
         return convertToDto(service.getUserProfileByUsername(username));
     }
 
-
-
+    @GetMapping(value = {"/users/{username}", "/users/{username}/"})
+    public UserProfileDto getUserProfileByUsernameAndPassword(@PathVariable("username") String username, @RequestParam String password) throws DataAccessException {
+        return convertToDto(service.getUserProfileByUsername(username, password));
+    }
 
 
     //convertToDto methods
-    private UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException{
+    public UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException{
         if (user == null) {
             throw new IllegalArgumentException("The user cannot be null");
         }
