@@ -8,6 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "artwork_data", path = "artwork_data")
 public interface ArtworkRepository extends CrudRepository<Artwork, String>{
 
-	Artwork findArtworkByArtworkId(int addressId);
+	Artwork findArtworkById(int id);
+	
 
 }
