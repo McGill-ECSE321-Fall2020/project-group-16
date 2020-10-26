@@ -36,4 +36,5 @@ public class ConvertToDto {
                 a.getMedium(), a.getImageUrl(), a.getPrice(), a.getArtworkStatus(),
                 a.getDimensions(), a.getCollection());
     }
+
 }
