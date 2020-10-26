@@ -13,6 +13,7 @@ public class ConvertToDto {
             throw new IllegalArgumentException("Order does not exist");
 
         UserProfileDto userDto = convertToDto(order.getCustomer());
+        ArtworkDto artworkDto = convertToDto(order.getArtwork());
 //        OrderDto orderDto = new OrderDto(order.getOrderId(), userDto, artworkDto, order.getOrderDate(), order.getOrderTime());
         return new OrderDto(order.getOrderId(), userDto, new ArtworkDto(), order.getOrderDate(), order.getOrderTime());
     }
