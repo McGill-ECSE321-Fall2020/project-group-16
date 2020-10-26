@@ -1,6 +1,11 @@
 package ca.mcgill.ecse321.artgalleryapplication.dao;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
+import ca.mcgill.ecse321.artgalleryapplication.model.Address;
 import ca.mcgill.ecse321.artgalleryapplication.model.Shipment;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -9,5 +14,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface ShipmentRepository extends CrudRepository<Shipment, String>{
 
 	Shipment findShipmentByShipmentId(int shipmentId);
-
+	List<Shipment> findShipmentByToGallery(Boolean toGallery);
+	List<Shipment> findShipmentByEstimatedArrivalTime(Time eta);
+	List<Shipment> findShipmentByEstimatedArrivalDate(Date arrivalDate);
+	List<Shipment> findShipmentByReturnAddress(Address returnAddress);
+	List<Shipment> findShipmentByDestination(Address destination);
 }
