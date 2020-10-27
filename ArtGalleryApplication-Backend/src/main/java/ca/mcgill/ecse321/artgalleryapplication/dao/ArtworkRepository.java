@@ -14,7 +14,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface ArtworkRepository extends CrudRepository<Artwork, String>{
 
 	Artwork findArtworkByArtworkId(int id);
-	List<Artwork> findAllArtworkByArtist(UserProfile artist);
+	List<Artwork> findAllArtworkByArtist(String artist);
 	List<Artwork> findAllArtworkByArtworkStatus(ArtworkStatus status);
 	
 }
