@@ -18,13 +18,13 @@ public class ShipmentDto {
 	public ShipmentDto() {
 	}
 
-	public ShipmentDto(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
-		this.toGallery = toGal;
-		this.estimatedArrivalTime = eta;
+	public ShipmentDto(Boolean toGallery, Time estimatedArrivalTime, int shipmentId, Date estimatedArrivalDate, Address returnAddress, Address destinationAddress) {
+		this.toGallery = toGallery;
+		this.estimatedArrivalTime = estimatedArrivalTime;
 		this.shipmentId = shipmentId;
-		this.estimatedArrivalDate = estimatedArrival;
-		this.returnAddress = r;
-		this.destinationAddress = d;
+		this.estimatedArrivalDate = estimatedArrivalDate;
+		this.returnAddress = returnAddress;
+		this.destinationAddress = destinationAddress;
 	}
 
 	public Boolean getToGallery() {

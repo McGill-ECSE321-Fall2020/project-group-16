@@ -63,6 +63,14 @@ public class ConvertToDto {
     	return pDto;
     }
     
+    public static ShipmentDto convertToDto(Shipment s) {
+    	if(s == null) {
+    		throw new IllegalArgumentException("shipment is null");
+    	}
+    	ShipmentDto sDto = new ShipmentDto(s.getToGallery(), s.getEstimatedArrivalTime(), s.getShipmentId(), s.getEstimatedArrivalDate(), s.getReturnAddress(), s.getDestination());
+    	return sDto;
+    }
+    
     private static <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
         for (T t : iterable) {

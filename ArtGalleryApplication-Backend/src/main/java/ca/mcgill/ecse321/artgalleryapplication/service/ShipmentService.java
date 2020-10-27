@@ -40,21 +40,21 @@ public class ShipmentService {
 
     //create the Transactional methods
 
-    public Shipment createShipment(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
+    public Shipment createShipment(Boolean toGallery, Time estimatedArrivalTime, int shipmentId, Date estimatedArrivalDate, Address returnAddress, Address destinationAddress) {
     	List<String> errors = new ArrayList<String>();
-    	if(toGal == null) {
+    	if(toGallery == null) {
     		errors.add("toGallery variable must not be null");
     	}
-    	if(eta == null) {
+    	if(estimatedArrivalTime == null) {
     		errors.add("ETA must not be null");
     	}
-    	if(estimatedArrival == null) {
+    	if(estimatedArrivalDate == null) {
     		errors.add("Estimated arrival date must not be null");
     	}
-    	if(r == null) {
+    	if(returnAddress == null) {
     		errors.add("Return address must not be null");
     	}
-    	if(d == null) {
+    	if(destinationAddress == null) {
     		errors.add("Destination address must not be null");
     	}
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)!= null) {
@@ -67,14 +67,19 @@ public class ShipmentService {
     	}
     	
     	Shipment s = new Shipment();
-    	s.setDestination(d);
-    	s.setEstimatedArrivalDate(estimatedArrival);
-    	s.setEstimatedArrivalTime(eta);
-    	s.setReturnAddress(r);
+    	s.setDestination(destinationAddress);
+    	s.setEstimatedArrivalDate(estimatedArrivalDate);
+    	s.setEstimatedArrivalTime(estimatedArrivalTime);
+    	s.setReturnAddress(returnAddress);
     	s.setShipmentId(shipmentId);
-    	s.setToGallery(toGal);
+    	s.setToGallery(toGallery);
     	
     	shipmentRepository.save(s);
+    	return s;
+    }
+    
+    public Shipment getShipment(int shipmentId) {
+    	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
     	return s;
     }
 
@@ -82,7 +87,7 @@ public class ShipmentService {
     	return toList(shipmentRepository.findAll());
     }
 
-    public List<Shipment> getAllShipmentByToGallery(Boolean toGal){
+    public List<Shipment> getAllShipmentsByToGallery(Boolean toGal){
     	if(toGal == null) {
     		throw new IllegalArgumentException("Must enter a boolean variable");
     	}
@@ -94,7 +99,7 @@ public class ShipmentService {
     	return s;
     }
     
-    public List<Shipment> getAllShipmentByETA(Time eta){
+    public List<Shipment> getAllShipmentsByEstimatedArrivalTime(Time eta){
     	if(eta == null) {
     		throw new IllegalArgumentException("Must enter a Time variable");
     	}
@@ -105,7 +110,7 @@ public class ShipmentService {
     	}
     	return s;
     }
-    public List<Shipment> getAllShipmentByEstimatedArrival(Date arrivalDate){
+    public List<Shipment> getAllShipmentsByEstimatedArrivalDate(Date arrivalDate){
     	if(arrivalDate == null) {
     		throw new IllegalArgumentException("Must enter a Date variable");
     	}
@@ -116,7 +121,7 @@ public class ShipmentService {
     	}
     	return s;
     }
-    public List<Shipment> getAllShipmentByReturnAddress(Address r){
+    public List<Shipment> getAllShipmentsByReturnAddress(Address r){
     	if(r == null) {
     		throw new IllegalArgumentException("Must enter a return address");
     	}
@@ -127,7 +132,7 @@ public class ShipmentService {
     	}
     	return s;
     }
-    public List<Shipment> getAllShipmentByDestination(Address d){
+    public List<Shipment> getAllShipmentsByDestinationAddress(Address d){
     	if(d == null) {
     		throw new IllegalArgumentException("Must enter a destination address");
     	}
