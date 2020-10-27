@@ -57,7 +57,7 @@ public class OrderRestController {
      * @return an OrderDto
      * @throws IllegalArgumentException
      */
-    @GetMapping(value = { "/order/{id}", "/order/{id}/" })
+    @GetMapping(value = { "/orders/{id}", "/order/{id}/" })
     public OrderDto getOrderById(@PathVariable("id") int id) throws IllegalArgumentException {
         List<OrderDto> orderDtos = new ArrayList<>();
         Order order = orderService.getOrderById(id);
