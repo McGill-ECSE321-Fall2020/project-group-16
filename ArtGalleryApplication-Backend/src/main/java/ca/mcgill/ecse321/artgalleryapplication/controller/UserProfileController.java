@@ -37,10 +37,10 @@ public class UserProfileController {
         return convertToDto(user);
     }
 
-    @GetMapping(value = {"/users/{username}", "/users/{username}/"})
-    public UserProfileDto getUserProfileByUsername(@PathVariable("username") String username) throws DataAccessException {
-        return convertToDto(service.getUserProfileByUsername(username));
-    }
+//    @GetMapping(value = {"/users/{username}", "/users/{username}/"})
+//    public UserProfileDto getUserProfileByUsername(@PathVariable("username") String username) throws DataAccessException {
+//        return convertToDto(service.getUserProfileByUsername(username));
+//    }
 
     @GetMapping(value = {"/users/{username}", "/users/{username}/"})
     public UserProfileDto getUserProfileByUsernameAndPassword(@PathVariable("username") String username, @RequestParam String password) throws DataAccessException {

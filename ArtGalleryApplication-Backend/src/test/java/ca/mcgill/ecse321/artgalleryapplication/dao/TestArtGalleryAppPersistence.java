@@ -215,229 +215,105 @@ public class TestArtGalleryAppPersistence {
 
 	@Test
 	public void testPersistAndLoadArtwork() {
-
-		//creating test Artwork
-		//int artworkId = 123;
-		String title = "Mona Lisa";
-		String description = "da vinky?";
-		Date creationDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.OCTOBER, 7));
-		String dimensions = "10 feet x 10 feet";
-		String medium = "oil paint";
-		String collection = "classics";
-		String imageUrl = "monalisa.png";
-		double price = 1000000000;
-		ArtworkStatus artworkStatus = ArtworkStatus.ForSale;
-
-		//user
-		UserProfile user = new UserProfile();
-		String username = "tester1";
-		String password = "testPass1";
-		String firstName = "Fname";
-		String lastName = "Lname";
-		String profileImageUrl = "http://test.png";
-		Boolean isAdmin = true;
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setDescription(description);
-		user.setProfileImageUrl(profileImageUrl);
-		user.setIsAdmin(isAdmin);
-
-		//order
-		Order order = new Order();
-		user.setCurrentOrder(order);
-		int orderId = 1234;
-		order.setCustomer(user);
-		//order.setOrderId(orderId);
-
-		//artwork
+		UserProfile artist = new UserProfile();
 		Artwork artwork = new Artwork();
-		//artwork.setArtworkId(artworkId);
-		artwork.setTitle(title);
-		artwork.setCollection(collection);
-		artwork.setPrice(price);
-		artwork.setCreationDate(creationDate);
-		artwork.setArtworkStatus(artworkStatus);
-		artwork.setDimensions(dimensions);
-		artwork.setImageUrl(imageUrl);
-		artwork.setMedium(medium);
-		artwork.setDescription(description);
 
+		String title = "Mona Lisa";
+		artwork.setTitle(title);
+		String username = "tester1";
+		String firstName = "Fname";
+		artist.setUsername(username);
+		artist.setFirstName(firstName);
 
 		Set<UserProfile> artists = new HashSet<UserProfile>();
-		artists.add(user);
+		artists.add(artist);
 		artwork.setArtist(artists);
 
 		HashSet<Artwork> artworks = new HashSet<Artwork>();
 		artworks.add(artwork);
-		user.setArtwork(artworks);
+		artist.setArtwork(artworks);
 
-
-		//userRepository.save(user);
 		artworkRepository.save(artwork);
 		int artworkId = artwork.getArtworkId();
 
-		//checking everything
-		artwork=null;
+		artwork = null;
+
 		artwork = artworkRepository.findArtworkByArtworkId(artworkId);
 		assertNotNull(artwork);
-
-		//assertTrue(artwork.getArtist().containsAll(artists));
-
-		assertEquals(artworkId, artwork.getArtworkId());
 		assertEquals(title, artwork.getTitle());
-		assertEquals(description, artwork.getDescription());
-		assertEquals(creationDate, artwork.getCreationDate());
-		assertEquals(dimensions, artwork.getDimensions());
-		assertEquals(medium, artwork.getMedium());
-		assertEquals(collection, artwork.getCollection());
-		assertEquals(imageUrl, artwork.getImageUrl());
-		assertEquals(price, artwork.getPrice());
-		assertEquals(artworkStatus, artwork.getArtworkStatus());
-
 	}
 
 	@Test
 	public void testPersistAndLoadGalleryEvent() {
-		String eventName = "learn2Paint";
-		String eventDescription = "Bring your prushes and paint, and we'll teach you something new!";
-		String eventImageUrl = "abcdefg";
-		int eventId = 12345;
-		Date eventDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19));
-		Time startTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		Time endTime = java.sql.Time.valueOf(LocalTime.of(12, 35));
-
-
 		UserProfile participant = new UserProfile();
-		String username = "tester1";
-		String password = "testPass1";
+		GalleryEvent galleryEvent = new GalleryEvent();
+
+		String eventName = "learn2Paint";
+		galleryEvent.setEventName(eventName);
+		String username = "zeAllnewTester";
 		String firstName = "Fname";
-		String lastName = "Lname";
-		String description = "test case for user profile";
-		String profileImageUrl = "http://test.png";
-		Boolean isAdmin = true;
 		participant.setUsername(username);
-		participant.setPassword(password);
 		participant.setFirstName(firstName);
-		participant.setLastName(lastName);
-		participant.setDescription(description);
-		participant.setProfileImageUrl(profileImageUrl);
-		participant.setIsAdmin(isAdmin);
+
 
 		Set<UserProfile> participants = new HashSet<UserProfile>();
 		participants.add(participant);
-		userRepository.save(participant);
-
-		GalleryEvent galleryEvent = new GalleryEvent();
-		galleryEvent.setEndTime(endTime);
-		galleryEvent.setEventDate(eventDate);
-		galleryEvent.setEventDescription(eventDescription);
-		galleryEvent.setEventId(eventId);
-		galleryEvent.setEventImageUrl(eventImageUrl);
-		galleryEvent.setEventName(eventName);
-		galleryEvent.setStartTime(startTime);
+		Set<GalleryEvent> events = new HashSet<>();
+		events.add(galleryEvent);
+		participant.setGalleryEvent(events);
 		galleryEvent.setParticipants(participants);
 
+		//userRepository.save(participant);
 		galleryEventRepository.save(galleryEvent);
+		int eventId = galleryEvent.getEventId();
 
 		galleryEvent = null;
+
 		galleryEvent = galleryEventRepository.findGalleryEventByEventId(eventId);
 		assertNotNull(galleryEvent);
-
 		assertEquals(eventId, galleryEvent.getEventId());
 		assertEquals(eventName, galleryEvent.getEventName());
-		assertEquals(eventDescription, galleryEvent.getEventDescription());
-		assertEquals(eventImageUrl, galleryEvent.getEventImageUrl());
-		assertEquals(eventDate, galleryEvent.getEventDate());
-		assertEquals(startTime, galleryEvent.getStartTime());
-		assertEquals(endTime, galleryEvent.getEndTime());
+
 
 		participant = null;
+
 		participant = userRepository.findByUsername(username);
 		assertNotNull(participant);
-
-		//Object[] p = participants.toArray();
-		//Object[] geP = galleryEvent.getParticipants().toArray();
-		//assertTrue(p[0].equals(geP[0]));
 	}
 
 	@Test
 	public void testPersistAndLoadOrder() {
-		double totalAmount = 1000.00;
-		Date orderDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19));
-		//int orderId = 123;
-		Time orderTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		Payment payment = new Payment();
-		payment.setCardNumber("1234");
-		payment.setCvv(123);
-		payment.setExpirationDate(java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19)));
-		payment.setPaymentDate(java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19)));
-		payment.setPaymentForm(PaymentForm.CreditCard);
-		//payment.setPaymentId(321);
-		payment.setPaymentTime(java.sql.Time.valueOf(LocalTime.of(12, 35)));
-		paymentRepository.save(payment);
-		int paymentId = payment.getPaymentId();
+		String title = "zeArtTitle";
+		String username = "zeBrandNewUserRODO";
+		String firstName = "ZeREUREU";
 
-		Address address = getRandAddress();
-		addressRepository.save(address);
-
-		//shipment
-		Shipment shipment = new Shipment();
-		shipment.setDestination(address);
-		shipment.setEstimatedArrivalDate(java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19)));
-		shipment.setEstimatedArrivalTime(java.sql.Time.valueOf(LocalTime.of(12, 35)));
-		shipment.setReturnAddress(address);
-		//shipment.setShipmentId(12345);
-		shipment.setToGallery(false);
-		shipmentRepository.save(shipment);
-
-		//artwork
 		Artwork artwork = new Artwork();
-		//artwork.setArtist(artists);
-		//artwork.setArtworkId(123);
-		artwork.setArtworkStatus(ArtworkStatus.ForSale);
-		artwork.setCollection("non");
-		artwork.setCreationDate(java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19)));
-		artwork.setDescription("boring");
-		artwork.setDimensions("12x12");
-		artwork.setImageUrl("idc.org");
-		artwork.setMedium("chalk");
-		artwork.setPrice(12.99);
-		artwork.setTitle("Example");
-		artworkRepository.save(artwork);
-
-		//customer
 		UserProfile customer = new UserProfile();
-		String username = "tester1";
-		String password = "testPass1";
-		String firstName = "Fname";
-		String lastName = "Lname";
-		String description = "test case for user profile";
-		String profileImageUrl = "http://test.png";
+		UserProfile artist = new UserProfile();
 
-		Boolean isAdmin = true;
+		artist.setUsername("zeUNIQUEartist");
+		HashSet<Artwork> artworks = new HashSet<>();
+		artworks.add(artwork);
+		artist.setArtwork(artworks);
+		artwork.setTitle(title);
+
+		HashSet<UserProfile> artists = new HashSet<>();
+		artists.add(artist);
+		artwork.setArtist(artists);
 		customer.setUsername(username);
-		customer.setPassword(password);
 		customer.setFirstName(firstName);
-		customer.setLastName(lastName);
-		customer.setDescription(description);
-		customer.setProfileImageUrl(profileImageUrl);
-		customer.setIsAdmin(isAdmin);
-		userRepository.save(customer);
 
-		customer = null;
+		OrderStatus orderStatus = OrderStatus.Delivered;
 
 		Order order = new Order();
 		order.setArtwork(artwork);
 		order.setCustomer(customer);
-		order.setOrderDate(orderDate);
-		//order.setOrderId(orderId);
-		order.setOrderStatus(OrderStatus.Delivered);
-		order.setOrderTime(orderTime);
-		order.setPayment(payment);
-		order.setShipment(shipment);
-		order.setTotalAmount(totalAmount);
+		order.setOrderStatus(orderStatus);
+
+		artworkRepository.save(artwork);
+		userRepository.save(customer);
+
+		customer.setCurrentOrder(order);
 
 		orderRepository.save(order);
 		int orderId = order.getOrderId();
@@ -448,13 +324,12 @@ public class TestArtGalleryAppPersistence {
 		assertNotNull(order);
 		assertEquals(artwork.getArtworkId(), order.getArtwork().getArtworkId());
 		assertTrue(customer.getUsername().equals(order.getCustomer().getUsername()));
-		assertEquals(orderDate, order.getOrderDate());
 		assertEquals(orderId, order.getOrderId());
-		assertEquals(orderTime, order.getOrderTime());
-		assertEquals(payment.getPaymentId(), order.getPayment().getPaymentId());
-		assertEquals(shipment.getShipmentId(), order.getShipment().getShipmentId());
-		assertEquals(totalAmount, order.getTotalAmount());
 
+		customer = null;
+
+		customer = userRepository.findByUsername(username);
+		assertNotNull(customer);
 	}
 
 	//some helper methods to get example objects:

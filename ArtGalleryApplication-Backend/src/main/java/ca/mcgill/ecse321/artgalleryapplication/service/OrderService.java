@@ -54,7 +54,7 @@ public class OrderService {
             throw new IllegalArgumentException("No artwork associated with this artworkId.");
         }
 
-        UserProfile customer = userRepository.findUserProfileByUsername(username);
+        UserProfile customer = userRepository.findByUsername(username);
         if (customer == null) {
             throw new IllegalArgumentException("No user associated with this username.");
         }
@@ -116,7 +116,7 @@ public class OrderService {
      * @return list of orders
      */  
     public List<Order> getOrdersByUser(String username) {
-        UserProfile customer = userRepository.findUserProfileByUsername(username);
+        UserProfile customer = userRepository.findByUsername(username);
 
         if (customer == null)
             throw new IllegalArgumentException("No user associated with this username.");
@@ -222,7 +222,7 @@ public class OrderService {
         if (updateOrder == null)
             throw new IllegalArgumentException("Order does not exist in database.");
 
-        UserProfile customer = userRepository.findUserProfileByUsername(customerUsername);
+        UserProfile customer = userRepository.findByUsername(customerUsername);
         if (customer == null)
             throw new IllegalArgumentException("No user associated with this username.");
 
