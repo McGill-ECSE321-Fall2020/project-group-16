@@ -59,6 +59,14 @@ public class ConvertToDto {
         return addressDto;
     }
 
+    public static PaymentDto convertToDto(Payment p) {
+    	if(p == null) {
+    		throw new IllegalArgumentException("Payment is null");
+    	}
+    	PaymentDto pDto = new PaymentDto(p.getPaymentForm(), p.getPaymentDate(), p.getCardNumber(), p.getExpirationDate(), p.getCvv(), p.getPaymentId(), p.getPaymentTime());
+    	return pDto;
+    }
+    
     private static <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
         for (T t : iterable) {

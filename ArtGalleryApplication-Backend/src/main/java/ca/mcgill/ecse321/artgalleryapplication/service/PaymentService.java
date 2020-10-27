@@ -42,19 +42,19 @@ public class PaymentService {
     //create the Transactional methods
     
     
-    public Payment createPayment(PaymentForm pf, Date pd, String cardNumber, Date expiration, int cvv, int paymentId, Time paymentTime){
+    public Payment createPayment(PaymentForm paymentForm, Date paymentDate, String cardNumber, Date expirationDate, int cvv, int paymentId, Time paymentTime){
     	//check if anything is null that shouldn't be
     	List<String> errors = new ArrayList<String>();
-    	if(pf == null) {
+    	if(paymentForm == null) {
     		errors.add("PaymentForm must not be null");
     	}
-    	if(pd == null) {
+    	if(paymentDate == null) {
     		errors.add("PaymentDate must not be null");
     	}
     	if(cardNumber == null) {
     		errors.add("Card number must not be null");
     	}
-    	if(expiration == null) {
+    	if(expirationDate == null) {
     		errors.add("Expiration date must not be null");
     	}
     	if(paymentTime == null) {
@@ -72,9 +72,9 @@ public class PaymentService {
     	
     	Payment payment = new Payment();
     	payment.setCardNumber(cardNumber);
-    	payment.setPaymentForm(pf);
-    	payment.setPaymentDate(pd);
-    	payment.setExpirationDate(expiration);
+    	payment.setPaymentForm(paymentForm);
+    	payment.setPaymentDate(paymentDate);
+    	payment.setExpirationDate(expirationDate);
     	payment.setCvv(cvv);
     	payment.setPaymentId(paymentId);
     	payment.setPaymentTime(paymentTime);
@@ -87,6 +87,9 @@ public class PaymentService {
     	return toList(paymentRepository.findAll());
     }
 
+    public Payment getPayment(int paymentId) {
+    	return paymentRepository.findPaymentByPaymentId(paymentId);
+    }
     
     public List<Payment> getAllPaymentsByCardNumber(String cardNumber){
     	if(cardNumber==null || cardNumber.trim() == null) {
