@@ -263,7 +263,7 @@ public class TestArtGalleryAppPersistence {
 		participant.setGalleryEvent(events);
 		galleryEvent.setParticipants(participants);
 
-		//userRepository.save(participant);
+		userRepository.save(participant);
 		galleryEventRepository.save(galleryEvent);
 		int eventId = galleryEvent.getEventId();
 

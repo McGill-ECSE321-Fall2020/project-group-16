@@ -60,7 +60,7 @@ public class GalleryEventRestController {
     public List<GalleryEventDto> getAllEvents() {
         List<GalleryEventDto> galleryEventDtos = new ArrayList<>();
         for (GalleryEvent g : eventService.getAllEvents()) {
-            galleryEventDtos.add(convertEventToDto(g));
+            galleryEventDtos.add(ConvertToDto.convertToDto(g));
         }
         return galleryEventDtos;
     }
@@ -73,26 +73,9 @@ public class GalleryEventRestController {
     @GetMapping(value = { "/events/{id}", "/events/{id}/" })
     public GalleryEventDto getEvent(@PathVariable("id") int id) throws IllegalArgumentException {
          GalleryEvent event = eventService.getEventById(id);
-         return convertEventToDto(event);
+         return ConvertToDto.convertToDto(event);
     }
-
-    /**
-     * Get participants of event by ID
-     * @param id
-     * @throws IllegalArgumentException
-     */
-    @GetMapping(value = { "/events/{id}/participants", "/events/{id}/participants/" })
-    public List<UserProfileDto> getParticipantsOfEvent(@PathVariable("id") int id) throws IllegalArgumentException {
-        GalleryEvent event = eventService.getEventById(id);
-        List<UserProfileDto> userProfileDtos = new ArrayList<>();
-        for(UserProfile u : eventService.getParticipantsOfEvent(event)) {
-            userProfileDtos.add(convertUserToDto(u));
-        }
-        return userProfileDtos;
-    }
-
-
-
+    
     /**
      * Create one event
      * @param name
@@ -113,7 +96,7 @@ public class GalleryEventRestController {
             throws IllegalArgumentException {
 
         GalleryEvent event = eventService.createEvent(name, description, imageUrl, date, Time.valueOf(startTime), Time.valueOf(endTime));
-        return convertEventToDto(event);
+        return ConvertToDto.convertToDto(event);
     }
 
     /**
@@ -124,13 +107,13 @@ public class GalleryEventRestController {
      */
     @PutMapping(value = {"/events/register", "/events/register/"})
     public void registerUserToEvent(
-            @RequestParam(name = "event") int eId,
-            @RequestParam(name = "user") String uName)
+            @RequestParam(name = "eventId") int eId,
+            @RequestParam(name = "username") String uName)
             throws IllegalArgumentException {
 
-        //UserProfile p = userService.getUserByName(uName);
         GalleryEvent e = eventService.getEventById(eId);
-        //eventService.registerUserToEvent(p, e);
+        UserProfile p = userProfileService.getUserProfileByUsername(uName);
+        eventService.registerUserToEvent(p, e);
     }
 
     /**
@@ -154,7 +137,7 @@ public class GalleryEventRestController {
     @GetMapping(value = { "/address/{id}", "/address/{id}/" })
     public AddressDto getAddress(@PathVariable("id") int id) throws IllegalArgumentException {
         Address address = addressService.getAddressById(id);
-        return convertAddressToDto(address);
+        return ConvertToDto.convertToDto(address);
     }
 
     /**
@@ -179,49 +162,11 @@ public class GalleryEventRestController {
             throws IllegalArgumentException {
 
         Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
-        return convertAddressToDto(address);
+        return ConvertToDto.convertToDto(address);
     }
 
     @DeleteMapping(value = { "/address/{id}", "/address/{id}/" })
     public void deleteAddress(@PathVariable("id") int id) throws IllegalArgumentException {
         addressService.deleteAddress(id);
     }
-
-
-    //convertToDto methods
-
-    /**
-     *
-     * @param e
-     * @return
-     */
-    private GalleryEventDto convertEventToDto(GalleryEvent e) {
-        if (e == null) {
-            throw new IllegalArgumentException("Event is null");
-        }
-        GalleryEventDto eventDto = new GalleryEventDto(e.getEventName(),e.getEventDescription(), e.getEventImageUrl(), e.getEventDate(), e.getStartTime(),e.getEndTime());
-        return eventDto;
-    }
-
-    /**
-     *
-     * @param a
-     * @return
-     */
-    private AddressDto convertAddressToDto(Address a) {
-        if(a == null) throw new IllegalArgumentException("Address is null");
-        AddressDto addressDto = new AddressDto(a.getAddressId(), a.getStreetAddress(), a.getStreetAddress2(), a.getPostalCode(), a.getCity(), a.getProvince(), a.getCountry());
-        return addressDto;
-    }
-
-
-    private UserProfileDto convertUserToDto(UserProfile user) throws IllegalArgumentException{
-        if (user == null) {
-            throw new IllegalArgumentException("The user cannot be null");
-        }
-
-        return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin());
-
-    }
-
 }

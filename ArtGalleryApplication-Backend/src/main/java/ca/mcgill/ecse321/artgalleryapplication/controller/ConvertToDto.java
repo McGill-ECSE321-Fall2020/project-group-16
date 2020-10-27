@@ -1,11 +1,10 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
-import ca.mcgill.ecse321.artgalleryapplication.dto.ArtworkDto;
-import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
-import ca.mcgill.ecse321.artgalleryapplication.dto.UserProfileDto;
-import ca.mcgill.ecse321.artgalleryapplication.model.Artwork;
-import ca.mcgill.ecse321.artgalleryapplication.model.Order;
-import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
+import ca.mcgill.ecse321.artgalleryapplication.dto.*;
+import ca.mcgill.ecse321.artgalleryapplication.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConvertToDto {
 
@@ -37,4 +36,34 @@ public class ConvertToDto {
                 a.getDimensions(), a.getCollection());
     }
 
+    public static GalleryEventDto convertToDto(GalleryEvent e) {
+        if (e == null) {
+            throw new IllegalArgumentException("Event is null");
+        }
+        List<UserProfileDto> userProfileDtos = new ArrayList<>();
+        for(UserProfile u : e.getParticipants()) {
+            userProfileDtos.add(ConvertToDto.convertToDto(u));
+        }
+
+        for(UserProfileDto u : userProfileDtos) {
+            System.out.println("Nme of user in dto list " + u.getUsername());
+        }
+
+        GalleryEventDto eventDto = new GalleryEventDto(e.getEventName(),e.getEventDescription(), e.getEventImageUrl(), e.getEventDate(), e.getStartTime(),e.getEndTime(), userProfileDtos);
+        return eventDto;
+    }
+
+    public static AddressDto convertToDto(Address a) {
+        if(a == null) throw new IllegalArgumentException("Address is null");
+        AddressDto addressDto = new AddressDto(a.getAddressId(), a.getStreetAddress(), a.getStreetAddress2(), a.getPostalCode(), a.getCity(), a.getProvince(), a.getCountry());
+        return addressDto;
+    }
+
+    private static <T> List<T> toList(Iterable<T> iterable){
+        List<T> resultList = new ArrayList<T>();
+        for (T t : iterable) {
+            resultList.add(t);
+        }
+        return resultList;
+    }
 }

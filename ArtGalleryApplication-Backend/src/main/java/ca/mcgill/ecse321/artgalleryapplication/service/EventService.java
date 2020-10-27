@@ -23,6 +23,8 @@ public class EventService {
 
     @Autowired
     private GalleryEventRepository galleryEventRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     /**
@@ -62,16 +64,19 @@ public class EventService {
      */
     @Transactional
     public void registerUserToEvent(UserProfile user, GalleryEvent event) {
+        if(event == null) throw new IllegalArgumentException("Event to register to is null");
         if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
         if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
+        if(user == null) throw new IllegalArgumentException("User to register to event is null");
+        UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
+        if(userInSystem == null) throw new IllegalArgumentException("User " + user + " does not exist in system");
 
         //ISSUE: does this create a new event entry?
         //       Or will it be rejected b/c we are trying to create a new entry with PK already taken?
         //       Or will it update the existing entry?
 
-        //galleryEventRepository.delete(eventInSystem);
-        eventInSystem.getParticipants().add(user);
+        eventInSystem.getParticipants().add(userInSystem);
         galleryEventRepository.save(eventInSystem);
     }
 
@@ -107,19 +112,6 @@ public class EventService {
         GalleryEvent event = galleryEventRepository.findGalleryEventByEventId(eventId);
         if(event == null) throw new NullPointerException("There is no Event with this ID");
         return event;
-    }
-
-    /**
-     * Service Method to get all participants of specific event
-     * @param event
-     * @return
-     */
-    @Transactional
-    public List<UserProfile> getParticipantsOfEvent(GalleryEvent event) {
-        if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
-        GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
-        if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
-        return new ArrayList<>(eventInSystem.getParticipants());
     }
 
     private <T> List<T> toList(Iterable<T> iterable){

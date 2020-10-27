@@ -14,7 +14,7 @@ public class UserProfileDto {
     private OrderDto currentOrder;
     private Set<OrderDto> pastOrders;
     private AddressDto address;
-    //private Set<EventDto> events;
+    private Set<GalleryEventDto> events;
     private Set<ArtworkDto> artworks;
 
     public UserProfileDto(String firstName, String lastName, String username, String email, String password) {
@@ -28,5 +28,109 @@ public class UserProfileDto {
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public AddressDto getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressDto address) {
+        this.address = address;
+    }
+
+    public OrderDto getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(OrderDto currentOrder) {
+        this.currentOrder = currentOrder;
+    }
+
+    public Set<OrderDto> getPastOrders() {
+        return pastOrders;
+    }
+
+    public void setPastOrders(Set<OrderDto> pastOrders) {
+        this.pastOrders = pastOrders;
+    }
+
+    public Set<ArtworkDto> getArtworks() {
+        return artworks;
+    }
+
+    public void setArtworks(Set<ArtworkDto> artworks) {
+        this.artworks = artworks;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public Set<GalleryEventDto> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<GalleryEventDto> events) {
+        this.events = events;
     }
 }
