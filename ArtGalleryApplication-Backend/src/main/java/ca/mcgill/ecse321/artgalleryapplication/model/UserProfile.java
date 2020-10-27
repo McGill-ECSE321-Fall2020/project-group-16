@@ -1,13 +1,8 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.ManyToMany;
 
 @Entity
 public class UserProfile{
@@ -109,25 +104,39 @@ public void setCurrentOrder(Order currentOrder) {
    this.currentOrder = currentOrder;
 }
 
-private Set<GalleryEvent> galleryEvent;
+private Set<GalleryEvent> galleryEvents = new HashSet<>();
 
-@ManyToMany(mappedBy="participants")
+    //@ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
 public Set<GalleryEvent> getGalleryEvent() {
-   return this.galleryEvent;
+   return this.galleryEvents;
 }
 
 public void setGalleryEvent(Set<GalleryEvent> galleryEvents) {
-   this.galleryEvent = galleryEvents;
+   this.galleryEvents = galleryEvents;
 }
 
-private Set<Artwork> artwork;
+public void addEvent(GalleryEvent event) {
+    galleryEvents.add(event);
+    event.getParticipants().add(this);
+}
 
-@ManyToMany
-public Set<Artwork> getArtwork() {
-   return this.artwork;
+
+
+private Set<Artwork> artworks = new HashSet<>();
+
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_profile_artwork",
+            joinColumns = {@JoinColumn(name = "artist_username")},
+            inverseJoinColumns = {@JoinColumn(name = "artwork_artwork_id")}
+    )
+    public Set<Artwork> getArtwork() {
+   return this.artworks;
 }
 
 public void setArtwork(Set<Artwork> artworks) {
-   this.artwork = artworks;
+   this.artworks = artworks;
 }
 }

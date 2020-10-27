@@ -95,7 +95,7 @@ public class ArtworkService {
     }
     
     @Transactional
-    public List<Artwork> getArtworkByArtist(UserProfile artist) {
+    public List<Artwork> getArtworkByArtist(String artist) {
     	return toList(artworkRepository.findAllArtworkByArtist(artist));
     }
     
