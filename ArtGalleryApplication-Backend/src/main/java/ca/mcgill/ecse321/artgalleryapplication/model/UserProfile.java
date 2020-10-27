@@ -106,7 +106,7 @@ public void setCurrentOrder(Order currentOrder) {
 
 private Set<GalleryEvent> galleryEvents = new HashSet<>();
 
-    @ManyToMany(mappedBy = "participants", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 public Set<GalleryEvent> getGalleryEvent() {
    return this.galleryEvents;
 }
@@ -124,7 +124,7 @@ public void addEvent(GalleryEvent event) {
 
 private Set<Artwork> artworks = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_profile_artwork",
             joinColumns = {@JoinColumn(name = "artist_username")},

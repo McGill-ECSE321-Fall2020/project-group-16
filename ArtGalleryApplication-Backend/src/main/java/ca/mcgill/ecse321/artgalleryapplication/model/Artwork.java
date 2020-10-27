@@ -97,7 +97,7 @@ return this.collection;
 
     private Set<UserProfile> artists = new HashSet<>();
 
-    @ManyToMany(mappedBy = "artwork", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "artwork", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 public Set<UserProfile> getArtist() {
    return this.artists;
 }

@@ -71,7 +71,7 @@ return this.endTime;
 
 private Set<UserProfile> participants = new HashSet<>();
 
-        @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+        @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "gallery_event_participants",
             joinColumns = {@JoinColumn(name = "gallery_event_event_id")},
