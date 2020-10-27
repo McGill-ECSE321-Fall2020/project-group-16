@@ -11,18 +11,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
 import javax.transaction.Transactional;
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.*;
+import java.util.Set;
 
 @Service
 public class UserProfileService {
 
     @Autowired
     private UserRepository userRepository;
+    private AddressService addressService;
+    private OrderService orderService;
 
 
     //create the Transactional methods
+
+    // ----- Creation methods -----
     @Transactional
     public UserProfile createUserProfile(String firstName, String lastName, String username, String email, String password, boolean isAdmin) throws IllegalArgumentException {
         String error = "";
@@ -91,9 +97,9 @@ public class UserProfileService {
         return createUserProfile(firstName, lastName, username, email, password, false);
     }
 
-    //TODO update email
+    // ----- Update methods -----
     @Transactional
-    public UserProfile updateEmail(String username, String password,String newEmail) throws IllegalArgumentException, DataAccessException {
+    public UserProfile updateEmail(String username, String password, String newEmail) throws IllegalArgumentException, DataAccessException {
         newEmail = newEmail.toLowerCase();
 
         UserProfile user = getUserProfileByUsername(username, password);
@@ -117,7 +123,6 @@ public class UserProfileService {
 
     }
 
-    //TODO update username
     @Transactional
     public UserProfile updateUsername(String username, String password, String newUsername) throws IllegalArgumentException, DataAccessException {
 
@@ -134,9 +139,8 @@ public class UserProfileService {
 
     }
 
-    //TODO update first and last name
     @Transactional
-    public UserProfile updateFirstName(String username, String password, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
+    public UserProfile updateName(String username, String password, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
         UserProfile user = getUserProfileByUsername(username, password);
             String[] newName = formatName(newFirstName, newLastName);
             newFirstName = newName[0];
@@ -148,13 +152,8 @@ public class UserProfileService {
 
         return user;
 
-
-
-
-
     }
 
-    //TODO update password
     @Transactional
     public UserProfile updatePassword(String username, String password, String newPassword) throws DataAccessException, IllegalArgumentException{
         UserProfile user = getUserProfileByUsername(username, password);
@@ -165,11 +164,8 @@ public class UserProfileService {
             userRepository.save(user);
 
         return user;
-
-
     }
 
-    //TODO update admin status
     @Transactional
     public UserProfile updateAdminStatus(String username, String password, boolean isAdmin) throws DataAccessException{
         UserProfile user = getUserProfileByUsername(username, password);
@@ -181,6 +177,35 @@ public class UserProfileService {
     }
 
     @Transactional
+    public UserProfile updateAddress(String username, String password, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username, password);
+        Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
+        user.setAddress(address);
+        userRepository.save(user);
+        return user;
+    }
+
+    @Transactional
+    public UserProfile updateCurrentOrder(String username, int artworkId) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username);
+        Order order = orderService.placeOrder(artworkId, username);
+        user.setCurrentOrder(order);
+        userRepository.save(user);
+
+        return user;
+
+    }
+
+    @Transactional
+    public UserProfile removeCurrentOrder(String username) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username);
+        user.setCurrentOrder(null);
+        userRepository.save(user);
+        return user;
+    }
+
+    // ----- Deletion methods -----
+    @Transactional
     public UserProfile deleteUserProfile(String username) throws DataAccessException{
         UserProfile user = getUserProfileByUsername(username);
 
@@ -189,7 +214,7 @@ public class UserProfileService {
         return user;
     }
 
-
+    // ----- Get methods -----
     @Transactional
     public UserProfile getUserProfileByUsername(String username, String password) throws DataAccessException{
         UserProfile user = null;
@@ -280,7 +305,7 @@ public class UserProfileService {
 
 
 
-    //helper methods
+    // ----- Helper methods -----
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
