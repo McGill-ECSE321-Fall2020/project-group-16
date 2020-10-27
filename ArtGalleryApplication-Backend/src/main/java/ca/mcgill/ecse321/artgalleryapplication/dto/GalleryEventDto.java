@@ -8,6 +8,7 @@ import java.util.List;
 
 public class GalleryEventDto {
 
+    private int id;
     private String eventName;
     private String eventDescription;
     private String eventImageUrl;
@@ -20,10 +21,11 @@ public class GalleryEventDto {
     }
 
     public GalleryEventDto(String name) {
-        this(name, "Empty Description", "No image", Date.valueOf("1971-01-01"), Time.valueOf("00:00:00"), Time.valueOf("23:59:59"), null);
+        this(0, name, "Empty Description", "No image", Date.valueOf("1971-01-01"), Time.valueOf("00:00:00"), Time.valueOf("23:59:59"), null);
     }
 
-    public GalleryEventDto(String name, String eventDescription, String eventImageUrl, Date eventDate, Time startTime, Time endTime, List<UserProfileDto> participants) {
+    public GalleryEventDto(int id, String name, String eventDescription, String eventImageUrl, Date eventDate, Time startTime, Time endTime, List<UserProfileDto> participants) {
+        this.id = id;
         this.eventName = name;
         this.eventDescription = eventDescription;
         this.eventImageUrl = eventImageUrl;
@@ -31,6 +33,10 @@ public class GalleryEventDto {
         this.startTime = startTime;
         this.endTime = endTime;
         this.participants = participants;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

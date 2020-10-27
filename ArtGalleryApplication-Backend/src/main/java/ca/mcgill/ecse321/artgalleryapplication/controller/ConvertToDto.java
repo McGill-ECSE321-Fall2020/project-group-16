@@ -45,7 +45,7 @@ public class ConvertToDto {
             userProfileDtos.add(ConvertToDto.convertToDto(u));
         }
 
-        GalleryEventDto eventDto = new GalleryEventDto(e.getEventName(),e.getEventDescription(), e.getEventImageUrl(), e.getEventDate(), e.getStartTime(),e.getEndTime(), userProfileDtos);
+        GalleryEventDto eventDto = new GalleryEventDto(e.getEventId(), e.getEventName(),e.getEventDescription(), e.getEventImageUrl(), e.getEventDate(), e.getStartTime(),e.getEndTime(), userProfileDtos);
         return eventDto;
     }
 
