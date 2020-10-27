@@ -83,8 +83,8 @@ public Set<Order> getPastOrders() {
    return this.pastOrders;
 }
 
-public void setPastOrders(Set<Order> pastOrderss) {
-   this.pastOrders = pastOrderss;
+public void setPastOrders(Set<Order> pastOrders) {
+   this.pastOrders = pastOrders;
 }
 
 private Address address;

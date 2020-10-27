@@ -47,16 +47,10 @@ public class UserProfileController {
         return convertToDto(service.getUserProfileByUsername(username, password));
     }
 
+    // TODO update methods
 
+    // TODO Set address
 
-//    //convertToDto methods
-//    public UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException{
-//        if (user == null) {
-//            throw new IllegalArgumentException("The user cannot be null");
-//        }
-//
-//        return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin());
-//
-//    }
+    // TODO Get orders
 
 }
