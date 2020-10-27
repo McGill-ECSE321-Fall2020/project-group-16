@@ -45,10 +45,6 @@ public class ConvertToDto {
             userProfileDtos.add(ConvertToDto.convertToDto(u));
         }
 
-        for(UserProfileDto u : userProfileDtos) {
-            System.out.println("Nme of user in dto list " + u.getUsername());
-        }
-
         GalleryEventDto eventDto = new GalleryEventDto(e.getEventName(),e.getEventDescription(), e.getEventImageUrl(), e.getEventDate(), e.getStartTime(),e.getEndTime(), userProfileDtos);
         return eventDto;
     }
