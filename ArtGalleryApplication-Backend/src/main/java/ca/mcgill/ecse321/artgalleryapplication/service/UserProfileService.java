@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.artgalleryapplication.service;
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
+import net.bytebuddy.pool.TypePool;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
 import javax.transaction.Transactional;
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.*;
+import java.util.Set;
 
 @Service
 public class UserProfileService {
@@ -21,8 +24,16 @@ public class UserProfileService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EventService eventService;
+
+    private AddressService addressService;
+    private OrderService orderService;
+
 
     //create the Transactional methods
+
+    // ----- Creation methods -----
     @Transactional
     public UserProfile createUserProfile(String firstName, String lastName, String username, String email, String password, boolean isAdmin) throws IllegalArgumentException {
         String error = "";
@@ -91,9 +102,9 @@ public class UserProfileService {
         return createUserProfile(firstName, lastName, username, email, password, false);
     }
 
-    //TODO update email
+    // ----- Update methods -----
     @Transactional
-    public UserProfile updateEmail(String username, String password,String newEmail) throws IllegalArgumentException, DataAccessException {
+    public UserProfile updateEmail(String username, String password, String newEmail) throws IllegalArgumentException, DataAccessException {
         newEmail = newEmail.toLowerCase();
 
         UserProfile user = getUserProfileByUsername(username, password);
@@ -117,7 +128,6 @@ public class UserProfileService {
 
     }
 
-    //TODO update username
     @Transactional
     public UserProfile updateUsername(String username, String password, String newUsername) throws IllegalArgumentException, DataAccessException {
 
@@ -134,9 +144,8 @@ public class UserProfileService {
 
     }
 
-    //TODO update first and last name
     @Transactional
-    public UserProfile updateFirstName(String username, String password, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
+    public UserProfile updateName(String username, String password, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
         UserProfile user = getUserProfileByUsername(username, password);
             String[] newName = formatName(newFirstName, newLastName);
             newFirstName = newName[0];
@@ -148,13 +157,8 @@ public class UserProfileService {
 
         return user;
 
-
-
-
-
     }
 
-    //TODO update password
     @Transactional
     public UserProfile updatePassword(String username, String password, String newPassword) throws DataAccessException, IllegalArgumentException{
         UserProfile user = getUserProfileByUsername(username, password);
@@ -165,11 +169,8 @@ public class UserProfileService {
             userRepository.save(user);
 
         return user;
-
-
     }
 
-    //TODO update admin status
     @Transactional
     public UserProfile updateAdminStatus(String username, String password, boolean isAdmin) throws DataAccessException{
         UserProfile user = getUserProfileByUsername(username, password);
@@ -181,15 +182,48 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile deleteUserProfile(String username) throws DataAccessException{
-        UserProfile user = getUserProfileByUsername(username);
-
-            userRepository.delete(user);
-
+    public UserProfile updateAddress(String username, String password, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username, password);
+        Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
+        user.setAddress(address);
+        userRepository.save(user);
         return user;
     }
 
+    @Transactional
+    public UserProfile updateCurrentOrder(String username, int artworkId) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username);
+        Order order = orderService.placeOrder(artworkId, username);
+        user.setCurrentOrder(order);
+        userRepository.save(user);
 
+        return user;
+
+    }
+
+    @Transactional
+    public UserProfile removeCurrentOrder(String username) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username);
+        user.setCurrentOrder(null);
+        userRepository.save(user);
+        return user;
+    }
+
+    // ----- Deletion methods -----
+    @Transactional
+    public void deleteUserProfile(String username) throws DataAccessException {
+        if(username == null || username.trim().length() == 0) throw new IllegalArgumentException("requested username is null or length 0. Please enter valid username.");
+        UserProfile user = getUserProfileByUsername(username);
+        if(user == null) throw new IllegalArgumentException("requested user " + username + " does not exist in the system.");
+        //if(user.getGalleryEvent().size() != 0) throw new IllegalArgumentException("Cannot delete this user, because it is register to a galleryEvent!");
+
+        for(GalleryEvent g : user.getGalleryEvent()) {
+            eventService.unregisterUserToEvent(user, g);
+        }
+        userRepository.deleteUserProfileByUsername(username);
+    }
+
+    // ----- Get methods -----
     @Transactional
     public UserProfile getUserProfileByUsername(String username, String password) throws DataAccessException{
         UserProfile user = null;
@@ -280,7 +314,7 @@ public class UserProfileService {
 
 
 
-    //helper methods
+    // ----- Helper methods -----
 
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
