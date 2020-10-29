@@ -53,9 +53,14 @@ public class UserProfileController {
         return userService.getAllUsers().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
+//    @GetMapping(value = {"/users/{username}", "/users/{username}/"})
+//    public UserProfileDto getUserProfileByUsernameAndPassword(@PathVariable("username") String username, @RequestParam String password) throws DataAccessException {
+//        return convertToDto(userService.getUserProfileByUsername(username, password));
+//    }
+
     @GetMapping(value = {"/users/{username}", "/users/{username}/"})
-    public UserProfileDto getUserProfileByUsernameAndPassword(@PathVariable("username") String username, @RequestParam String password) throws DataAccessException {
-        return convertToDto(userService.getUserProfileByUsername(username, password));
+    public UserProfileDto getUserProfileByUsernameAndPassword(@PathVariable("username") String username) throws DataAccessException {
+        return convertToDto(userService.getUserProfileByUsername(username));
     }
 
 //    @GetMapping(value = {"/users/{email}", "/users/{email}/"})
@@ -137,9 +142,9 @@ public class UserProfileController {
     }
 
     // ----- Deletion methods -----
-    @DeleteMapping(value = {"users/{username}/delete", "users/{username}/delete/"})
-    public UserProfileDto deleteUser(@PathVariable("username") String username) throws DataAccessException {
-        return convertToDto(userService.deleteUserProfile(username));
+    @DeleteMapping(value = {"users/{username}", "users/{username}/"})
+    public void deleteUser(@PathVariable("username") String username) throws DataAccessException {
+         userService.deleteUserProfile(username);
     }
 
 

@@ -93,6 +93,17 @@ public class GalleryEventRestController {
         eventService.registerUserToEvent(p, e);
     }
 
+    @PutMapping(value = {"/events/unregister", "/events/unregister/"})
+    public void unregisterUserToEvent(
+            @RequestParam(name = "eventId") int eId,
+            @RequestParam(name = "username") String uName)
+            throws IllegalArgumentException {
+
+        GalleryEvent e = eventService.getEventById(eId);
+        UserProfile p = userProfileService.getUserProfileByUsername(uName);
+        eventService.unregisterUserToEvent(p, e);
+    }
+
     /**
      * Delete Event by ID
      * @param id

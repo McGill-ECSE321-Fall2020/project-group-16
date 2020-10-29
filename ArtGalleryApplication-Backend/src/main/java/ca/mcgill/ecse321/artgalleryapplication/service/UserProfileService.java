@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.artgalleryapplication.service;
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
+import net.bytebuddy.pool.TypePool;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -22,6 +23,10 @@ public class UserProfileService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EventService eventService;
+
     private AddressService addressService;
     private OrderService orderService;
 
@@ -206,12 +211,16 @@ public class UserProfileService {
 
     // ----- Deletion methods -----
     @Transactional
-    public UserProfile deleteUserProfile(String username) throws DataAccessException{
+    public void deleteUserProfile(String username) throws DataAccessException {
+        if(username == null || username.trim().length() == 0) throw new IllegalArgumentException("requested username is null or length 0. Please enter valid username.");
         UserProfile user = getUserProfileByUsername(username);
+        if(user == null) throw new IllegalArgumentException("requested user " + username + " does not exist in the system.");
+        //if(user.getGalleryEvent().size() != 0) throw new IllegalArgumentException("Cannot delete this user, because it is register to a galleryEvent!");
 
-            userRepository.delete(user);
-
-        return user;
+        for(GalleryEvent g : user.getGalleryEvent()) {
+            eventService.unregisterUserToEvent(user, g);
+        }
+        userRepository.deleteUserProfileByUsername(username);
     }
 
     // ----- Get methods -----
