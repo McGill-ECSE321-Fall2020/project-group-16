@@ -72,11 +72,21 @@ public class EventService {
         UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
         if(userInSystem == null) throw new IllegalArgumentException("User " + user + " does not exist in system");
 
-        //ISSUE: does this create a new event entry?
-        //       Or will it be rejected b/c we are trying to create a new entry with PK already taken?
-        //       Or will it update the existing entry?
-
         eventInSystem.getParticipants().add(userInSystem);
+        galleryEventRepository.save(eventInSystem);
+    }
+
+    @Transactional
+    public void unregisterUserToEvent(UserProfile user, GalleryEvent event) {
+        if(event == null) throw new IllegalArgumentException("Event to register to is null");
+        if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
+        GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
+        if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
+        if(user == null) throw new IllegalArgumentException("User to register to event is null");
+        UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
+        if(userInSystem == null) throw new IllegalArgumentException("User " + user + " does not exist in system");
+
+        eventInSystem.getParticipants().remove(userInSystem);
         galleryEventRepository.save(eventInSystem);
     }
 
