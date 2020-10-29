@@ -186,6 +186,24 @@ public class ArtworkService {
     public List<Artwork> getArtworkByStatus(ArtworkStatus status) {
     	return toList(artworkRepository.findAllArtworkByArtworkStatus(status));
     }
+
+
+
+
+	@Transactional
+	public void addArtistToArtwork(Artwork a, UserProfile p) {
+		Artwork artworkInSystem = artworkRepository.findArtworkByArtworkId(a.getArtworkId());
+		if(artworkInSystem == null) throw new IllegalArgumentException("No artwork with this id in the system.");
+
+		if(p == null) throw new IllegalArgumentException("null user entered as artist");
+		UserProfile artist1 = userRepository.findByUsername(p.getUsername());
+		if(artist1 == null) throw new IllegalArgumentException("No user in system associated to this username :" + p.getUsername());
+
+		a.getArtist().add(p);
+		p.getArtwork().add(artworkInSystem);
+		userRepository.save(p);
+		artworkRepository.save(artworkInSystem);
+	}
     
     //helper methods
 

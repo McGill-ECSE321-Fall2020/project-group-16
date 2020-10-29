@@ -148,16 +148,6 @@ public class UserProfileController {
         return convertToDto((userService.removeCurrentOrder(username)));
     }
 
-    @PutMapping(value = {"users/add-artwork", "users/add-artwork/"})
-    public void addArtworkToArtist(
-            @RequestParam("username") String username,
-            @RequestParam("artworkId") int artworkId)
-            throws IllegalArgumentException {
-        Artwork a = artworkService.getArtwork(artworkId);
-        UserProfile p = userService.getUserProfileByUsername(username);
-        userService.addArtworkToArtist(a, p);
-    }
-
     // ----- Deletion methods -----
     @DeleteMapping(value = {"users/{username}", "users/{username}/"})
     public void deleteUser(@PathVariable("username") String username) throws DataAccessException {

@@ -104,5 +104,15 @@ public class ArtworkRestController {
 		
 		return artworks;
 	}
+
+	@PutMapping(value = {"/artworks/{id}/add-artist/", "artworks/{id}/add-artist"})
+	public void addArtworkToArtist(
+			@PathVariable("id") int id,
+			@RequestParam("username") String username)
+			throws IllegalArgumentException {
+		Artwork a = artworkService.getArtwork(id);
+		UserProfile p = userService.getUserProfileByUsername(username);
+		artworkService.addArtistToArtwork(a, p);
+	}
 }
  
