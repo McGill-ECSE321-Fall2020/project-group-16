@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.artgalleryapplication.model;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
@@ -71,7 +74,6 @@ return this.endTime;
 
 private Set<UserProfile> participants = new HashSet<>();
 
-        //@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
         @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "gallery_event_participants",

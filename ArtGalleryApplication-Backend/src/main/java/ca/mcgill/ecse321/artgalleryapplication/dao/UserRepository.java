@@ -15,5 +15,6 @@ public interface UserRepository extends CrudRepository<UserProfile, String>{
 	boolean existsByUsername(String username);
 	boolean existsByEmail(String email);
 	List<UserProfile> findByGalleryEvent(int eventId);
+	void deleteUserProfileByUsername(String username);
 
 }
