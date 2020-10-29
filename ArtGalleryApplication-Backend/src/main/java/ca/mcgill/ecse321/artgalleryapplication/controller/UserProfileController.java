@@ -58,10 +58,10 @@ public class UserProfileController {
         return convertToDto(userService.getUserProfileByUsername(username, password));
     }
 
-    @GetMapping(value = {"/users/{email}", "/users/{email}/"})
-    public UserProfileDto getUserProfileByEmailAndPassword(@PathVariable("email") String email, @RequestParam String password) throws DataAccessException {
-        return convertToDto(userService.getUserProfileByEmail(email, password));
-    }
+//    @GetMapping(value = {"/users/{email}", "/users/{email}/"})
+//    public UserProfileDto getUserProfileByEmailAndPassword(@PathVariable("email") String email, @RequestParam String password) throws DataAccessException {
+//        return convertToDto(userService.getUserProfileByEmail(email, password));
+//    }
 
     @GetMapping(value = {"/users/{username}/get-current-order", "users/{username}/get-current-order/"})
     public OrderDto getCurrentOrder(@PathVariable("username") String username) throws DataAccessException {
