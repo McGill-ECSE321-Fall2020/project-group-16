@@ -2,6 +2,8 @@ package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
 import ca.mcgill.ecse321.artgalleryapplication.dto.UserProfileDto;
+import ca.mcgill.ecse321.artgalleryapplication.model.Artwork;
+import ca.mcgill.ecse321.artgalleryapplication.model.GalleryEvent;
 import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
 import ca.mcgill.ecse321.artgalleryapplication.service.*;
 
@@ -22,7 +24,12 @@ public class UserProfileController {
 
     @Autowired
     private UserProfileService userService;
+
+    @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ArtworkService artworkService;
 
     //Mappings + mappings methods
 
@@ -141,13 +148,19 @@ public class UserProfileController {
         return convertToDto((userService.removeCurrentOrder(username)));
     }
 
+    @PutMapping(value = {"users/add-artwork", "users/add-artwork/"})
+    public void addArtworkToArtist(
+            @RequestParam("username") String username,
+            @RequestParam("artworkId") int artworkId)
+            throws IllegalArgumentException {
+        Artwork a = artworkService.getArtwork(artworkId);
+        UserProfile p = userService.getUserProfileByUsername(username);
+        userService.addArtworkToArtist(a, p);
+    }
+
     // ----- Deletion methods -----
     @DeleteMapping(value = {"users/{username}", "users/{username}/"})
     public void deleteUser(@PathVariable("username") String username) throws DataAccessException {
-         userService.deleteUserProfile(username);
+        userService.deleteUserProfile(username);
     }
-
-
-
-
 }
