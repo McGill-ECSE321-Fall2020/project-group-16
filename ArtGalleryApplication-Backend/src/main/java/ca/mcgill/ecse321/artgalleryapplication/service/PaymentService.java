@@ -41,40 +41,51 @@ public class PaymentService {
 
     //create the Transactional methods
     
-    
-    public Payment createPayment(PaymentForm pf, Date pd, String cardNumber, Date expiration, int cvv, int paymentId, Time paymentTime){
+    @Transactional
+    public Payment createPayment(PaymentForm paymentForm, Date paymentDate, String cardNumber, Date expirationDate, int cvv, int paymentId, Time paymentTime){
     	//check if anything is null that shouldn't be
-    	List<String> errors = new ArrayList<String>();
-    	if(pf == null) {
-    		errors.add("PaymentForm must not be null");
+    	ArrayList<String> nulls = new ArrayList<String>();
+    	if(paymentForm == null) {
+    		nulls.add("paymentForm ");
     	}
-    	if(pd == null) {
-    		errors.add("PaymentDate must not be null");
+    	if(paymentDate == null) {
+    		nulls.add("paymentDate ");
     	}
     	if(cardNumber == null) {
-    		errors.add("Card number must not be null");
+    		nulls.add("cardNumber ");
     	}
-    	if(expiration == null) {
-    		errors.add("Expiration date must not be null");
+    	if(expirationDate == null) {
+    		nulls.add("expirationDate ");
     	}
     	if(paymentTime == null) {
-    		errors.add("Payment time must not be null");
+    		nulls.add("paymentTime ");
+    	}
+    	if(cvv/100 > 9) {
+    		throw new IllegalArgumentException("Your cvv must be 3 digits as most");
     	}
     	if(paymentRepository.findPaymentByPaymentId(paymentId)!=null) {
     		throw new IllegalArgumentException("A payment with this payment ID already exists");
     	}
-    	if(errors.size()>0) {
-    		for (String e:errors){
-    			throw new IllegalArgumentException(e);
+    	if(nulls.size()>0) {
+    		String errors = "";
+    		for(String i:nulls) {
+    			errors += i;
     		}
+    		errors += "must not be null";
+    		throw new IllegalArgumentException(errors);
     	}
-    	
+    	if(expirationDate.before(paymentDate)) {
+    		throw new IllegalArgumentException("card has expired");
+    	}
+    	if(cardNumber.trim().length() == 0) {
+    		throw new IllegalArgumentException("cardNumber must not be empty");
+    	}
     	
     	Payment payment = new Payment();
     	payment.setCardNumber(cardNumber);
-    	payment.setPaymentForm(pf);
-    	payment.setPaymentDate(pd);
-    	payment.setExpirationDate(expiration);
+    	payment.setPaymentForm(paymentForm);
+    	payment.setPaymentDate(paymentDate);
+    	payment.setExpirationDate(expirationDate);
     	payment.setCvv(cvv);
     	payment.setPaymentId(paymentId);
     	payment.setPaymentTime(paymentTime);
@@ -83,11 +94,17 @@ public class PaymentService {
     	return payment;
     }
     
+    @Transactional
     public List<Payment> getAllPayments(){
     	return toList(paymentRepository.findAll());
     }
 
+    @Transactional
+    public Payment getPayment(int paymentId) {
+    	return paymentRepository.findPaymentByPaymentId(paymentId);
+    }
     
+    @Transactional
     public List<Payment> getAllPaymentsByCardNumber(String cardNumber){
     	if(cardNumber==null || cardNumber.trim() == null) {
     		throw new IllegalArgumentException("The card number must not be empty");
@@ -100,6 +117,7 @@ public class PaymentService {
     	return payments;
     }
     
+    @Transactional
     public List<Payment> getAllPaymentsByPaymentDate(Date pd){
     	if(pd==null) {
     		throw new IllegalArgumentException("The date must not be empty");
@@ -112,6 +130,7 @@ public class PaymentService {
     	return payments;
     }
     
+    @Transactional
     public List<Payment> getAllPaymentsByPaymentTime(Time pt){
     	if(pt==null) {
     		throw new IllegalArgumentException("The time must not be empty");
@@ -124,6 +143,7 @@ public class PaymentService {
     	return payments;
     }
     
+    @Transactional
     public Payment updatePayment(PaymentForm pf, Date pd, String cardNumber, Date expiration, int cvv, int paymentId, Time paymentTime){
     	if(paymentRepository.findPaymentByPaymentId(paymentId)==null) {
     		throw new IllegalArgumentException("must enter a payment id that is in the table");
@@ -134,14 +154,16 @@ public class PaymentService {
     		p.setPaymentForm(pf);
     	} if (pd != null) {
     		p.setPaymentDate(pd);
-    	} if (cardNumber != null) {
+    	} if (cardNumber != null && cardNumber.trim().length()>0) {
     		p.setCardNumber(cardNumber);
-    	} if (expiration != null) {
+    	} if (expiration != null && expiration.after(pd)) {
     		p.setExpirationDate(expiration);
     	} if(paymentTime != null) {
     		p.setPaymentTime(paymentTime);
     	}				
-    	p.setCvv(cvv);
+    	if(cvv/100 <= 9) {
+    		p.setCvv(cvv);
+    	}
     	paymentRepository.save(p);
     	return p;
     }	

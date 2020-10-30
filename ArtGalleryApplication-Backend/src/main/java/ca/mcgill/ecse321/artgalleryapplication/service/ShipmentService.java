@@ -7,6 +7,7 @@ import ca.mcgill.ecse321.artgalleryapplication.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
@@ -38,51 +39,65 @@ public class ShipmentService {
 
 
 
-    //create the Transactional methods
-
-    public Shipment createShipment(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
-    	List<String> errors = new ArrayList<String>();
-    	if(toGal == null) {
-    		errors.add("toGallery variable must not be null");
+    @Transactional
+    public Shipment createShipment(Boolean toGallery, Time estimatedArrivalTime, int shipmentId, Date estimatedArrivalDate, Address returnAddress, Address destinationAddress) {
+    	List<String> nulls = new ArrayList<String>();
+    	if(toGallery == null) {
+    		nulls.add("toGallery ");
     	}
-    	if(eta == null) {
-    		errors.add("ETA must not be null");
+    	if(estimatedArrivalTime == null) {
+    		nulls.add("estimatedArrivalTime ");
     	}
-    	if(estimatedArrival == null) {
-    		errors.add("Estimated arrival date must not be null");
+    	if(estimatedArrivalDate == null) {
+    		nulls.add("estimatedArrivalDate ");
     	}
-    	if(r == null) {
-    		errors.add("Return address must not be null");
+    	if(returnAddress == null) {
+    		nulls.add("returnAddress ");
     	}
-    	if(d == null) {
-    		errors.add("Destination address must not be null");
+    	if(destinationAddress == null) {
+    		nulls.add("destinationAddress ");
     	}
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)!= null) {
     		throw new IllegalArgumentException("A shipment with this shipment ID already exists");
     	}
-    	if(errors.size()>0) {
-    		for (String e:errors){
-    			throw new IllegalArgumentException(e);
+    	
+    	if(nulls.size()>0) {
+    		String errors = "";
+    		for (String e:nulls){
+    			errors += e;
     		}
+    		errors += "must not be null";
+    		throw new IllegalArgumentException(errors);
     	}
     	
+    	if(equalAddresses(destinationAddress, returnAddress)) {
+    		throw new IllegalArgumentException("must have different destination and return addresses");
+    	}
     	Shipment s = new Shipment();
-    	s.setDestination(d);
-    	s.setEstimatedArrivalDate(estimatedArrival);
-    	s.setEstimatedArrivalTime(eta);
-    	s.setReturnAddress(r);
+    	s.setDestination(destinationAddress);
+    	s.setEstimatedArrivalDate(estimatedArrivalDate);
+    	s.setEstimatedArrivalTime(estimatedArrivalTime);
+    	s.setReturnAddress(returnAddress);
     	s.setShipmentId(shipmentId);
-    	s.setToGallery(toGal);
+    	s.setToGallery(toGallery);
     	
     	shipmentRepository.save(s);
     	return s;
     }
+    
+    @Transactional
+    public Shipment getShipment(int shipmentId) {
+    	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
+    	return s;
+    }
 
+    @Transactional
     public List<Shipment> getAllShipments(){
     	return toList(shipmentRepository.findAll());
     }
 
-    public List<Shipment> getAllShipmentByToGallery(Boolean toGal){
+    @Transactional
+    public List<Shipment> getAllShipmentsByToGallery(Boolean toGal){
     	if(toGal == null) {
     		throw new IllegalArgumentException("Must enter a boolean variable");
     	}
@@ -94,7 +109,8 @@ public class ShipmentService {
     	return s;
     }
     
-    public List<Shipment> getAllShipmentByETA(Time eta){
+    @Transactional
+    public List<Shipment> getAllShipmentsByEstimatedArrivalTime(Time eta){
     	if(eta == null) {
     		throw new IllegalArgumentException("Must enter a Time variable");
     	}
@@ -105,7 +121,9 @@ public class ShipmentService {
     	}
     	return s;
     }
-    public List<Shipment> getAllShipmentByEstimatedArrival(Date arrivalDate){
+    
+    @Transactional
+    public List<Shipment> getAllShipmentsByEstimatedArrivalDate(Date arrivalDate){
     	if(arrivalDate == null) {
     		throw new IllegalArgumentException("Must enter a Date variable");
     	}
@@ -116,7 +134,9 @@ public class ShipmentService {
     	}
     	return s;
     }
-    public List<Shipment> getAllShipmentByReturnAddress(Address r){
+    
+    @Transactional
+    public List<Shipment> getAllShipmentsByReturnAddress(Address r){
     	if(r == null) {
     		throw new IllegalArgumentException("Must enter a return address");
     	}
@@ -127,7 +147,9 @@ public class ShipmentService {
     	}
     	return s;
     }
-    public List<Shipment> getAllShipmentByDestination(Address d){
+    
+    @Transactional
+    public List<Shipment> getAllShipmentsByDestinationAddress(Address d){
     	if(d == null) {
     		throw new IllegalArgumentException("Must enter a destination address");
     	}
@@ -139,6 +161,7 @@ public class ShipmentService {
     	return s;
     }
     
+    @Transactional
     public Shipment updateShipment(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)==null) {
     		throw new IllegalArgumentException("must enter a shipment id that is in the table");
@@ -160,6 +183,7 @@ public class ShipmentService {
     	return s;
     }
 
+    @Transactional
     public void deleteShipment(int shipmentId) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId) == null) {
     		throw new IllegalArgumentException("No shipment with this ID exists");
@@ -177,4 +201,24 @@ public class ShipmentService {
         }
         return resultList;
     }
+    
+    private static Boolean equalAddresses(Address a1, Address a2) {
+    	if(!a1.getStreetAddress().equals(a2.getStreetAddress())) {
+    		return false;
+    	} if(!a1.getStreetAddress2().equals(a2.getStreetAddress2())) {
+    		return false;
+    	} if(!a1.getPostalCode().equals(a2.getPostalCode())) {
+    		return false;
+    	} if(!a1.getCity().equals(a2.getCity())) {
+    		return false;
+    	} if(!a1.getProvince().equals(a2.getProvince())) {
+    		return false;
+    	} if(!a1.getCountry().equals(a2.getCountry())) {
+    		return false;
+    	}
+    	
+    	return true;
+    	
+    }
+    
 }

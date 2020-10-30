@@ -52,8 +52,40 @@ public class AddressRestController {
         return ConvertToDto.convertToDto(address);
     }
 
+    /**
+     * Delete an address
+     * @param id
+     * @throws IllegalArgumentException
+     */
     @DeleteMapping(value = { "/address/{id}", "/address/{id}/" })
     public void deleteAddress(@PathVariable("id") int id) throws IllegalArgumentException {
         addressService.deleteAddress(id);
+    }
+
+    /**
+     * Update the fields of an address
+     * @param id
+     * @param streetAddress
+     * @param streetAddress2
+     * @param postalCode
+     * @param city
+     * @param province
+     * @param country
+     * @return
+     * @throws IllegalArgumentException
+     */
+    @PutMapping(value = { "/address/{id}", "/address/{id}/" })
+    public AddressDto updateAddress(
+            @PathVariable("id") int id,
+            @RequestParam String streetAddress,
+            @RequestParam String streetAddress2,
+            @RequestParam String postalCode,
+            @RequestParam String city,
+            @RequestParam String province,
+            @RequestParam String country)
+            throws IllegalArgumentException {
+
+        Address address = addressService.updateAddress(id, streetAddress, streetAddress2, postalCode, city, province, country);
+        return ConvertToDto.convertToDto(address);
     }
 }

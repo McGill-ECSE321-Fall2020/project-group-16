@@ -1,25 +1,21 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
-import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.ArtworkDto;
-import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
-import ca.mcgill.ecse321.artgalleryapplication.dto.UserProfileDto;
 import ca.mcgill.ecse321.artgalleryapplication.model.Artwork;
 import ca.mcgill.ecse321.artgalleryapplication.model.ArtworkStatus;
-import ca.mcgill.ecse321.artgalleryapplication.model.Order;
 import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
 import ca.mcgill.ecse321.artgalleryapplication.service.ArtworkService;
 import ca.mcgill.ecse321.artgalleryapplication.service.UserProfileService;
 
+@CrossOrigin(origins = "*")
+@RestController
 public class ArtworkRestController {
 	
 	@Autowired
@@ -29,27 +25,24 @@ public class ArtworkRestController {
 	private UserProfileService userService;
 	
 	
-	@PostMapping(value = {"/artworks", "/artworks/"}) 
-	public ArtworkDto createArtwork (@RequestParam("artworkId") int artworkId,
-									 @RequestParam("title") String title,
-									 @RequestParam("description") String description,
-									 @RequestParam("creationDate") Date creationDate,
-									 @RequestParam("medium") String medium,
-									 @RequestParam("imageUrl") String imageUrl,
-									 @RequestParam("price") Double price,
-									 @RequestParam("status") ArtworkStatus status,
-									 @RequestParam("dimensions") String dimensions,
-									 @RequestParam("collection") String collection )
-									 throws IllegalArgumentException{
-		
-		Artwork artwork = artworkService.createArtwork(artworkId, title, description, creationDate, 
-													   medium, imageUrl, price, status, 
-													   dimensions, collection);
-		
-		return ConvertToDto.convertToDto(artwork);
+	@PostMapping(value = {"/artworks/{title}", "/artworks/{title}/"})
+	public ArtworkDto createArtwork (
+			@PathVariable("title") String title,
+			@RequestParam String description,
+			@RequestParam Date creationDate,
+			@RequestParam String medium,
+			@RequestParam String imageUrl,
+			@RequestParam Double price,
+			@RequestParam ArtworkStatus status,
+			@RequestParam String dimensions,
+			@RequestParam String collection )
+			throws IllegalArgumentException{
+
+		return artworkService.createArtwork(title, description, creationDate,
+				medium, imageUrl, price, status,
+				dimensions, collection);
 	}
-	
-	
+
 	@GetMapping(value = {"/artworks/{id}", "/artworks/{id}/"})	
 	public ArtworkDto getArtworkById(@PathVariable("id") int id) {
 		Artwork a = artworkService.getArtwork(id);
@@ -66,6 +59,20 @@ public class ArtworkRestController {
 		}
 		
 		return artworks;
+	}
+
+	@PutMapping(value = {"/artworks/{id}/update", "/artworks/{id}/update/"})
+	public void updateArtworkFields (
+			@PathVariable("id") int id,
+			@RequestParam String title,
+			@RequestParam String newDescription,
+			@RequestParam String newImageUrl,
+			@RequestParam Double newPrice,
+			@RequestParam ArtworkStatus newStatus,
+			@RequestParam String newDimensions,
+			@RequestParam String newCollection ) {
+
+		artworkService.updateArtworkFields(id, title, newDescription, newImageUrl, newPrice, newStatus, newDimensions, newCollection);
 	}
 	
 
@@ -91,6 +98,15 @@ public class ArtworkRestController {
 		
 		return artworks;
 	}
-	
+
+	@PutMapping(value = {"/artworks/{id}/add-artist/", "artworks/{id}/add-artist"})
+	public void addArtworkToArtist(
+			@PathVariable("id") int id,
+			@RequestParam("username") String username)
+			throws IllegalArgumentException {
+		Artwork a = artworkService.getArtwork(id);
+		UserProfile p = userService.getUserProfileByUsername(username);
+		artworkService.addArtistToArtwork(a, p);
+	}
 }
  

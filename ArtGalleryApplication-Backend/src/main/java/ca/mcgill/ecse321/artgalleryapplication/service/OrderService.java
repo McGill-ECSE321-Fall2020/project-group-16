@@ -13,7 +13,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus.*;
 
@@ -42,12 +41,11 @@ public class OrderService {
      */
     @Transactional
     public Order placeOrder(int artworkId, String username){
-        int orderId = artworkId * username.hashCode();
         Date orderDate = Date.valueOf(LocalDate.now());
         Time orderTime = Time.valueOf(LocalTime.now());
 
         if (username.trim().length() == 0)
-            throw new IllegalArgumentException("Customer Username cannot be empty or have spaces.");
+            throw new IllegalArgumentException("Customer Username cannot be empty.");
 
         Artwork artwork = artworkRepository.findArtworkByArtworkId(artworkId);
         if (artwork == null) {
@@ -60,11 +58,10 @@ public class OrderService {
         }
 
         Order order = new Order();
-        order.setOrderId(orderId);
         order.setOrderStatus(PaymentPending);
+        order.setTotalAmount(artwork.getPrice());
         order.setOrderDate(orderDate);
         order.setOrderTime(orderTime);
-        order.setTotalAmount(artwork.getPrice());
         order.setArtwork(artwork);
         order.setCustomer(customer);
         orderRepository.save(order);
@@ -117,11 +114,22 @@ public class OrderService {
      */  
     public List<Order> getOrdersByUser(String username) {
         UserProfile customer = userRepository.findByUsername(username);
-
         if (customer == null)
             throw new IllegalArgumentException("No user associated with this username.");
 
         return orderRepository.findByCustomer(customer);
+    }
+
+    /**
+     *
+     * @param orderStatus
+     * @return list of orders
+     */
+    public List<Order> getOrdersByStatus(OrderStatus orderStatus) {
+        if (orderStatus == null)
+            throw new IllegalArgumentException("Not a valid OrderStatus.");
+
+        return orderRepository.findByOrderStatus(orderStatus);
     }
 
     /**
@@ -182,146 +190,6 @@ public class OrderService {
 
 
     // --- Update --- //
-
-    /**
-     * 
-     * @param order
-     * @param artworkId
-     * @return an updated order
-     */
-    @Transactional
-    public Order updateOrderArtwork(Order order, int artworkId){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
-        if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
-
-        Artwork artwork = artworkRepository.findArtworkByArtworkId(artworkId);
-        if (artwork == null)
-            throw new IllegalArgumentException("No artwork associated with this id.");
-
-        updateOrder.setArtwork(artwork);
-        orderRepository.save(updateOrder);
-        return updateOrder;
-    }
-
-    /**
-     * 
-     * @param order
-     * @param customerUsername
-     * @return an updated order
-     */
-    @Transactional
-    public Order updateOrderCustomer(Order order, String customerUsername){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
-        if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
-
-        UserProfile customer = userRepository.findByUsername(customerUsername);
-        if (customer == null)
-            throw new IllegalArgumentException("No user associated with this username.");
-
-        updateOrder.setCustomer(customer);
-        orderRepository.save(updateOrder);
-        return updateOrder;
-    }
-
-    /**
-     * 
-     * @param order
-     * @param paymentId
-     * @return an updated order
-     */
-    @Transactional
-    public Order updateOrderPayment(Order order, int paymentId){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
-        if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
-
-        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
-        if (payment == null)
-            throw new IllegalArgumentException("No Payment associated with this id.");
-
-        updateOrder.setPayment(payment);
-        orderRepository.save(updateOrder);
-        return updateOrder;
-    }
-
-    /**
-     * 
-     * @param order
-     * @param shipmentId
-     * @return an updated order
-     */
-    @Transactional
-    public Order updateOrderShippment(Order order, int shipmentId){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
-        if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
-
-        Shipment shipment = shipmentRepository.findShipmentByShipmentId(shipmentId);
-        if (shipment == null)
-            throw new IllegalArgumentException("No Shipment associated with this id.");
-
-        updateOrder.setShipment(shipment);
-        orderRepository.save(updateOrder);
-        return updateOrder;
-    }
-
-    /**
-     * 
-     * @param order
-     * @param orderDate
-     * @return an updated order
-     */
-    @Transactional
-    public Order updateOrderDate(Order order, Date orderDate){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
-        if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
-        if (orderDate == null)
-            throw new IllegalArgumentException("Order Date cannot be empty.");
-
-        updateOrder.setOrderDate(orderDate);
-        orderRepository.save(updateOrder);
-        return updateOrder;
-    }
-
-    /**
-     * 
-     * @param order
-     * @param orderTime
-     * @return an updated order
-     */
-    @Transactional
-    public Order updateOrderTime(Order order, Time orderTime){
-        if (order == null)
-            throw new IllegalArgumentException("An order is required to be updated.");
-
-        Order updateOrder = orderRepository.findOrderByOrderId(order.getOrderId());
-        if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
-        if (orderTime == null)
-            throw new IllegalArgumentException("Order Time cannot be empty.");
-
-        updateOrder.setOrderTime(orderTime);
-        orderRepository.save(updateOrder);
-        return updateOrder;
-    }
 
     /**
      * 

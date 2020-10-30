@@ -15,16 +15,19 @@ public class ConvertToDto {
 
         UserProfileDto userDto = convertToDto(order.getCustomer());
         ArtworkDto artworkDto = convertToDto(order.getArtwork());
-        return new OrderDto(order.getOrderId(), userDto, artworkDto, order.getOrderDate(), order.getOrderTime());
+        PaymentDto paymentDto = convertToDto(order.getPayment());
+        ShipmentDto shipmentDto = convertToDto(order.getShipment());
+
+        return new OrderDto(order.getOrderId(), userDto, artworkDto, order.getTotalAmount(), order.getOrderStatus(),
+                order.getOrderDate(), order.getOrderTime(), paymentDto, shipmentDto);
     }
 
-    public static UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException{
+    public static UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException {
         if (user == null) {
             throw new IllegalArgumentException("The user cannot be null");
         }
 
         return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin(), user.getDescription(), user.getProfileImageUrl(), convertToDto(user.getCurrentOrder()), user.getPastOrders().stream().map(o -> convertToDto(o)).collect(Collectors.toSet()), convertToDto(user.getAddress()), user.getGalleryEvent().stream().map(e -> convertToDto(e)).collect(Collectors.toSet()), user.getArtwork().stream().map(a -> convertToDto(a)).collect(Collectors.toSet()));
-
     }
 
     public static ArtworkDto convertToDto(Artwork a) throws IllegalArgumentException {
@@ -32,9 +35,14 @@ public class ConvertToDto {
             throw new IllegalArgumentException("Artwork cannot be null");
         }
 
+        List<UserProfileDto> userProfileDtos = new ArrayList<>();
+        for(UserProfile u : a.getArtist()) {
+            userProfileDtos.add(ConvertToDto.convertToDto(u));
+        }
+
         return new ArtworkDto(a.getArtworkId(), a.getTitle(), a.getDescription(), a.getCreationDate(),
                 a.getMedium(), a.getImageUrl(), a.getPrice(), a.getArtworkStatus(),
-                a.getDimensions(), a.getCollection());
+                a.getDimensions(), a.getCollection(), userProfileDtos);
     }
 
     public static GalleryEventDto convertToDto(GalleryEvent e) {
@@ -46,18 +54,34 @@ public class ConvertToDto {
             userProfileDtos.add(ConvertToDto.convertToDto(u));
         }
 
-        GalleryEventDto eventDto = new GalleryEventDto(e.getEventId(), e.getEventName(),e.getEventDescription(), e.getEventImageUrl(), e.getEventDate(), e.getStartTime(),e.getEndTime(), userProfileDtos);
-        return eventDto;
+        return new GalleryEventDto(e.getEventId(), e.getEventName(),e.getEventDescription(), e.getEventImageUrl(),
+                e.getEventDate(), e.getStartTime(),e.getEndTime(), userProfileDtos);
     }
 
     public static AddressDto convertToDto(Address a) {
         if(a == null) throw new IllegalArgumentException("Address is null");
-        AddressDto addressDto = new AddressDto(a.getAddressId(), a.getStreetAddress(), a.getStreetAddress2(), a.getPostalCode(), a.getCity(), a.getProvince(), a.getCountry());
-        return addressDto;
+        return new AddressDto(a.getAddressId(), a.getStreetAddress(), a.getStreetAddress2(), a.getPostalCode(),
+                a.getCity(), a.getProvince(), a.getCountry());
     }
 
+    // Can return null for order to function
+    public static PaymentDto convertToDto(Payment p) {
+    	if(p == null) {
+    		return null;
+    	}
+        return new PaymentDto(p.getPaymentForm(), p.getPaymentDate(), p.getCardNumber(), p.getExpirationDate(), p.getCvv(), p.getPaymentId(), p.getPaymentTime());
+    }
+
+    // Can return null for order to function
+    public static ShipmentDto convertToDto(Shipment s) {
+    	if(s == null) {
+            return null;
+    	}
+        return new ShipmentDto(s.getToGallery(), s.getEstimatedArrivalTime(), s.getShipmentId(), s.getEstimatedArrivalDate(), s.getReturnAddress(), s.getDestination());
+    }
+    
     private static <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }

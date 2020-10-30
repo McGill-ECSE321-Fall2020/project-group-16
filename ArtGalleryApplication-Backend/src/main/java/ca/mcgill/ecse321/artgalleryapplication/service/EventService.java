@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -64,13 +63,9 @@ public class EventService {
      */
     @Transactional
     public void registerUserToEvent(UserProfile user, GalleryEvent event) {
-        if(event == null) throw new IllegalArgumentException("Event to register to is null");
-        if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
+        checkValidUserAndEvent(user, event);
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
-        if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
-        if(user == null) throw new IllegalArgumentException("User to register to event is null");
         UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
-        if(userInSystem == null) throw new IllegalArgumentException("User " + user + " does not exist in system");
 
         eventInSystem.getParticipants().add(userInSystem);
         galleryEventRepository.save(eventInSystem);
@@ -78,13 +73,9 @@ public class EventService {
 
     @Transactional
     public void unregisterUserToEvent(UserProfile user, GalleryEvent event) {
-        if(event == null) throw new IllegalArgumentException("Event to register to is null");
-        if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
+        checkValidUserAndEvent(user, event);
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
-        if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
-        if(user == null) throw new IllegalArgumentException("User to register to event is null");
         UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
-        if(userInSystem == null) throw new IllegalArgumentException("User " + user + " does not exist in system");
 
         eventInSystem.getParticipants().remove(userInSystem);
         galleryEventRepository.save(eventInSystem);
@@ -124,6 +115,27 @@ public class EventService {
         return event;
     }
 
+    /**
+     * Helper method to check validity of user and event inputs
+     * @param user
+     * @param event
+     */
+    private void checkValidUserAndEvent(UserProfile user, GalleryEvent event) {
+        if(event == null) throw new IllegalArgumentException("Event to register to is null");
+        if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
+        GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
+        if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
+        if(user == null) throw new IllegalArgumentException("User to register to event is null");
+        UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
+        if(userInSystem == null) throw new IllegalArgumentException("User " + user + " does not exist in system");
+    }
+
+    /**
+     * Helper toList method
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<T>();
         for (T t : iterable) {

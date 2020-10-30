@@ -4,6 +4,7 @@ import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,11 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
 
 @Service
 public class ArtworkService {
@@ -53,12 +57,15 @@ public class ArtworkService {
      * @TODO add error handling for inputs?
      */
     @Transactional
-    public Artwork createArtwork(int id, String title,  String description,  Date creationDate, 
+    public ArtworkDto createArtwork(String title,  String description,  Date creationDate,
     							 String medium, String imageUrl, Double price, ArtworkStatus status,
     							 String dimensions, String collection) {
-    	
+
+		if(title == null || title.trim().length() == 0) throw new IllegalArgumentException("title is null or length 0. Please enter valid title");
+    	if(price == null) throw new IllegalArgumentException("Entered price is null. Please enter a valid price.");
+		if(status == null) throw new IllegalArgumentException("Entered artwork status is null. Please enter a valid status");
+
     	Artwork artwork = new Artwork();
-    	artwork.setArtworkId(id);
     	artwork.setTitle(title);
     	artwork.setDescription(description);
     	artwork.setCreationDate(creationDate);
@@ -68,15 +75,32 @@ public class ArtworkService {
     	artwork.setArtworkStatus(status);
     	artwork.setDimensions(dimensions);
     	artwork.setCollection(collection);
-    	
+
     	artworkRepository.save(artwork);
-    	return artwork;
+
+    	return convertToDto(artwork);
     }
+
+	@Transactional
+	public Artwork updateArtworkFields(int id, String newTitle, String newDescription, String newImageUrl, double newPrice, ArtworkStatus newStatus, String newDimensions, String newCollection) {
+
+    	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
+    	if(artwork == null) throw new IllegalArgumentException("No artwork with ID " + id + " in the system.");
+
+		if(newTitle != null && newTitle.trim().length() != 0) artwork.setTitle(newTitle);
+		if(newDescription != null && !newDescription.equals(artwork.getDescription())) artwork.setDescription(newDescription);
+		if(newImageUrl != null && !newImageUrl.equals(artwork.getImageUrl())) artwork.setImageUrl(newImageUrl);
+		if(newPrice != artwork.getPrice()) artwork.setPrice(newPrice);
+		if(newStatus != artwork.getArtworkStatus()) artwork.setArtworkStatus(newStatus);
+		if(!newDimensions.equals(artwork.getDimensions())) artwork.setDimensions(newDimensions);
+		if(!newCollection.equals(artwork.getCollection())) artwork.setCollection(newCollection);
+		artworkRepository.save(artwork);
+		return artwork;
+	}
     
     @Transactional
     public Artwork getArtwork(int id) {
-    	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
-    	return artwork;
+		return artworkRepository.findArtworkByArtworkId(id);
     }
 
     @Transactional
@@ -87,7 +111,7 @@ public class ArtworkService {
     @Transactional
     //method that returns first n artworks instead of all of them
     public List<Artwork> getFirstNArtworks(int n) {
-    	List<Artwork> firstNArtworks = new ArrayList<Artwork>();
+    	List<Artwork> firstNArtworks = new ArrayList<>();
     	for(int i = 0; i < n; i++) {
     		firstNArtworks.add( (toList(artworkRepository.findAll())).get(i) );
     	}
@@ -102,7 +126,7 @@ public class ArtworkService {
     @Transactional
     public List<Artwork> getArtworkByPrice(Double minPrice, Double maxPrice) {
     	List<Artwork> allArtwork = toList(artworkRepository.findAll());
-    	List<Artwork> filteredArtwork = new ArrayList<Artwork>();
+    	List<Artwork> filteredArtwork = new ArrayList<>();
     	
     	//error handling
     	//users don't have to input a max or min price  	
@@ -132,7 +156,7 @@ public class ArtworkService {
     @Transactional
     public List<Artwork> getArtworkByCreationDate(Date minDate, Date maxDate) {
     	List<Artwork> allArtwork = toList(artworkRepository.findAll());
-    	List<Artwork> filteredArtwork = new ArrayList<Artwork>();
+    	List<Artwork> filteredArtwork = new ArrayList<>();
     	
     	//error handling
     	//users don't have to input a max or min price  	
@@ -142,8 +166,7 @@ public class ArtworkService {
     	}
     	
     	if(maxDate == null) {
-    		Date today = new Date(System.currentTimeMillis());
-    		maxDate = today;
+			maxDate = new Date(System.currentTimeMillis());
     	}
     	
     	//@TODO might've gotten Date.compareTo backwards, need to double check
@@ -165,11 +188,29 @@ public class ArtworkService {
     public List<Artwork> getArtworkByStatus(ArtworkStatus status) {
     	return toList(artworkRepository.findAllArtworkByArtworkStatus(status));
     }
+
+
+
+
+	@Transactional
+	public void addArtistToArtwork(Artwork a, UserProfile p) {
+		Artwork artworkInSystem = artworkRepository.findArtworkByArtworkId(a.getArtworkId());
+		if(artworkInSystem == null) throw new IllegalArgumentException("No artwork with this id in the system.");
+
+		if(p == null) throw new IllegalArgumentException("null user entered as artist");
+		UserProfile artist1 = userRepository.findByUsername(p.getUsername());
+		if(artist1 == null) throw new IllegalArgumentException("No user in system associated to this username :" + p.getUsername());
+
+		a.getArtist().add(p);
+		p.getArtwork().add(artworkInSystem);
+		userRepository.save(p);
+		artworkRepository.save(artworkInSystem);
+	}
     
     //helper methods
 
     private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }

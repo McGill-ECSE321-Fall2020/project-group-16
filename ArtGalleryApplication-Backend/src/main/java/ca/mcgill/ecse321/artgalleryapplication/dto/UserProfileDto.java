@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.artgalleryapplication.dto;
 
+import java.util.List;
 import java.util.Set;
 
 public class UserProfileDto {
@@ -12,10 +13,10 @@ public class UserProfileDto {
     private String profileImageUrl;
     private boolean isAdmin;
     private OrderDto currentOrder;
-    private Set<OrderDto> pastOrders;
+    private List<OrderDto> pastOrders;
     private AddressDto address;
-    private Set<GalleryEventDto> events;
-    private Set<ArtworkDto> artworks;
+    private List<GalleryEventDto> events;
+    private List<ArtworkDto> artworks;
 
     public UserProfileDto(String firstName, String lastName, String username, String email, String password) {
         this(firstName, lastName, username, email, password, false);
@@ -28,6 +29,8 @@ public class UserProfileDto {
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
+        //this.artworks = artworks;
+        //this.pastOrders = pastOrders;
     }
 
     public UserProfileDto(String firstName, String lastName, String username, String email, String password, boolean isAdmin, String description, String profileImageUrl ,OrderDto currentOrder, Set<OrderDto> pastOrders, AddressDto address, Set<GalleryEventDto> events, Set<ArtworkDto> artworks) {
@@ -35,10 +38,10 @@ public class UserProfileDto {
         this.setDescription(description);
         this.setProfileImageUrl(profileImageUrl);
         this.setCurrentOrder(currentOrder);
-        this.setPastOrders(pastOrders);
+//        this.setPastOrders(pastOrders);
         this.setAddress(address);
-        this.setEvents(events);
-        this.setArtworks(artworks);
+//        this.setEvents(events);
+//        this.setArtworks(artworks);
     }
 
     public String getUsername() {
@@ -109,19 +112,19 @@ public class UserProfileDto {
         this.currentOrder = currentOrder;
     }
 
-    public Set<OrderDto> getPastOrders() {
+    public List<OrderDto> getPastOrders() {
         return pastOrders;
     }
 
-    public void setPastOrders(Set<OrderDto> pastOrders) {
+    public void setPastOrders(List<OrderDto> pastOrders) {
         this.pastOrders = pastOrders;
     }
 
-    public Set<ArtworkDto> getArtworks() {
+    public List<ArtworkDto> getArtworks() {
         return artworks;
     }
 
-    public void setArtworks(Set<ArtworkDto> artworks) {
+    public void setArtworks(List<ArtworkDto> artworks) {
         this.artworks = artworks;
     }
 
@@ -133,11 +136,11 @@ public class UserProfileDto {
         return isAdmin;
     }
 
-    public Set<GalleryEventDto> getEvents() {
+    public List<GalleryEventDto> getEvents() {
         return events;
     }
 
-    public void setEvents(Set<GalleryEventDto> events) {
+    public void setEvents(List<GalleryEventDto> events) {
         this.events = events;
     }
 }
