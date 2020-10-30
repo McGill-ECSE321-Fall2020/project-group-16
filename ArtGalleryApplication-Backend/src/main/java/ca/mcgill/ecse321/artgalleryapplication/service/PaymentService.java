@@ -51,7 +51,7 @@ public class PaymentService {
     	if(paymentDate == null) {
     		errors.add("PaymentDate must not be null");
     	}
-    	if(cardNumber == null) {
+    	if(cardNumber == null || cardNumber.isBlank()) {
     		errors.add("Card number must not be null");
     	}
     	if(expirationDate == null) {
