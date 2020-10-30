@@ -63,16 +63,18 @@ public class ConvertToDto {
                 a.getCity(), a.getProvince(), a.getCountry());
     }
 
+    // Can return null for order to function
     public static PaymentDto convertToDto(Payment p) {
     	if(p == null) {
-    		throw new IllegalArgumentException("Payment is null");
+    		return null;
     	}
         return new PaymentDto(p.getPaymentForm(), p.getPaymentDate(), p.getCardNumber(), p.getExpirationDate(), p.getCvv(), p.getPaymentId(), p.getPaymentTime());
     }
-    
+
+    // Can return null for order to function
     public static ShipmentDto convertToDto(Shipment s) {
     	if(s == null) {
-    		throw new IllegalArgumentException("shipment is null");
+            return null;
     	}
         return new ShipmentDto(s.getToGallery(), s.getEstimatedArrivalTime(), s.getShipmentId(), s.getEstimatedArrivalDate(), s.getReturnAddress(), s.getDestination());
     }
