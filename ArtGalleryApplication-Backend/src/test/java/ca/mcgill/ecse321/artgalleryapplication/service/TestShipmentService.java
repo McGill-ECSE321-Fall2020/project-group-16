@@ -93,6 +93,99 @@ public class TestShipmentService {
 		assertEquals(destinationAddress, shipment.getDestination());
 	}
 	
+	@Test
+	public void testCreateShipmentNull() {
+		Shipment shipment = null;
+		String error = null;
+		String theoreticalError="";
+		ArrayList<String> nulls = new ArrayList<String>();
+		Boolean toGallery;
+		Time estimatedArrivalTime;
+		Date estimatedArrivalDate;
+		Address returnAddress;
+		Address destinationAddress;
+		int shipmentId = 555555555;
+		
+		for(int i = 0; i<2; i++) {
+			if(i ==1) {
+				toGallery = null;
+				nulls.add("toGallery ");
+			}
+			else toGallery = false;
+			
+			for(int j= 0; j<2; j++) {
+				if(j ==1) {
+					estimatedArrivalTime = null;
+					nulls.add("estimatedArrivalTime ");
+				}
+				else estimatedArrivalTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+				
+				for(int k = 0; k<2; k++) {
+					if(k ==1) {
+						estimatedArrivalDate = null;
+						nulls.add("estimatedArrivalDate ");
+					}
+					else estimatedArrivalDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
+					
+					for(int l=0; l<2; l++) {
+						if(l ==1) {
+							returnAddress = null;
+							nulls.add("returnAddress ");
+						}
+						else returnAddress = createReturnAddress();
+						
+						for(int m = 0; m<2; m++) {
+							if(m ==1) {
+								destinationAddress = null;	
+								nulls.add("destinationAddress ");
+							}
+							else destinationAddress = createDestinationAddress();
+							
+							try {
+								shipment = service.createShipment(toGallery, estimatedArrivalTime, shipmentId, estimatedArrivalDate, returnAddress, destinationAddress);
+							} catch (IllegalArgumentException e) {
+								error = e.getMessage();
+								for(String s:nulls) {
+									theoreticalError += s;
+								}
+								theoreticalError += "must not be null";
+								assertEquals(error, theoreticalError);
+							}
+							theoreticalError = "";
+							nulls.remove("destinationAddress ");
+						}
+						nulls.remove("returnAddress ");
+					}
+					nulls.remove("estimatedArrivalDate ");
+				}
+				nulls.remove("estimatedArrivalTime ");
+			}
+			nulls.remove("toGallery ");
+		}
+	}
+	
+	@Test
+	public void testCreateShipmentInvalidAddresses() {
+		Shipment shipment = null;
+		String error = null;
+		String theoreticalError = "must have different destination and return addresses";
+		Boolean toGallery = false;
+		Time estimatedArrivalTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+		int shipmentId = 999999999;
+		Date estimatedArrivalDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
+		Address returnAddress = createReturnAddress();
+		Address destinationAddress = createReturnAddress();
+		try {
+			shipment = service.createShipment(toGallery, estimatedArrivalTime, shipmentId, estimatedArrivalDate, returnAddress, destinationAddress);
+		} catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertEquals(theoreticalError, error);
+	}
+	
+	
+	
+	
 	//helper methods
 	public static Address createReturnAddress() {
 		String returnStreetAddress = "1001 Test Rd";

@@ -41,31 +41,38 @@ public class ShipmentService {
 
     @Transactional
     public Shipment createShipment(Boolean toGallery, Time estimatedArrivalTime, int shipmentId, Date estimatedArrivalDate, Address returnAddress, Address destinationAddress) {
-    	List<String> errors = new ArrayList<String>();
+    	List<String> nulls = new ArrayList<String>();
     	if(toGallery == null) {
-    		errors.add("toGallery variable must not be null");
+    		nulls.add("toGallery ");
     	}
     	if(estimatedArrivalTime == null) {
-    		errors.add("ETA must not be null");
+    		nulls.add("estimatedArrivalTime ");
     	}
     	if(estimatedArrivalDate == null) {
-    		errors.add("Estimated arrival date must not be null");
+    		nulls.add("estimatedArrivalDate ");
     	}
     	if(returnAddress == null) {
-    		errors.add("Return address must not be null");
+    		nulls.add("returnAddress ");
     	}
     	if(destinationAddress == null) {
-    		errors.add("Destination address must not be null");
+    		nulls.add("destinationAddress ");
     	}
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)!= null) {
     		throw new IllegalArgumentException("A shipment with this shipment ID already exists");
     	}
-    	if(errors.size()>0) {
-    		for (String e:errors){
-    			throw new IllegalArgumentException(e);
+    	
+    	if(nulls.size()>0) {
+    		String errors = "";
+    		for (String e:nulls){
+    			errors += e;
     		}
+    		errors += "must not be null";
+    		throw new IllegalArgumentException(errors);
     	}
     	
+    	if(equalAddresses(destinationAddress, returnAddress)) {
+    		throw new IllegalArgumentException("must have different destination and return addresses");
+    	}
     	Shipment s = new Shipment();
     	s.setDestination(destinationAddress);
     	s.setEstimatedArrivalDate(estimatedArrivalDate);
@@ -194,4 +201,24 @@ public class ShipmentService {
         }
         return resultList;
     }
+    
+    private static Boolean equalAddresses(Address a1, Address a2) {
+    	if(!a1.getStreetAddress().equals(a2.getStreetAddress())) {
+    		return false;
+    	} if(!a1.getStreetAddress2().equals(a2.getStreetAddress2())) {
+    		return false;
+    	} if(!a1.getPostalCode().equals(a2.getPostalCode())) {
+    		return false;
+    	} if(!a1.getCity().equals(a2.getCity())) {
+    		return false;
+    	} if(!a1.getProvince().equals(a2.getProvince())) {
+    		return false;
+    	} if(!a1.getCountry().equals(a2.getCountry())) {
+    		return false;
+    	}
+    	
+    	return true;
+    	
+    }
+    
 }
