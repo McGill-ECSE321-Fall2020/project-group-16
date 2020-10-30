@@ -7,6 +7,7 @@ import ca.mcgill.ecse321.artgalleryapplication.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
@@ -38,8 +39,7 @@ public class ShipmentService {
 
 
 
-    //create the Transactional methods
-
+    @Transactional
     public Shipment createShipment(Boolean toGallery, Time estimatedArrivalTime, int shipmentId, Date estimatedArrivalDate, Address returnAddress, Address destinationAddress) {
     	List<String> errors = new ArrayList<String>();
     	if(toGallery == null) {
@@ -78,15 +78,18 @@ public class ShipmentService {
     	return s;
     }
     
+    @Transactional
     public Shipment getShipment(int shipmentId) {
     	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
     	return s;
     }
 
+    @Transactional
     public List<Shipment> getAllShipments(){
     	return toList(shipmentRepository.findAll());
     }
 
+    @Transactional
     public List<Shipment> getAllShipmentsByToGallery(Boolean toGal){
     	if(toGal == null) {
     		throw new IllegalArgumentException("Must enter a boolean variable");
@@ -99,6 +102,7 @@ public class ShipmentService {
     	return s;
     }
     
+    @Transactional
     public List<Shipment> getAllShipmentsByEstimatedArrivalTime(Time eta){
     	if(eta == null) {
     		throw new IllegalArgumentException("Must enter a Time variable");
@@ -110,6 +114,8 @@ public class ShipmentService {
     	}
     	return s;
     }
+    
+    @Transactional
     public List<Shipment> getAllShipmentsByEstimatedArrivalDate(Date arrivalDate){
     	if(arrivalDate == null) {
     		throw new IllegalArgumentException("Must enter a Date variable");
@@ -121,6 +127,8 @@ public class ShipmentService {
     	}
     	return s;
     }
+    
+    @Transactional
     public List<Shipment> getAllShipmentsByReturnAddress(Address r){
     	if(r == null) {
     		throw new IllegalArgumentException("Must enter a return address");
@@ -132,6 +140,8 @@ public class ShipmentService {
     	}
     	return s;
     }
+    
+    @Transactional
     public List<Shipment> getAllShipmentsByDestinationAddress(Address d){
     	if(d == null) {
     		throw new IllegalArgumentException("Must enter a destination address");
@@ -144,6 +154,7 @@ public class ShipmentService {
     	return s;
     }
     
+    @Transactional
     public Shipment updateShipment(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)==null) {
     		throw new IllegalArgumentException("must enter a shipment id that is in the table");
@@ -165,6 +176,7 @@ public class ShipmentService {
     	return s;
     }
 
+    @Transactional
     public void deleteShipment(int shipmentId) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId) == null) {
     		throw new IllegalArgumentException("No shipment with this ID exists");

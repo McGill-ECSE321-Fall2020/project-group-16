@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,6 @@ import org.mockito.stubbing.Answer;
 import ca.mcgill.ecse321.artgalleryapplication.dao.PaymentRepository;
 import ca.mcgill.ecse321.artgalleryapplication.model.Payment;
 import ca.mcgill.ecse321.artgalleryapplication.model.PaymentForm;
-import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
 
 @ExtendWith(MockitoExtension.class)
 public class TestPaymentService {
@@ -87,276 +87,141 @@ public class TestPaymentService {
 		assertEquals(paymentId, payment.getPaymentId());
 		assertEquals(paymentTime, payment.getPaymentTime());
 	}
-
-}
-
 	
-
-/*	@Test
+	@Test
 	public void testCreatePaymentNull() {
-		String name = null;
+		Payment payment = null;
 		String error = null;
-		Person person = null;
+		String theoreticalError="";
+		ArrayList<String> nulls = new ArrayList<String>();
+		PaymentForm paymentForm;
+		Date paymentDate;
+		String cardNumber;
+		Date expirationDate;
+		Time paymentTime;
+		int cvv = 000;
+		int paymentId = 54321;
+		
+		for(int i = 0; i<2; i++) {
+			if(i ==1) {
+				paymentForm = null;
+				nulls.add("paymentForm ");
+			}
+			else paymentForm = PaymentForm.PayPal;
+			
+			for(int j= 0; j<2; j++) {
+				if(j ==1) {
+					paymentDate = null;
+					nulls.add("paymentDate ");
+				}
+				else paymentDate = java.sql.Date.valueOf(LocalDate.of(2020, Month.NOVEMBER, 19));
+				
+				for(int k = 0; k<2; k++) {
+					if(k ==1) {
+						cardNumber = null;
+						nulls.add("cardNumber ");
+					}
+					else cardNumber = "987654321";
+					
+					for(int l=0; l<2; l++) {
+						if(l ==1) {
+							expirationDate = null;
+							nulls.add("expirationDate ");
+						}
+						else expirationDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
+						
+						for(int m = 0; m<2; m++) {
+							if(m ==1) {
+								paymentTime = null;	
+								nulls.add("paymentTime ");
+							}
+							else paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
+							
+							try {
+								payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+							} catch (IllegalArgumentException e) {
+								error = e.getMessage();
+								for(String s:nulls) {
+									theoreticalError += s;
+								}
+								theoreticalError += "must not be null";
+								assertEquals(error, theoreticalError);
+							}
+							theoreticalError = "";
+							nulls.remove("paymentTime ");
+						}
+						nulls.remove("expirationDate ");
+					}
+					nulls.remove("cardNumber ");
+				}
+				nulls.remove("paymentDate ");
+			}
+			nulls.remove("paymentForm ");
+		}
+	}
+
+
+	@Test
+	public void testCreatePaymentEmpty() {
+		Payment payment = null;
+		String error = null;
+		String theoreticalError="cardNumber must not be empty";
+		PaymentForm paymentForm = PaymentForm.CreditCard;
+		Date paymentDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));;
+		String cardNumber = " ";
+		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));;
+		Time paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));;
+		int cvv = 000;
+		int paymentId = 54321;
+		
 		try {
-			person = service.createPayment(name);
-		} catch (IllegalArgumentException e) {
+			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
-		assertNull(person);
-		// check error
-		assertEquals("Person name cannot be empty!", error);
+		assertEquals(theoreticalError, error);
 	}
-
+	
 	@Test
-	public void testCreatePersonEmpty() {
-		String name = "";
+	public void testCreatePaymentExpiredCard() {
+		Payment payment = null;
 		String error = null;
-		Person person = null;
+		String theoreticalError="card has expired";
+		PaymentForm paymentForm = PaymentForm.CreditCard;
+		Date paymentDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));;
+		String cardNumber = "2222222";
+		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2022, Month.NOVEMBER, 19));;
+		Time paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));;
+		int cvv = 000;
+		int paymentId = 54321;
+		
 		try {
-			person = service.createPerson(name);
-		} catch (IllegalArgumentException e) {
+			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		assertNull(person);
-		// check error
-		assertEquals("Person name cannot be empty!", error);
+		assertEquals(theoreticalError, error);
 	}
-
+	
 	@Test
-	public void testCreatePersonSpaces() {
-		String name = " ";
+	public void testCreatePaymentInvalidCvv() {
+		Payment payment = null;
 		String error = null;
-		Person person = null;
+		String theoreticalError="Your cvv must be 3 digits as most";
+		PaymentForm paymentForm = PaymentForm.CreditCard;
+		Date paymentDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));;
+		String cardNumber = "2222222";
+		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));;
+		Time paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));;
+		int cvv = 1000;
+		int paymentId = 54321;
+		
 		try {
-			person = service.createPerson(name);
-		} catch (IllegalArgumentException e) {
+			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-
-		assertNull(person);
-		// check error
-		assertEquals("Person name cannot be empty!", error);
+		assertEquals(theoreticalError, error);
 	}
-
-	@Test
-	public void testCreateEvent() {
-		String name = "Soccer Game";
-		Calendar c = Calendar.getInstance();
-		c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
-		Date eventDate = new Date(c.getTimeInMillis());
-		LocalTime startTime = LocalTime.parse("09:00");
-		c.set(2017, Calendar.MARCH, 16, 10, 30, 0);
-		LocalTime endTime = LocalTime.parse("10:30");
-		Event event = null;
-		try {
-			event = service.createEvent(name, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
-		} catch (IllegalArgumentException e) {
-			fail();
-		}
-		assertNotNull(event);
-		checkResultEvent(event, name, eventDate, startTime, endTime);
-	}
-
-	private void checkResultEvent(Event event, String name, Date eventDate, LocalTime startTime, LocalTime endTime) {
-		assertNotNull(event);
-		assertEquals(name, event.getName());
-		assertEquals(eventDate.toString(), event.getDate().toString());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-		assertEquals(startTime.format(formatter).toString(), event.getStartTime().toString());
-		assertEquals(endTime.format(formatter).toString(), event.getEndTime().toString());
-	}
-
-	@Test
-	public void testRegister() {
-		String nameP = "Oscar2";
-		String nameE = "Soccer Game2";
-		Calendar c = Calendar.getInstance();
-		c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
-		Date eventDate = new Date(c.getTimeInMillis());
-		Time startTime = new Time(c.getTimeInMillis());
-		c.set(2017, Calendar.MARCH, 16, 10, 30, 0);
-		Time endTime = new Time(c.getTimeInMillis());
-		Person person = null;
-		person = service.createPerson(nameP);
-		Event event = null;
-		event = service.createEvent(nameE, eventDate, startTime, endTime);
-		lenient().when(personDao.existsById(anyString())).thenReturn(true);
-		lenient().when(eventDao.existsById(anyString())).thenReturn(true);
-		Registration registration = null;
-		try {
-			registration = service.register(person, event);
-		} catch (IllegalArgumentException e) {
-			fail();
-		}
-
-		checkResultRegister(registration, nameP, nameE, eventDate, startTime, endTime);
-	}
-
-	private void checkResultRegister(Registration registration, String nameP, String nameE, Date eventDate,
-			Time startTime, Time endTime) {
-		assertNotNull(registration);
-		assertEquals(nameP, registration.getPerson().getName());
-		assertEquals(nameE, registration.getEvent().getName());
-		assertEquals(eventDate.toString(), registration.getEvent().getDate().toString());
-		assertEquals(startTime.toString(), registration.getEvent().getStartTime().toString());
-		assertEquals(endTime.toString(), registration.getEvent().getEndTime().toString());
-	}
-
-	@Test
-	public void testCreateEventNull() {
-		String name = null;
-		Date eventDate = null;
-		Time startTime = null;
-		Time endTime = null;
-
-		String error = null;
-		Event event = null;
-		try {
-			event = service.createEvent(name, eventDate, startTime, endTime);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(event);
-		// check error
-		assertEquals(
-				"Event name cannot be empty! Event date cannot be empty! Event start time cannot be empty! Event end time cannot be empty!",
-				error);
-	}
-
-	@Test
-	public void testCreateEventEmpty() {
-		String name = "";
-		Calendar c = Calendar.getInstance();
-		c.set(2017, Calendar.FEBRUARY, 16, 10, 00, 0);
-		Date eventDate = new Date(c.getTimeInMillis());
-		LocalTime startTime = LocalTime.parse("10:00");
-		c.set(2017, Calendar.FEBRUARY, 16, 11, 30, 0);
-		LocalTime endTime = LocalTime.parse("11:30");
-
-		String error = null;
-		Event event = null;
-		try {
-			event = service.createEvent(name, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(event);
-		// check error
-		assertEquals("Event name cannot be empty!", error);
-	}
-
-	@Test
-	public void testCreateEventSpaces() {
-		String name = " ";
-		Calendar c = Calendar.getInstance();
-		c.set(2016, Calendar.OCTOBER, 16, 9, 00, 0);
-		Date eventDate = new Date(c.getTimeInMillis());
-		LocalTime startTime = LocalTime.parse("09:00");
-		c.set(2016, Calendar.OCTOBER, 16, 10, 30, 0);
-		LocalTime endTime = LocalTime.parse("10:30");
-
-		String error = null;
-		Event event = null;
-		try {
-			event = service.createEvent(name, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-		assertNull(event);
-		// check error
-		assertEquals("Event name cannot be empty!", error);
-	}
-
-	@Test
-	public void testCreateEventEndTimeBeforeStartTime() {
-		String name = "Soccer Game";
-		Calendar c = Calendar.getInstance();
-		c.set(2016, Calendar.OCTOBER, 16, 9, 00, 0);
-		Date eventDate = new Date(c.getTimeInMillis());
-		LocalTime startTime = LocalTime.parse("09:00");
-		c.set(2016, Calendar.OCTOBER, 16, 8, 59, 59);
-		LocalTime endTime = LocalTime.parse("08:59");
-
-		String error = null;
-		Event event = null;
-		try {
-			event = service.createEvent(name, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(event);
-		// check error
-		assertEquals("Event end time cannot be before event start time!", error);
-	}
-
-	@Test
-	public void testRegisterNull() {
-		Person person = null;
-		assertEquals(0, service.getAllPersons().size());
-
-		Event event = null;
-		assertEquals(0, service.getAllEvents().size());
-
-		String error = null;
-		Registration registration = null;
-		try {
-			registration = service.register(person, event);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(registration);
-		// check error
-		assertEquals("Person needs to be selected for registration! Event needs to be selected for registration!",
-				error);
-	}
-
-	@Test
-	public void testRegisterPersonAndEventDoNotExist() {
-		String nameP = "Oscar";
-		Person person = new Person();
-		person.setName(nameP);
-		assertEquals(0, service.getAllPersons().size());
-
-		String nameE = "Soccer Game";
-		Calendar c = Calendar.getInstance();
-		c.set(2016, Calendar.OCTOBER, 16, 9, 00, 0);
-		Date eventDate = new Date(c.getTimeInMillis());
-		Time startTime = new Time(c.getTimeInMillis());
-		c.set(2016, Calendar.OCTOBER, 16, 10, 30, 0);
-		Time endTime = new Time(c.getTimeInMillis());
-		Event event = new Event();
-		event.setName(nameE);
-		event.setDate(eventDate);
-		event.setStartTime(startTime);
-		event.setEndTime(endTime);
-		assertEquals(0, service.getAllEvents().size());
-
-		String error = null;
-		Registration registration = null;
-		try {
-			registration = service.register(person, event);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(registration);
-		// check error
-		assertEquals("Person does not exist! Event does not exist!", error);
-	}
-
-	@Test
-	public void testGetExistingPerson() {
-		assertEquals(PERSON_KEY, service.getPerson(PERSON_KEY).getName());
-	}
-
-	@Test
-	public void testGetNonExistingPerson() {
-		assertNull(service.getPerson(NONEXISTING_KEY));
-	}
-
-}*/
+	
+}	
