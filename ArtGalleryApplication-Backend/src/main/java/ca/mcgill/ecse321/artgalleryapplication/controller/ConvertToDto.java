@@ -63,29 +63,18 @@ public class ConvertToDto {
                 a.getCity(), a.getProvince(), a.getCountry());
     }
 
-    // TODO: These are place holders for PAYMENT and SHIPMENT convert classes
-    public static PaymentDto convertToDto(Payment payment) {
-        return null;
-    }
-
-    public static ShipmentDto convertToDto(Shipment shipment) {
-        return null;
-    }
-
     public static PaymentDto convertToDto(Payment p) {
     	if(p == null) {
     		throw new IllegalArgumentException("Payment is null");
     	}
-    	PaymentDto pDto = new PaymentDto(p.getPaymentForm(), p.getPaymentDate(), p.getCardNumber(), p.getExpirationDate(), p.getCvv(), p.getPaymentId(), p.getPaymentTime());
-    	return pDto;
+        return new PaymentDto(p.getPaymentForm(), p.getPaymentDate(), p.getCardNumber(), p.getExpirationDate(), p.getCvv(), p.getPaymentId(), p.getPaymentTime());
     }
     
     public static ShipmentDto convertToDto(Shipment s) {
     	if(s == null) {
     		throw new IllegalArgumentException("shipment is null");
     	}
-    	ShipmentDto sDto = new ShipmentDto(s.getToGallery(), s.getEstimatedArrivalTime(), s.getShipmentId(), s.getEstimatedArrivalDate(), s.getReturnAddress(), s.getDestination());
-    	return sDto;
+        return new ShipmentDto(s.getToGallery(), s.getEstimatedArrivalTime(), s.getShipmentId(), s.getEstimatedArrivalDate(), s.getReturnAddress(), s.getDestination());
     }
     
     private static <T> List<T> toList(Iterable<T> iterable){
