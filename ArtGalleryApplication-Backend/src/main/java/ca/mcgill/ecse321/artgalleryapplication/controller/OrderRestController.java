@@ -69,11 +69,22 @@ public class OrderRestController {
 
     /**
      *
+     * @param status
+     * @return a list of OrderDtos
+     * @throws IllegalArgumentException
+     */
+    @GetMapping(value = { "/orders/get-by-status/{status}", "/orders/get-by-status/{status}" })
+    public List<OrderDto> getOrdersByStatus(@PathVariable("status") OrderStatus status) throws IllegalArgumentException {
+        return orderService.getOrdersByStatus(status).stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
+    }
+
+    /**
+     *
      * @param username
      * @return a list of OrderDtos
      * @throws IllegalArgumentException
      */
-    @GetMapping(value = { "/orders/get-customer-orders/{username}", "/orders/get-customer-orders/{username}" })
+    @GetMapping(value = { "/orders/get-by-user/{username}", "/orders/get-by-user/{username}" })
     public List<OrderDto> getOrdersByUser(@PathVariable("username") String username) throws IllegalArgumentException {
         return orderService.getOrdersByUser(username).stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
