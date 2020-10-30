@@ -87,6 +87,9 @@ public class ShipmentService {
     
     @Transactional
     public Shipment getShipment(int shipmentId) {
+    	if(shipmentRepository.findShipmentByShipmentId(shipmentId)==null) {
+    		throw new IllegalArgumentException("No shipment with this ID");
+    	}
     	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
     	return s;
     }

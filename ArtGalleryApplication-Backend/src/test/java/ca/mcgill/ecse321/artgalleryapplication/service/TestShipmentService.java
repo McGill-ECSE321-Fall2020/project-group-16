@@ -42,7 +42,7 @@ public class TestShipmentService {
 	private ShipmentService service;
 	
 	private static final int SHIPMENT_ID = 123456789;
-	private static final String NONEXISTING_KEY = "NotAPerson";
+	private static final int NONEXISTING_ID = 111111111;
 	
 	@BeforeEach
 	public void setMockOutput() {
@@ -183,7 +183,54 @@ public class TestShipmentService {
 		assertEquals(theoreticalError, error);
 	}
 	
+	@Test
+	public void testDeleteShipment() {
+		try {
+			service.deleteShipment(SHIPMENT_ID);
+		} catch(IllegalArgumentException e) {
+			fail();
+		}
+	}
 	
+	@Test
+	public void testDeleteShipmentNonExistingId() {
+		String error="";
+		try {
+			service.deleteShipment(NONEXISTING_ID);
+		}catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertEquals(error, "No shipment with this ID exists");
+	}
+	
+	@Test
+	public void testGetShipment() {
+		Shipment shipment = null;
+
+	    try {
+	        shipment = service.getShipment(SHIPMENT_ID);
+	    } catch (IllegalArgumentException e) {
+	        fail();
+	    }
+
+	    assertNotNull(shipment);
+	    assertEquals(SHIPMENT_ID, shipment.getShipmentId());
+	}
+	  
+	@Test
+	public void testGetShipmentInvalidId() {
+		Shipment shipment = null;
+		String error = "";
+		try {
+	        shipment = service.getShipment(NONEXISTING_ID);
+	    } catch (IllegalArgumentException e) {
+	        error = e.getMessage();
+	    }
+
+	    assertNull(shipment);
+	    assertEquals(error, "No shipment with this ID");
+	}
+	  
 	
 	
 	//helper methods
@@ -220,4 +267,5 @@ public class TestShipmentService {
 		deliveryAddress.setCountry(deliveryCountry);
 		return deliveryAddress;
 	}
+	
 }
