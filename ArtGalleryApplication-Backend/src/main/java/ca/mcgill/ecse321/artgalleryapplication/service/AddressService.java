@@ -54,7 +54,7 @@ public class AddressService {
     public void deleteAddress(Integer addressId) {
         if(addressId == null) throw new IllegalArgumentException("AddressID is null. Please enter a valid addressID");
         Address address = addressRepository.findAddressByAddressId(addressId);
-        if(address == null) throw new IllegalReceiveException("No address in system associated with addressID: " + addressId);
+        if(address == null) throw new IllegalArgumentException("No address in system associated with addressID: " + addressId);
         addressRepository.deleteAddressByAddressId(addressId);
     }
 
@@ -67,7 +67,7 @@ public class AddressService {
     public Address getAddressById(Integer addressId) {
         if(addressId == null) throw new IllegalArgumentException("AddressID is null. Please enter a valid addressID");
         Address address = addressRepository.findAddressByAddressId(addressId);
-        if(address == null) throw new IllegalReceiveException("No address in system associated with addressID: " + addressId);
+        if(address == null) throw new IllegalArgumentException("No address in system associated with addressID: " + addressId);
         return address;
     }
 
@@ -86,7 +86,7 @@ public class AddressService {
     public Address updateAddress(Integer addressId, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) {
         if(addressId == null) throw new IllegalArgumentException("AddressID is null. Please enter a valid addressID");
         Address address = addressRepository.findAddressByAddressId(addressId);
-        if(address == null) throw new IllegalReceiveException("No address in system associated with addressID: " + addressId);
+        if(address == null) throw new IllegalArgumentException("No address in system associated with addressID: " + addressId);
 
         if(streetAddress != null && streetAddress.trim().length() != 0) address.setStreetAddress(streetAddress);
         if(streetAddress2 != null && streetAddress2.trim().length() != 0) address.setStreetAddress2(streetAddress2);

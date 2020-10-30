@@ -34,10 +34,15 @@ public class TestEventService {
     private GalleryEventRepository eventDao;
 
     @InjectMocks
-    private EventService service;
+    private EventService eventService;
 
-    private static final String PERSON_KEY = "TestPerson";
-    private static final String NONEXISTING_KEY = "NotAPerson";
+    // Correct Address info
+    private static final String CORRECTCITY = "TestCity";
+    private static final String CORRECTCOUNTRY = "TestCountry";
+    private static final String CORRECTSTREETNAME = "Test Street Name";
+    private static final String CORRECTHOUSENUMBER = "666";
+    private static final String CORRECTZIPCODE = "H3A1A8";
+    private static final String CORRECTAPT = "666";
 
     @BeforeEach
     public void setMockOutput() {
@@ -63,7 +68,7 @@ public class TestEventService {
         LocalTime endTime = LocalTime.parse("10:30");
         GalleryEvent event = null;
         try {
-            event = service.createEvent(name, description, imageUrl, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
+            event = eventService.createEvent(name, description, imageUrl, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
         } catch (IllegalArgumentException e) {
             fail();
         }
