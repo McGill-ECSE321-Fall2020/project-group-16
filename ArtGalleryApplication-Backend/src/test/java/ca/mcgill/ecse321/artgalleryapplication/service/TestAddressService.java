@@ -36,12 +36,26 @@ public class TestAddressService {
     private static final String CORRECTPROVINCE = "TestProvince";
     private static final String CORRECTCOUNTRY = "TestCountry";
 
+    private static final int VALID_ID = 1;
+    private static final int INVALID_ID = 3;
+    private static final Integer NULL_ID = null;
+
     @BeforeEach
     public void setMockOutput() {
         lenient().when(addressRepository.save(any(Address.class))).thenAnswer((InvocationOnMock invocation) -> {
             Address address = new Address();
             address.setCity(ADDRESS_KEY);
             return address;
+        });
+
+        lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(VALID_ID)) {
+                return createAddress();
+            } else if(invocation.getArgument(0).equals(NULL_ID)) {
+                return null;
+            } else {
+                return null;
+            }
         });
     }
 
@@ -141,11 +155,8 @@ public class TestAddressService {
 
     @Test
     public void testDeleteCorrectAddress() {
-        //Stub that creates an address and returns it when we try to find an address by id
-        lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenReturn(createAddress());
         try {
-            // 1 is a fake id we are passing in
-            addressService.deleteAddress(1);
+            addressService.deleteAddress(VALID_ID);
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -156,7 +167,7 @@ public class TestAddressService {
         String error = "";
 
         try {
-             addressService.deleteAddress(null);
+             addressService.deleteAddress(NULL_ID);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -166,25 +177,21 @@ public class TestAddressService {
     @Test
     public void testDeleteInvalidId() {
         String error = "";
-        //Stub that returns null when we try to find an address by id
-        lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenReturn(null);
 
         try {
-            addressService.deleteAddress(1);
+            addressService.deleteAddress(INVALID_ID);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
-        assertEquals(error, "No address in system associated with addressID: 1");
+        assertEquals(error, "No address in system associated with addressID: " + INVALID_ID);
     }
 
     @Test
     public void testGetCorrectAddress() {
         Address address = null;
-        //Stub that creates an address and returns it when we try to find an address by id
-        lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenReturn(createAddress());
+
         try {
-            // 1 is a fake id we are passing in
-            address = addressService.getAddressById(1);
+            address = addressService.getAddressById(VALID_ID);
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -199,7 +206,7 @@ public class TestAddressService {
         String error = "";
 
         try {
-            address = addressService.getAddressById(null);
+            address = addressService.getAddressById(NULL_ID);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -212,24 +219,20 @@ public class TestAddressService {
     public void testGetInvalidId() {
         Address address = null;
         String error = "";
-        //Stub that returns null when we try to find an address by id
-        lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenReturn(null);
 
         try {
-            address = addressService.getAddressById(1);
+            address = addressService.getAddressById(INVALID_ID);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
 
         assertNull(address);
-        assertEquals(error, "No address in system associated with addressID: 1");
+        assertEquals(error, "No address in system associated with addressID: " + INVALID_ID);
     }
 
     @Test
     public void testUpdateCorrectAddress() {
         Address address = null;
-        //Stub that creates an address and returns it when we try to find an address by id
-        lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenReturn(createAddress());
 
         String NEWSTREETADDRESS = "newSA";
         String NEWSTREETADDRESS2 = "newSA2";
@@ -241,7 +244,7 @@ public class TestAddressService {
 
         try {
             // 1 is a fake id we are passing in
-            address = addressService.updateAddress(1, NEWSTREETADDRESS, NEWSTREETADDRESS2, NEWPOSTALCODE, NEWCITY, NEWPROVINCE, NEWCOUNTRY);
+            address = addressService.updateAddress(VALID_ID, NEWSTREETADDRESS, NEWSTREETADDRESS2, NEWPOSTALCODE, NEWCITY, NEWPROVINCE, NEWCOUNTRY);
         } catch (IllegalArgumentException e) {
             fail();
         }
@@ -263,7 +266,7 @@ public class TestAddressService {
         String error = "";
 
         try {
-            address = addressService.updateAddress(null, CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
+            address = addressService.updateAddress(NULL_ID, CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
@@ -276,29 +279,25 @@ public class TestAddressService {
     public void testUpdateInvalidId() {
         Address address = null;
         String error = "";
-        //Stub that returns null when we try to find an address by id
-        lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenReturn(null);
 
         try {
-            address = addressService.updateAddress(1, CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
+            address = addressService.updateAddress(INVALID_ID, CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }
 
         assertNull(address);
-        assertEquals(error, "No address in system associated with addressID: 1");
+        assertEquals(error, "No address in system associated with addressID: " + INVALID_ID);
     }
 
     @Test
     public void testUpdatePostalCode() {
         Address address = null;
         String NEWPOSTALCODE = "zeNewPostalCode";
-        //Stub that creates an address and returns it when we try to find an address by id
-        lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenReturn(createAddress());
 
         try {
             // 1 is a fake id we are passing in
-            address = addressService.updateAddress(1, "", "", NEWPOSTALCODE, "", "", "");
+            address = addressService.updateAddress(VALID_ID, "", "", NEWPOSTALCODE, "", "", "");
         } catch (IllegalArgumentException e) {
             fail();
         }
