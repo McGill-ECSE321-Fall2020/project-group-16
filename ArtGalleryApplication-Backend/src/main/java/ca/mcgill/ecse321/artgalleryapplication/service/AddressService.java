@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class AddressService {
@@ -17,7 +15,6 @@ public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
 
-    //create the Transactional methods
 
     /**
      * Service Method to create an address
@@ -74,17 +71,30 @@ public class AddressService {
         return address;
     }
 
+    /**
+     * Service method to update the fields of an address
+     * @param addressId
+     * @param streetAddress
+     * @param streetAddress2
+     * @param postalCode
+     * @param city
+     * @param province
+     * @param country
+     * @return
+     */
+    @Transactional
+    public Address updateAddress(Integer addressId, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) {
+        if(addressId == null) throw new IllegalArgumentException("AddressID is null. Please enter a valid addressID");
+        Address address = addressRepository.findAddressByAddressId(addressId);
+        if(address == null) throw new IllegalReceiveException("No address in system associated with addressID: " + addressId);
 
+        if(streetAddress != null && streetAddress.trim().length() != 0) address.setStreetAddress(streetAddress);
+        if(streetAddress2 != null && streetAddress2.trim().length() != 0) address.setStreetAddress2(streetAddress2);
+        if(postalCode != null && postalCode.trim().length() != 0) address.setPostalCode(postalCode);
+        if(city != null && city.trim().length() != 0) address.setCity(city);
+        if(province != null && province.trim().length() != 0) address.setProvince(province);
+        if(country != null && country.trim().length() != 0) address.setCountry(country);
 
-
-
-    //helper methods
-
-    private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
-        for (T t : iterable) {
-            resultList.add(t);
-        }
-        return resultList;
+        return address;
     }
 }

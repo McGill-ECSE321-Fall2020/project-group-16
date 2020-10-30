@@ -27,8 +27,6 @@ public class GalleryEventRestController {
     private UserProfileService userProfileService;
 
 
-    //Mappings + mappings methods
-
     /**
      * Get all events
      * @return
@@ -77,7 +75,7 @@ public class GalleryEventRestController {
     }
 
     /**
-     * Update event and User by adding user to list of participants
+     * Update event by adding user to list of participants (User is not updated)
      * @param eId
      * @param uName
      * @throws IllegalArgumentException
@@ -93,6 +91,12 @@ public class GalleryEventRestController {
         eventService.registerUserToEvent(p, e);
     }
 
+    /**
+     * Update event by removing user from list of participants (User is not updated, because it didn't hold info in the first place)
+     * @param eId
+     * @param uName
+     * @throws IllegalArgumentException
+     */
     @PutMapping(value = {"/events/unregister", "/events/unregister/"})
     public void unregisterUserToEvent(
             @RequestParam(name = "eventId") int eId,
