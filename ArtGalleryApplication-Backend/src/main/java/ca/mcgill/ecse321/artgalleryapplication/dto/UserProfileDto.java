@@ -30,6 +30,17 @@ public class UserProfileDto {
         this.isAdmin = isAdmin;
     }
 
+    public UserProfileDto(String firstName, String lastName, String username, String email, String password, boolean isAdmin, String description, String profileImageUrl ,OrderDto currentOrder, Set<OrderDto> pastOrders, AddressDto address, Set<GalleryEventDto> events, Set<ArtworkDto> artworks) {
+        this(firstName, lastName, username, email, password, isAdmin);
+        this.setDescription(description);
+        this.setProfileImageUrl(profileImageUrl);
+        this.setCurrentOrder(currentOrder);
+        this.setPastOrders(pastOrders);
+        this.setAddress(address);
+        this.setEvents(events);
+        this.setArtworks(artworks);
+    }
+
     public String getUsername() {
         return username;
     }

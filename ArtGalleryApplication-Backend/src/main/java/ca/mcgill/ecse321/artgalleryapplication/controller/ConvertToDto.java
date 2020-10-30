@@ -5,6 +5,7 @@ import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConvertToDto {
 
@@ -22,7 +23,7 @@ public class ConvertToDto {
             throw new IllegalArgumentException("The user cannot be null");
         }
 
-        return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin());
+        return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin(), user.getDescription(), user.getProfileImageUrl(), convertToDto(user.getCurrentOrder()), user.getPastOrders().stream().map(o -> convertToDto(o)).collect(Collectors.toSet()), convertToDto(user.getAddress()), user.getGalleryEvent().stream().map(e -> convertToDto(e)).collect(Collectors.toSet()), user.getArtwork().stream().map(a -> convertToDto(a)).collect(Collectors.toSet()));
 
     }
 
