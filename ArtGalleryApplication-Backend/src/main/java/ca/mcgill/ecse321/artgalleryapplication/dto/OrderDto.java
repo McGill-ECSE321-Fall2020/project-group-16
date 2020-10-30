@@ -1,10 +1,11 @@
 package ca.mcgill.ecse321.artgalleryapplication.dto;
 
 import ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus;
+import ca.mcgill.ecse321.artgalleryapplication.model.Payment;
+import ca.mcgill.ecse321.artgalleryapplication.model.Shipment;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDateTime;
 
 public class OrderDto {
 
@@ -18,13 +19,15 @@ public class OrderDto {
     private Date orderDate;
     private Time orderTime;
 
-    public OrderDto(int orderId, UserProfileDto customer, ArtworkDto artwork, Date orderDate, Time orderTime) {
+    public OrderDto(int orderId, UserProfileDto customer, ArtworkDto artwork, double totalAmount,
+                    OrderStatus orderStatus, Date orderDate, Time orderTime, PaymentDto payment, ShipmentDto shipment) {
         this.orderId = orderId;
         this.customer = customer;
         this.artwork = artwork;
-        // todo: this.totalAmount = artwork.getPrice();
-        this.payment = null;
-        this.shipment = null;
+        this.totalAmount = totalAmount;
+        this.orderStatus = orderStatus;
+        this.payment = payment;
+        this.shipment = shipment;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
     }
@@ -33,11 +36,12 @@ public class OrderDto {
         this.orderId = orderId;
         this.customer = customer;
         this.artwork = artwork;
-        // todo: this.totalAmount = artwork.getPrice();
-        this.payment = null;
-        this.shipment = null;
+        this.totalAmount = artwork.getPrice();
         this.orderDate = new Date(System.currentTimeMillis());
         this.orderTime = new Time(System.currentTimeMillis());
+        this.orderStatus = null;
+        this.payment = null;
+        this.shipment = null;
     }
 
     public int getOrderId() {

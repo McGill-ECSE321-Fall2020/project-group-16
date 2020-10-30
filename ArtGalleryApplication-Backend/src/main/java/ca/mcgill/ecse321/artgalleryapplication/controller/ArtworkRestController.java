@@ -1,21 +1,15 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
-import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.ArtworkDto;
-import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
-import ca.mcgill.ecse321.artgalleryapplication.dto.UserProfileDto;
 import ca.mcgill.ecse321.artgalleryapplication.model.Artwork;
 import ca.mcgill.ecse321.artgalleryapplication.model.ArtworkStatus;
-import ca.mcgill.ecse321.artgalleryapplication.model.Order;
 import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
 import ca.mcgill.ecse321.artgalleryapplication.service.ArtworkService;
 import ca.mcgill.ecse321.artgalleryapplication.service.UserProfileService;
@@ -32,7 +26,7 @@ public class ArtworkRestController {
 	
 	
 	@PostMapping(value = {"/artworks/{title}", "/artworks/{title}/"})
-	public void createArtwork (
+	public ArtworkDto createArtwork (
 			@PathVariable("title") String title,
 			@RequestParam String description,
 			@RequestParam Date creationDate,
@@ -44,7 +38,7 @@ public class ArtworkRestController {
 			@RequestParam String collection )
 			throws IllegalArgumentException{
 
-		artworkService.createArtwork(title, description, creationDate,
+		return artworkService.createArtwork(title, description, creationDate,
 				medium, imageUrl, price, status,
 				dimensions, collection);
 	}

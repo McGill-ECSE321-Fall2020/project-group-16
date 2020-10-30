@@ -14,7 +14,11 @@ public class ConvertToDto {
 
         UserProfileDto userDto = convertToDto(order.getCustomer());
         ArtworkDto artworkDto = convertToDto(order.getArtwork());
-        return new OrderDto(order.getOrderId(), userDto, artworkDto, order.getOrderDate(), order.getOrderTime());
+        PaymentDto paymentDto = convertToDto(order.getPayment());
+        ShipmentDto shipmentDto = convertToDto(order.getShipment());
+
+        return new OrderDto(order.getOrderId(), userDto, artworkDto, order.getTotalAmount(), order.getOrderStatus(),
+                order.getOrderDate(), order.getOrderTime(), paymentDto, shipmentDto);
     }
 
     public static UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException{
@@ -23,7 +27,6 @@ public class ConvertToDto {
         }
 
         return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin());
-
     }
 
     public static ArtworkDto convertToDto(Artwork a) throws IllegalArgumentException {
@@ -36,10 +39,9 @@ public class ConvertToDto {
             userProfileDtos.add(ConvertToDto.convertToDto(u));
         }
 
-        ArtworkDto artworkDto = new ArtworkDto(a.getArtworkId(), a.getTitle(), a.getDescription(), a.getCreationDate(),
+        return new ArtworkDto(a.getArtworkId(), a.getTitle(), a.getDescription(), a.getCreationDate(),
                 a.getMedium(), a.getImageUrl(), a.getPrice(), a.getArtworkStatus(),
                 a.getDimensions(), a.getCollection(), userProfileDtos);
-        return artworkDto;
     }
 
     public static GalleryEventDto convertToDto(GalleryEvent e) {
@@ -51,14 +53,23 @@ public class ConvertToDto {
             userProfileDtos.add(ConvertToDto.convertToDto(u));
         }
 
-        GalleryEventDto eventDto = new GalleryEventDto(e.getEventId(), e.getEventName(),e.getEventDescription(), e.getEventImageUrl(), e.getEventDate(), e.getStartTime(),e.getEndTime(), userProfileDtos);
-        return eventDto;
+        return new GalleryEventDto(e.getEventId(), e.getEventName(),e.getEventDescription(), e.getEventImageUrl(),
+                e.getEventDate(), e.getStartTime(),e.getEndTime(), userProfileDtos);
     }
 
     public static AddressDto convertToDto(Address a) {
         if(a == null) throw new IllegalArgumentException("Address is null");
-        AddressDto addressDto = new AddressDto(a.getAddressId(), a.getStreetAddress(), a.getStreetAddress2(), a.getPostalCode(), a.getCity(), a.getProvince(), a.getCountry());
-        return addressDto;
+        return new AddressDto(a.getAddressId(), a.getStreetAddress(), a.getStreetAddress2(), a.getPostalCode(),
+                a.getCity(), a.getProvince(), a.getCountry());
+    }
+
+    // TODO: These are place holders for PAYMENT and SHIPMENT convert classes
+    public static PaymentDto convertToDto(Payment payment) {
+        return null;
+    }
+
+    public static ShipmentDto convertToDto(Shipment shipment) {
+        return null;
     }
 
     public static PaymentDto convertToDto(Payment p) {
@@ -78,7 +89,7 @@ public class ConvertToDto {
     }
     
     private static <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }

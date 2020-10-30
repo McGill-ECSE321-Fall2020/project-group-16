@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
+
 @Service
 public class ArtworkService {
 
@@ -55,7 +57,7 @@ public class ArtworkService {
      * @TODO add error handling for inputs?
      */
     @Transactional
-    public void createArtwork(String title,  String description,  Date creationDate,
+    public ArtworkDto createArtwork(String title,  String description,  Date creationDate,
     							 String medium, String imageUrl, Double price, ArtworkStatus status,
     							 String dimensions, String collection) {
 
@@ -75,6 +77,8 @@ public class ArtworkService {
     	artwork.setCollection(collection);
 
     	artworkRepository.save(artwork);
+
+    	return convertToDto(artwork);
     }
 
 	@Transactional
@@ -83,21 +87,20 @@ public class ArtworkService {
     	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
     	if(artwork == null) throw new IllegalArgumentException("No artwork with ID " + id + " in the system.");
 
-		if(newTitle == null && newTitle.trim().length() != 0) artwork.setTitle(newTitle);
-		if(newDescription != null && newDescription != artwork.getDescription()) artwork.setDescription(newDescription);
-		if(newImageUrl != null && newImageUrl != artwork.getImageUrl()) artwork.setImageUrl(newImageUrl);
+		if(newTitle != null && newTitle.trim().length() != 0) artwork.setTitle(newTitle);
+		if(newDescription != null && !newDescription.equals(artwork.getDescription())) artwork.setDescription(newDescription);
+		if(newImageUrl != null && !newImageUrl.equals(artwork.getImageUrl())) artwork.setImageUrl(newImageUrl);
 		if(newPrice != artwork.getPrice()) artwork.setPrice(newPrice);
 		if(newStatus != artwork.getArtworkStatus()) artwork.setArtworkStatus(newStatus);
-		if(newDimensions != artwork.getDimensions()) artwork.setDimensions(newDimensions);
-		if(newCollection != artwork.getCollection()) artwork.setCollection(newCollection);
+		if(!newDimensions.equals(artwork.getDimensions())) artwork.setDimensions(newDimensions);
+		if(!newCollection.equals(artwork.getCollection())) artwork.setCollection(newCollection);
 		artworkRepository.save(artwork);
 		return artwork;
 	}
     
     @Transactional
     public Artwork getArtwork(int id) {
-    	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
-    	return artwork;
+		return artworkRepository.findArtworkByArtworkId(id);
     }
 
     @Transactional
@@ -108,7 +111,7 @@ public class ArtworkService {
     @Transactional
     //method that returns first n artworks instead of all of them
     public List<Artwork> getFirstNArtworks(int n) {
-    	List<Artwork> firstNArtworks = new ArrayList<Artwork>();
+    	List<Artwork> firstNArtworks = new ArrayList<>();
     	for(int i = 0; i < n; i++) {
     		firstNArtworks.add( (toList(artworkRepository.findAll())).get(i) );
     	}
@@ -123,7 +126,7 @@ public class ArtworkService {
     @Transactional
     public List<Artwork> getArtworkByPrice(Double minPrice, Double maxPrice) {
     	List<Artwork> allArtwork = toList(artworkRepository.findAll());
-    	List<Artwork> filteredArtwork = new ArrayList<Artwork>();
+    	List<Artwork> filteredArtwork = new ArrayList<>();
     	
     	//error handling
     	//users don't have to input a max or min price  	
@@ -153,7 +156,7 @@ public class ArtworkService {
     @Transactional
     public List<Artwork> getArtworkByCreationDate(Date minDate, Date maxDate) {
     	List<Artwork> allArtwork = toList(artworkRepository.findAll());
-    	List<Artwork> filteredArtwork = new ArrayList<Artwork>();
+    	List<Artwork> filteredArtwork = new ArrayList<>();
     	
     	//error handling
     	//users don't have to input a max or min price  	
@@ -163,8 +166,7 @@ public class ArtworkService {
     	}
     	
     	if(maxDate == null) {
-    		Date today = new Date(System.currentTimeMillis());
-    		maxDate = today;
+			maxDate = new Date(System.currentTimeMillis());
     	}
     	
     	//@TODO might've gotten Date.compareTo backwards, need to double check
@@ -208,7 +210,7 @@ public class ArtworkService {
     //helper methods
 
     private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }

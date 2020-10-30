@@ -1,13 +1,8 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
-import ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.*;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
-import ca.mcgill.ecse321.artgalleryapplication.model.Order;
 import ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus;
-import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
-import ca.mcgill.ecse321.artgalleryapplication.service.ArtworkService;
 import ca.mcgill.ecse321.artgalleryapplication.service.OrderService;
-import ca.mcgill.ecse321.artgalleryapplication.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
 
@@ -29,10 +24,24 @@ public class OrderRestController {
 
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private UserProfileService userService;
-    @Autowired
-    private ArtworkService artworkService;
+
+    // --- Create --- //
+
+    /**
+     *
+     * @param username
+     * @param artworkId
+     * @return an OrderDto
+     * @throws IllegalArgumentException
+     */
+    @PostMapping(value = { "/orders/place-order/{username}", "/orders/place-order/{username}/" })
+    public OrderDto placeOrder(
+            @PathVariable("username") String username,
+            @RequestParam("artworkId") int artworkId
+    ) throws IllegalArgumentException {
+
+        return convertToDto(orderService.placeOrder(artworkId, username));
+    }
 
 
     // --- Getters --- //
@@ -44,11 +53,7 @@ public class OrderRestController {
      */
     @GetMapping(value = { "/orders", "/orders/" })
     public List<OrderDto> getAllOrders() throws IllegalArgumentException {
-        List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order : orderService.getAllOrders()) {
-            orderDtos.add(convertToDto(order));
-        }
-        return orderDtos;
+        return orderService.getAllOrders().stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
 
     /**
@@ -57,46 +62,20 @@ public class OrderRestController {
      * @return an OrderDto
      * @throws IllegalArgumentException
      */
-    @GetMapping(value = { "/orders/{id}", "/order/{id}/" })
+    @GetMapping(value = { "/orders/{id}", "/orders/{id}/" })
     public OrderDto getOrderById(@PathVariable("id") int id) throws IllegalArgumentException {
-        List<OrderDto> orderDtos = new ArrayList<>();
-        Order order = orderService.getOrderById(id);
-        return convertToDto(order);
+        return convertToDto(orderService.getOrderById(id));
     }
-
-    /**
-     *
-     * @param customer
-     * @return a list of OrderDtos
-     * @throws IllegalArgumentException
-     */
-    @GetMapping(value = { "/customerOrders", "/customerOrders/" })
-    public List<OrderDto> getOrdersByUser(UserProfile customer) throws IllegalArgumentException {
-        List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order : orderService.getOrdersByUser(customer.getUsername())) {
-            orderDtos.add(convertToDto(order));
-        }
-        return orderDtos;
-    }
-
-
-    // --- Create --- //
 
     /**
      *
      * @param username
-     * @param artworkId
-     * @return an OrderDto
+     * @return a list of OrderDtos
      * @throws IllegalArgumentException
      */
-    @PostMapping(value = { "/placeOrder", "/placeOrder/" })
-    public OrderDto placeOrder(
-            @RequestParam("username") String username,
-            @RequestParam("artworkId") int artworkId
-    ) throws IllegalArgumentException {
-
-        Order order = orderService.placeOrder(artworkId, username);
-        return convertToDto(order);
+    @GetMapping(value = { "/orders/get-customer-orders/{username}", "/orders/get-customer-orders/{username}" })
+    public List<OrderDto> getOrdersByUser(@PathVariable("username") String username) throws IllegalArgumentException {
+        return orderService.getOrdersByUser(username).stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
 
 
@@ -104,32 +83,26 @@ public class OrderRestController {
 
     /**
      *
-     * @param orderDto
-     * @param paymentDto
+     * @param orderId
+     * @param paymentId
      * @return an updated OrderDto
      */
-    @PutMapping(value = { "/order/addPayment", "/order/addPayment/" })
-    public OrderDto addPaymentToOrder(OrderDto orderDto, PaymentDto paymentDto) {
-        // Todo: get PaymentDto
-        //OrderDto updatedOrder = orderService.addPaymentToOrder(orderDto.getOrderId(), paymentDto.getId());
-
-        Order updatedOrder = orderService.addPaymentToOrder(orderDto.getOrderId(), 0);
-        return convertToDto(updatedOrder);
+    @PutMapping(value = { "/orders/{id}/add-payment", "/orders/{id}/add-payment/" })
+    public OrderDto addPaymentToOrder(@PathVariable("id") int orderId,
+                                      @RequestParam("paymentId") int paymentId) {
+        return convertToDto(orderService.addPaymentToOrder(orderId, paymentId));
     }
 
     /**
      *
-     * @param orderDto
-     * @param shipmentDto
+     * @param orderId
+     * @param shipmentId
      * @return an updated OrderDto
      */
-    @PutMapping(value = { "/order/addShipment", "/order/addShipment/" })
-    public OrderDto addShipmentToOrder(OrderDto orderDto, ShipmentDto shipmentDto) {
-        // Todo: get ShipmentDto
-        //OrderDto updatedOrder = orderService.addShipmentToOrder(orderDto.getOrderId(), shipmentDto.getId());
-
-        Order updatedOrder = orderService.addShipmentToOrder(orderDto.getOrderId(), 0);
-        return convertToDto(updatedOrder);
+    @PutMapping(value = { "/orders/{id}/add-shipment", "/orders/{id}/add-shipment/" })
+    public OrderDto addShipmentToOrder(@PathVariable("id") int orderId,
+                                       @RequestParam("shipmentId") int shipmentId) {
+        return convertToDto(orderService.addShipmentToOrder(orderId, shipmentId));
     }
 
     /**
@@ -138,10 +111,10 @@ public class OrderRestController {
      * @param orderStatus
      * @return an updated OrderDto
      */
-    @PutMapping(value = { "/order/updateStatus/{id}", "/order/updateStatus/{id}/" })
-    public OrderDto updateOrderStatus(@PathVariable("id") int id, OrderStatus orderStatus) {
-        Order updatedOrder = orderService.updateOrderStatus(id, orderStatus);
-        return convertToDto(updatedOrder);
+    @PutMapping(value = { "/orders/{id}/update-status", "/orders/{id}/update-status/" })
+    public OrderDto updateOrderStatus(@PathVariable("id") int id,
+                                      @RequestParam("orderStatus") OrderStatus orderStatus) {
+        return convertToDto(orderService.updateOrderStatus(id, orderStatus));
     }
 
     /**
@@ -150,10 +123,10 @@ public class OrderRestController {
      * @param amount
      * @return an updated OrderDto
      */
-    @PutMapping(value = { "/order/updateAmount/{id}", "/order/updateAmount/{id}/" })
-    public OrderDto updateOrderAmount(@PathVariable("id") int id, @RequestParam("amount") double amount) {
-        Order updatedOrder = orderService.updateOrderAmount(id, amount);
-        return convertToDto(updatedOrder);
+    @PutMapping(value = { "/orders/{id}/update-amount", "/orders/{id}/update-amount/" })
+    public OrderDto updateOrderAmount(@PathVariable("id") int id,
+                                      @RequestParam("amount") double amount) {
+        return convertToDto(orderService.updateOrderAmount(id, amount));
     }
 
 
@@ -165,7 +138,7 @@ public class OrderRestController {
      * @return boolean
      * @throws IllegalArgumentException
      */
-    @DeleteMapping(value = { "/deleteOrder/{id}", "/deleteOrder/{id}/" })
+    @DeleteMapping(value = { "/orders/{id}", "/orders/{id}/" })
     public boolean deleteOrder(@PathVariable("id") int id) throws IllegalArgumentException {
         return orderService.deleteOrder(id);
     }
@@ -176,34 +149,12 @@ public class OrderRestController {
      * @return boolean
      * @throws IllegalArgumentException
      */
-    @DeleteMapping(value = { "/deleteOrder", "/deleteOrder/" })
+    @DeleteMapping(value = { "/orders", "/orders/" })
     public boolean deleteOrder(OrderDto orderDto) throws IllegalArgumentException {
         if (orderDto == null)
             throw new IllegalArgumentException("An order is required to be deleted.");
 
         return orderService.deleteOrder(orderDto.getOrderId());
     }
-
-
-    // --- Dto Conversion --- //
-
-//    // TODO: Need UserProfileDto and ArtworkDto
-//    public OrderDto convertToDto(Order order) {
-//        if (order == null)
-//            throw new IllegalArgumentException("Order does not exist");
-//
-//        UserProfileDto userDto = convertToDto(order.getCustomer());
-////        OrderDto orderDto = new OrderDto(order.getOrderId(), userDto, artworkDto, order.getOrderDate(), order.getOrderTime());
-//        return new OrderDto(order.getOrderId(), userDto, new ArtworkDto(), order.getOrderDate(), order.getOrderTime());
-//    }
-//
-//    private OrderDto convertToDto(Order order) {
-//        if (order == null)
-//            throw new IllegalArgumentException("Order does not exist");
-//
-//        UserProfileDto userDto = convertToDto(order.getCustomer());
-//        OrderDto orderDto = new OrderDto(order.getOrderId(), userDto, artworkDto, order.getOrderDate(), order.getOrderTime());
-//        return orderDto;
-//    }
 
 }
