@@ -43,24 +43,29 @@ public class TestUserProfileService {
     @InjectMocks
     private ArtworkService artworkService;
 
-    private static final String USER_KEY = "TestUser";
+    private static final String USER_KEY = "johndoe";
 
     @BeforeEach
     public void setMockOutput() {
         lenient().when(userDao.findByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0).equals(USER_KEY)) {
-                UserProfile user = new UserProfile();
-                user.setUsername(USER_KEY);
-                return user;
-            } else {
-                return null;
-            }
+            String args = invocation.getArgument(0);
+            UserProfile user = new UserProfile();
+            user.setUsername(args);
+            return user;
+//            if (invocation.getArgument(0).equals(USER_KEY)) {
+//                UserProfile user = new UserProfile();
+//                user.setUsername(USER_KEY);
+//                return user;
+//            } else {
+//                return null;
+//            }
         });
 
         Answer<?> returnParameterAnswer = (InvocationOnMock invocation) -> {
             return invocation.getArgument(0);
         };
         lenient().when(userDao.save(any(UserProfile.class))).thenAnswer(returnParameterAnswer);
+
     }
 
     @Test
@@ -236,10 +241,10 @@ public class TestUserProfileService {
             fail(e);
         }
 
-        lenient().when(userDao.existsByUsername(anyString())).thenReturn(true);
 
         try {
             user = userService.updateEmail(username, newEmail);
+            System.out.println(user.getEmail());
         } catch (Exception e) {
             fail(e);
         }
@@ -265,6 +270,7 @@ public class TestUserProfileService {
 
         try {
             user = userService.updateUsername(username, newUsername);
+            System.out.println(user.getUsername());
         } catch (Exception e) {
             fail(e);
         }
@@ -519,7 +525,7 @@ public class TestUserProfileService {
 
         assertEquals(url, user.getProfileImageUrl());
 
-
+    // TODO Test deletion
 
 
     }
