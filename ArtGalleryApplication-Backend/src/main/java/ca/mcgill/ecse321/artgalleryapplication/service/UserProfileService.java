@@ -108,10 +108,10 @@ public class UserProfileService {
 
     // ----- Update methods -----
     @Transactional
-    public UserProfile updateEmail(String username, String password, String newEmail) throws IllegalArgumentException, DataAccessException {
+    public UserProfile updateEmail(String username, String newEmail) throws IllegalArgumentException, DataAccessException {
         newEmail = newEmail.toLowerCase();
 
-        UserProfile user = getUserProfileByUsername(username, password);
+        UserProfile user = getUserProfileByUsername(username);
 
         String error = "";
 
@@ -133,9 +133,9 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile updateUsername(String username, String password, String newUsername) throws IllegalArgumentException, DataAccessException {
+    public UserProfile updateUsername(String username, String newUsername) throws IllegalArgumentException, DataAccessException {
 
-        UserProfile user = getUserProfileByUsername(username, password);
+        UserProfile user = getUserProfileByUsername(username);
 
         if (newUsername == null || newUsername.trim().length() < 5) {
             throw new IllegalArgumentException("The new username must be at least 5 characters long.");
@@ -149,15 +149,15 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile updateName(String username, String password, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
-        UserProfile user = getUserProfileByUsername(username, password);
-            String[] newName = formatName(newFirstName, newLastName);
-            newFirstName = newName[0];
-            newLastName = newName[1];
+    public UserProfile updateName(String username, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
+        UserProfile user = getUserProfileByUsername(username);
+        String[] newName = formatName(newFirstName, newLastName);
+        newFirstName = newName[0];
+        newLastName = newName[1];
 
-            user.setFirstName(newFirstName);
-            user.setLastName(newLastName);
-            userRepository.save(user);
+        user.setFirstName(newFirstName);
+        user.setLastName(newLastName);
+        userRepository.save(user);
 
         return user;
 
@@ -176,8 +176,8 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile updateAdminStatus(String username, String password, boolean isAdmin) throws DataAccessException{
-        UserProfile user = getUserProfileByUsername(username, password);
+    public UserProfile updateAdminStatus(String username, boolean isAdmin) throws DataAccessException{
+        UserProfile user = getUserProfileByUsername(username);
 
             user.setIsAdmin(isAdmin);
             userRepository.save(user);
@@ -186,8 +186,8 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile updateAddress(String username, String password, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) throws DataAccessException {
-        UserProfile user = getUserProfileByUsername(username, password);
+    public UserProfile updateAddress(String username, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username);
         Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
         user.setAddress(address);
         userRepository.save(user);
@@ -209,6 +209,22 @@ public class UserProfileService {
     public UserProfile removeCurrentOrder(String username) throws DataAccessException {
         UserProfile user = getUserProfileByUsername(username);
         user.setCurrentOrder(null);
+        userRepository.save(user);
+        return user;
+    }
+
+    @Transactional
+    public UserProfile updateDescription(String username, String description) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username);
+        user.setDescription(description);
+        userRepository.save(user);
+        return user;
+    }
+
+    @Transactional
+    public UserProfile updateProfileImageUrl(String username, String imageUrl) throws DataAccessException {
+        UserProfile user = getUserProfileByUsername(username);
+        user.setProfileImageUrl(imageUrl);
         userRepository.save(user);
         return user;
     }
@@ -366,7 +382,7 @@ public class UserProfileService {
         return true;
     }
 
-    private static boolean validateName(String firstName, String lastName) throws IllegalArgumentException{
+    private static String validateName(String firstName, String lastName) throws IllegalArgumentException{
         String error = "";
 
         String regex = "[a-zA-Z]+";
@@ -393,7 +409,7 @@ public class UserProfileService {
         if (error.length() > 0){
             throw new IllegalArgumentException(error);
         }
-        return true;
+        return error;
 
     }
 
@@ -426,4 +442,5 @@ public class UserProfileService {
             return false;
         }
     }
+
 }

@@ -91,28 +91,25 @@ public class UserProfileController {
     // Update methods
     @PutMapping(value = {"/users/{username}/update-email", "/users/{username}/update-email/"})
     public UserProfileDto updateEmail(@PathVariable("username") String username,
-                                      @RequestParam String password,
                                       @RequestParam String newEmail) throws DataAccessException {
-        return convertToDto(userService.updateEmail(username, password, newEmail));
+        return convertToDto(userService.updateEmail(username, newEmail));
     }
 
     @PutMapping(value = {"/users/{username}/update-username", "/users/{username}/update-username/"})
     public UserProfileDto updateUsername(@PathVariable("username") String username,
-                                      @RequestParam String password,
                                       @RequestParam String newUsername) throws DataAccessException {
-        return convertToDto(userService.updateUsername(username, password, newUsername));
+        return convertToDto(userService.updateUsername(username, newUsername));
     }
 
     @PutMapping(value = {"users/{username}/update-address", "users/{username}/update-address/"})
     public UserProfileDto updateAddress(@PathVariable("username") String username,
-                                        @RequestParam String password,
                                         @RequestParam String streetAddress,
                                         @RequestParam String streetAddress2,
                                         @RequestParam String postalCode,
                                         @RequestParam String city,
                                         @RequestParam String province,
                                         @RequestParam String country) throws DataAccessException {
-        return convertToDto(userService.updateAddress(username, password, streetAddress, streetAddress2, postalCode, city, province, country));
+        return convertToDto(userService.updateAddress(username, streetAddress, streetAddress2, postalCode, city, province, country));
     }
 
     @PutMapping(value = {"users/{username}/update-password", "users/{username}/update-password/"})
@@ -124,17 +121,15 @@ public class UserProfileController {
 
     @PutMapping(value = {"users/{username}/update-admin-status", "users/{username}/update-admin-status/"})
     public UserProfileDto updateAdminStatus(@PathVariable("username") String username,
-                                            @RequestParam String password,
                                             @RequestParam boolean isAdmin) throws DataAccessException {
-        return convertToDto(userService.updateAdminStatus(username, password, isAdmin));
+        return convertToDto(userService.updateAdminStatus(username, isAdmin));
     }
 
     @PutMapping(value = {"users/{username}/update-name", "users/{username}/update-name/"})
     public UserProfileDto updateName(@PathVariable("username") String username,
-                                     @RequestParam String password,
                                      @RequestParam String newFirstName,
                                      @RequestParam String newLastName) throws DataAccessException {
-        return convertToDto(userService.updateName(username, password, newFirstName, newLastName));
+        return convertToDto(userService.updateName(username, newFirstName, newLastName));
     }
 
     @PutMapping(value = {"users/{username}/update-current-order", "users/{username}/update-current-order/"})
@@ -145,7 +140,17 @@ public class UserProfileController {
 
     @PutMapping(value = {"users/{username}/remove-current-order", "users/{username}/remove-current-order/"})
     public UserProfileDto removeCurrentOrder(@PathVariable("username") String username) throws DataAccessException {
-        return convertToDto((userService.removeCurrentOrder(username)));
+        return convertToDto(userService.removeCurrentOrder(username));
+    }
+
+    @PutMapping(value = {"users/{username}/update-description", "users/{username}/update-description/"})
+    public UserProfileDto updateDescription(@PathVariable("username") String username, @RequestParam String description) throws DataAccessException {
+        return convertToDto(userService.updateDescription(username, description));
+    }
+
+    @PutMapping(value = {"users/{username}/update-profile-image-url", "users/{username}/update-profile-image-url/"})
+    public UserProfileDto updateProfileImageUrl(@PathVariable("username") String username, @RequestParam String imageUrl) throws DataAccessException {
+        return convertToDto(userService.updateDescription(username, imageUrl));
     }
 
     // ----- Deletion methods -----
