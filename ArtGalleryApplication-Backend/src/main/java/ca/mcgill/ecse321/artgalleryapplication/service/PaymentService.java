@@ -154,14 +154,16 @@ public class PaymentService {
     		p.setPaymentForm(pf);
     	} if (pd != null) {
     		p.setPaymentDate(pd);
-    	} if (cardNumber != null) {
+    	} if (cardNumber != null && cardNumber.trim().length()>0) {
     		p.setCardNumber(cardNumber);
-    	} if (expiration != null) {
+    	} if (expiration != null && expiration.after(pd)) {
     		p.setExpirationDate(expiration);
     	} if(paymentTime != null) {
     		p.setPaymentTime(paymentTime);
     	}				
-    	p.setCvv(cvv);
+    	if(cvv/100 <= 9) {
+    		p.setCvv(cvv);
+    	}
     	paymentRepository.save(p);
     	return p;
     }	
