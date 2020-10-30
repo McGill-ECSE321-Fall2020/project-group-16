@@ -47,7 +47,7 @@ public class ArtworkRestController {
 	public ArtworkDto getArtworkById(@PathVariable("id") int id) {
 		Artwork a = artworkService.getArtwork(id);
 		return ConvertToDto.convertToDto(a);
-	}
+	} 
 	
 	
 	@GetMapping(value = {"/artworks", "/artworks/"})
