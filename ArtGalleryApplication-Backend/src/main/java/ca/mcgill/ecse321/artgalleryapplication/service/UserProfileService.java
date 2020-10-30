@@ -14,6 +14,7 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 import javax.transaction.Transactional;
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.*;
 import java.util.Set;
@@ -26,6 +27,9 @@ public class UserProfileService {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private ArtworkRepository artworkRepository;
 
     private AddressService addressService;
     private OrderService orderService;
@@ -310,6 +314,9 @@ public class UserProfileService {
     public List<UserProfile> getAllUsers() {
         return toList(userRepository.findAll());
     }
+
+
+
 
 
 

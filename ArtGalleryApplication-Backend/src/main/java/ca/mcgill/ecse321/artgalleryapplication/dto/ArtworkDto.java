@@ -26,7 +26,7 @@ public class ArtworkDto {
 	
 	public ArtworkDto(int id, String title,  String description,  Date creationDate, 
 					  String medium, String imageUrl, Double price, ArtworkStatus status,
-					  String dimensions, String collection) {
+					  String dimensions, String collection, List<UserProfileDto> artists) {
 		this.artworkId = id;
     	this.title = title;
     	this.description = description;
@@ -36,7 +36,8 @@ public class ArtworkDto {
     	this.price = price;
     	this.artworkStatus = status;
     	this.dimensions = dimensions;
-    	this.collection = collection;		
+    	this.collection = collection;
+    	this.artists = artists;
 	}
 	
 	public int getArtworkId() {
@@ -83,7 +84,6 @@ public class ArtworkDto {
 		return toList(artists);
 	}
 	
-	//@TODO idk if i need this/need to write more setAttribute methods
 	public void setArtists() {
 		this.artists = artists;
 	}

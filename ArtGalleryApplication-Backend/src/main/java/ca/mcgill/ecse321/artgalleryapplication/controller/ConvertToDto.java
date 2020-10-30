@@ -31,9 +31,15 @@ public class ConvertToDto {
             throw new IllegalArgumentException("Artwork cannot be null");
         }
 
-        return new ArtworkDto(a.getArtworkId(), a.getTitle(), a.getDescription(), a.getCreationDate(),
+        List<UserProfileDto> userProfileDtos = new ArrayList<>();
+        for(UserProfile u : a.getArtist()) {
+            userProfileDtos.add(ConvertToDto.convertToDto(u));
+        }
+
+        ArtworkDto artworkDto = new ArtworkDto(a.getArtworkId(), a.getTitle(), a.getDescription(), a.getCreationDate(),
                 a.getMedium(), a.getImageUrl(), a.getPrice(), a.getArtworkStatus(),
-                a.getDimensions(), a.getCollection());
+                a.getDimensions(), a.getCollection(), userProfileDtos);
+        return artworkDto;
     }
 
     public static GalleryEventDto convertToDto(GalleryEvent e) {
