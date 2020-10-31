@@ -1,24 +1,15 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import org.apache.catalina.User;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,8 +20,6 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import  ca.mcgill.ecse321.artgalleryapplication.model.*;
-
-import javax.swing.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TestUserProfileService {
@@ -88,28 +77,19 @@ public class TestUserProfileService {
             user.setPassword(PASSWORD);
             user.setEmail(EMAIL);
 
-            List<UserProfile> list = new ArrayList<UserProfile>();
+            List<UserProfile> list = new ArrayList<>();
             list.add(user);
             return list;
         });
 
         // Mock for existsByUsername
-        lenient().when(userDao.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
-            if (invocation.getArgument(0) == USERNAME) {
-                return true;
-            } else {
-                return false;
-            }
-        });
+        lenient().when(userDao.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0) == USERNAME);
 
-        Answer<?> returnParameterAnswer = (InvocationOnMock invocation) -> {
-            return invocation.getArgument(0);
-        };
-
-        // Mock for save
+        Answer<?> returnParameterAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
+        // Mocks for save
         lenient().when(userDao.save(any(UserProfile.class))).thenAnswer(returnParameterAnswer);
         lenient().when(addressDao.save(any(Address.class))).thenAnswer(returnParameterAnswer);
-
+        lenient().when(orderDao.save(any(Order.class))).thenAnswer(returnParameterAnswer);
     }
 
     @Test
@@ -165,10 +145,9 @@ public class TestUserProfileService {
         String lastName = "";
         String email = "";
         String password = "";
-        UserProfile user = null;
 
         try {
-            user = userService.createRegularUserProfile(firstName, lastName, username, email, password);
+            userService.createRegularUserProfile(firstName, lastName, username, email, password);
         } catch (Exception e) {
             error += e.getMessage();
         }
@@ -180,10 +159,9 @@ public class TestUserProfileService {
     public void inValidUsernameTest() {
         String error = "";
         String username = "john";
-        UserProfile user = null;
 
         try {
-            user = userService.createRegularUserProfile(FIRST_NAME, LAST_NAME, username, EMAIL, PASSWORD);
+            userService.createRegularUserProfile(FIRST_NAME, LAST_NAME, username, EMAIL, PASSWORD);
         } catch (Exception e) {
             error += e.getMessage();
         }
@@ -196,10 +174,9 @@ public class TestUserProfileService {
     public void invalidEmailTest() {
         String error = "";
         String email = "john.doe.gmail.com";
-        UserProfile user = null;
 
         try {
-            user = userService.createRegularUserProfile(FIRST_NAME, LAST_NAME, USERNAME, email, PASSWORD);
+            userService.createRegularUserProfile(FIRST_NAME, LAST_NAME, USERNAME, email, PASSWORD);
         } catch (Exception e) {
             error += e.getMessage();
         }
@@ -211,10 +188,9 @@ public class TestUserProfileService {
     public void invalidPasswordTest() {
         String error = "";
         String password = "JohnDoe123";
-        UserProfile user = null;
 
         try {
-            user = userService.createRegularUserProfile(FIRST_NAME, LAST_NAME, USERNAME, EMAIL, password);
+            userService.createRegularUserProfile(FIRST_NAME, LAST_NAME, USERNAME, EMAIL, password);
         } catch (Exception e) {
             error += e.getMessage();
         }
@@ -228,10 +204,9 @@ public class TestUserProfileService {
         String expected = "The first name must only contain letters.\n" + "The last name must only contain letters.\n";
         String firstName = "123";
         String lastName = "1234";
-        UserProfile user = null;
 
         try {
-            user = userService.createRegularUserProfile(firstName, lastName, USERNAME, EMAIL, PASSWORD);
+            userService.createRegularUserProfile(firstName, lastName, USERNAME, EMAIL, PASSWORD);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -246,7 +221,6 @@ public class TestUserProfileService {
 
         try {
             user = userService.updateEmail(USERNAME, newEmail);
-            System.out.println(user.getEmail());
         } catch (Exception e) {
             fail(e);
         }
@@ -267,7 +241,6 @@ public class TestUserProfileService {
 
         try {
             user = userService.updateUsername(USERNAME, newUsername);
-            System.out.println(user.getUsername());
         } catch (Exception e) {
             fail(e);
         }
@@ -284,7 +257,6 @@ public class TestUserProfileService {
         try {
             user = userService.updateName(USERNAME, newFirstName, newLastName);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             fail(e);
         }
 
@@ -337,37 +309,9 @@ public class TestUserProfileService {
         String newProvince = "Quebec";
         String newCountry = "Canada";
 
-//        lenient().when(addressDao.save(any(Address.class))).thenAnswer(new Answer() {
-//
-//            private Address setAddress(String streetAddress, String streetAddress2, String postalCode, String city, String province, String country){
-//                Address address = new Address();
-//                address.setAddressId(1);
-//                address.setStreetAddress(streetAddress);
-//                address.setStreetAddress2(streetAddress2);
-//                address.setPostalCode(postalCode);
-//                address.setCity(city);
-//                address.setProvince(province);
-//                address.setCountry(country);
-//                return address;
-//            }
-//
-//            private int count = 0;
-//
-//            public Object answer(InvocationOnMock invocation) {
-//                if (count == 0) {
-//                    count ++;
-//                    return setAddress(streetAddress, streetAddress2, postalCode, city, province, country);
-//                } else {
-//                    return setAddress(newStreetAddress, newStreetAddress2, newPostalCode, newCity, newProvince, newCountry);
-//                }
-//            }
-//        });
-
         try {
             user = userService.updateAddress(USERNAME, streetAddress, streetAddress2, postalCode, city, province, country);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
             fail(e);
         }
 
@@ -380,73 +324,6 @@ public class TestUserProfileService {
         }
 
         assertEquals(newStreetAddress, user.getAddress().getStreetAddress());
-
-        addressDao.deleteAll();
-    }
-
-    @Test
-    public void updateCurrentOrderTest() {
-        UserProfile user = null;
-
-        lenient().when(artworkDao.findArtworkByArtworkId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            Artwork artwork = new Artwork();
-            artwork.setArtworkId(1);
-            return artwork;
-        });
-
-        lenient().when(orderDao.save(any(Order.class))).thenAnswer((InvocationOnMock invocation) -> {
-            Order order = new Order();
-            order.setOrderId(1);
-            return order;
-        });
-
-        try {
-            user = userService.updateCurrentOrder(USERNAME, 1);
-        } catch (Exception e) {
-            fail(e);
-        }
-
-        assertTrue(user.getCurrentOrder().getOrderId() == 1);
-
-        artworkDao.deleteAll();
-        orderDao.deleteAll();
-    }
-
-    @Test
-    public void removeCurrentOrderTest() {
-
-        UserProfile user = null;
-
-        lenient().when(artworkDao.findArtworkByArtworkId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-            Artwork artwork = new Artwork();
-            artwork.setArtworkId(1);
-            return artwork;
-        });
-
-        lenient().when(orderDao.save(any(Order.class))).thenAnswer((InvocationOnMock invocation) -> {
-            Order order = new Order();
-            order.setOrderId(1);
-            return order;
-        });
-
-        try {
-            user = userService.updateCurrentOrder(USERNAME, 1);
-        } catch (Exception e) {
-            fail(e);
-        }
-
-        assertTrue(user.getCurrentOrder().getOrderId() == 1);
-
-        try {
-            user = userService.removeCurrentOrder(USERNAME);
-        } catch (Exception e) {
-            fail(e);
-        }
-
-        assertNull(user.getCurrentOrder());
-
-        artworkDao.deleteAll();
-        orderDao.deleteAll();
     }
 
     @Test
@@ -476,9 +353,63 @@ public class TestUserProfileService {
         }
 
         assertEquals(url, user.getProfileImageUrl());
-
-    // TODO Test deletion
-
-
     }
+
+    //TODO - REMOVE
+//    @Test
+//    public void updateCurrentOrderTest() {
+//        UserProfile user = null;
+//
+//        lenient().when(artworkDao.findArtworkByArtworkId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+//            Artwork artwork = new Artwork();
+//            artwork.setArtworkId(1);
+//            return artwork;
+//        });
+//
+//        try {
+//            user = userService.updateCurrentOrder(USERNAME, 1);
+//        } catch (Exception e) {
+//            fail(e);
+//        }
+//
+//        assertEquals(1, user.getCurrentOrder().getOrderId());
+//    }
+
+//    @Test
+//    public void removeCurrentOrderTest() {
+//
+//        UserProfile user = null;
+//
+//        lenient().when(artworkDao.findArtworkByArtworkId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+//            Artwork artwork = new Artwork();
+//            artwork.setArtworkId(1);
+//            return artwork;
+//        });
+//
+//        lenient().when(orderDao.save(any(Order.class))).thenAnswer((InvocationOnMock invocation) -> {
+//            Order order = new Order();
+//            order.setOrderId(1);
+//            return order;
+//        });
+//
+//        try {
+//            user = userService.updateCurrentOrder(USERNAME, 1);
+//        } catch (Exception e) {
+//            fail(e);
+//        }
+//
+//        assertTrue(user.getCurrentOrder().getOrderId() == 1);
+//
+//        try {
+//            user = userService.removeCurrentOrder(USERNAME);
+//        } catch (Exception e) {
+//            fail(e);
+//        }
+//
+//        assertNull(user.getCurrentOrder());
+//
+//        artworkDao.deleteAll();
+//        orderDao.deleteAll();
+//    }
+
 }

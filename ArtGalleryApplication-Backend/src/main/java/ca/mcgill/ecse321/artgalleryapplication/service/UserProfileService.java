@@ -14,11 +14,17 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 
 import javax.transaction.Transactional;
 import javax.xml.crypto.Data;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.*;
 import java.util.Set;
+
+import static ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus.PaymentPending;
 
 @Service
 public class UserProfileService {
@@ -30,9 +36,14 @@ public class UserProfileService {
     private EventService eventService;
 
     @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
     private ArtworkRepository artworkRepository;
 
     @Autowired
+    private OrderRepository orderRepository;
+
     private AddressService addressService;
 
     private OrderService orderService;
@@ -174,7 +185,7 @@ public class UserProfileService {
     @Transactional
     public UserProfile updateAddress(String username, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) {
         UserProfile user = getUserProfileByUsername(username);
-        Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
+        Address address = createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
         user.setAddress(address);
         userRepository.save(user);
         return user;
@@ -231,7 +242,7 @@ public class UserProfileService {
     // ----- Get methods -----
     @Transactional
     public UserProfile getUserProfileByUsername(String username, String password) throws DataAccessException{
-        UserProfile user = null;
+        UserProfile user;
 
         try {
             user = userRepository.findByUsername(username);
@@ -253,7 +264,7 @@ public class UserProfileService {
 
     @Transactional
     public UserProfile getUserProfileByUsername(String username) throws DataAccessException{
-        UserProfile user = null;
+        UserProfile user;
 
         try {
             user = userRepository.findByUsername(username);
@@ -271,7 +282,7 @@ public class UserProfileService {
 
     @Transactional
     public UserProfile getUserProfileByEmail(String email, String password) throws DataAccessException{
-        UserProfile user = null;
+        UserProfile user;
 
         try {
             user = userRepository.findByEmail(email);
@@ -293,7 +304,7 @@ public class UserProfileService {
 
     @Transactional
     public UserProfile getUserProfileByEmail(String email) throws DataAccessException{
-        UserProfile user = null;
+        UserProfile user;
 
         try {
             user = userRepository.findByEmail(email);
@@ -319,7 +330,7 @@ public class UserProfileService {
     // ----- Helper methods -----
 
     private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }
@@ -403,11 +414,27 @@ public class UserProfileService {
     }
 
     private static boolean isEmpty(String s) {
-        if(s == null || s.trim().length() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return s == null || s.trim().length() == 0;
+    }
+
+    @Transactional
+    public Address createAddress(String streetAddress, String streetAddress2, String postalCode, String city, String province, String country){
+        if(streetAddress == null || streetAddress.trim().length() == 0) throw new IllegalArgumentException("StreetAddress is null or length 0. Please enter a valid streetAddress");
+        if(postalCode == null || postalCode.trim().length() == 0) throw new IllegalArgumentException("postalCode is null or length 0. Please enter a valid postalCode");
+        if(city == null || city.trim().length() == 0) throw new IllegalArgumentException("City is null or length 0. Please enter a valid city");
+        if(province == null || province.trim().length() == 0) throw new IllegalArgumentException("Province is null or length 0. Please enter a valid province");
+        if(country == null || country.trim().length() == 0) throw new IllegalArgumentException("Country is null or length 0. Please enter a valid country");
+
+        Address address = new Address();
+        address.setStreetAddress(streetAddress);
+        address.setStreetAddress2(streetAddress2);
+        address.setPostalCode(postalCode);
+        address.setCity(city);
+        address.setProvince(province);
+        address.setCountry(country);
+
+        addressRepository.save(address);
+        return address;
     }
 
 }
