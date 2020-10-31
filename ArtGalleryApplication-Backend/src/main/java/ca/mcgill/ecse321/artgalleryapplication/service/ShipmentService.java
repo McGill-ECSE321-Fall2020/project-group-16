@@ -98,32 +98,6 @@ public class ShipmentService {
     public List<Shipment> getAllShipments(){
     	return toList(shipmentRepository.findAll());
     }
-
-    @Transactional
-    public List<Shipment> getAllShipmentsByToGallery(Boolean toGal){
-    	if(toGal == null) {
-    		throw new IllegalArgumentException("Must enter a boolean variable");
-    	}
-    	
-    	List<Shipment> s = shipmentRepository.findShipmentByToGallery(toGal);
-    	if(s.isEmpty()) {
-    		throw new IllegalArgumentException("No shipments made with this toGallery value");
-    	}
-    	return s;
-    }
-    
-    @Transactional
-    public List<Shipment> getAllShipmentsByEstimatedArrivalTime(Time eta){
-    	if(eta == null) {
-    		throw new IllegalArgumentException("Must enter a Time variable");
-    	}
-    	
-    	List<Shipment> s = shipmentRepository.findShipmentByEstimatedArrivalTime(eta);
-    	if(s.isEmpty()) {
-    		throw new IllegalArgumentException("No shipments made with this eta");
-    	}
-    	return s;
-    }
     
     @Transactional
     public List<Shipment> getAllShipmentsByEstimatedArrivalDate(Date arrivalDate){
