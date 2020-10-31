@@ -70,11 +70,10 @@ public class TestPaymentService {
 		String cardNumber = "987654321";
 		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
 		int cvv = 123;
-		int paymentId = 111111111;
 		Time paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 		Payment payment = null;
 		try {
-			payment = service.createPayment(PaymentForm.CreditCard, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+			payment = service.createPayment(PaymentForm.CreditCard, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -84,7 +83,6 @@ public class TestPaymentService {
 		assertEquals(cardNumber, payment.getCardNumber());
 		assertEquals(expirationDate, payment.getExpirationDate());
 		assertEquals(cvv, payment.getCvv());
-		assertEquals(paymentId, payment.getPaymentId());
 		assertEquals(paymentTime, payment.getPaymentTime());
 	}
 	
@@ -100,7 +98,6 @@ public class TestPaymentService {
 		Date expirationDate;
 		Time paymentTime;
 		int cvv = 000;
-		int paymentId = 54321;
 		
 		for(int i = 0; i<2; i++) {
 			if(i ==1) {
@@ -138,7 +135,7 @@ public class TestPaymentService {
 							else paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 							
 							try {
-								payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+								payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
 							} catch (IllegalArgumentException e) {
 								error = e.getMessage();
 								for(String s:nulls) {
@@ -172,10 +169,9 @@ public class TestPaymentService {
 		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));;
 		Time paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));;
 		int cvv = 000;
-		int paymentId = 54321;
 		
 		try {
-			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
 		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -193,10 +189,9 @@ public class TestPaymentService {
 		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2022, Month.NOVEMBER, 19));;
 		Time paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));;
 		int cvv = 000;
-		int paymentId = 54321;
 		
 		try {
-			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
 		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -214,10 +209,9 @@ public class TestPaymentService {
 		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));;
 		Time paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));;
 		int cvv = 1000;
-		int paymentId = 54321;
 		
 		try {
-			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+			payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
 		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
