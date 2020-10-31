@@ -440,7 +440,7 @@ public class TestPaymentService {
 	 }
 	
 	 @Test
-	 public void testUpdateShipmentNonExistingId() {
+	 public void testUpdatePaymentNonExistingId() {
 	     String error = "";
 	     Payment payment = null;
 	        
