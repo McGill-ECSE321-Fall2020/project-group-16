@@ -45,6 +45,8 @@ public class EventService {
         if(endTime == null) throw new IllegalArgumentException("End time is currently null. Please enter a valid end time");
         if(imageUrl == null || imageUrl.trim().length() == 0) throw new IllegalArgumentException("Image is currently null or length 0. Please enter a valid image url string.");
 
+        if(startTime.compareTo(endTime) >= 0) throw new IllegalArgumentException("Start time is after the End time");
+
         GalleryEvent event = new GalleryEvent();
         event.setEventName(name);
         event.setEventDescription(description);
@@ -62,23 +64,25 @@ public class EventService {
      * @param event
      */
     @Transactional
-    public void registerUserToEvent(UserProfile user, GalleryEvent event) {
+    public GalleryEvent registerUserToEvent(UserProfile user, GalleryEvent event) {
         checkValidUserAndEvent(user, event);
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
         UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
 
         eventInSystem.getParticipants().add(userInSystem);
         galleryEventRepository.save(eventInSystem);
+        return eventInSystem;
     }
 
     @Transactional
-    public void unregisterUserToEvent(UserProfile user, GalleryEvent event) {
+    public GalleryEvent unregisterUserToEvent(UserProfile user, GalleryEvent event) {
         checkValidUserAndEvent(user, event);
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
         UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
 
         eventInSystem.getParticipants().remove(userInSystem);
         galleryEventRepository.save(eventInSystem);
+        return eventInSystem;
     }
 
     /**
@@ -89,7 +93,7 @@ public class EventService {
     public void deleteEvent(Integer eventId) {
         if(eventId == null) throw new IllegalArgumentException("Event ID to be deleted is null");
         GalleryEvent event = galleryEventRepository.findGalleryEventByEventId(eventId);
-        if(event == null) throw new NullPointerException("There is no Event with this ID");
+        if(event == null) throw new IllegalArgumentException("There is no Event with this ID");
         galleryEventRepository.deleteGalleryEventByEventId(eventId);
     }
 
@@ -109,9 +113,9 @@ public class EventService {
      */
     @Transactional
     public GalleryEvent getEventById(Integer eventId) {
-        if(eventId == null) throw new IllegalArgumentException("Event ID to be deleted is null");
+        if(eventId == null) throw new IllegalArgumentException("Event ID is null");
         GalleryEvent event = galleryEventRepository.findGalleryEventByEventId(eventId);
-        if(event == null) throw new NullPointerException("There is no Event with this ID");
+        if(event == null) throw new IllegalArgumentException("There is no Event with this ID");
         return event;
     }
 
@@ -124,7 +128,7 @@ public class EventService {
         if(event == null) throw new IllegalArgumentException("Event to register to is null");
         if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
-        if(eventInSystem == null) throw new NullPointerException("Unable to retrieve event in system");
+        if(eventInSystem == null) throw new IllegalArgumentException("Unable to retrieve event in system");
         if(user == null) throw new IllegalArgumentException("User to register to event is null");
         UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
         if(userInSystem == null) throw new IllegalArgumentException("User " + user + " does not exist in system");
