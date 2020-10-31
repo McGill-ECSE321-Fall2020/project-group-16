@@ -3,9 +3,6 @@ package ca.mcgill.ecse321.artgalleryapplication.service;
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
-import net.bytebuddy.pool.TypePool;
-import org.apache.catalina.User;
-import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
@@ -13,18 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
 import javax.transaction.Transactional;
-import javax.xml.crypto.Data;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.regex.*;
-import java.util.Set;
-
-import static ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus.PaymentPending;
 
 @Service
 public class UserProfileService {
@@ -37,14 +25,6 @@ public class UserProfileService {
 
     @Autowired
     private AddressRepository addressRepository;
-
-    @Autowired
-    private ArtworkRepository artworkRepository;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    private AddressService addressService;
 
     private OrderService orderService;
 
@@ -337,7 +317,7 @@ public class UserProfileService {
         return resultList;
     }
 
-    private static boolean validateEmail(String email) throws IllegalArgumentException{
+    private static void validateEmail(String email) throws IllegalArgumentException{
 
         if (isEmpty(email)) {
             throw new IllegalArgumentException("The email cannot me empty.\n");
@@ -351,11 +331,9 @@ public class UserProfileService {
             throw new IllegalArgumentException("The email entered is not a valid email address.\n");
         }
 
-        return true;
-
     }
 
-    private static boolean validatePassword(String password) throws IllegalArgumentException{
+    private static void validatePassword(String password) throws IllegalArgumentException{
 
         if (password == null || password.trim().length() < 8) {
             throw new IllegalArgumentException("The password must be at least 8 characters long.\n");
@@ -369,7 +347,6 @@ public class UserProfileService {
             throw new IllegalArgumentException("The password must contain at least one lowercase letter, one uppercase letter, one number and one special character.\n");
         }
 
-        return true;
     }
 
     private static void validateName(String firstName, String lastName) throws IllegalArgumentException{
@@ -419,11 +396,16 @@ public class UserProfileService {
 
     @Transactional
     public Address createAddress(String streetAddress, String streetAddress2, String postalCode, String city, String province, String country){
-        if(streetAddress == null || streetAddress.trim().length() == 0) throw new IllegalArgumentException("StreetAddress is null or length 0. Please enter a valid streetAddress");
-        if(postalCode == null || postalCode.trim().length() == 0) throw new IllegalArgumentException("postalCode is null or length 0. Please enter a valid postalCode");
-        if(city == null || city.trim().length() == 0) throw new IllegalArgumentException("City is null or length 0. Please enter a valid city");
-        if(province == null || province.trim().length() == 0) throw new IllegalArgumentException("Province is null or length 0. Please enter a valid province");
-        if(country == null || country.trim().length() == 0) throw new IllegalArgumentException("Country is null or length 0. Please enter a valid country");
+        if(streetAddress == null || streetAddress.trim().length() == 0)
+            throw new IllegalArgumentException("StreetAddress is null or length 0. Please enter a valid streetAddress");
+        if(postalCode == null || postalCode.trim().length() == 0)
+            throw new IllegalArgumentException("postalCode is null or length 0. Please enter a valid postalCode");
+        if(city == null || city.trim().length() == 0)
+            throw new IllegalArgumentException("City is null or length 0. Please enter a valid city");
+        if(province == null || province.trim().length() == 0)
+            throw new IllegalArgumentException("Province is null or length 0. Please enter a valid province");
+        if(country == null || country.trim().length() == 0)
+            throw new IllegalArgumentException("Country is null or length 0. Please enter a valid country");
 
         Address address = new Address();
         address.setStreetAddress(streetAddress);
