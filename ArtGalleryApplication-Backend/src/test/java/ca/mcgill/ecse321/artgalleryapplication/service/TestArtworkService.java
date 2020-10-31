@@ -121,7 +121,7 @@ public class TestArtworkService {
                 return null;
             }
         });
-		
+
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
@@ -188,8 +188,6 @@ public class TestArtworkService {
 		assertEquals(dimensions, a.getDimensions());
 		assertEquals(collection, a.getCollection());
 	}
-	
-
 	
 	@Test
 	public void testCreateArtworkNull() {

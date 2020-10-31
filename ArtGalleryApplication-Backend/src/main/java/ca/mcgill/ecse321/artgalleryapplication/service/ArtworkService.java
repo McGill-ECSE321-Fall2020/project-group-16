@@ -80,7 +80,6 @@ public class ArtworkService {
     	artwork.setCollection(collection);
 
     	artworkRepository.save(artwork);
-
     	return artwork;
     }
  
@@ -187,7 +186,8 @@ public class ArtworkService {
     	}
     	
     	if(maxDate == null) {
-			maxDate = new Date(System.currentTimeMillis());
+    		Date today = new Date(System.currentTimeMillis());
+    		maxDate = today;
     	}
     	
     	//filtering results
