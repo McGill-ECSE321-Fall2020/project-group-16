@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
@@ -58,7 +59,7 @@ public class ArtworkService {
      * @TODO add error handling for inputs?
      */
     @Transactional
-    public ArtworkDto createArtwork(String title,  String description,  Date creationDate,
+    public Artwork createArtwork(String title,  String description,  Date creationDate,
     								String medium, String imageUrl, Double price, ArtworkStatus status,
     								String dimensions, String collection) {
 
@@ -80,7 +81,7 @@ public class ArtworkService {
 
     	artworkRepository.save(artwork);
 
-    	return convertToDto(artwork);
+    	return artwork;
     }
  
 	@Transactional
@@ -206,16 +207,19 @@ public class ArtworkService {
     }
 
 	@Transactional
-	public void addArtistToArtwork(Artwork a, UserProfile p) {
+	public void addArtistToArtwork(Artwork a, String artist) {
+		if(a == null) throw new IllegalArgumentException("No artwork with this id in the system.");		
 		Artwork artworkInSystem = artworkRepository.findArtworkByArtworkId(a.getArtworkId());
-		if(artworkInSystem == null) throw new IllegalArgumentException("No artwork with this id in the system.");
 
-		if(p == null) throw new IllegalArgumentException("null user entered as artist");
-		UserProfile artist1 = userRepository.findByUsername(p.getUsername());
-		if(artist1 == null) throw new IllegalArgumentException("No user in system associated to this username :" + p.getUsername());
+		UserProfile p = userRepository.findByUsername(artist);
+		if(p == null) throw new IllegalArgumentException("No user in system associated to this username");
 
-		a.getArtist().add(p);
+		Set<UserProfile> artists = new HashSet<>();
+		artists.add(p);
+		a.setArtist(artists);
+		
 		p.getArtwork().add(artworkInSystem);
+		
 		userRepository.save(p);
 		artworkRepository.save(artworkInSystem);
 	}

@@ -31,6 +31,7 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.ArtworkRepository;
 import ca.mcgill.ecse321.artgalleryapplication.dao.UserRepository;
+import ca.mcgill.ecse321.artgalleryapplication.dto.ArtworkDto;
 import ca.mcgill.ecse321.artgalleryapplication.model.Artwork;
 import ca.mcgill.ecse321.artgalleryapplication.model.ArtworkStatus;
 import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
@@ -111,6 +112,16 @@ public class TestArtworkService {
 			}
 		});
 		
+		lenient().when(userDao.findByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if (invocation.getArgument(0).equals(ARTIST)) {
+                UserProfile p = new UserProfile();
+            	p.setUsername(ARTIST);
+            	return p;
+            } else {
+                return null;
+            }
+        });
+		
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
@@ -178,44 +189,7 @@ public class TestArtworkService {
 		assertEquals(collection, a.getCollection());
 	}
 	
-	/*
-	@Test
-	
-	public void testUpdateArtworkFields() {
-		//updating attributes
-		String newTitle = "Water Lilies";
-		String newDescription = "wow amazing painting";
-		String newImageUrl = "lilies.png";
-		Double newPrice = 1000.00;
-		ArtworkStatus newStatus = ArtworkStatus.NotForSale;
-		String newDimensions = "2m x 2m";
-		String newCollection = "landscapes";
-		
-		Artwork a = service.createArtwork(TITLE, DESCRIPTION, CREATION_DATE,
-										  MEDIUM, IMAGE_URL, PRICE, STATUS, 
-										  DIMENSIONS, COLLECTION);
-		
-		try {
-			a = service.updateArtworkFields(ARTWORK_ID, newTitle, newDescription, 
-											newImageUrl, newPrice, newStatus, 
-											newDimensions, newCollection);
-		}
-		catch(IllegalArgumentException e ) {
-			fail();
-		}
-													
-		assertEquals(newTitle, a.getTitle());
-		assertEquals(newDescription, a.getDescription());
-		assertEquals(newImageUrl, a.getImageUrl());
-		assertEquals(newPrice, a.getPrice());
-		assertEquals(newStatus, a.getArtworkStatus());
-		assertEquals(newDimensions, a.getDimensions());
-		assertEquals(newCollection, a.getCollection());
-		
-		//@TODO fix this one
-	}
-	*/
-	
+
 	
 	@Test
 	public void testCreateArtworkNull() {
@@ -274,6 +248,37 @@ public class TestArtworkService {
 		assertTrue(error.equals("title is null or length 0. Please enter valid title."));
 	}
 	
+	@Test	
+	public void testUpdateArtworkFields() {
+		//updating attributes
+		String newTitle = "Water Lilies";
+		String newDescription = "wow amazing painting";
+		String newImageUrl = "lilies.png";
+		Double newPrice = 1000.00;
+		ArtworkStatus newStatus = ArtworkStatus.NotForSale;
+		String newDimensions = "2m x 2m";
+		String newCollection = "landscapes";
+		
+		Artwork a = null;
+		
+		try {
+			a = service.updateArtworkFields(ARTWORK_ID, newTitle, newDescription, 
+											newImageUrl, newPrice, newStatus, 
+											newDimensions, newCollection);
+		}
+		catch(IllegalArgumentException e ) {
+			fail();
+		}
+													
+		assertEquals(newTitle, a.getTitle());
+		assertEquals(newDescription, a.getDescription());
+		assertEquals(newImageUrl, a.getImageUrl());
+		assertEquals(newPrice, a.getPrice());
+		assertEquals(newStatus, a.getArtworkStatus());
+		assertEquals(newDimensions, a.getDimensions());
+		assertEquals(newCollection, a.getCollection());
+	}
+	
 	@Test
 	public void testGetExistingArtwork() {
 		assertEquals(ARTWORK_ID, service.getArtwork(ARTWORK_ID).getArtworkId());
@@ -312,7 +317,7 @@ public class TestArtworkService {
 		}
 		catch (IllegalArgumentException e) {
 			fail();
-		}
+		} 
 		
 		List<Artwork> allArtworks = service.getAllArtworks();
 		assertEquals(1, allArtworks.size());
@@ -538,19 +543,12 @@ public class TestArtworkService {
 		assertEquals(error, "Please enter a status");
 	}
 	
-	/*
-	//@TODO figure out how to create a userProfile stub ??
 	@Test
 	public void testAddArtistToArtwork() {
-		Artwork a = service.createArtwork(TITLE, DESCRIPTION, CREATION_DATE,
-										  MEDIUM, IMAGE_URL, PRICE, STATUS, 
-									      DIMENSIONS, COLLECTION);
-		a.setArtworkId(ARTWORK_ID);
-		UserProfile p = new UserProfile();
-		p.setUsername(ARTIST);
+		Artwork a = service.getArtwork(ARTWORK_ID);
 		
 		try {
-			service.addArtistToArtwork(a, p);
+			service.addArtistToArtwork(a, ARTIST);
 		}
 		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
@@ -559,7 +557,37 @@ public class TestArtworkService {
 		
 		assertEquals(a.getArtist().iterator().next().getUsername(), ARTIST);
 	}
-	*/
+	
+	@Test
+	public void testAddNullArtistToArtwork() {
+		Artwork a = service.getArtwork(ARTWORK_ID);
+		String artist = null;
+		String error = "";
+		
+		try {
+			service.addArtistToArtwork(a, artist);
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals(error, "No user in system associated to this username");
+	}
+	
+	@Test
+	public void testAddArtistToNullArtwork() {
+		Artwork a = null;
+		String error = "";
+		
+		try {
+			service.addArtistToArtwork(a, ARTIST);
+		}
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals(error, "No artwork with this id in the system.");
+	}
 	
 	@Test
 	public void testDeleteNonexistentArtwork() {
