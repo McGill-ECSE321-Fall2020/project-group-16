@@ -170,7 +170,6 @@ public class TestPaymentService {
 		assertEquals(CARD_NUMBER2, payment.getCardNumber());
 		assertEquals(EXPIRATION_DATE2, payment.getExpirationDate());
 		assertEquals(CVV2, payment.getCvv());
-		assertEquals(PAYMENT_ID2, payment.getPaymentId());
 		assertEquals(PAYMENT_TIME2, payment.getPaymentTime());
 	}
 	
