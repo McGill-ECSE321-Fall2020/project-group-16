@@ -327,6 +327,58 @@ public class TestEventService {
     }
 
     @Test
+    public void testRegisterInvalidUser() {
+        String error = "";
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+        user.setUsername(INVALID_USERNAME);
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+            event = eventService.registerUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "User " + user + " does not exist in system");
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testRegisterInvalidEvent() {
+        String error = "";
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+        event.setEventId(INVALID_ID);
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+            event = eventService.registerUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "There is no Event with this ID");
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testRegisterNullEvent() {
+        String error = "";
+        UserProfile user = createUser();
+
+        try {
+             eventService.registerUserToEvent(user, null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "Event to register to is null");
+    }
+
+    @Test
     public void testCorrectUnregister() {
         GalleryEvent event = createEvent();
         UserProfile user = createUser();
@@ -342,6 +394,58 @@ public class TestEventService {
 
         assertNotNull(event);
         assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testUnregisterInvalidUser() {
+        String error = "";
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+        user.setUsername(INVALID_USERNAME);
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+            event = eventService.unregisterUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "User " + user + " does not exist in system");
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testUnregisterInvalidEvent() {
+        String error = "";
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+        event.setEventId(INVALID_ID);
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+            event = eventService.unregisterUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "There is no Event with this ID");
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testRegisterNullUser() {
+        String error = "";
+        GalleryEvent event = createEvent();
+
+        try {
+            eventService.registerUserToEvent(null, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "User to register to event is null");
     }
 
 
