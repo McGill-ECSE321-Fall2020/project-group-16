@@ -40,8 +40,8 @@ public class ShipmentService {
 
 
     @Transactional
-    public Shipment createShipment(Boolean toGallery, Time estimatedArrivalTime, int shipmentId, Date estimatedArrivalDate, Address returnAddress, Address destinationAddress) {
-    	List<String> nulls = new ArrayList<String>();
+    public Shipment createShipment(Boolean toGallery, Time estimatedArrivalTime, Date estimatedArrivalDate, int returnAddressId, int destinationAddressId) {
+    	List<String> nulls = new ArrayList<>();
     	if(toGallery == null) {
     		nulls.add("toGallery ");
     	}
@@ -51,14 +51,13 @@ public class ShipmentService {
     	if(estimatedArrivalDate == null) {
     		nulls.add("estimatedArrivalDate ");
     	}
+    	Address returnAddress = addressRepository.findAddressByAddressId(returnAddressId);
     	if(returnAddress == null) {
     		nulls.add("returnAddress ");
     	}
+		Address destinationAddress = addressRepository.findAddressByAddressId(destinationAddressId);
     	if(destinationAddress == null) {
     		nulls.add("destinationAddress ");
-    	}
-    	if(shipmentRepository.findShipmentByShipmentId(shipmentId)!= null) {
-    		throw new IllegalArgumentException("A shipment with this shipment ID already exists");
     	}
     	
     	if(nulls.size()>0) {
@@ -78,7 +77,6 @@ public class ShipmentService {
     	s.setEstimatedArrivalDate(estimatedArrivalDate);
     	s.setEstimatedArrivalTime(estimatedArrivalTime);
     	s.setReturnAddress(returnAddress);
-    	s.setShipmentId(shipmentId);
     	s.setToGallery(toGallery);
     	
     	shipmentRepository.save(s);
@@ -113,12 +111,13 @@ public class ShipmentService {
     }
     
     @Transactional
-    public List<Shipment> getAllShipmentsByReturnAddress(Address r){
-    	if(r == null) {
+    public List<Shipment> getAllShipmentsByReturnAddress(int id){
+		Address returnAddress = addressRepository.findAddressByAddressId(id);
+    	if( returnAddress == null) {
     		throw new IllegalArgumentException("Must enter a return address");
     	}
     	
-    	List<Shipment> s = shipmentRepository.findShipmentByReturnAddress(r);
+    	List<Shipment> s = shipmentRepository.findShipmentByReturnAddress(returnAddress);
     	if(s.isEmpty()) {
     		throw new IllegalArgumentException("No shipments made with this return address");
     	}
@@ -126,12 +125,13 @@ public class ShipmentService {
     }
     
     @Transactional
-    public List<Shipment> getAllShipmentsByDestinationAddress(Address d){
-    	if(d == null) {
+    public List<Shipment> getAllShipmentsByDestinationAddress(int id){
+		Address destinationAddress = addressRepository.findAddressByAddressId(id);
+    	if(destinationAddress == null) {
     		throw new IllegalArgumentException("Must enter a destination address");
     	}
     	
-    	List<Shipment> s = shipmentRepository.findShipmentByDestination(d);
+    	List<Shipment> s = shipmentRepository.findShipmentByDestination(destinationAddress);
     	if(s.isEmpty()) {
     		throw new IllegalArgumentException("No shipments made to this destination");
     	}

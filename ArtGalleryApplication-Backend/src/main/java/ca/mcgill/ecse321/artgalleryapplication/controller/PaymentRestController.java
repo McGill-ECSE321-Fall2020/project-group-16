@@ -16,6 +16,8 @@ import ca.mcgill.ecse321.artgalleryapplication.model.Payment;
 import ca.mcgill.ecse321.artgalleryapplication.model.PaymentForm;
 import ca.mcgill.ecse321.artgalleryapplication.service.PaymentService;
 
+@CrossOrigin(origins = "*")
+@RestController
 public class PaymentRestController {
 
 	@Autowired
@@ -28,11 +30,10 @@ public class PaymentRestController {
 									 @RequestParam("cardNumber") String cardNumber,
 									 @RequestParam("expirationDate") Date expirationDate,
 									 @RequestParam("cvv") int cvv,
-									 @RequestParam("paymentId") int paymentId,
 									 @RequestParam("paymentTime") Time paymentTime)
 									 throws IllegalArgumentException{
 		
-		Payment payment = paymentService.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+		Payment payment = paymentService.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
 		
 		return ConvertToDto.convertToDto(payment);
 	}
