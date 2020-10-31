@@ -3,9 +3,6 @@ package ca.mcgill.ecse321.artgalleryapplication.service;
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
-import net.bytebuddy.pool.TypePool;
-import org.apache.catalina.User;
-import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
@@ -13,12 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
 import javax.transaction.Transactional;
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.regex.*;
-import java.util.Set;
 
 @Service
 public class UserProfileService {
@@ -30,10 +24,7 @@ public class UserProfileService {
     private EventService eventService;
 
     @Autowired
-    private ArtworkRepository artworkRepository;
-
-    @Autowired
-    private AddressService addressService;
+    private AddressRepository addressRepository;
 
     private OrderService orderService;
 
@@ -174,7 +165,7 @@ public class UserProfileService {
     @Transactional
     public UserProfile updateAddress(String username, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) {
         UserProfile user = getUserProfileByUsername(username);
-        Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
+        Address address = createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
         user.setAddress(address);
         userRepository.save(user);
         return user;
@@ -217,9 +208,13 @@ public class UserProfileService {
     // ----- Deletion methods -----
     @Transactional
     public void deleteUserProfile(String username) throws DataAccessException {
-        if(username == null || username.trim().length() == 0) throw new IllegalArgumentException("requested username is null or length 0. Please enter valid username.\n");
+        if(username == null || username.trim().length() == 0) {
+            throw new IllegalArgumentException("requested username is null or length 0. Please enter valid username.\n");
+        }
         UserProfile user = getUserProfileByUsername(username);
-        if(user == null) throw new IllegalArgumentException("requested user " + username + " does not exist in the system.\n");
+        if(user == null) {
+            throw new IllegalArgumentException("requested user " + username + " does not exist in the system.\n");
+        }
         //if(user.getGalleryEvent().size() != 0) throw new IllegalArgumentException("Cannot delete this user, because it is register to a galleryEvent!");
 
         for(GalleryEvent g : user.getGalleryEvent()) {
@@ -231,7 +226,7 @@ public class UserProfileService {
     // ----- Get methods -----
     @Transactional
     public UserProfile getUserProfileByUsername(String username, String password) throws DataAccessException{
-        UserProfile user = null;
+        UserProfile user;
 
         try {
             user = userRepository.findByUsername(username);
@@ -253,7 +248,7 @@ public class UserProfileService {
 
     @Transactional
     public UserProfile getUserProfileByUsername(String username) throws DataAccessException{
-        UserProfile user = null;
+        UserProfile user;
 
         try {
             user = userRepository.findByUsername(username);
@@ -261,53 +256,49 @@ public class UserProfileService {
             throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
         }
 
-        if (user == null) {
-            throw new ObjectRetrievalFailureException(UserProfile.class, username);
-        }
-
         return user;
 
     }
 
-    @Transactional
-    public UserProfile getUserProfileByEmail(String email, String password) throws DataAccessException{
-        UserProfile user = null;
-
-        try {
-            user = userRepository.findByEmail(email);
-        } catch (DataAccessException e) {
-            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
-        }
-
-        if (user == null) {
-            throw new ObjectRetrievalFailureException(UserProfile.class, email);
-        }
-
-        if (!password.equals(user.getPassword())) {
-            throw new PermissionDeniedDataAccessException("The entered password does not match the password of the user profile.\n", new IllegalAccessError());
-        }
-
-        return user;
-
-    }
-
-    @Transactional
-    public UserProfile getUserProfileByEmail(String email) throws DataAccessException{
-        UserProfile user = null;
-
-        try {
-            user = userRepository.findByEmail(email);
-        } catch (DataAccessException e) {
-            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
-        }
-
-        if (user == null) {
-            throw new ObjectRetrievalFailureException(UserProfile.class, email);
-        }
-
-        return user;
-
-    }
+//    @Transactional
+//    public UserProfile getUserProfileByEmail(String email, String password) throws DataAccessException{
+//        UserProfile user;
+//
+//        try {
+//            user = userRepository.findByEmail(email);
+//        } catch (DataAccessException e) {
+//            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
+//        }
+//
+//        if (user == null) {
+//            throw new ObjectRetrievalFailureException(UserProfile.class, email);
+//        }
+//
+//        if (!password.equals(user.getPassword())) {
+//            throw new PermissionDeniedDataAccessException("The entered password does not match the password of the user profile.\n", new IllegalAccessError());
+//        }
+//
+//        return user;
+//
+//    }
+//
+//    @Transactional
+//    public UserProfile getUserProfileByEmail(String email) throws DataAccessException{
+//        UserProfile user;
+//
+//        try {
+//            user = userRepository.findByEmail(email);
+//        } catch (DataAccessException e) {
+//            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
+//        }
+//
+//        if (user == null) {
+//            throw new ObjectRetrievalFailureException(UserProfile.class, email);
+//        }
+//
+//        return user;
+//
+//    }
 
     @Transactional
     public List<UserProfile> getAllUsers() {
@@ -319,14 +310,14 @@ public class UserProfileService {
     // ----- Helper methods -----
 
     private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<T>();
+        List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
             resultList.add(t);
         }
         return resultList;
     }
 
-    private static boolean validateEmail(String email) throws IllegalArgumentException{
+    private static void validateEmail(String email) throws IllegalArgumentException{
 
         if (isEmpty(email)) {
             throw new IllegalArgumentException("The email cannot me empty.\n");
@@ -340,11 +331,9 @@ public class UserProfileService {
             throw new IllegalArgumentException("The email entered is not a valid email address.\n");
         }
 
-        return true;
-
     }
 
-    private static boolean validatePassword(String password) throws IllegalArgumentException{
+    private static void validatePassword(String password) throws IllegalArgumentException{
 
         if (password == null || password.trim().length() < 8) {
             throw new IllegalArgumentException("The password must be at least 8 characters long.\n");
@@ -358,7 +347,6 @@ public class UserProfileService {
             throw new IllegalArgumentException("The password must contain at least one lowercase letter, one uppercase letter, one number and one special character.\n");
         }
 
-        return true;
     }
 
     private static void validateName(String firstName, String lastName) throws IllegalArgumentException{
@@ -403,11 +391,32 @@ public class UserProfileService {
     }
 
     private static boolean isEmpty(String s) {
-        if(s == null || s.trim().length() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return s == null || s.trim().length() == 0;
+    }
+
+    @Transactional
+    public Address createAddress(String streetAddress, String streetAddress2, String postalCode, String city, String province, String country){
+        if(streetAddress == null || streetAddress.trim().length() == 0)
+            throw new IllegalArgumentException("StreetAddress is null or length 0. Please enter a valid streetAddress");
+        if(postalCode == null || postalCode.trim().length() == 0)
+            throw new IllegalArgumentException("postalCode is null or length 0. Please enter a valid postalCode");
+        if(city == null || city.trim().length() == 0)
+            throw new IllegalArgumentException("City is null or length 0. Please enter a valid city");
+        if(province == null || province.trim().length() == 0)
+            throw new IllegalArgumentException("Province is null or length 0. Please enter a valid province");
+        if(country == null || country.trim().length() == 0)
+            throw new IllegalArgumentException("Country is null or length 0. Please enter a valid country");
+
+        Address address = new Address();
+        address.setStreetAddress(streetAddress);
+        address.setStreetAddress2(streetAddress2);
+        address.setPostalCode(postalCode);
+        address.setCity(city);
+        address.setProvince(province);
+        address.setCountry(country);
+
+        addressRepository.save(address);
+        return address;
     }
 
 }
