@@ -101,12 +101,15 @@ public class PaymentService {
 
     @Transactional
     public Payment getPayment(int paymentId) {
+    	if(paymentRepository.findPaymentByPaymentId(paymentId) == null) {
+    		throw new IllegalArgumentException("No payment with this ID");
+    	}
     	return paymentRepository.findPaymentByPaymentId(paymentId);
     }
     
     @Transactional
     public List<Payment> getAllPaymentsByCardNumber(String cardNumber){
-    	if(cardNumber==null || cardNumber.trim() == null) {
+    	if(cardNumber==null || cardNumber.trim().length() == 0) {
     		throw new IllegalArgumentException("The card number must not be empty");
     	}
     	
