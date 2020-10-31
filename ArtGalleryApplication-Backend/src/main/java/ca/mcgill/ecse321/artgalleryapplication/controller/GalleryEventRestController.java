@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Convert;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -81,14 +82,15 @@ public class GalleryEventRestController {
      * @throws IllegalArgumentException
      */
     @PutMapping(value = {"/events/register", "/events/register/"})
-    public void registerUserToEvent(
+    public GalleryEventDto registerUserToEvent(
             @RequestParam(name = "eventId") int eId,
             @RequestParam(name = "username") String uName)
             throws IllegalArgumentException {
 
         GalleryEvent e = eventService.getEventById(eId);
         UserProfile p = userProfileService.getUserProfileByUsername(uName);
-        eventService.registerUserToEvent(p, e);
+        e = eventService.registerUserToEvent(p, e);
+        return ConvertToDto.convertToDto(e);
     }
 
     /**
@@ -98,14 +100,15 @@ public class GalleryEventRestController {
      * @throws IllegalArgumentException
      */
     @PutMapping(value = {"/events/unregister", "/events/unregister/"})
-    public void unregisterUserToEvent(
+    public GalleryEventDto unregisterUserToEvent(
             @RequestParam(name = "eventId") int eId,
             @RequestParam(name = "username") String uName)
             throws IllegalArgumentException {
 
         GalleryEvent e = eventService.getEventById(eId);
         UserProfile p = userProfileService.getUserProfileByUsername(uName);
-        eventService.unregisterUserToEvent(p, e);
+        e = eventService.unregisterUserToEvent(p, e);
+        return ConvertToDto.convertToDto(e);
     }
 
     /**
