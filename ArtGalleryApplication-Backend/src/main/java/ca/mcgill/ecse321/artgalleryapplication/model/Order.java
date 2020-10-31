@@ -86,7 +86,7 @@ public void setArtwork(Artwork artwork) {
 
 private UserProfile customer;
 
-@OneToOne(optional=false)
+@ManyToOne(optional=false)
 public UserProfile getCustomer() {
    return this.customer;
 }

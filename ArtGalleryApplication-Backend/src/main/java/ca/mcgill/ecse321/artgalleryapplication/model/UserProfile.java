@@ -74,16 +74,7 @@ this.firstName = value;
 public String getFirstName() {
 return this.firstName;
     }
-private Set<Order> pastOrders;
 
-@OneToMany(cascade={CascadeType.ALL})
-public Set<Order> getPastOrders() {
-   return this.pastOrders;
-}
-
-public void setPastOrders(Set<Order> pastOrders) {
-   this.pastOrders = pastOrders;
-}
 
 private Address address;
 
@@ -94,17 +85,6 @@ public Address getAddress() {
 
 public void setAddress(Address address) {
    this.address = address;
-}
-
-private Order currentOrder;
-
-@OneToOne(mappedBy="customer")
-public Order getCurrentOrder() {
-   return this.currentOrder;
-}
-
-public void setCurrentOrder(Order currentOrder) {
-   this.currentOrder = currentOrder;
 }
 
 private Set<GalleryEvent> galleryEvents = new HashSet<>();

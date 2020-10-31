@@ -79,6 +79,46 @@ public class TestUserProfileService {
             return list;
         });
 
+        // Mock for addressFindBy
+        lenient().when(addressDao.findAddressByAddressId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+
+            String streetAddress = "McGill";
+            String streetAddress2 = "2";
+            String postalCode = "H2V6B5";
+            String city = "Montreal";
+            String province = "Quebec";
+            String country = "Canada";
+
+            String newStreetAddress = "Aylmer";
+            String newStreetAddress2 = "4";
+            String newPostalCode = "H2V6C5";
+            String newCity = "Montreal";
+            String newProvince = "Quebec";
+            String newCountry = "Canada";
+
+            int id = invocation.getArgument(0);
+            Address address = new Address();
+
+            if (id == 1) {
+                address.setCountry(country);
+                address.setCity(city);
+                address.setProvince(province);
+                address.setPostalCode(postalCode);
+                address.setStreetAddress(streetAddress);
+                address.setStreetAddress2(streetAddress2);
+                return address;
+            } else {
+                address.setCountry(newCountry);
+                address.setCity(newCity);
+                address.setProvince(newProvince);
+                address.setPostalCode(newPostalCode);
+                address.setStreetAddress(newStreetAddress);
+                address.setStreetAddress2(newStreetAddress2);
+                return address;
+            }
+
+        });
+
         // Mock for existsByUsername
         lenient().when(userDao.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> invocation.getArgument(0) == USERNAME);
 
@@ -87,6 +127,7 @@ public class TestUserProfileService {
         lenient().when(userDao.save(any(UserProfile.class))).thenAnswer(returnParameterAnswer);
         lenient().when(addressDao.save(any(Address.class))).thenAnswer(returnParameterAnswer);
         lenient().when(orderDao.save(any(Order.class))).thenAnswer(returnParameterAnswer);
+
     }
 
     @Test
@@ -306,8 +347,10 @@ public class TestUserProfileService {
         String newProvince = "Quebec";
         String newCountry = "Canada";
 
+
+
         try {
-            user = userService.updateAddress(USERNAME, streetAddress, streetAddress2, postalCode, city, province, country);
+            user = userService.updateAddress(USERNAME, 1);
         } catch (Exception e) {
             fail(e);
         }
@@ -315,7 +358,7 @@ public class TestUserProfileService {
         assertEquals(streetAddress, user.getAddress().getStreetAddress());
 
         try {
-            user = userService.updateAddress(USERNAME, newStreetAddress, newStreetAddress2, newPostalCode, newCity, newProvince, newCountry);
+            user = userService.updateAddress(USERNAME, 2);
         } catch (Exception e) {
             fail(e);
         }
