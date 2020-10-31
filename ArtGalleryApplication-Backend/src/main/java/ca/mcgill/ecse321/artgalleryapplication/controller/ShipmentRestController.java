@@ -19,22 +19,24 @@ import ca.mcgill.ecse321.artgalleryapplication.model.Payment;
 import ca.mcgill.ecse321.artgalleryapplication.model.PaymentForm;
 import ca.mcgill.ecse321.artgalleryapplication.service.ShipmentService;
 
+
+@CrossOrigin(origins = "*")
+@RestController
 public class ShipmentRestController {
 
 	@Autowired
 	private ShipmentService shipmentService;
 	
 	
-	@PostMapping(value = {"/payments", "/payments/"}) 
+	@PostMapping(value = {"/shipments", "/shipments/"})
 	public ShipmentDto createShipment (@RequestParam("toGallery") Boolean toGallery,
 									 @RequestParam("estimatedArrivalTime") Time estimatedArrivalTime,
-									 @RequestParam("shipmentId") int shipmentId,
 									 @RequestParam("estimatedArrivalDate") Date estimatedArrivalDate,
-									 @RequestParam("returnAddress") Address returnAddress,
-									 @RequestParam("destinationAddress") Address destinationAddress)
+									 @RequestParam("returnAddressId") int returnAddressId,
+									 @RequestParam("destinationAddressId") int destinationAddressId)
 									 throws IllegalArgumentException{
 		
-		Shipment shipment = shipmentService.createShipment(toGallery, estimatedArrivalTime, shipmentId, estimatedArrivalDate, returnAddress, destinationAddress);
+		Shipment shipment = shipmentService.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, returnAddressId, destinationAddressId);
 		
 		return ConvertToDto.convertToDto(shipment);
 	}
@@ -66,18 +68,18 @@ public class ShipmentRestController {
 	}
 	
 	@GetMapping(value = {"/shipments/byReturnAddress", "/shipments/byReturnAddress/"})
-	public List<ShipmentDto> getAllShipmentsByReturnAddress(@RequestParam("returnAddress") Address returnAddress) {
+	public List<ShipmentDto> getAllShipmentsByReturnAddress(@RequestParam("returnAddressId") int returnAddressId) {
 		List<ShipmentDto> shipments = new ArrayList<>();
-		for(Shipment s : shipmentService.getAllShipmentsByReturnAddress(returnAddress)) {
+		for(Shipment s : shipmentService.getAllShipmentsByReturnAddress(returnAddressId)) {
 			shipments.add(ConvertToDto.convertToDto(s));
 		}
 		return shipments;
 	}
 	
 	@GetMapping(value = {"/shipments/byDestinationAddress", "/shipments/byDestinationAddress/"})
-	public List<ShipmentDto> getAllShipmentsByDestinationAddress(@RequestParam("destinationAddress") Address destinationAddress) {
+	public List<ShipmentDto> getAllShipmentsByDestinationAddress(@RequestParam("destinationAddressId") int destinationAddressId) {
 		List<ShipmentDto> shipments = new ArrayList<>();
-		for(Shipment s : shipmentService.getAllShipmentsByDestinationAddress(destinationAddress)) {
+		for(Shipment s : shipmentService.getAllShipmentsByDestinationAddress(destinationAddressId)) {
 			shipments.add(ConvertToDto.convertToDto(s));
 		}
 		return shipments;

@@ -12,6 +12,7 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.*;
 
 @Service
@@ -78,6 +79,8 @@ public class UserProfileService {
         user.setEmail(email);
         user.setPassword(password);
         user.setIsAdmin(isAdmin);
+        user.setProfileImageUrl("");
+        user.setDescription("");
 
         userRepository.save(user);
 
@@ -163,28 +166,13 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile updateAddress(String username, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) {
+    public UserProfile updateAddress(String username, int addressId) throws IllegalArgumentException {
         UserProfile user = getUserProfileByUsername(username);
-        Address address = createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
+        Address address = addressRepository.findAddressByAddressId(addressId);
+        if (address == null) {
+            throw new IllegalArgumentException("Address does not exist.");
+        }
         user.setAddress(address);
-        userRepository.save(user);
-        return user;
-    }
-
-    @Transactional
-    public UserProfile updateCurrentOrder(String username, int artworkId) throws DataAccessException {
-        UserProfile user = getUserProfileByUsername(username);
-        Order order = orderService.placeOrder(artworkId, username);
-        user.setCurrentOrder(order);
-        userRepository.save(user);
-
-        return user;
-    }
-
-    @Transactional
-    public UserProfile removeCurrentOrder(String username) throws DataAccessException {
-        UserProfile user = getUserProfileByUsername(username);
-        user.setCurrentOrder(null);
         userRepository.save(user);
         return user;
     }
@@ -259,46 +247,6 @@ public class UserProfileService {
         return user;
 
     }
-
-//    @Transactional
-//    public UserProfile getUserProfileByEmail(String email, String password) throws DataAccessException{
-//        UserProfile user;
-//
-//        try {
-//            user = userRepository.findByEmail(email);
-//        } catch (DataAccessException e) {
-//            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
-//        }
-//
-//        if (user == null) {
-//            throw new ObjectRetrievalFailureException(UserProfile.class, email);
-//        }
-//
-//        if (!password.equals(user.getPassword())) {
-//            throw new PermissionDeniedDataAccessException("The entered password does not match the password of the user profile.\n", new IllegalAccessError());
-//        }
-//
-//        return user;
-//
-//    }
-//
-//    @Transactional
-//    public UserProfile getUserProfileByEmail(String email) throws DataAccessException{
-//        UserProfile user;
-//
-//        try {
-//            user = userRepository.findByEmail(email);
-//        } catch (DataAccessException e) {
-//            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
-//        }
-//
-//        if (user == null) {
-//            throw new ObjectRetrievalFailureException(UserProfile.class, email);
-//        }
-//
-//        return user;
-//
-//    }
 
     @Transactional
     public List<UserProfile> getAllUsers() {

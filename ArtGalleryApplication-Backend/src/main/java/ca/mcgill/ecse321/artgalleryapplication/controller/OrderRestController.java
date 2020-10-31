@@ -89,6 +89,15 @@ public class OrderRestController {
         return orderService.getOrdersByUser(username).stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
 
+    @GetMapping(value = {"/orders/get-current-order/{username}", "/orders/get-current-order/{username}/"})
+    public OrderDto getCurrentOrder(@PathVariable("username") String username) throws IllegalArgumentException {
+        return convertToDto(orderService.getCurrentOrder(username));
+    }
+
+    @GetMapping(value = {"/orders/get-past-orders/{username}", "/orders/get-past-orders/{username}/"})
+    public List<OrderDto> getPastOrders(@PathVariable("username") String username) {
+        return orderService.getPastOrders(username).stream().map(o -> convertToDto(o)).collect(Collectors.toList());
+    }
 
     // --- Update Order --- //
 

@@ -42,7 +42,7 @@ public class PaymentService {
     //create the Transactional methods
     
     @Transactional
-    public Payment createPayment(PaymentForm paymentForm, Date paymentDate, String cardNumber, Date expirationDate, int cvv, int paymentId, Time paymentTime){
+    public Payment createPayment(PaymentForm paymentForm, Date paymentDate, String cardNumber, Date expirationDate, int cvv, Time paymentTime){
     	//check if anything is null that shouldn't be
     	ArrayList<String> nulls = new ArrayList<String>();
     	if(paymentForm == null) {
@@ -62,9 +62,6 @@ public class PaymentService {
     	}
     	if(cvv/100 > 9) {
     		throw new IllegalArgumentException("Your cvv must be 3 digits as most");
-    	}
-    	if(paymentRepository.findPaymentByPaymentId(paymentId)!=null) {
-    		throw new IllegalArgumentException("A payment with this payment ID already exists");
     	}
     	if(nulls.size()>0) {
     		String errors = "";
@@ -87,7 +84,6 @@ public class PaymentService {
     	payment.setPaymentDate(paymentDate);
     	payment.setExpirationDate(expirationDate);
     	payment.setCvv(cvv);
-    	payment.setPaymentId(paymentId);
     	payment.setPaymentTime(paymentTime);
     	paymentRepository.save(payment);
     	

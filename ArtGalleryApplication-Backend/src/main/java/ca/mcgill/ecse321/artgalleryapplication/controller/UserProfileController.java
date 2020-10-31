@@ -66,7 +66,7 @@ public class UserProfileController {
 //    }
 
     @GetMapping(value = {"/users/{username}", "/users/{username}/"})
-    public UserProfileDto getUserProfileByUsernameAndPassword(@PathVariable("username") String username) throws DataAccessException {
+    public UserProfileDto getUserProfileByUsername(@PathVariable("username") String username) throws DataAccessException {
         return convertToDto(userService.getUserProfileByUsername(username));
     }
 
@@ -74,18 +74,6 @@ public class UserProfileController {
 //    public UserProfileDto getUserProfileByEmailAndPassword(@PathVariable("email") String email, @RequestParam String password) throws DataAccessException {
 //        return convertToDto(userService.getUserProfileByEmail(email, password));
 //    }
-
-    @GetMapping(value = {"/users/{username}/get-current-order", "users/{username}/get-current-order/"})
-    public OrderDto getCurrentOrder(@PathVariable("username") String username) throws DataAccessException {
-        UserProfile user = userService.getUserProfileByUsername(username);
-        int orderId = user.getCurrentOrder().getOrderId();
-        return convertToDto(orderService.getOrderById(orderId));
-    }
-
-    @GetMapping(value = {"/users/{username}/get-all-orders", "users/{username}/get-all-orders/"})
-    public List<OrderDto> getAllOrders(@PathVariable("username") String username) throws DataAccessException {
-        return orderService.getOrdersByUser(username).stream().map(p -> convertToDto(p)).collect(Collectors.toList());
-    }
 
 
     // Update methods
@@ -103,13 +91,8 @@ public class UserProfileController {
 
     @PutMapping(value = {"users/{username}/update-address", "users/{username}/update-address/"})
     public UserProfileDto updateAddress(@PathVariable("username") String username,
-                                        @RequestParam String streetAddress,
-                                        @RequestParam String streetAddress2,
-                                        @RequestParam String postalCode,
-                                        @RequestParam String city,
-                                        @RequestParam String province,
-                                        @RequestParam String country) throws DataAccessException {
-        return convertToDto(userService.updateAddress(username, streetAddress, streetAddress2, postalCode, city, province, country));
+                                        @RequestParam int addressId) throws DataAccessException {
+        return convertToDto(userService.updateAddress(username, addressId));
     }
 
     @PutMapping(value = {"users/{username}/update-password", "users/{username}/update-password/"})
@@ -130,17 +113,6 @@ public class UserProfileController {
                                      @RequestParam String newFirstName,
                                      @RequestParam String newLastName) throws DataAccessException {
         return convertToDto(userService.updateName(username, newFirstName, newLastName));
-    }
-
-    @PutMapping(value = {"users/{username}/update-current-order", "users/{username}/update-current-order/"})
-    public UserProfileDto updateCurrentOrder(@PathVariable("username") String username,
-                                             @RequestParam int artworkId) throws DataAccessException {
-        return convertToDto(userService.updateCurrentOrder(username, artworkId));
-    }
-
-    @PutMapping(value = {"users/{username}/remove-current-order", "users/{username}/remove-current-order/"})
-    public UserProfileDto removeCurrentOrder(@PathVariable("username") String username) throws DataAccessException {
-        return convertToDto(userService.removeCurrentOrder(username));
     }
 
     @PutMapping(value = {"users/{username}/update-description", "users/{username}/update-description/"})

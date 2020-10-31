@@ -14,6 +14,8 @@ import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
 import ca.mcgill.ecse321.artgalleryapplication.service.ArtworkService;
 import ca.mcgill.ecse321.artgalleryapplication.service.UserProfileService;
 
+import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class ArtworkRestController {
@@ -38,9 +40,9 @@ public class ArtworkRestController {
 			@RequestParam String collection )
 			throws IllegalArgumentException{
 
-		return artworkService.createArtwork(title, description, creationDate,
+		return convertToDto(artworkService.createArtwork(title, description, creationDate,
 				medium, imageUrl, price, status,
-				dimensions, collection);
+				dimensions, collection));
 	}
 
 	@GetMapping(value = {"/artworks/{id}", "/artworks/{id}/"})	
@@ -48,7 +50,6 @@ public class ArtworkRestController {
 		Artwork a = artworkService.getArtwork(id);
 		return ConvertToDto.convertToDto(a);
 	}
-	
 	
 	@GetMapping(value = {"/artworks", "/artworks/"})
 	public List<ArtworkDto> getAllArtworks() {
@@ -105,8 +106,7 @@ public class ArtworkRestController {
 			@RequestParam("username") String username)
 			throws IllegalArgumentException {
 		Artwork a = artworkService.getArtwork(id);
-		UserProfile p = userService.getUserProfileByUsername(username);
-		artworkService.addArtistToArtwork(a, p);
+		artworkService.addArtistToArtwork(a, username);
 	}
 }
  

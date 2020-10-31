@@ -313,7 +313,7 @@ public class TestArtGalleryAppPersistence {
 		artworkRepository.save(artwork);
 		userRepository.save(customer);
 
-		customer.setCurrentOrder(order);
+//		customer.setCurrentOrder(order);
 
 		orderRepository.save(order);
 		int orderId = order.getOrderId();

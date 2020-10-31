@@ -1,9 +1,6 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
@@ -18,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ca.mcgill.ecse321.artgalleryapplication.dao.AddressRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +36,10 @@ import ca.mcgill.ecse321.artgalleryapplication.model.Shipment;
 public class TestShipmentService {
 	@Mock
 	private ShipmentRepository shipmentDao;
-	
+
+	@Mock
+	private AddressRepository addressDao;
+
 	@InjectMocks
 	private ShipmentService service;
 	
@@ -107,9 +108,10 @@ public class TestShipmentService {
 			}
 		});
 		
-		lenient().when(shipmentDao.findShipmentByReturnAddress(any())).thenAnswer((InvocationOnMock invocation) -> {
+		lenient().when(shipmentDao.findShipmentByReturnAddress(any(Address.class))).thenAnswer((InvocationOnMock invocation) -> {
 			Shipment shipment = new Shipment();
-			if(invocation.getArgument(0).equals(RETURN_ADDRESS)) {
+			Address address = invocation.getArgument(0);
+			if(address.getAddressId() == RETURN_ADDRESS.getAddressId()) {
 				shipment.setShipmentId(SHIPMENT_ID);
 		        shipment.setDestination(DESTINATION);
 		        shipment.setToGallery(TO_GALLERY);
@@ -125,9 +127,11 @@ public class TestShipmentService {
 			}
 		});
 		
-		lenient().when(shipmentDao.findShipmentByDestination(any())).thenAnswer((InvocationOnMock invocation) -> {
+		lenient().when(shipmentDao.findShipmentByDestination(any(Address.class))).thenAnswer((InvocationOnMock invocation) -> {
 			Shipment shipment = new Shipment();
-			if(invocation.getArgument(0).equals(DESTINATION)) {
+			Address address = invocation.getArgument(0);
+
+			if(address.getAddressId() == DESTINATION.getAddressId()) {
 				shipment.setShipmentId(SHIPMENT_ID);
 		        shipment.setReturnAddress(RETURN_ADDRESS);
 		        shipment.setToGallery(TO_GALLERY);
@@ -141,6 +145,18 @@ public class TestShipmentService {
 			else {
 				return null;
 			}
+		});
+
+		// Mock for addressFindBy
+		lenient().when(addressDao.findAddressByAddressId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			int id = invocation.getArgument(0);
+			if (id == 1) {
+				return createReturnAddress();
+			} else if (id == 2){
+				return createDestinationAddress();
+			}
+			return null;
+
 		});
 		
 		// Whenever anything is saved, just return the parameter object
@@ -156,7 +172,7 @@ public class TestShipmentService {
 		
 		Shipment shipment = null;
 		try {
-			shipment = service.createShipment(TO_GALLERY2, ESTIMATED_ARRIVAL_TIME2, SHIPMENT_ID2, ESTIMATED_ARRIVAL_DATE2, RETURN_ADDRESS2, DESTINATION2);
+			shipment = service.createShipment(TO_GALLERY2, ESTIMATED_ARRIVAL_TIME2, ESTIMATED_ARRIVAL_DATE2, RETURN_ADDRESS2.getAddressId(), DESTINATION2.getAddressId());
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -164,10 +180,9 @@ public class TestShipmentService {
 		assertNotNull(shipment);
 		assertEquals(TO_GALLERY2, shipment.getToGallery());
 		assertEquals(ESTIMATED_ARRIVAL_TIME2, shipment.getEstimatedArrivalTime());
-		assertEquals(SHIPMENT_ID2, shipment.getShipmentId());
 		assertEquals(ESTIMATED_ARRIVAL_DATE2, shipment.getEstimatedArrivalDate());
-		assertEquals(RETURN_ADDRESS2, shipment.getReturnAddress());
-		assertEquals(DESTINATION2, shipment.getDestination());
+		assertEquals(RETURN_ADDRESS2.getAddressId(), shipment.getReturnAddress().getAddressId());
+		assertEquals(DESTINATION2.getAddressId(), shipment.getDestination().getAddressId());
 	}
 	
 	@Test
@@ -219,14 +234,14 @@ public class TestShipmentService {
 							else destinationAddress = createDestinationAddress();
 							
 							try {
-								shipment = service.createShipment(toGallery, estimatedArrivalTime, shipmentId, estimatedArrivalDate, returnAddress, destinationAddress);
+								shipment = service.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, 4, 5);
 							} catch (IllegalArgumentException e) {
 								error = e.getMessage();
 								for(String s:nulls) {
 									theoreticalError += s;
 								}
 								theoreticalError += "must not be null";
-								assertEquals(error, theoreticalError);
+								assertTrue(error.contains("must not be null"));
 							}
 							theoreticalError = "";
 							nulls.remove("destinationAddress ");
@@ -253,7 +268,7 @@ public class TestShipmentService {
 		Address returnAddress = createReturnAddress();
 		Address destinationAddress = createReturnAddress();
 		try {
-			shipment = service.createShipment(toGallery, estimatedArrivalTime, shipmentId, estimatedArrivalDate, returnAddress, destinationAddress);
+			shipment = service.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, returnAddress.getAddressId(), destinationAddress.getAddressId());
 		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -348,17 +363,17 @@ public class TestShipmentService {
 	//get all by return address
 	@Test
 	public void testGetShipmentByReturnAddress() {
-		List<Shipment> allShipments = service.getAllShipmentsByReturnAddress(RETURN_ADDRESS);
+		List<Shipment> allShipments = service.getAllShipmentsByReturnAddress(RETURN_ADDRESS.getAddressId());
 		assertEquals(1, allShipments.size());
 		assertEquals(RETURN_ADDRESS, allShipments.get(0).getReturnAddress());
 	}
 	
 	@Test
 	public void testGetShipmentByReturnAddressNull() {
-		Address returnAddress = null;
+		int notValidReturnAddressId = 3;
 		String error = null;
 		try {
-			List<Shipment> allShipments = service.getAllShipmentsByReturnAddress(returnAddress);
+			List<Shipment> allShipments = service.getAllShipmentsByReturnAddress(notValidReturnAddressId);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -370,17 +385,17 @@ public class TestShipmentService {
 	
 	@Test
 	public void testGetShipmentByDestination() {
-		List<Shipment> allShipments = service.getAllShipmentsByDestinationAddress(DESTINATION);
+		List<Shipment> allShipments = service.getAllShipmentsByDestinationAddress(DESTINATION.getAddressId());
 		assertEquals(1, allShipments.size());
 		assertEquals(DESTINATION, allShipments.get(0).getDestination());
 	}
 	
 	@Test
 	public void testGetShipmentByDestinationNull() {
-		Address destination = null;
+		int notValidDestinationAddressId = 3;
 		String error = null;
 		try {
-			List<Shipment> allShipments = service.getAllShipmentsByDestinationAddress(destination);
+			List<Shipment> allShipments = service.getAllShipmentsByDestinationAddress(notValidDestinationAddressId);
 		}catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -443,6 +458,7 @@ public class TestShipmentService {
 		String returnProvince = "TS";
 		String returnCountry = "Canada";
 		Address returnAddress = new Address();
+		returnAddress.setAddressId(1);
 		returnAddress.setStreetAddress(returnStreetAddress);
 		returnAddress.setStreetAddress2(returnStreetAddress2);
 		returnAddress.setPostalCode(returnPostalCode);
@@ -460,6 +476,7 @@ public class TestShipmentService {
 		String deliveryProvince = "TE";
 		String deliveryCountry = "Canada";
 		Address deliveryAddress = new Address();
+		deliveryAddress.setAddressId(2);
 		deliveryAddress.setStreetAddress(deliveryStreetAddress);
 		deliveryAddress.setStreetAddress2(deliveryStreetAddress2);
 		deliveryAddress.setPostalCode(deliveryPostalCode);

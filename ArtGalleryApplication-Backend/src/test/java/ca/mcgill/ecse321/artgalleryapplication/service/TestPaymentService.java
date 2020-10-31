@@ -155,14 +155,16 @@ public class TestPaymentService {
 	
 	@Test
 	public void testCreatePayment() {
+
 		Payment payment = null;
 		try {
-			payment = service.createPayment(PAYMENT_FORM2, PAYMENT_DATE2, CARD_NUMBER2, EXPIRATION_DATE2, CVV2, PAYMENT_ID2, PAYMENT_TIME2);
+			payment = service.createPayment(PAYMENT_FORM2, PAYMENT_DATE2, CARD_NUMBER2, EXPIRATION_DATE2, CVV2, PAYMENT_TIME2);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
 		assertNotNull(payment);
+
 		assertEquals(PAYMENT_FORM2, payment.getPaymentForm());
 		assertEquals(PAYMENT_DATE2, payment.getPaymentDate());
 		assertEquals(CARD_NUMBER2, payment.getCardNumber());
@@ -184,7 +186,6 @@ public class TestPaymentService {
 		Date expirationDate;
 		Time paymentTime;
 		int cvv = 000;
-		int paymentId = 54321;
 		
 		for(int i = 0; i<2; i++) {
 			if(i ==1) {
@@ -222,7 +223,7 @@ public class TestPaymentService {
 							else paymentTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
 							
 							try {
-								payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentId, paymentTime);
+								payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
 							} catch (IllegalArgumentException e) {
 								error = e.getMessage();
 								for(String s:nulls) {
@@ -252,11 +253,13 @@ public class TestPaymentService {
 		String theoreticalError="cardNumber must not be empty";
 		
 		String cardNumber = " ";
+
 		
 		int paymentId = 123;
 		
 		try {
-			payment = service.createPayment(PAYMENT_FORM, PAYMENT_DATE, cardNumber, EXPIRATION_DATE, CVV, paymentId, PAYMENT_TIME);
+			payment = service.createPayment(PAYMENT_FORM, PAYMENT_DATE, cardNumber, EXPIRATION_DATE, CVV, PAYMENT_TIME);
+		
 		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -271,10 +274,10 @@ public class TestPaymentService {
 		Date paymentDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));;
 		Date expirationDate = java.sql.Date.valueOf(LocalDate.of(2022, Month.NOVEMBER, 19));;
 		int cvv = 000;
-		int paymentId = 54321;
 		
 		try {
-			payment = service.createPayment(PAYMENT_FORM, paymentDate, CARD_NUMBER, expirationDate, CVV, paymentId, PAYMENT_TIME);
+
+			payment = service.createPayment(PAYMENT_FORM, paymentDate, CARD_NUMBER, expirationDate, CVV, PAYMENT_TIME);
 		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -288,10 +291,9 @@ public class TestPaymentService {
 		String theoreticalError="Your cvv must be 3 digits as most";
 		
 		int cvv = 1000;
-		int paymentId = 54321;
 		
 		try {
-			payment = service.createPayment(PAYMENT_FORM, PAYMENT_DATE, CARD_NUMBER, EXPIRATION_DATE, cvv, paymentId, PAYMENT_TIME);
+			payment = service.createPayment(PAYMENT_FORM, PAYMENT_DATE, CARD_NUMBER, EXPIRATION_DATE, cvv, PAYMENT_TIME);
 		} catch(IllegalArgumentException e) {
 			error = e.getMessage();
 		}

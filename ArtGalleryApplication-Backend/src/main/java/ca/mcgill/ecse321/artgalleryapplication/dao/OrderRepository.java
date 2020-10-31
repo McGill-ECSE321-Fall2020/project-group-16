@@ -22,6 +22,10 @@ public interface OrderRepository extends CrudRepository<Order, String>{
 
 	List<Order> findByOrderStatus(OrderStatus orderStatus);
 
+	List<Order> findOrdersByCustomerAndOrderStatus(UserProfile username, OrderStatus orderStatus);
+
+
+
 	void deleteByOrderId(int orderId);
 
 }

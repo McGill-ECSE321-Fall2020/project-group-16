@@ -9,6 +9,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface AddressRepository extends CrudRepository<Address, String>{
 
 	Address findAddressByAddressId(int addressId);
+	boolean existsAddressByAddressId(int addressId);
 
 	void deleteAddressByAddressId(int addressId);
 }

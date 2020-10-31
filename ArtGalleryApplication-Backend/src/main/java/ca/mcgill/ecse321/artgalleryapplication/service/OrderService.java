@@ -132,6 +132,27 @@ public class OrderService {
         return orderRepository.findByOrderStatus(orderStatus);
     }
 
+    public Order getCurrentOrder(String username) {
+        UserProfile customer = userRepository.findByUsername(username);
+        if (customer == null)
+            throw new IllegalArgumentException("No user associated with this username.");
+
+        return orderRepository.findOrdersByCustomerAndOrderStatus(customer, PaymentPending).get(0);
+
+    }
+
+    public List<Order> getPastOrders(String username) {
+        UserProfile customer = userRepository.findByUsername(username);
+        if (customer == null)
+            throw new IllegalArgumentException("No user associated with this username.");
+
+        List<Order> pastOrders = orderRepository.findByCustomer(customer);
+        pastOrders.remove(orderRepository.findOrdersByCustomerAndOrderStatus(customer, PaymentPending).get(0));
+        return pastOrders;
+    }
+
+
+
     /**
      * 
      * @return list of all orders

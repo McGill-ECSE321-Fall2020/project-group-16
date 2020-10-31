@@ -52,6 +52,6 @@ public class PaymentDto {
 	}
 	
 	public Time getPaymentTime() {
-		return this.getPaymentTime();
+		return this.paymentTime;
 	}
 }
