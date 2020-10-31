@@ -1,18 +1,18 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import org.apache.catalina.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,66 +24,460 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import  ca.mcgill.ecse321.artgalleryapplication.model.*;
+import org.mockito.stubbing.OngoingStubbing;
 
 @ExtendWith(MockitoExtension.class)
 public class TestEventService {
 
     @Mock
-    private UserRepository userDao;
+    private UserRepository userRepository;
     @Mock
-    private GalleryEventRepository eventDao;
+    private GalleryEventRepository eventRepository;
 
     @InjectMocks
     private EventService eventService;
 
-    // Correct Address info
-    private static final String CORRECTCITY = "TestCity";
-    private static final String CORRECTCOUNTRY = "TestCountry";
-    private static final String CORRECTSTREETNAME = "Test Street Name";
-    private static final String CORRECTHOUSENUMBER = "666";
-    private static final String CORRECTZIPCODE = "H3A1A8";
-    private static final String CORRECTAPT = "666";
+    // Correct Event info
+    private static final String CORRECTEVENTNAME = "TestName";
+    private static final String CORRECTEVENTDESCRIPTION = "TestDescription";
+    private static final String CORRECTIMAGEURL = "666";
+    private static final Date CORRECTDATE = Date.valueOf(LocalDate.now());
+    private static final Time CORRECTSTARTTIME = Time.valueOf("12:00:00");
+    private static final Time CORRECTENDTIME = Time.valueOf("14:00:00");
+
+    private static final int VALID_ID = 1;
+    private static final int INVALID_ID = 3;
+    private static final Integer NULL_ID = null;
+
+    // Correct User info
+    private static final String VALID_USERNAME = "testUsername";
+    private static final String INVALID_USERNAME = "blablabla";
 
     @BeforeEach
     public void setMockOutput() {
-//        // Whenever anything is saved, just return the parameter object
-//        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
-//            return invocation.getArgument(0);
-//        };
-//        lenient().when(userDao.save(any(UserProfile.class))).thenAnswer(returnParameterAsAnswer);
-//        lenient().when(eventDao.save(any(GalleryEvent.class))).thenAnswer(returnParameterAsAnswer);
-        }
+        lenient().when(eventRepository.findGalleryEventByEventId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(VALID_ID)) {
+                return createEvent();
+            } else {
+                return null;
+            }
+        });
+
+        lenient().when(userRepository.findByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(VALID_USERNAME)) {
+                return createUser();
+            } else {
+                return null;
+            }
+        });
+
+        lenient().when(eventRepository.findAll()).thenReturn(createEventsList());
+
+        // Whenever event is saved, just return the parameter object
+        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
+        lenient().when(eventRepository.save(any(GalleryEvent.class))).thenAnswer(returnParameterAsAnswer);
+    }
 
     @Test
-    public void testCreateEvent() {
-        String name = "Soccer Game";
-        String description = "the art of the soccer game";
-        String imageUrl = "noImageUrl";
-
-        Calendar c = Calendar.getInstance();
-        c.set(2017, Calendar.MARCH, 16, 9, 0, 0);
-        Date eventDate = new Date(c.getTimeInMillis());
-        LocalTime startTime = LocalTime.parse("09:00");
-        c.set(2017, Calendar.MARCH, 16, 10, 30, 0);
-        LocalTime endTime = LocalTime.parse("10:30");
+    public void createCorrectEvent() {
         GalleryEvent event = null;
         try {
-            event = eventService.createEvent(name, description, imageUrl, eventDate, Time.valueOf(startTime), Time.valueOf(endTime));
+            event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
         } catch (IllegalArgumentException e) {
             fail();
         }
+
         assertNotNull(event);
-        checkResultEvent(event, description, imageUrl, name, eventDate, startTime, endTime);
+        assertEquals(CORRECTEVENTNAME, event.getEventName());
+        assertEquals(CORRECTEVENTDESCRIPTION, event.getEventDescription());
+        assertEquals(CORRECTIMAGEURL, event.getEventImageUrl());
+        assertEquals(CORRECTDATE, event.getEventDate());
+        assertEquals(CORRECTSTARTTIME, event.getStartTime());
+        assertEquals(CORRECTENDTIME, event.getEndTime());
     }
 
-    private void checkResultEvent(GalleryEvent event, String description, String imageUrl, String name, Date eventDate, LocalTime startTime, LocalTime endTime) {
+    @Test
+    public void testNameNull() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.createEvent(null, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "Name is currently null or length 0. Please enter a valid name.");
+    }
+
+    @Test
+    public void testNameLength0() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.createEvent("", CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "Name is currently null or length 0. Please enter a valid name.");
+    }
+
+    @Test
+    public void testDescriptionNull() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.createEvent(CORRECTEVENTNAME, null, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "Description is currently null or length 0. Please enter a valid description.");
+    }
+
+    @Test
+    public void testDescriptionLength0() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.createEvent(CORRECTEVENTNAME, "", CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "Description is currently null or length 0. Please enter a valid description.");
+    }
+
+    @Test
+    public void testDateNull() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, null, CORRECTSTARTTIME, CORRECTENDTIME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "Date is currently null. Please enter a valid date");
+    }
+
+    @Test
+    public void testStartTimeNull() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, null, CORRECTENDTIME);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "Start time is currently null. Please enter a valid start time");
+    }
+
+    @Test
+    public void testEndTimeNull() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "End time is currently null. Please enter a valid end time");
+    }
+
+    @Test
+    public void invalidStartAndEndTime() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, Time.valueOf("12:00:00"), Time.valueOf("10:00:00"));
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "Start time is after the End time");
+    }
+
+    @Test
+    public void testGetCorrectEvent() {
+        GalleryEvent event = null;
+
+        try {
+            event = eventService.getEventById(VALID_ID);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
         assertNotNull(event);
-        assertEquals(name, event.getEventName());
-        assertEquals(description, event.getEventDescription());
-        assertEquals(imageUrl, event.getEventImageUrl());
-        assertEquals(eventDate.toString(), event.getEventDate().toString());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        assertEquals(startTime.format(formatter).toString(), event.getStartTime().toString());
-        assertEquals(endTime.format(formatter).toString(), event.getEndTime().toString());
+        assertEquals(CORRECTEVENTNAME, event.getEventName());
+    }
+
+    @Test
+    public void testGetIdNull() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.getEventById(NULL_ID);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "Event ID is null");
+    }
+
+    @Test
+    public void testGetIdInvalid() {
+        GalleryEvent event = null;
+        String error = "";
+
+        try {
+            event = eventService.getEventById(INVALID_ID);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(event);
+        assertEquals(error, "There is no Event with this ID");
+    }
+
+    @Test
+    public void testGetAllEvents() {
+        List<GalleryEvent> events = null;
+
+        try {
+            events = eventService.getAllEvents();
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        assertNotNull(events);
+        assertNotEquals(events.size(), 0);
+    }
+
+    @Test
+    public void testDeleteEvent() {
+        try {
+             eventService.deleteEvent(VALID_ID);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testDeleteIdNull() {
+        String error = "";
+
+        try {
+            eventService.deleteEvent(NULL_ID);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "Event ID to be deleted is null");
+    }
+
+    @Test
+    public void testDeleteIdInvalid() {
+        String error = "";
+
+        try {
+            eventService.deleteEvent(INVALID_ID);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "There is no Event with this ID");
+    }
+
+    @Test
+    public void testCorrectRegister() {
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+             event = eventService.registerUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        assertNotNull(event);
+        assertTrue(event.getParticipants().size() == 1);
+    }
+
+    @Test
+    public void testRegisterInvalidUser() {
+        String error = "";
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+        user.setUsername(INVALID_USERNAME);
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+            event = eventService.registerUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "User " + user + " does not exist in system");
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testRegisterInvalidEvent() {
+        String error = "";
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+        event.setEventId(INVALID_ID);
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+            event = eventService.registerUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "There is no Event with this ID");
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testRegisterNullEvent() {
+        String error = "";
+        UserProfile user = createUser();
+
+        try {
+             eventService.registerUserToEvent(user, null);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "Event to register to is null");
+    }
+
+    @Test
+    public void testCorrectUnregister() {
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+
+        event.getParticipants().add(user);
+        assertTrue(event.getParticipants().size() == 1);
+
+        try {
+            event = eventService.unregisterUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+
+        assertNotNull(event);
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testUnregisterInvalidUser() {
+        String error = "";
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+        user.setUsername(INVALID_USERNAME);
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+            event = eventService.unregisterUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "User " + user + " does not exist in system");
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testUnregisterInvalidEvent() {
+        String error = "";
+        GalleryEvent event = createEvent();
+        UserProfile user = createUser();
+        event.setEventId(INVALID_ID);
+
+        assertTrue(event.getParticipants().size() == 0);
+
+        try {
+            event = eventService.unregisterUserToEvent(user, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "There is no Event with this ID");
+        assertTrue(event.getParticipants().size() == 0);
+    }
+
+    @Test
+    public void testRegisterNullUser() {
+        String error = "";
+        GalleryEvent event = createEvent();
+
+        try {
+            eventService.registerUserToEvent(null, event);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertEquals(error, "User to register to event is null");
+    }
+
+
+
+
+    private GalleryEvent createEvent() {
+        GalleryEvent event = new GalleryEvent();
+
+        // Setting the Event info
+        event.setEventId(VALID_ID);
+        event.setEventName(CORRECTEVENTNAME);
+        event.setEventDescription(CORRECTEVENTDESCRIPTION);
+        event.setEventImageUrl(CORRECTIMAGEURL);
+        event.setEventDate(CORRECTDATE);
+        event.setStartTime(CORRECTSTARTTIME);
+        event.setEndTime(CORRECTENDTIME);
+
+        return event;
+    }
+
+    private List<GalleryEvent> createEventsList() {
+        List<GalleryEvent> list = new ArrayList<>();
+        list.add(createEvent());
+        return list;
+    }
+
+    private UserProfile createUser() {
+        UserProfile user = new UserProfile();
+
+        // Setting the User info
+        user.setUsername(VALID_USERNAME);
+
+        return user;
     }
 }

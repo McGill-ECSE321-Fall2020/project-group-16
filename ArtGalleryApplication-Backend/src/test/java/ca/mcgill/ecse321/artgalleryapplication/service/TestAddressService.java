@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import  ca.mcgill.ecse321.artgalleryapplication.model.*;
+import org.mockito.stubbing.Answer;
 
 @ExtendWith(MockitoExtension.class)
 public class TestAddressService {
@@ -42,17 +43,12 @@ public class TestAddressService {
 
     @BeforeEach
     public void setMockOutput() {
-        lenient().when(addressRepository.save(any(Address.class))).thenAnswer((InvocationOnMock invocation) -> {
-            Address address = new Address();
-            address.setCity(ADDRESS_KEY);
-            return address;
-        });
+        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> invocation.getArgument(0);
+        lenient().when(addressRepository.save(any(Address.class))).thenAnswer(returnParameterAsAnswer);
 
         lenient().when(addressRepository.findAddressByAddressId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(VALID_ID)) {
                 return createAddress();
-            } else if(invocation.getArgument(0).equals(NULL_ID)) {
-                return null;
             } else {
                 return null;
             }
@@ -85,6 +81,21 @@ public class TestAddressService {
 
         try {
             address = addressService.createAddress(null, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
+        } catch (IllegalArgumentException e) {
+            error = e.getMessage();
+        }
+
+        assertNull(address);
+        assertEquals(error, "StreetAddress is null or length 0. Please enter a valid streetAddress");
+    }
+
+    @Test
+    public void testStreetAddressLength0() {
+        Address address = null;
+        String error = "";
+
+        try {
+            address = addressService.createAddress("", CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
         } catch (IllegalArgumentException e) {
             error = e.getMessage();
         }

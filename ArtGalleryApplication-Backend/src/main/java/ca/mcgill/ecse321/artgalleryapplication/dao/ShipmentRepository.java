@@ -14,8 +14,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface ShipmentRepository extends CrudRepository<Shipment, String>{
 
 	Shipment findShipmentByShipmentId(int shipmentId);
-	List<Shipment> findShipmentByToGallery(Boolean toGallery);
-	List<Shipment> findShipmentByEstimatedArrivalTime(Time eta);
 	List<Shipment> findShipmentByEstimatedArrivalDate(Date arrivalDate);
 	List<Shipment> findShipmentByReturnAddress(Address returnAddress);
 	List<Shipment> findShipmentByDestination(Address destination);

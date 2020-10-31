@@ -16,6 +16,7 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,19 @@ public class TestShipmentService {
 	private ShipmentService service;
 	
 	private static final int SHIPMENT_ID = 123456789;
+	private static final Address DESTINATION = createDestinationAddress();
+	private static final Address RETURN_ADDRESS	 = createReturnAddress();
+	private static final Boolean TO_GALLERY = false;
+	private static final Time ESTIMATED_ARRIVAL_TIME = java.sql.Time.valueOf(LocalTime.of(11, 35));
+	private static final Date ESTIMATED_ARRIVAL_DATE = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
+	
+	private static final int SHIPMENT_ID2 = 88888888;
+	private static final Address DESTINATION2 = createDestinationAddress();
+	private static final Address RETURN_ADDRESS2 = createReturnAddress();
+	private static final Boolean TO_GALLERY2 = false;
+	private static final Time ESTIMATED_ARRIVAL_TIME2 = java.sql.Time.valueOf(LocalTime.of(9, 05));
+	private static final Date ESTIMATED_ARRIVAL_DATE2 = java.sql.Date.valueOf(LocalDate.of(2020, Month.DECEMBER, 19));
+	
 	private static final int NONEXISTING_ID = 111111111;
 	
 	@BeforeEach
@@ -50,47 +64,110 @@ public class TestShipmentService {
 			if (invocation.getArgument(0).equals(SHIPMENT_ID)) {
 				Shipment shipment = new Shipment();
 				shipment.setShipmentId(SHIPMENT_ID);
+				shipment.setDestination(DESTINATION);
+				shipment.setToGallery(TO_GALLERY);
+				shipment.setReturnAddress(RETURN_ADDRESS);
+				shipment.setEstimatedArrivalDate(ESTIMATED_ARRIVAL_DATE);
+				shipment.setEstimatedArrivalTime(ESTIMATED_ARRIVAL_TIME);
 				return shipment;
 			} else {
 				return null;
 			}
 		});
+		
+		lenient().when(shipmentDao.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+	           Shipment shipment = new Shipment();
+	           shipment.setShipmentId(SHIPMENT_ID);
+	           shipment.setDestination(DESTINATION);
+	           shipment.setToGallery(TO_GALLERY);
+	           shipment.setReturnAddress(RETURN_ADDRESS);
+	           shipment.setEstimatedArrivalDate(ESTIMATED_ARRIVAL_DATE);
+	           shipment.setEstimatedArrivalTime(ESTIMATED_ARRIVAL_TIME);
+
+	           List<Shipment> list = new ArrayList<Shipment>();
+	           list.add(shipment);
+	           return list;
+		});
+		
+		lenient().when(shipmentDao.findShipmentByEstimatedArrivalDate(any())).thenAnswer((InvocationOnMock invocation) -> {
+			Shipment shipment = new Shipment();
+			if(invocation.getArgument(0).equals(ESTIMATED_ARRIVAL_DATE)) {
+				shipment.setShipmentId(SHIPMENT_ID);
+		        shipment.setDestination(DESTINATION);
+		        shipment.setToGallery(TO_GALLERY);
+		        shipment.setReturnAddress(RETURN_ADDRESS);
+		        shipment.setEstimatedArrivalTime(ESTIMATED_ARRIVAL_TIME);
+		        shipment.setEstimatedArrivalDate(ESTIMATED_ARRIVAL_DATE);
+				List<Shipment> allShipments = new ArrayList<>();
+				allShipments.add(shipment);
+				return allShipments;
+			} 
+			else {
+				return null;
+			}
+		});
+		
+		lenient().when(shipmentDao.findShipmentByReturnAddress(any())).thenAnswer((InvocationOnMock invocation) -> {
+			Shipment shipment = new Shipment();
+			if(invocation.getArgument(0).equals(RETURN_ADDRESS)) {
+				shipment.setShipmentId(SHIPMENT_ID);
+		        shipment.setDestination(DESTINATION);
+		        shipment.setToGallery(TO_GALLERY);
+		        shipment.setEstimatedArrivalDate(ESTIMATED_ARRIVAL_DATE);
+		        shipment.setEstimatedArrivalTime(ESTIMATED_ARRIVAL_TIME);
+		        shipment.setReturnAddress(RETURN_ADDRESS);
+				List<Shipment> allShipments = new ArrayList<>();
+				allShipments.add(shipment);
+				return allShipments;
+			} 
+			else {
+				return null;
+			}
+		});
+		
+		lenient().when(shipmentDao.findShipmentByDestination(any())).thenAnswer((InvocationOnMock invocation) -> {
+			Shipment shipment = new Shipment();
+			if(invocation.getArgument(0).equals(DESTINATION)) {
+				shipment.setShipmentId(SHIPMENT_ID);
+		        shipment.setReturnAddress(RETURN_ADDRESS);
+		        shipment.setToGallery(TO_GALLERY);
+		        shipment.setEstimatedArrivalDate(ESTIMATED_ARRIVAL_DATE);
+		        shipment.setEstimatedArrivalTime(ESTIMATED_ARRIVAL_TIME);
+		        shipment.setDestination(DESTINATION);
+				List<Shipment> allShipments = new ArrayList<>();
+				allShipments.add(shipment);
+				return allShipments;
+			} 
+			else {
+				return null;
+			}
+		});
+		
 		// Whenever anything is saved, just return the parameter object
 		Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
 			return invocation.getArgument(0);
 		};
 		lenient().when(shipmentDao.save(any(Shipment.class))).thenAnswer(returnParameterAsAnswer);
-		//lenient().when(eventDao.save(any(Event.class))).thenAnswer(returnParameterAsAnswer);
-		//lenient().when(registrationDao.save(any(Registration.class))).thenAnswer(returnParameterAsAnswer);
+		
 	}
 	
 	@Test
 	public void testCreateShipment() {
-		assertEquals(0, service.getAllShipments().size());
-
-		
-		//make attributes
-		Boolean toGallery = false;
-		Time estimatedArrivalTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-		int shipmentId = 999999999;
-		Date estimatedArrivalDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
-		Address returnAddress = createReturnAddress();
-		Address destinationAddress = createDestinationAddress();
 		
 		Shipment shipment = null;
 		try {
-			shipment = service.createShipment(toGallery, estimatedArrivalTime, shipmentId, estimatedArrivalDate, returnAddress, destinationAddress);
+			shipment = service.createShipment(TO_GALLERY2, ESTIMATED_ARRIVAL_TIME2, SHIPMENT_ID2, ESTIMATED_ARRIVAL_DATE2, RETURN_ADDRESS2, DESTINATION2);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
 		assertNotNull(shipment);
-		assertEquals(toGallery, shipment.getToGallery());
-		assertEquals(estimatedArrivalTime, shipment.getEstimatedArrivalTime());
-		assertEquals(shipmentId, shipment.getShipmentId());
-		assertEquals(estimatedArrivalDate, shipment.getEstimatedArrivalDate());
-		assertEquals(returnAddress, shipment.getReturnAddress());
-		assertEquals(destinationAddress, shipment.getDestination());
+		assertEquals(TO_GALLERY2, shipment.getToGallery());
+		assertEquals(ESTIMATED_ARRIVAL_TIME2, shipment.getEstimatedArrivalTime());
+		assertEquals(SHIPMENT_ID2, shipment.getShipmentId());
+		assertEquals(ESTIMATED_ARRIVAL_DATE2, shipment.getEstimatedArrivalDate());
+		assertEquals(RETURN_ADDRESS2, shipment.getReturnAddress());
+		assertEquals(DESTINATION2, shipment.getDestination());
 	}
 	
 	@Test
@@ -218,7 +295,7 @@ public class TestShipmentService {
 	}
 	  
 	@Test
-	public void testGetShipmentInvalidId() {
+	public void testGetShipmentNonExistingId() {
 		Shipment shipment = null;
 		String error = "";
 		try {
@@ -231,7 +308,131 @@ public class TestShipmentService {
 	    assertEquals(error, "No shipment with this ID");
 	}
 	  
+	//get all shipments
+	@Test
+    public void testGetAllShipments(){
+		List<Shipment> shipments = service.getAllShipments();
+		Shipment shipment = shipments.get(0);
+
+        assertEquals(1, shipments.size());
+        assertNotNull(shipment);
+        assertEquals(SHIPMENT_ID, shipment.getShipmentId());
+        assertEquals(DESTINATION, shipment.getDestination());
+        assertEquals(RETURN_ADDRESS, shipment.getReturnAddress());
+        assertEquals(ESTIMATED_ARRIVAL_TIME, shipment.getEstimatedArrivalTime());
+        assertEquals(ESTIMATED_ARRIVAL_DATE, shipment.getEstimatedArrivalDate());
+        assertEquals(TO_GALLERY, shipment.getToGallery());
+    }
 	
+	
+	//get all by estimated arrival date\
+	@Test
+	public void testGetShipmentByEstimatedArrivalDate() {
+		List<Shipment> allShipments = service.getAllShipmentsByEstimatedArrivalDate(ESTIMATED_ARRIVAL_DATE);
+		assertEquals(1, allShipments.size());
+		assertEquals(ESTIMATED_ARRIVAL_DATE, allShipments.get(0).getEstimatedArrivalDate());
+	}
+	
+	@Test
+	public void testGetShipmentByEstimatedArrivalDateNull() {
+		Date estimatedArrival = null;
+		String error = null;
+		try {
+			List<Shipment> allShipments = service.getAllShipmentsByEstimatedArrivalDate(estimatedArrival);
+		}catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertEquals(error, "Must enter a Date variable");
+	}
+	
+	//get all by return address
+	@Test
+	public void testGetShipmentByReturnAddress() {
+		List<Shipment> allShipments = service.getAllShipmentsByReturnAddress(RETURN_ADDRESS);
+		assertEquals(1, allShipments.size());
+		assertEquals(RETURN_ADDRESS, allShipments.get(0).getReturnAddress());
+	}
+	
+	@Test
+	public void testGetShipmentByReturnAddressNull() {
+		Address returnAddress = null;
+		String error = null;
+		try {
+			List<Shipment> allShipments = service.getAllShipmentsByReturnAddress(returnAddress);
+		}catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertEquals(error, "Must enter a return address");
+	}
+	
+	
+	//get all by destination address
+	
+	@Test
+	public void testGetShipmentByDestination() {
+		List<Shipment> allShipments = service.getAllShipmentsByDestinationAddress(DESTINATION);
+		assertEquals(1, allShipments.size());
+		assertEquals(DESTINATION, allShipments.get(0).getDestination());
+	}
+	
+	@Test
+	public void testGetShipmentByDestinationNull() {
+		Address destination = null;
+		String error = null;
+		try {
+			List<Shipment> allShipments = service.getAllShipmentsByDestinationAddress(destination);
+		}catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertEquals(error, "Must enter a destination address");
+	}
+	
+	//update
+	 @Test
+	 public void testUpdateShipment() {
+		 Shipment shipment = null;
+	        
+		 Boolean toGallery = true;
+		 Time estimatedArrivalTime = java.sql.Time.valueOf(LocalTime.of(9, 05));
+		 Date estimatedArrivalDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.DECEMBER, 19));
+		 Address returnAddress = createReturnAddress();
+		 returnAddress.setStreetAddress("123 Test Lane");
+		 Address destinationAddress = createDestinationAddress();
+		 destinationAddress.setStreetAddress("22 new destination blvd");
+
+	     try {
+	         shipment = service.updateShipment(toGallery, estimatedArrivalTime, SHIPMENT_ID, estimatedArrivalDate, returnAddress, destinationAddress);
+	     } catch (IllegalArgumentException e) {
+	         fail();
+	     }
+	     assertNotNull(shipment);
+	     assertEquals(toGallery, shipment.getToGallery());
+	     assertEquals(estimatedArrivalTime, shipment.getEstimatedArrivalTime());
+	     assertEquals(estimatedArrivalDate, shipment.getEstimatedArrivalDate());
+	     assertEquals(returnAddress, shipment.getReturnAddress());
+	     assertEquals(destinationAddress, shipment.getDestination());
+	 }
+	
+	 @Test
+	 public void testUpdateShipmentNonExistingId() {
+		 Shipment shipment = null;
+	     String error = "";
+		 Boolean toGallery = true;
+		 Time estimatedArrivalTime = java.sql.Time.valueOf(LocalTime.of(9, 05));
+		 Date estimatedArrivalDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.DECEMBER, 19));
+		 Address returnAddress = createReturnAddress();
+		 returnAddress.setStreetAddress("123 Test Lane");
+		 Address destinationAddress = createDestinationAddress();
+		 destinationAddress.setStreetAddress("22 new destination blvd");
+
+	     try {
+	         shipment = service.updateShipment(toGallery, estimatedArrivalTime, NONEXISTING_ID, estimatedArrivalDate, returnAddress, destinationAddress);
+	     } catch (IllegalArgumentException e) {
+	         error = e.getMessage();
+	     }
+	     assertNull(shipment);
+	     assertEquals(error, "must enter a shipment id that is in the table");
+	 }
 	
 	//helper methods
 	public static Address createReturnAddress() {

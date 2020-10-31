@@ -55,23 +55,6 @@ public class ShipmentRestController {
 		return shipments;
 	}
 	
-	@GetMapping(value = {"/shipments/byToGallery", "/shipments/byToGallery/"})
-	public List<ShipmentDto> getAllShipmentsByToGallery(@RequestParam("toGallery") Boolean toGallery) {
-		List<ShipmentDto> shipments = new ArrayList<>();
-		for(Shipment s : shipmentService.getAllShipmentsByToGallery(toGallery)) {
-			shipments.add(ConvertToDto.convertToDto(s));
-		}
-		return shipments;
-	}
-	
-	@GetMapping(value = {"/shipments/byEstimatedArrivalTime", "/shipments/byEstimatedArrivalTime/"})
-	public List<ShipmentDto> getAllShipmentsByEstimatedArrivalTime(@RequestParam("estimatedArrivalTime") Time estimatedArrivalTime) {
-		List<ShipmentDto> shipments = new ArrayList<>();
-		for(Shipment s : shipmentService.getAllShipmentsByEstimatedArrivalTime(estimatedArrivalTime)) {
-			shipments.add(ConvertToDto.convertToDto(s));
-		}
-		return shipments;
-	}
 	
 	@GetMapping(value = {"/shipments/byEstimatedArrivalDate", "/shipments/byEstimatedArrivalDate/"})
 	public List<ShipmentDto> getAllShipmentsByEstimatedArrivalDate(@RequestParam("estimatedArrivalDate") Date estimatedArrivalDate) {
