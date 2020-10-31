@@ -1,8 +1,5 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
@@ -353,6 +350,29 @@ public class TestUserProfileService {
         }
 
         assertEquals(url, user.getProfileImageUrl());
+    }
+
+    @Test
+    public void testGetAllUsers(){
+        List<UserProfile> users = userService.getAllUsers();
+        UserProfile user = users.get(0);
+
+        assertEquals(1, users.size());
+        assertNotNull(user);
+        assertEquals(USERNAME, user.getUsername());
+        assertEquals(FIRST_NAME, user.getFirstName());
+        assertEquals(LAST_NAME, user.getLastName());
+        assertEquals(EMAIL, user.getEmail());
+        assertEquals(PASSWORD, user.getPassword());
+    }
+
+    @Test
+    public void testDeleteUser(){
+        try {
+            userService.deleteUserProfile(USERNAME_2);
+        } catch (Exception e) {
+            assertEquals("requested user " + USERNAME_2 + " does not exist in the system.\n", e.getMessage());
+        }
     }
 
     //TODO - REMOVE

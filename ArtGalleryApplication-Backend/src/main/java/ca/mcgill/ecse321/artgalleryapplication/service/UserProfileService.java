@@ -208,9 +208,13 @@ public class UserProfileService {
     // ----- Deletion methods -----
     @Transactional
     public void deleteUserProfile(String username) throws DataAccessException {
-        if(username == null || username.trim().length() == 0) throw new IllegalArgumentException("requested username is null or length 0. Please enter valid username.\n");
+        if(username == null || username.trim().length() == 0) {
+            throw new IllegalArgumentException("requested username is null or length 0. Please enter valid username.\n");
+        }
         UserProfile user = getUserProfileByUsername(username);
-        if(user == null) throw new IllegalArgumentException("requested user " + username + " does not exist in the system.\n");
+        if(user == null) {
+            throw new IllegalArgumentException("requested user " + username + " does not exist in the system.\n");
+        }
         //if(user.getGalleryEvent().size() != 0) throw new IllegalArgumentException("Cannot delete this user, because it is register to a galleryEvent!");
 
         for(GalleryEvent g : user.getGalleryEvent()) {
@@ -252,53 +256,49 @@ public class UserProfileService {
             throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
         }
 
-        if (user == null) {
-            throw new ObjectRetrievalFailureException(UserProfile.class, username);
-        }
-
         return user;
 
     }
 
-    @Transactional
-    public UserProfile getUserProfileByEmail(String email, String password) throws DataAccessException{
-        UserProfile user;
-
-        try {
-            user = userRepository.findByEmail(email);
-        } catch (DataAccessException e) {
-            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
-        }
-
-        if (user == null) {
-            throw new ObjectRetrievalFailureException(UserProfile.class, email);
-        }
-
-        if (!password.equals(user.getPassword())) {
-            throw new PermissionDeniedDataAccessException("The entered password does not match the password of the user profile.\n", new IllegalAccessError());
-        }
-
-        return user;
-
-    }
-
-    @Transactional
-    public UserProfile getUserProfileByEmail(String email) throws DataAccessException{
-        UserProfile user;
-
-        try {
-            user = userRepository.findByEmail(email);
-        } catch (DataAccessException e) {
-            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
-        }
-
-        if (user == null) {
-            throw new ObjectRetrievalFailureException(UserProfile.class, email);
-        }
-
-        return user;
-
-    }
+//    @Transactional
+//    public UserProfile getUserProfileByEmail(String email, String password) throws DataAccessException{
+//        UserProfile user;
+//
+//        try {
+//            user = userRepository.findByEmail(email);
+//        } catch (DataAccessException e) {
+//            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
+//        }
+//
+//        if (user == null) {
+//            throw new ObjectRetrievalFailureException(UserProfile.class, email);
+//        }
+//
+//        if (!password.equals(user.getPassword())) {
+//            throw new PermissionDeniedDataAccessException("The entered password does not match the password of the user profile.\n", new IllegalAccessError());
+//        }
+//
+//        return user;
+//
+//    }
+//
+//    @Transactional
+//    public UserProfile getUserProfileByEmail(String email) throws DataAccessException{
+//        UserProfile user;
+//
+//        try {
+//            user = userRepository.findByEmail(email);
+//        } catch (DataAccessException e) {
+//            throw new ObjectRetrievalFailureException("There was an error when retrieving the user.\n",e);
+//        }
+//
+//        if (user == null) {
+//            throw new ObjectRetrievalFailureException(UserProfile.class, email);
+//        }
+//
+//        return user;
+//
+//    }
 
     @Transactional
     public List<UserProfile> getAllUsers() {
