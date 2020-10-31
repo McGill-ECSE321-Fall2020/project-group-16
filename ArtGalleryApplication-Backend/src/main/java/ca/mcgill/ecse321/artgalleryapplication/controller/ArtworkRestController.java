@@ -105,7 +105,7 @@ public class ArtworkRestController {
 			@PathVariable("id") int id,
 			@RequestParam("username") String username)
 			throws IllegalArgumentException {
-		Artwork a = artworkService.getArtwork(id);;
+		Artwork a = artworkService.getArtwork(id);
 		artworkService.addArtistToArtwork(a, username);
 	}
 }
