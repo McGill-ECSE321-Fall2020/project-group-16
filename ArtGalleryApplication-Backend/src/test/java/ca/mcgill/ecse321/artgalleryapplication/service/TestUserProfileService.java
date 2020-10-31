@@ -54,7 +54,13 @@ public class TestUserProfileService {
     private static final String FIRST_NAME = "John";
     private static final String LAST_NAME = "Doe";
     private static final String PASSWORD = "JohnDoe123$";
-    private static final String EMAIL = "john.doe.gmail.com";
+    private static final String EMAIL = "john.doe@gmail.com";
+
+    private static final String USERNAME_2 = "janedoe";
+    private static final String FIRST_NAME_2 = "Jane";
+    private static final String LAST_NAME_2 = "Doe";
+    private static final String PASSWORD_2 = "JaneDoe123$";
+    private static final String EMAIL_2 = "jane.doe@gmail.com";
 
     @BeforeEach
     public void setMockOutput() {
@@ -102,52 +108,45 @@ public class TestUserProfileService {
 
         // Mock for save
         lenient().when(userDao.save(any(UserProfile.class))).thenAnswer(returnParameterAnswer);
+        lenient().when(addressDao.save(any(Address.class))).thenAnswer(returnParameterAnswer);
 
-    }
-
-    @AfterEach
-    public void clearDataBase(){
-        userDao.deleteAll();
     }
 
     @Test
     public void createRegularUserTest() {
-        assertEquals(0, userService.getAllUsers().size());
-
         UserProfile user = null;
 
         try {
-            user = userService.createRegularUserProfile(FIRST_NAME, LAST_NAME, USERNAME, EMAIL, PASSWORD);
+            user = userService.createRegularUserProfile(FIRST_NAME_2, LAST_NAME_2, USERNAME_2, EMAIL_2, PASSWORD_2);
         } catch (Exception e) {
             fail();
         }
 
         assertNotNull(user);
-        assertEquals(USERNAME, user.getUsername());
-        assertEquals(FIRST_NAME, user.getFirstName());
-        assertEquals(LAST_NAME, user.getLastName());
-        assertEquals(EMAIL, user.getEmail());
-        assertEquals(PASSWORD, user.getPassword());
+        assertEquals(USERNAME_2, user.getUsername());
+        assertEquals(FIRST_NAME_2, user.getFirstName());
+        assertEquals(LAST_NAME_2, user.getLastName());
+        assertEquals(EMAIL_2, user.getEmail());
+        assertEquals(PASSWORD_2, user.getPassword());
         assertEquals(false, user.getIsAdmin());
     }
 
     @Test
     public void createAdminTest() {
-        assertEquals(0, userService.getAllUsers().size());
         UserProfile user = null;
 
         try {
-            user = userService.createAdminProfile(FIRST_NAME, LAST_NAME, USERNAME, EMAIL, PASSWORD);
+            user = userService.createAdminProfile(FIRST_NAME_2, LAST_NAME_2, USERNAME_2, EMAIL_2, PASSWORD_2);
         } catch (Exception e) {
             fail();
         }
 
         assertNotNull(user);
-        assertEquals(USERNAME, user.getUsername());
-        assertEquals(FIRST_NAME, user.getFirstName());
-        assertEquals(LAST_NAME, user.getLastName());
-        assertEquals(EMAIL, user.getEmail());
-        assertEquals(PASSWORD, user.getPassword());
+        assertEquals(USERNAME_2, user.getUsername());
+        assertEquals(FIRST_NAME_2, user.getFirstName());
+        assertEquals(LAST_NAME_2, user.getLastName());
+        assertEquals(EMAIL_2, user.getEmail());
+        assertEquals(PASSWORD_2, user.getPassword());
         assertEquals(true, user.getIsAdmin());
     }
 
@@ -233,9 +232,8 @@ public class TestUserProfileService {
 
         try {
             user = userService.createRegularUserProfile(firstName, lastName, USERNAME, EMAIL, PASSWORD);
-
         } catch (Exception e) {
-            error += e.getMessage();
+            error = e.getMessage();
         }
 
         assertEquals(expected, error);
@@ -286,6 +284,7 @@ public class TestUserProfileService {
         try {
             user = userService.updateName(USERNAME, newFirstName, newLastName);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             fail(e);
         }
 
@@ -338,35 +337,37 @@ public class TestUserProfileService {
         String newProvince = "Quebec";
         String newCountry = "Canada";
 
-        lenient().when(addressDao.save(any(Address.class))).thenAnswer(new Answer() {
-
-            private Address setAddress(String streetAddress, String streetAddress2, String postalCode, String city, String province, String country){
-                Address address = new Address();
-                address.setAddressId(1);
-                address.setStreetAddress(streetAddress);
-                address.setStreetAddress2(streetAddress2);
-                address.setPostalCode(postalCode);
-                address.setCity(city);
-                address.setProvince(province);
-                address.setCountry(country);
-                return address;
-            }
-
-            private int count = 0;
-
-            public Object answer(InvocationOnMock invocation) {
-                if (count == 0) {
-                    count ++;
-                    return setAddress(streetAddress, streetAddress2, postalCode, city, province, country);
-                } else {
-                    return setAddress(newStreetAddress, newStreetAddress2, newPostalCode, newCity, newProvince, newCountry);
-                }
-            }
-        });
+//        lenient().when(addressDao.save(any(Address.class))).thenAnswer(new Answer() {
+//
+//            private Address setAddress(String streetAddress, String streetAddress2, String postalCode, String city, String province, String country){
+//                Address address = new Address();
+//                address.setAddressId(1);
+//                address.setStreetAddress(streetAddress);
+//                address.setStreetAddress2(streetAddress2);
+//                address.setPostalCode(postalCode);
+//                address.setCity(city);
+//                address.setProvince(province);
+//                address.setCountry(country);
+//                return address;
+//            }
+//
+//            private int count = 0;
+//
+//            public Object answer(InvocationOnMock invocation) {
+//                if (count == 0) {
+//                    count ++;
+//                    return setAddress(streetAddress, streetAddress2, postalCode, city, province, country);
+//                } else {
+//                    return setAddress(newStreetAddress, newStreetAddress2, newPostalCode, newCity, newProvince, newCountry);
+//                }
+//            }
+//        });
 
         try {
             user = userService.updateAddress(USERNAME, streetAddress, streetAddress2, postalCode, city, province, country);
         } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
             fail(e);
         }
 

@@ -5,6 +5,7 @@ import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import net.bytebuddy.pool.TypePool;
 import org.apache.catalina.User;
+import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.PermissionDeniedDataAccessException;
@@ -31,7 +32,9 @@ public class UserProfileService {
     @Autowired
     private ArtworkRepository artworkRepository;
 
+    @Autowired
     private AddressService addressService;
+
     private OrderService orderService;
 
 
@@ -40,46 +43,40 @@ public class UserProfileService {
     // ----- Creation methods -----
     @Transactional
     public UserProfile createUserProfile(String firstName, String lastName, String username, String email, String password, boolean isAdmin) throws IllegalArgumentException {
+        email = email.toLowerCase();
         String error = "";
-
-
         //Validate inputs
         if (username == null || username.trim().length() < 5) {
             error += "The username must be at least 5 characters long.\n";
         }
-
-        email = email.toLowerCase();
-
         try {
             validateEmail(email);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             error += e.getMessage();
         }
-
         try {
             validatePassword(password);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             error += e.getMessage();
         }
-
         try {
             String[] name = formatName(firstName, lastName);
             firstName = name[0];
             lastName = name[1];
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             error += e.getMessage();
-        }
-
-        //Check if user has been taken already
-        if (userRepository.existsByEmail(email)) {
-            error += "This email has already been taken.\n";
-        }
-        if (userRepository.existsByUsername(username)) {
-            error += "This username has already been taken.\n";
         }
 
         if (error.length() > 0){
             throw new IllegalArgumentException(error);
+        }
+
+        //Check if user has been taken already
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("This email has already been taken.\n");
+        }
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("This username has already been taken.\n");
         }
 
         //Create new user
@@ -113,23 +110,12 @@ public class UserProfileService {
 
         UserProfile user = getUserProfileByUsername(username);
 
-        String error = "";
+        validateEmail(newEmail);
+        user.setEmail(newEmail);
 
-        try {
-            validateEmail(newEmail);
-        } catch (IllegalArgumentException e) {
-            error += e.getMessage();
-        }
-
-        if (error.length()>0) {
-            throw new IllegalArgumentException(error);
-        } else {
-                user.setEmail(newEmail);
-                userRepository.save(user);
-        }
+        userRepository.save(user);
 
         return user;
-
     }
 
     @Transactional
@@ -138,10 +124,10 @@ public class UserProfileService {
         UserProfile user = getUserProfileByUsername(username);
 
         if (newUsername == null || newUsername.trim().length() < 5) {
-            throw new IllegalArgumentException("The new username must be at least 5 characters long.");
+            throw new IllegalArgumentException("The new username must be at least 5 characters long.\n");
         } else {
-                user.setEmail(newUsername);
-                userRepository.save(user);
+                user.setUsername(newUsername);
+                user = userRepository.save(user);
         }
 
         return user;
@@ -151,6 +137,7 @@ public class UserProfileService {
     @Transactional
     public UserProfile updateName(String username, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
         UserProfile user = getUserProfileByUsername(username);
+
         String[] newName = formatName(newFirstName, newLastName);
         newFirstName = newName[0];
         newLastName = newName[1];
@@ -160,7 +147,6 @@ public class UserProfileService {
         userRepository.save(user);
 
         return user;
-
     }
 
     @Transactional
@@ -169,8 +155,8 @@ public class UserProfileService {
 
         validatePassword(newPassword);
 
-            user.setPassword(newPassword);
-            userRepository.save(user);
+        user.setPassword(newPassword);
+        userRepository.save(user);
 
         return user;
     }
@@ -179,14 +165,14 @@ public class UserProfileService {
     public UserProfile updateAdminStatus(String username, boolean isAdmin) throws DataAccessException{
         UserProfile user = getUserProfileByUsername(username);
 
-            user.setIsAdmin(isAdmin);
-            userRepository.save(user);
+        user.setIsAdmin(isAdmin);
+        userRepository.save(user);
 
         return user;
     }
 
     @Transactional
-    public UserProfile updateAddress(String username, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) throws DataAccessException {
+    public UserProfile updateAddress(String username, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) {
         UserProfile user = getUserProfileByUsername(username);
         Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
         user.setAddress(address);
@@ -202,7 +188,6 @@ public class UserProfileService {
         userRepository.save(user);
 
         return user;
-
     }
 
     @Transactional
@@ -232,9 +217,9 @@ public class UserProfileService {
     // ----- Deletion methods -----
     @Transactional
     public void deleteUserProfile(String username) throws DataAccessException {
-        if(username == null || username.trim().length() == 0) throw new IllegalArgumentException("requested username is null or length 0. Please enter valid username.");
+        if(username == null || username.trim().length() == 0) throw new IllegalArgumentException("requested username is null or length 0. Please enter valid username.\n");
         UserProfile user = getUserProfileByUsername(username);
-        if(user == null) throw new IllegalArgumentException("requested user " + username + " does not exist in the system.");
+        if(user == null) throw new IllegalArgumentException("requested user " + username + " does not exist in the system.\n");
         //if(user.getGalleryEvent().size() != 0) throw new IllegalArgumentException("Cannot delete this user, because it is register to a galleryEvent!");
 
         for(GalleryEvent g : user.getGalleryEvent()) {
@@ -324,16 +309,10 @@ public class UserProfileService {
 
     }
 
-
-
     @Transactional
     public List<UserProfile> getAllUsers() {
         return toList(userRepository.findAll());
     }
-
-
-
-
 
 
 
@@ -382,21 +361,20 @@ public class UserProfileService {
         return true;
     }
 
-    private static String validateName(String firstName, String lastName) throws IllegalArgumentException{
-        String error = "";
-
+    private static void validateName(String firstName, String lastName) throws IllegalArgumentException{
         String regex = "[a-zA-Z]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher firstNameMatcher = pattern.matcher(firstName);
         Matcher lastNameMatcher = pattern.matcher(lastName);
 
+        String error = "";
         if (firstName == null || firstName.trim().length() < 2) {
             error += "The first name must contain at least 2 characters.\n";
         }
+
         if (lastName == null || lastName.trim().length() < 2) {
             error += "The last name must contain at least 2 characters.\n";
         }
-
 
         if (!firstNameMatcher.matches()) {
             error += "The first name must only contain letters.\n";
@@ -409,28 +387,17 @@ public class UserProfileService {
         if (error.length() > 0){
             throw new IllegalArgumentException(error);
         }
-        return error;
-
     }
 
     private static String[] formatName(String firstName, String lastName) throws IllegalArgumentException{
 
         firstName = firstName.toLowerCase();
         lastName = lastName.toLowerCase();
-        String nameError = "";
 
-        try {
-            validateName(firstName, lastName);
-        } catch (IllegalArgumentException e) {
-            nameError += e.getMessage();
-        }
+        validateName(firstName, lastName);
 
-        if (nameError.length() == 0) {
-            firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
-            lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
-        } else {
-            throw new IllegalArgumentException(nameError);
-        }
+        firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+        lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
 
         return new String[]{firstName, lastName};
     }
