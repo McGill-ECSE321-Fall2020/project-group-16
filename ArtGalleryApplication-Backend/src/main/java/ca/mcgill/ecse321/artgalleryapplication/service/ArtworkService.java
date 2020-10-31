@@ -6,6 +6,7 @@ import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
@@ -57,14 +59,15 @@ public class ArtworkService {
      * @TODO add error handling for inputs?
      */
     @Transactional
-    public ArtworkDto createArtwork(String title,  String description,  Date creationDate,
-    							 String medium, String imageUrl, Double price, ArtworkStatus status,
-    							 String dimensions, String collection) {
+    public Artwork createArtwork(String title,  String description,  Date creationDate,
+    								String medium, String imageUrl, Double price, ArtworkStatus status,
+    								String dimensions, String collection) {
 
-		if(title == null || title.trim().length() == 0) throw new IllegalArgumentException("title is null or length 0. Please enter valid title");
+    	//title, price, and status are the only required attributes to create an artwork
+		if(title == null || title.trim().length() == 0) throw new IllegalArgumentException("title is null or length 0. Please enter valid title.");
     	if(price == null) throw new IllegalArgumentException("Entered price is null. Please enter a valid price.");
-		if(status == null) throw new IllegalArgumentException("Entered artwork status is null. Please enter a valid status");
-
+		if(status == null) throw new IllegalArgumentException("Entered artwork status is null. Please enter a valid status.");	
+		
     	Artwork artwork = new Artwork();
     	artwork.setTitle(title);
     	artwork.setDescription(description);
@@ -77,10 +80,9 @@ public class ArtworkService {
     	artwork.setCollection(collection);
 
     	artworkRepository.save(artwork);
-
-    	return convertToDto(artwork);
+    	return artwork;
     }
-
+ 
 	@Transactional
 	public Artwork updateArtworkFields(int id, String newTitle, String newDescription, String newImageUrl, double newPrice, ArtworkStatus newStatus, String newDimensions, String newCollection) {
 
@@ -92,34 +94,46 @@ public class ArtworkService {
 		if(newImageUrl != null && !newImageUrl.equals(artwork.getImageUrl())) artwork.setImageUrl(newImageUrl);
 		if(newPrice != artwork.getPrice()) artwork.setPrice(newPrice);
 		if(newStatus != artwork.getArtworkStatus()) artwork.setArtworkStatus(newStatus);
-		if(!newDimensions.equals(artwork.getDimensions())) artwork.setDimensions(newDimensions);
-		if(!newCollection.equals(artwork.getCollection())) artwork.setCollection(newCollection);
+		if(newDimensions != artwork.getDimensions()) artwork.setDimensions(newDimensions);
+		if(newCollection != artwork.getCollection()) artwork.setCollection(newCollection);
+		
 		artworkRepository.save(artwork);
 		return artwork;
 	}
-    
+     
     @Transactional
     public Artwork getArtwork(int id) {
-		return artworkRepository.findArtworkByArtworkId(id);
+    	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
+    	if(artwork == null) throw new IllegalArgumentException("No artwork with ID " + id + " in the system.");
+    	return artwork;
     }
 
     @Transactional
     public List<Artwork> getAllArtworks() {
-    	return toList(artworkRepository.findAll());
+    	List<Artwork> allArtworks = toList(artworkRepository.findAll());
+    	return allArtworks;
     }
 
     @Transactional
     //method that returns first n artworks instead of all of them
     public List<Artwork> getFirstNArtworks(int n) {
-    	List<Artwork> firstNArtworks = new ArrayList<>();
-    	for(int i = 0; i < n; i++) {
-    		firstNArtworks.add( (toList(artworkRepository.findAll())).get(i) );
+    	if(n <= 0) throw new IllegalArgumentException("n must be greater than 0");
+    	
+    	List<Artwork> firstNArtworks = new ArrayList<Artwork>();
+    	
+    	if(n <= toList(artworkRepository.findAll()).size()) {
+    		n = toList(artworkRepository.findAll()).size();
     	}
-    	return firstNArtworks;
+    	
+   		for(int i = 0; i < n; i++) {
+   			firstNArtworks.add( (toList(artworkRepository.findAll())).get(i) );
+   		}
+   		return firstNArtworks;
     }
     
     @Transactional
     public List<Artwork> getArtworkByArtist(String artist) {
+    	if(artist == null || artist.length() == 0) throw new IllegalArgumentException("Please input an artist");
     	return toList(artworkRepository.findAllArtworkByArtist(artist));
     }
     
@@ -159,24 +173,26 @@ public class ArtworkService {
     	List<Artwork> filteredArtwork = new ArrayList<>();
     	
     	//error handling
+       	if (minDate != null && maxDate != null) {
+       		if(minDate.compareTo(maxDate) > 0) { //if minDate is on or after maxDate
+       			throw new IllegalArgumentException("Maximum date must be after minimum date");
+       		}
+       	}
+    	
     	//users don't have to input a max or min price  	
     	if(minDate == null) {
-    		String s = "1900-01-01";
+    		String s = "1700-01-01";
     		minDate = Date.valueOf(s);
     	}
     	
     	if(maxDate == null) {
-			maxDate = new Date(System.currentTimeMillis());
-    	}
-    	
-    	//@TODO might've gotten Date.compareTo backwards, need to double check
-    	if(minDate.compareTo(maxDate) >= 0) { //if minDate is on or after maxDate
-    		throw new IllegalArgumentException("Minimum price must be less than maximum price");
+    		Date today = new Date(System.currentTimeMillis());
+    		maxDate = today;
     	}
     	
     	//filtering results
     	for(Artwork a : allArtwork) {
-    		if(a.getCreationDate().compareTo(minDate) <= 0 && a.getCreationDate().compareTo(maxDate) >= 0) {
+    		if(a.getCreationDate().compareTo(minDate) >= 0 && a.getCreationDate().compareTo(maxDate) <= 0) {
     			filteredArtwork.add(a);
     		}
     	}
@@ -186,26 +202,34 @@ public class ArtworkService {
     
     @Transactional
     public List<Artwork> getArtworkByStatus(ArtworkStatus status) {
+    	if(status == null) throw new IllegalArgumentException("Please enter a status");
     	return toList(artworkRepository.findAllArtworkByArtworkStatus(status));
     }
 
-
-
-
 	@Transactional
-	public void addArtistToArtwork(Artwork a, UserProfile p) {
+	public void addArtistToArtwork(Artwork a, String artist) {
+		if(a == null) throw new IllegalArgumentException("No artwork with this id in the system.");		
 		Artwork artworkInSystem = artworkRepository.findArtworkByArtworkId(a.getArtworkId());
-		if(artworkInSystem == null) throw new IllegalArgumentException("No artwork with this id in the system.");
 
-		if(p == null) throw new IllegalArgumentException("null user entered as artist");
-		UserProfile artist1 = userRepository.findByUsername(p.getUsername());
-		if(artist1 == null) throw new IllegalArgumentException("No user in system associated to this username :" + p.getUsername());
+		UserProfile p = userRepository.findByUsername(artist);
+		if(p == null) throw new IllegalArgumentException("No user in system associated to this username");
 
-		a.getArtist().add(p);
+		Set<UserProfile> artists = new HashSet<>();
+		artists.add(p);
+		a.setArtist(artists);
+		
 		p.getArtwork().add(artworkInSystem);
+		
 		userRepository.save(p);
 		artworkRepository.save(artworkInSystem);
 	}
+	
+	@Transactional
+    public void deleteArtwork(int id) {
+	    Artwork a = artworkRepository.findArtworkByArtworkId(id);
+        if (a == null) throw new IllegalArgumentException("No artwork with this id in the system.");
+	    artworkRepository.delete(a);
+    }
     
     //helper methods
 
