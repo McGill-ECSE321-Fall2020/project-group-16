@@ -45,19 +45,8 @@ public class ArtworkService {
 
 
 
-    /* @param id	 		artwork id
-     * @param title	 		title of artwork
-     * @param description	description of artwork
-     * @param creationDate	date the artwork was completed
-     * @param medium		i.e. oil painting, watercolour, charcoal, clay, etc.
-     * @param imageUrl		will store image file as a url
-     * @param price 		price of the art piece in CAD
-     * @param status		either not for sale, for sale, or sold
-     * @param dimensions	dimensions of the artwork
-     * @param collection	optional attribute - if the artwork is part of a collection of pieces
-     * @return the Artwork object with all attributes set
-     * @TODO add error handling for inputs?
-     */
+    //CREATE METHODS
+    
     @Transactional
     public Artwork createArtwork(String title,  String description,  Date creationDate,
     								String medium, String imageUrl, Double price, ArtworkStatus status,
@@ -83,6 +72,9 @@ public class ArtworkService {
     	return artwork;
     }
  
+    
+    //UPDATE METHODS
+    
 	@Transactional
 	public Artwork updateArtworkFields(int id, String newTitle, String newDescription, String newImageUrl, double newPrice, ArtworkStatus newStatus, String newDimensions, String newCollection) {
 
@@ -100,7 +92,9 @@ public class ArtworkService {
 		artworkRepository.save(artwork);
 		return artwork;
 	}
-     
+
+	//GETTERS 
+	
     @Transactional
     public Artwork getArtwork(int id) {
     	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
@@ -206,6 +200,8 @@ public class ArtworkService {
     	return toList(artworkRepository.findAllArtworkByArtworkStatus(status));
     }
 
+    //ADD ARTIST TO ARTWORK METHOD
+    
 	@Transactional
 	public void addArtistToArtwork(Artwork a, String artist) {
 		if(a == null) throw new IllegalArgumentException("No artwork with this id in the system.");		
@@ -223,6 +219,8 @@ public class ArtworkService {
 		userRepository.save(p);
 		artworkRepository.save(artworkInSystem);
 	}
+
+	//DELETE METHOD
 	
 	@Transactional
     public void deleteArtwork(int id) {
