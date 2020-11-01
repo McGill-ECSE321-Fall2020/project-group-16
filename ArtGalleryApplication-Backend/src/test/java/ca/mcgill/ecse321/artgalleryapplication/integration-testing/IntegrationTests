@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Run Tests
+./EventIntegrationTest
+./ShipmentIntegrationTest
+./UserIntegrationTest
+./ArtworkIntegrationTest
+./OrderIntegrationTest
+./PaymentIntegrationTest

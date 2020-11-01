@@ -1,0 +1,19 @@
+#!/bin/bash
+source JsonBashUtil
+
+USERNAME="IntTesting"
+
+DELETE=$(curl -s -X DELETE "https://artgalleryapp-backend-0.herokuapp.com/users/${USERNAME}")
+USER=$(curl -s -X POST "https://artgalleryapp-backend-0.herokuapp.com/users/${USERNAME}/?firstName=John&lastName=Doe&email=john.doe@gmail.com&password=JohnDoe123$")
+
+EVENT=$(curl -s -X POST 'https://artgalleryapp-backend-0.herokuapp.com/events/Event2?description=zeBestEventEver&date=2020-11-19&startTime=11:35&endTime=12:35&imageUrl=ThisImageUrl')
+ID=$( echo "$EVENT" | jsonValue id )
+
+EVENT=$(curl -s -X PUT "https://artgalleryapp-backend-0.herokuapp.com/events/register/?eventId=${ID}&username=${USERNAME}" )
+OUTPUT=$( curl -s -X GET 'https://artgalleryapp-backend-0.herokuapp.com/events' | grep -o "$USERNAME" )
+
+if [ -z "$OUTPUT" ]; then
+  echo "EventIntegrationTest Failed"
+else
+  echo "EventIntegrationTest Passed"
+fi
