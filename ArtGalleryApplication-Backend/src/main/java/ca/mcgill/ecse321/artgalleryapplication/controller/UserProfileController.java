@@ -70,6 +70,16 @@ public class UserProfileController {
         return convertToDto(userService.getUserProfileByUsername(username));
     }
 
+    @GetMapping(value = {"/login/{username}/{password}", "/users/{username}/{password}/"})
+    public boolean getLoginStatus(@PathVariable("username") String username, @PathVariable("password") String password) throws DataAccessException {
+        try{
+            userService.getUserProfileByUsername(username, password);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 //    @GetMapping(value = {"/users/{email}", "/users/{email}/"})
 //    public UserProfileDto getUserProfileByEmailAndPassword(@PathVariable("email") String email, @RequestParam String password) throws DataAccessException {
 //        return convertToDto(userService.getUserProfileByEmail(email, password));
