@@ -25,15 +25,19 @@ public class UserProfileController {
     @Autowired
     private UserProfileService userService;
 
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private ArtworkService artworkService;
-
     //Mappings + mappings methods
 
     // Post methods
+
+    /**
+     * @param username
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password
+     * @return
+     * @throws IllegalArgumentException
+     */
     @PostMapping(value = {"/users/{username}", "/users/{username}/"})
     public UserProfileDto createRegularUserProfile(@PathVariable("username") String username,
                                            @RequestParam String firstName,
@@ -44,6 +48,15 @@ public class UserProfileController {
         return convertToDto(user);
     }
 
+    /**
+     * @param username
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password
+     * @return
+     * @throws IllegalArgumentException
+     */
     @PostMapping(value = {"/users/admin/{username}", "/users/admin/{username}/"})
     public UserProfileDto createAdminProfile(@PathVariable("username") String username,
                                                    @RequestParam String firstName,
@@ -54,17 +67,20 @@ public class UserProfileController {
         return convertToDto(user);
     }
 
+    /**
+     * @return
+     */
     // Get methods
     @GetMapping(value = {"/users", "/users/"})
     public List<UserProfileDto> getAllUsers() {
         return userService.getAllUsers().stream().map(p -> convertToDto(p)).collect(Collectors.toList());
     }
 
-//    @GetMapping(value = {"/users/{username}", "/users/{username}/"})
-//    public UserProfileDto getUserProfileByUsernameAndPassword(@PathVariable("username") String username, @RequestParam String password) throws DataAccessException {
-//        return convertToDto(userService.getUserProfileByUsername(username, password));
-//    }
-
+    /**
+     * @param username
+     * @return
+     * @throws DataAccessException
+     */
     @GetMapping(value = {"/users/{username}", "/users/{username}/"})
     public UserProfileDto getUserProfileByUsername(@PathVariable("username") String username) throws DataAccessException {
         return convertToDto(userService.getUserProfileByUsername(username));
@@ -80,12 +96,12 @@ public class UserProfileController {
         return true;
     }
 
-//    @GetMapping(value = {"/users/{email}", "/users/{email}/"})
-//    public UserProfileDto getUserProfileByEmailAndPassword(@PathVariable("email") String email, @RequestParam String password) throws DataAccessException {
-//        return convertToDto(userService.getUserProfileByEmail(email, password));
-//    }
-
-
+    /**
+     * @param username
+     * @param newEmail
+     * @return
+     * @throws DataAccessException
+     */
     // Update methods
     @PutMapping(value = {"/users/{username}/update-email", "/users/{username}/update-email/"})
     public UserProfileDto updateEmail(@PathVariable("username") String username,
@@ -93,12 +109,25 @@ public class UserProfileController {
         return convertToDto(userService.updateEmail(username, newEmail));
     }
 
+    /**
+     * @param username
+     * @param addressId
+     * @return
+     * @throws DataAccessException
+     */
     @PutMapping(value = {"users/{username}/update-address", "users/{username}/update-address/"})
     public UserProfileDto updateAddress(@PathVariable("username") String username,
                                         @RequestParam int addressId) throws DataAccessException {
         return convertToDto(userService.updateAddress(username, addressId));
     }
 
+    /**
+     * @param username
+     * @param password
+     * @param newPassword
+     * @return
+     * @throws DataAccessException
+     */
     @PutMapping(value = {"users/{username}/update-password", "users/{username}/update-password/"})
     public UserProfileDto updatePassword(@PathVariable("username") String username,
                                          @RequestParam String password,
@@ -106,12 +135,25 @@ public class UserProfileController {
         return convertToDto(userService.updatePassword(username, password, newPassword));
     }
 
+    /**
+     * @param username
+     * @param isAdmin
+     * @return
+     * @throws DataAccessException
+     */
     @PutMapping(value = {"users/{username}/update-admin-status", "users/{username}/update-admin-status/"})
     public UserProfileDto updateAdminStatus(@PathVariable("username") String username,
                                             @RequestParam boolean isAdmin) throws DataAccessException {
         return convertToDto(userService.updateAdminStatus(username, isAdmin));
     }
 
+    /**
+     * @param username
+     * @param newFirstName
+     * @param newLastName
+     * @return
+     * @throws DataAccessException
+     */
     @PutMapping(value = {"users/{username}/update-name", "users/{username}/update-name/"})
     public UserProfileDto updateName(@PathVariable("username") String username,
                                      @RequestParam String newFirstName,
@@ -119,16 +161,32 @@ public class UserProfileController {
         return convertToDto(userService.updateName(username, newFirstName, newLastName));
     }
 
+    /**
+     * @param username
+     * @param description
+     * @return
+     * @throws DataAccessException
+     */
     @PutMapping(value = {"users/{username}/update-description", "users/{username}/update-description/"})
     public UserProfileDto updateDescription(@PathVariable("username") String username, @RequestParam String description) throws DataAccessException {
         return convertToDto(userService.updateDescription(username, description));
     }
 
+    /**
+     * @param username
+     * @param imageUrl
+     * @return
+     * @throws DataAccessException
+     */
     @PutMapping(value = {"users/{username}/update-profile-image-url", "users/{username}/update-profile-image-url/"})
     public UserProfileDto updateProfileImageUrl(@PathVariable("username") String username, @RequestParam String imageUrl) throws DataAccessException {
         return convertToDto(userService.updateDescription(username, imageUrl));
     }
 
+    /**
+     * @param username
+     * @throws DataAccessException
+     */
     // ----- Deletion methods -----
     @DeleteMapping(value = {"users/{username}", "users/{username}/"})
     public void deleteUser(@PathVariable("username") String username) throws DataAccessException {

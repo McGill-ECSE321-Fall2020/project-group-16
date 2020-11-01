@@ -25,9 +25,6 @@ public class TestUserProfileService {
     private UserRepository userDao;
 
     @Mock
-    private ArtworkRepository artworkDao;
-
-    @Mock
     private AddressRepository addressDao;
 
     @Mock
@@ -314,20 +311,8 @@ public class TestUserProfileService {
         UserProfile user = null;
 
         String streetAddress = "McGill";
-        String streetAddress2 = "2";
-        String postalCode = "H2V6B5";
-        String city = "Montreal";
-        String province = "Quebec";
-        String country = "Canada";
 
         String newStreetAddress = "Aylmer";
-        String newStreetAddress2 = "4";
-        String newPostalCode = "H2V6C5";
-        String newCity = "Montreal";
-        String newProvince = "Quebec";
-        String newCountry = "Canada";
-
-
 
         try {
             user = userService.updateAddress(USERNAME, 1);
