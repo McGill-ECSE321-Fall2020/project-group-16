@@ -63,7 +63,7 @@ public class ArtworkRestController {
 	}
 
 	@PutMapping(value = {"/artworks/{id}/update", "/artworks/{id}/update/"})
-	public void updateArtworkFields (
+	public ArtworkDto updateArtworkFields (
 			@PathVariable("id") int id,
 			@RequestParam String title,
 			@RequestParam String newDescription,
@@ -73,7 +73,8 @@ public class ArtworkRestController {
 			@RequestParam String newDimensions,
 			@RequestParam String newCollection ) {
 
-		artworkService.updateArtworkFields(id, title, newDescription, newImageUrl, newPrice, newStatus, newDimensions, newCollection);
+		Artwork a = artworkService.updateArtworkFields(id, title, newDescription, newImageUrl, newPrice, newStatus, newDimensions, newCollection);
+		return ConvertToDto.convertToDto(a);
 	}
 	
 
@@ -101,12 +102,13 @@ public class ArtworkRestController {
 	}
 
 	@PutMapping(value = {"/artworks/{id}/add-artist/", "artworks/{id}/add-artist"})
-	public void addArtworkToArtist(
+	public ArtworkDto addArtworkToArtist(
 			@PathVariable("id") int id,
 			@RequestParam("username") String username)
 			throws IllegalArgumentException {
 		Artwork a = artworkService.getArtwork(id);
 		artworkService.addArtistToArtwork(a, username);
+		return ConvertToDto.convertToDto(a);
 	}
 }
  
