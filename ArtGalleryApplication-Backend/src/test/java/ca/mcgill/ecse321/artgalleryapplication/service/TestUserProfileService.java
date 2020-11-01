@@ -25,9 +25,6 @@ public class TestUserProfileService {
     private UserRepository userDao;
 
     @Mock
-    private ArtworkRepository artworkDao;
-
-    @Mock
     private AddressRepository addressDao;
 
     @Mock
@@ -314,20 +311,8 @@ public class TestUserProfileService {
         UserProfile user = null;
 
         String streetAddress = "McGill";
-        String streetAddress2 = "2";
-        String postalCode = "H2V6B5";
-        String city = "Montreal";
-        String province = "Quebec";
-        String country = "Canada";
 
         String newStreetAddress = "Aylmer";
-        String newStreetAddress2 = "4";
-        String newPostalCode = "H2V6C5";
-        String newCity = "Montreal";
-        String newProvince = "Quebec";
-        String newCountry = "Canada";
-
-
 
         try {
             user = userService.updateAddress(USERNAME, 1);
@@ -397,62 +382,5 @@ public class TestUserProfileService {
             assertEquals("requested user " + USERNAME_2 + " does not exist in the system.\n", e.getMessage());
         }
     }
-
-    //TODO - REMOVE
-//    @Test
-//    public void updateCurrentOrderTest() {
-//        UserProfile user = null;
-//
-//        lenient().when(artworkDao.findArtworkByArtworkId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-//            Artwork artwork = new Artwork();
-//            artwork.setArtworkId(1);
-//            return artwork;
-//        });
-//
-//        try {
-//            user = userService.updateCurrentOrder(USERNAME, 1);
-//        } catch (Exception e) {
-//            fail(e);
-//        }
-//
-//        assertEquals(1, user.getCurrentOrder().getOrderId());
-//    }
-
-//    @Test
-//    public void removeCurrentOrderTest() {
-//
-//        UserProfile user = null;
-//
-//        lenient().when(artworkDao.findArtworkByArtworkId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
-//            Artwork artwork = new Artwork();
-//            artwork.setArtworkId(1);
-//            return artwork;
-//        });
-//
-//        lenient().when(orderDao.save(any(Order.class))).thenAnswer((InvocationOnMock invocation) -> {
-//            Order order = new Order();
-//            order.setOrderId(1);
-//            return order;
-//        });
-//
-//        try {
-//            user = userService.updateCurrentOrder(USERNAME, 1);
-//        } catch (Exception e) {
-//            fail(e);
-//        }
-//
-//        assertTrue(user.getCurrentOrder().getOrderId() == 1);
-//
-//        try {
-//            user = userService.removeCurrentOrder(USERNAME);
-//        } catch (Exception e) {
-//            fail(e);
-//        }
-//
-//        assertNull(user.getCurrentOrder());
-//
-//        artworkDao.deleteAll();
-//        orderDao.deleteAll();
-//    }
 
 }

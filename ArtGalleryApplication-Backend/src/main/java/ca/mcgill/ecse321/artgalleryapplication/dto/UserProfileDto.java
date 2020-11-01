@@ -12,11 +12,7 @@ public class UserProfileDto {
     private String description;
     private String profileImageUrl;
     private boolean isAdmin;
-    private OrderDto currentOrder;
-    private List<OrderDto> pastOrders;
     private AddressDto address;
-    private List<GalleryEventDto> events;
-    private List<ArtworkDto> artworks;
 
     public UserProfileDto(String firstName, String lastName, String username, String email, String password) {
         this(firstName, lastName, username, email, password, false);
@@ -29,15 +25,12 @@ public class UserProfileDto {
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
-        //this.artworks = artworks;
-        //this.pastOrders = pastOrders;
     }
 
     public UserProfileDto(String firstName, String lastName, String username, String email, String password, boolean isAdmin, String description, String profileImageUrl , AddressDto address) {
         this(firstName, lastName, username, email, password, isAdmin);
         this.setDescription(description);
         this.setProfileImageUrl(profileImageUrl);
-        this.setCurrentOrder(currentOrder);
         this.setAddress(address);
     }
 
@@ -101,43 +94,11 @@ public class UserProfileDto {
         this.address = address;
     }
 
-    public OrderDto getCurrentOrder() {
-        return currentOrder;
-    }
-
-    public void setCurrentOrder(OrderDto currentOrder) {
-        this.currentOrder = currentOrder;
-    }
-
-    public List<OrderDto> getPastOrders() {
-        return pastOrders;
-    }
-
-    public void setPastOrders(List<OrderDto> pastOrders) {
-        this.pastOrders = pastOrders;
-    }
-
-    public List<ArtworkDto> getArtworks() {
-        return artworks;
-    }
-
-    public void setArtworks(List<ArtworkDto> artworks) {
-        this.artworks = artworks;
-    }
-
     public void setAdmin(boolean admin) {
         isAdmin = admin;
     }
 
     public boolean getAdmin() {
         return isAdmin;
-    }
-
-    public List<GalleryEventDto> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<GalleryEventDto> events) {
-        this.events = events;
     }
 }

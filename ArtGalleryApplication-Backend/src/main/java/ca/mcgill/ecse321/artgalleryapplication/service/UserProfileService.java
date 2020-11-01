@@ -12,7 +12,6 @@ import org.springframework.orm.ObjectRetrievalFailureException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.*;
 
 @Service
@@ -28,6 +27,17 @@ public class UserProfileService {
     private AddressRepository addressRepository;
 
     //create the Transactional methods
+
+    /**
+     * @param firstName
+     * @param lastName
+     * @param username
+     * @param email
+     * @param password
+     * @param isAdmin
+     * @return
+     * @throws IllegalArgumentException
+     */
 
     // ----- Creation methods -----
     @Transactional
@@ -84,16 +94,41 @@ public class UserProfileService {
         return user;
     }
 
+    /**
+     * @param firstName
+     * @param lastName
+     * @param username
+     * @param email
+     * @param password
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public UserProfile createAdminProfile(String firstName, String lastName, String username, String email, String password) throws IllegalArgumentException{
         return createUserProfile(firstName, lastName, username, email, password, true);
     }
 
+    /**
+     * @param firstName
+     * @param lastName
+     * @param username
+     * @param email
+     * @param password
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public UserProfile createRegularUserProfile(String firstName, String lastName, String username, String email, String password) throws IllegalArgumentException{
         return createUserProfile(firstName, lastName, username, email, password, false);
     }
 
+    /**
+     * @param username
+     * @param newEmail
+     * @return
+     * @throws IllegalArgumentException
+     * @throws DataAccessException
+     */
     // ----- Update methods -----
     @Transactional
     public UserProfile updateEmail(String username, String newEmail) throws IllegalArgumentException, DataAccessException {
@@ -109,6 +144,14 @@ public class UserProfileService {
         return user;
     }
 
+    /**
+     * @param username
+     * @param newFirstName
+     * @param newLastName
+     * @return
+     * @throws IllegalArgumentException
+     * @throws DataAccessException
+     */
     @Transactional
     public UserProfile updateName(String username, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
         UserProfile user = getUserProfileByUsername(username);
@@ -124,6 +167,14 @@ public class UserProfileService {
         return user;
     }
 
+    /**
+     * @param username
+     * @param password
+     * @param newPassword
+     * @return
+     * @throws DataAccessException
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public UserProfile updatePassword(String username, String password, String newPassword) throws DataAccessException, IllegalArgumentException{
         UserProfile user = getUserProfileByUsername(username, password);
@@ -136,6 +187,12 @@ public class UserProfileService {
         return user;
     }
 
+    /**
+     * @param username
+     * @param isAdmin
+     * @return
+     * @throws DataAccessException
+     */
     @Transactional
     public UserProfile updateAdminStatus(String username, boolean isAdmin) throws DataAccessException{
         UserProfile user = getUserProfileByUsername(username);
@@ -146,6 +203,12 @@ public class UserProfileService {
         return user;
     }
 
+    /**
+     * @param username
+     * @param addressId
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Transactional
     public UserProfile updateAddress(String username, int addressId) throws IllegalArgumentException {
         UserProfile user = getUserProfileByUsername(username);
@@ -158,6 +221,12 @@ public class UserProfileService {
         return user;
     }
 
+    /**
+     * @param username
+     * @param description
+     * @return
+     * @throws DataAccessException
+     */
     @Transactional
     public UserProfile updateDescription(String username, String description) throws DataAccessException {
         UserProfile user = getUserProfileByUsername(username);
@@ -166,6 +235,12 @@ public class UserProfileService {
         return user;
     }
 
+    /**
+     * @param username \
+     * @param imageUrl
+     * @return
+     * @throws DataAccessException
+     */
     @Transactional
     public UserProfile updateProfileImageUrl(String username, String imageUrl) throws DataAccessException {
         UserProfile user = getUserProfileByUsername(username);
@@ -174,6 +249,10 @@ public class UserProfileService {
         return user;
     }
 
+    /**
+     * @param username
+     * @throws DataAccessException
+     */
     // ----- Deletion methods -----
     @Transactional
     public void deleteUserProfile(String username) throws DataAccessException {
@@ -192,6 +271,12 @@ public class UserProfileService {
         userRepository.deleteUserProfileByUsername(username);
     }
 
+    /**
+     * @param username
+     * @param password
+     * @return
+     * @throws DataAccessException
+     */
     // ----- Get methods -----
     @Transactional
     public UserProfile getUserProfileByUsername(String username, String password) throws DataAccessException{
@@ -215,6 +300,11 @@ public class UserProfileService {
 
     }
 
+    /**
+     * @param username
+     * @return
+     * @throws DataAccessException
+     */
     @Transactional
     public UserProfile getUserProfileByUsername(String username) throws DataAccessException{
         UserProfile user;
@@ -229,6 +319,9 @@ public class UserProfileService {
 
     }
 
+    /**
+     * @return
+     */
     @Transactional
     public List<UserProfile> getAllUsers() {
         return toList(userRepository.findAll());
@@ -238,6 +331,11 @@ public class UserProfileService {
 
     // ----- Helper methods -----
 
+    /**
+     * @param iterable
+     * @param <T>
+     * @return
+     */
     private <T> List<T> toList(Iterable<T> iterable){
         List<T> resultList = new ArrayList<>();
         for (T t : iterable) {
@@ -246,6 +344,10 @@ public class UserProfileService {
         return resultList;
     }
 
+    /**
+     * @param email
+     * @throws IllegalArgumentException
+     */
     private static void validateEmail(String email) throws IllegalArgumentException{
 
         if (isEmpty(email)) {
@@ -262,6 +364,10 @@ public class UserProfileService {
 
     }
 
+    /**
+     * @param password
+     * @throws IllegalArgumentException
+     */
     private static void validatePassword(String password) throws IllegalArgumentException{
 
         if (password == null || password.trim().length() < 8) {
@@ -278,6 +384,11 @@ public class UserProfileService {
 
     }
 
+    /**
+     * @param firstName
+     * @param lastName
+     * @throws IllegalArgumentException
+     */
     private static void validateName(String firstName, String lastName) throws IllegalArgumentException{
         String regex = "[a-zA-Z]+";
         Pattern pattern = Pattern.compile(regex);
@@ -306,6 +417,12 @@ public class UserProfileService {
         }
     }
 
+    /**
+     * @param firstName
+     * @param lastName
+     * @return
+     * @throws IllegalArgumentException
+     */
     private static String[] formatName(String firstName, String lastName) throws IllegalArgumentException{
 
         firstName = firstName.toLowerCase();
