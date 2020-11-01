@@ -27,9 +27,6 @@ public class UserProfileService {
     @Autowired
     private AddressRepository addressRepository;
 
-    private OrderService orderService;
-
-
     //create the Transactional methods
 
     // ----- Creation methods -----
@@ -324,31 +321,6 @@ public class UserProfileService {
 
     private static boolean isEmpty(String s) {
         return s == null || s.trim().length() == 0;
-    }
-
-    @Transactional
-    public Address createAddress(String streetAddress, String streetAddress2, String postalCode, String city, String province, String country){
-        if(streetAddress == null || streetAddress.trim().length() == 0)
-            throw new IllegalArgumentException("StreetAddress is null or length 0. Please enter a valid streetAddress");
-        if(postalCode == null || postalCode.trim().length() == 0)
-            throw new IllegalArgumentException("postalCode is null or length 0. Please enter a valid postalCode");
-        if(city == null || city.trim().length() == 0)
-            throw new IllegalArgumentException("City is null or length 0. Please enter a valid city");
-        if(province == null || province.trim().length() == 0)
-            throw new IllegalArgumentException("Province is null or length 0. Please enter a valid province");
-        if(country == null || country.trim().length() == 0)
-            throw new IllegalArgumentException("Country is null or length 0. Please enter a valid country");
-
-        Address address = new Address();
-        address.setStreetAddress(streetAddress);
-        address.setStreetAddress2(streetAddress2);
-        address.setPostalCode(postalCode);
-        address.setCity(city);
-        address.setProvince(province);
-        address.setCountry(country);
-
-        addressRepository.save(address);
-        return address;
     }
 
 }
