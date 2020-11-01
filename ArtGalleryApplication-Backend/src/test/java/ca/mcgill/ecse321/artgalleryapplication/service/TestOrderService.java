@@ -1,9 +1,6 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
@@ -75,6 +72,18 @@ public class TestOrderService {
             Order order = setupOrder();
 
             if (invocation.getArgument(0).equals(order.getOrderStatus())) {
+                orderList.add(order);
+            }
+
+            return orderList;
+        });
+        lenient().when(orderDao.findOrdersByCustomerAndOrderStatus(any(UserProfile.class), any(OrderStatus.class))).thenAnswer((InvocationOnMock invocation) -> {
+            List<Order> orderList = new ArrayList<>();
+            Order order = setupOrder();
+            UserProfile userProfile = invocation.getArgument(0);
+
+            if (userProfile.getUsername().equals(order.getCustomer().getUsername())
+            && invocation.getArgument(1).equals(order.getOrderStatus())) {
                 orderList.add(order);
             }
 
@@ -201,6 +210,11 @@ public class TestOrderService {
 
     @Test
     public void testDeleteOrder(){
+        assertTrue(service.deleteOrder(ORDER_ID));
+    }
+
+    @Test
+    public void testDeleteOrderNoOrder(){
         Order order = null;
         try {
             service.deleteOrder(NONEXISTING_ID);
@@ -209,6 +223,7 @@ public class TestOrderService {
         }
         assertNull(order);
     }
+
 
     // --- Getter Tests --- //
 
@@ -264,6 +279,54 @@ public class TestOrderService {
     }
 
     @Test
+    public void testGetOrdersByStatusNullStatus(){
+        List<Order> orders = null;
+        try {
+            orders = service.getOrdersByStatus(null);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Not a valid OrderStatus.", e.getMessage());
+        }
+        assertNull(orders);
+    }
+
+    @Test
+    public void testGetCurrentOrder(){
+        Order order = service.getCurrentOrder(USERNAME_1);
+
+        assertOrder(order, ORDER_STATUS, ARTWORK_PRICE_1);
+    }
+
+    @Test
+    public void testGetCurrentOrderNoUser(){
+        Order order = null;
+        try {
+            order = service.getCurrentOrder(NONEXISTING_USERNAME);
+        } catch (IllegalArgumentException e) {
+            assertEquals("No user associated with this username.", e.getMessage());
+        }
+        assertNull(order);
+    }
+
+    @Test
+    public void testGetPastOrders(){
+        List<Order> orders = service.getPastOrders(USERNAME_1);
+
+        assertEquals(1, orders.size());
+        assertOrder(orders.get(0), ORDER_STATUS, ARTWORK_PRICE_1);
+    }
+
+    @Test
+    public void testGetPastOrdersNoUser(){
+        List<Order> orders = null;
+        try {
+            orders = service.getPastOrders(NONEXISTING_USERNAME);
+        } catch (IllegalArgumentException e) {
+            assertEquals("No user associated with this username.", e.getMessage());
+        }
+        assertNull(orders);
+    }
+
+    @Test
     public void testGetAllOrders(){
         List<Order> orders = service.getAllOrders();
 
@@ -288,6 +351,17 @@ public class TestOrderService {
     }
 
     @Test
+    public void testAddPaymentToOrderNoOrder() {
+        Order order = null;
+        try {
+            order = service.addPaymentToOrder(NONEXISTING_ID, PAYMENT_ID_1);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Order does not exist in database.", e.getMessage());
+        }
+        assertNull(order);
+    }
+
+    @Test
     public void testAddPaymentToOrderNoPayment() {
         Order order = null;
         try {
@@ -309,6 +383,17 @@ public class TestOrderService {
         }
 
         assertOrder(order, OrderStatus.Shipped, ARTWORK_PRICE_1);
+    }
+
+    @Test
+    public void testAddShipmentToOrderNoOrder() {
+        Order order = null;
+        try {
+            order = service.addShipmentToOrder(NONEXISTING_ID, SHIPMENT_ID_1);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Order does not exist in database.", e.getMessage());
+        }
+        assertNull(order);
     }
 
     @Test
@@ -340,6 +425,17 @@ public class TestOrderService {
     }
 
     @Test
+    public void testUpdateOrderStatusNoOrder() {
+        Order order = null;
+        try {
+            order = service.updateOrderStatus(NONEXISTING_ID, null);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Order does not exist in database.", e.getMessage());
+        }
+        assertNull(order);
+    }
+
+    @Test
     public void testUpdateOrderStatusNoOrderStatus() {
         Order order = null;
         try {
@@ -362,6 +458,17 @@ public class TestOrderService {
         }
 
         assertOrder(order, ORDER_STATUS, amount);
+    }
+
+    @Test
+    public void testUpdateOrderNoOrder() {
+        Order order = null;
+        try {
+            order = service.updateOrderAmount(NONEXISTING_ID, 1000);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Order does not exist in database.", e.getMessage());
+        }
+        assertNull(order);
     }
 
     @Test
