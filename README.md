@@ -49,11 +49,11 @@ More details about [Sprint 2](https://github.com/McGill-ECSE321-Fall2020/project
 
 |**Team Member**|**Responsibilities**|**Hours**|
 |:-------------:|:-------------------|:-------:|
-|Rodolphe Baladi|                    |         |
-|Alena Midgen   |                    |         |
-|Arian Omidi    |                    |         |
-|Dina Shoham    |                    |         |
-|Evan Wechsler  |                    |         |
+|Rodolphe Baladi|Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
+|Alena Midgen   |Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
+|Arian Omidi    |Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
+|Dina Shoham    |Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
+|Evan Wechsler  |Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
 
 ### Sprint 3
 

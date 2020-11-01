@@ -80,7 +80,7 @@ public class EventService {
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
         UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
 
-        eventInSystem.getParticipants().remove(userInSystem);
+        if(eventInSystem.getParticipants().contains(userInSystem)) eventInSystem.getParticipants().remove(userInSystem);
         galleryEventRepository.save(eventInSystem);
         return eventInSystem;
     }
