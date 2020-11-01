@@ -113,22 +113,6 @@ public class UserProfileService {
     }
 
     @Transactional
-    public UserProfile updateUsername(String username, String newUsername) throws IllegalArgumentException, DataAccessException {
-
-        UserProfile user = getUserProfileByUsername(username);
-
-        if (newUsername == null || newUsername.trim().length() < 5) {
-            throw new IllegalArgumentException("The new username must be at least 5 characters long.\n");
-        } else {
-                user.setUsername(newUsername);
-                user = userRepository.save(user);
-        }
-
-        return user;
-
-    }
-
-    @Transactional
     public UserProfile updateName(String username, String newFirstName, String newLastName) throws IllegalArgumentException, DataAccessException{
         UserProfile user = getUserProfileByUsername(username);
 

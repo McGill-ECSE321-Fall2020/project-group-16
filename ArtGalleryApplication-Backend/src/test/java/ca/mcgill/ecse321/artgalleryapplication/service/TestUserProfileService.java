@@ -267,26 +267,6 @@ public class TestUserProfileService {
     }
 
     @Test
-    public void updateUsernameTest() {
-        String newUsername = "doejohn";
-        UserProfile user = null;
-//
-//        try {
-//            user = userService.createRegularUserProfile(FIRST_NAME, LAST_NAME, USERNAME, EMAIL, PASSWORD);
-//        } catch (Exception e) {
-//            fail(e);
-//        }
-
-        try {
-            user = userService.updateUsername(USERNAME, newUsername);
-        } catch (Exception e) {
-            fail(e);
-        }
-
-        assertEquals(newUsername, user.getUsername());
-    }
-
-    @Test
     public void updateNameTest() {
         String newFirstName = "Sarah";
         String newLastName = "Smith";

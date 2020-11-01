@@ -83,12 +83,6 @@ public class UserProfileController {
         return convertToDto(userService.updateEmail(username, newEmail));
     }
 
-    @PutMapping(value = {"/users/{username}/update-username", "/users/{username}/update-username/"})
-    public UserProfileDto updateUsername(@PathVariable("username") String username,
-                                      @RequestParam String newUsername) throws DataAccessException {
-        return convertToDto(userService.updateUsername(username, newUsername));
-    }
-
     @PutMapping(value = {"users/{username}/update-address", "users/{username}/update-address/"})
     public UserProfileDto updateAddress(@PathVariable("username") String username,
                                         @RequestParam int addressId) throws DataAccessException {
