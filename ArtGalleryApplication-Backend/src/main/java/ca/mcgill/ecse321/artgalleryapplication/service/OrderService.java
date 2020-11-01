@@ -207,8 +207,6 @@ public class OrderService {
         return updateOrder;
     }
 
-    // TODO: add create new shippment field
-
 
     // --- Update --- //
 
