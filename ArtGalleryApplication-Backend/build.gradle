@@ -30,3 +30,18 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+task integrationTest(type:Exec) {
+	workingDir './src/test/java/ca/mcgill/ecse321/artgalleryapplication/integration-testing'
+
+	//on linux
+	commandLine './EventIntegrationTesting'
+
+	//store the output instead of printing to the console:
+	standardOutput = new ByteArrayOutputStream()
+
+	//extension method stopTomcat.output() can be used to obtain the output:
+	ext.output = {
+		return standardOutput.toString()
+	}
+}
