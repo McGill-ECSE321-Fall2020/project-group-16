@@ -74,6 +74,12 @@ public class EventService {
         return eventInSystem;
     }
 
+    /**
+     * 
+     * @param user
+     * @param event
+     * @return
+     */
     @Transactional
     public GalleryEvent unregisterUserToEvent(UserProfile user, GalleryEvent event) {
         checkValidUserAndEvent(user, event);
