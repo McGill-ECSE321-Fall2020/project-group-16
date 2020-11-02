@@ -1,5 +1,23 @@
+#!/bin/bash
+
 function jsonValue() {
 KEY=$1
 num=$2
 awk -F"[,:}]" '{for(i=1;i<=NF;i++){if($i~/'$KEY'\042/){print $(i+1)}}}' | tr -d '"' | sed -n ${num}p
+}
+
+function clearDB() {
+    dbname="postgresql://ec2-3-210-178-167.compute-1.amazonaws.com:5432/d396rh6q72gvi6"
+    username="wsykwbfslmpeqj"
+PGPASSWORD=bc66db15c9717080e96f1adcdd8e909bea23d8858c37817e4a2230540c156371 psql $dbname $username << EOF
+  \o /dev/null
+  SET client_min_messages TO WARNING;
+	TRUNCATE address CASCADE;
+	TRUNCATE ag_order CASCADE;
+	TRUNCATE gallery_event CASCADE;
+	TRUNCATE artwork CASCADE;
+	TRUNCATE payment CASCADE;
+	TRUNCATE shipment CASCADE;
+	TRUNCATE user_profile CASCADE;
+EOF
 }

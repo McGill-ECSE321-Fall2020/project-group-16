@@ -1,4 +1,0 @@
-heroku restart
-heroku pg:reset DATABASE --confirm artgalleryapp-backend-0
-
-
