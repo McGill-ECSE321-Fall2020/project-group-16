@@ -1,13 +1,13 @@
 #!/bin/bash
 source JsonBashUtil
 
-ADDRESS1=$(curl -s -X POST 'http://localhost:8080/address/?streetAddress=dwvsvsv&streetAddress2=scdsdc&postalCode=gfg234&city=dvs&province=vsv&country=vdsvs')
-ADDRESS2=$(curl -s -X POST 'http://localhost:8080/address/?streetAddress=dwvsvsv&streetAddress2=scdsdc&postalCode=xyz123&city=dvs&province=vsv&country=vdsvs')
+ADDRESS1=$(curl -s -X POST 'https://artgalleryapp-backend-0.herokuapp.com/address/?streetAddress=dwvsvsv&streetAddress2=scdsdc&postalCode=gfg234&city=dvs&province=vsv&country=vdsvs')
+ADDRESS2=$(curl -s -X POST 'https://artgalleryapp-backend-0.herokuapp.com/address/?streetAddress=dwvsvsv&streetAddress2=scdsdc&postalCode=xyz123&city=dvs&province=vsv&country=vdsvs')
 RETURN_ADDRESS_ID=$( echo "$ADDRESS1" | jsonValue addressId )
 DEST_ADDRESS_ID=$( echo "$ADDRESS2" | jsonValue addressId )
 
-INPUT=$(curl -s -X POST "http://localhost:8080/shipments?toGallery=true&estimatedArrivalTime=12:00:00&estimatedArrivalDate=2000-01-01&returnAddressId=${RETURN_ADDRESS_ID}&destinationAddressId=${DEST_ADDRESS_ID}")
-OUTPUT=$(curl -s -X GET 'http://localhost:8080/shipments' | grep -o "$RETURN_ADDRESS_ID")
+INPUT=$(curl -s -X POST "https://artgalleryapp-backend-0.herokuapp.com/shipments?toGallery=true&estimatedArrivalTime=12:00:00&estimatedArrivalDate=2000-01-01&returnAddressId=${RETURN_ADDRESS_ID}&destinationAddressId=${DEST_ADDRESS_ID}")
+OUTPUT=$(curl -s -X GET 'https://artgalleryapp-backend-0.herokuapp.com/shipments' | grep -o "$RETURN_ADDRESS_ID")
 
 if [ -z "$OUTPUT" ]; then
   echo "ShipmentIntegrationTest Failed"

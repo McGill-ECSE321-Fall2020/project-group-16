@@ -75,7 +75,7 @@ public class EventService {
     }
 
     /**
-     * 
+     *
      * @param user
      * @param event
      * @return
