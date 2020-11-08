@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class AddressService {
@@ -71,6 +74,11 @@ public class AddressService {
         return address;
     }
 
+    @Transactional
+    public List<Address> getAllAddresses() {
+        return toList(addressRepository.findAll());
+    }
+
     /**
      * Service method to update the fields of an address
      * @param addressId
@@ -96,5 +104,13 @@ public class AddressService {
         if(country != null && country.trim().length() != 0) address.setCountry(country);
 
         return address;
+    }
+
+    private <T> List<T> toList(Iterable<T> iterable){
+        List<T> resultList = new ArrayList<>();
+        for (T t : iterable) {
+            resultList.add(t);
+        }
+        return resultList;
     }
 }
