@@ -12,6 +12,21 @@
 
       <br>
 
+      <h3>Register to this event:</h3>
+      <table>
+        <tr>
+          <td>Register here:</td>
+          <td>
+            <input type="text" v-model="toRegisterUsername" placeholder="username">
+          </td>
+          <td>
+            <button v-bind:disabled="!toRegisterUsername" @click="registerToEvent(toRegisterUsername)">Register</button>
+          </td>
+        </tr>
+      </table>
+
+      <br>
+
       <h3>List of the event participants:</h3>
       <table>
         <tr>
@@ -43,7 +58,9 @@
     text-align: left;
   }
 
-  table, th, td {
+  table,
+  th,
+  td {
     border: 1px solid black;
   }
 </style>

@@ -34,6 +34,7 @@ export default {
                 endTime: "",
                 participants: [],
               },
+            toRegisterUsername: "",
             errorRequest: "",
             response: []
         };
@@ -45,6 +46,7 @@ export default {
         var id = url.substring(url.lastIndexOf('/') + 1);
 
         AXIOS.get("/events/".concat(id))
+        //todo: bad id --> backend is giving exception, how to catch it and output message?
         .then((response) => { 
             this.theEvent = response.data;
         }).catch((e) => { 
@@ -53,5 +55,21 @@ export default {
     },
 
     methods: {
+
+        registerToEvent: function (username) {
+            AXIOS.put("/events/register/", {}, { 
+                params: {
+                    username: username,
+                    eventId: this.theEvent.id
+                },
+            }).then((response) => {
+                //todo: refresh page here: so user can see himself in the list and fields are reset
+            }).catch((e) => {
+                //todo: send back the illegalArgument Error from backend rather than the error code
+                console.log(e);
+                this.errorRequest = e;
+            });
+        },
+
     },
 }
