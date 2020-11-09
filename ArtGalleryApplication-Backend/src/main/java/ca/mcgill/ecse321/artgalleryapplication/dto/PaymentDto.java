@@ -31,7 +31,7 @@ public class PaymentDto {
 		return this.paymentForm;
 	}
 
-	public Date paymentDate() {
+	public Date getPaymentDate() {
 		return this.paymentDate;
 	}
 

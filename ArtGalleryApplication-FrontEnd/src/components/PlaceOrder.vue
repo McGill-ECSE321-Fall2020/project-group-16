@@ -1,5 +1,5 @@
 <template>
-  <div id="purchaseartwork">
+  <div id="place-order">
     <hr />
     <h2>Users</h2>
     <table id="user_table">
@@ -11,6 +11,7 @@
         <td>{{ user.username }}</td>
       </tr>
     </table>
+
     <span v-if="errorUsers" style="color: red">Error: {{ errorUsers }} </span>
     <hr />
 
@@ -25,6 +26,7 @@
         <td>{{ artwork.artworkId }}</td>
       </tr>
     </table>
+
     <span v-if="errorArtworks" style="color: red"
       >Error: {{ errorArtworks }}
     </span>
@@ -45,6 +47,7 @@
         <td>{{ order.artwork.artworkId }}</td>
       </tr>
     </table>
+
     <span v-if="errorOrders" style="color: red">Error: {{ errorOrders }} </span>
     <hr />
 
@@ -81,7 +84,7 @@
   </div>
 </template>
 
-<script src = "./purchaseArtwork.js"></script>
+<script src="./placeOrder.js"></script>
 
 <style>
 #purchaseartwork {

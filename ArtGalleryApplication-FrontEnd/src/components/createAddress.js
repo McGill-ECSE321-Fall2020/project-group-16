@@ -42,28 +42,6 @@ export default {
   },
   methods: {
 
-    createAddress: function (username, artworkId) {
-      var indexUser = this.users.map(x => x.username).indexOf(username)
-      var indexArtwork = this.artworks.map(x => x.artworkId).indexOf(parseInt(artworkId))
-      var user = this.users[indexUser]
-      var artwork = this.artworks[indexArtwork]
-
-      AXIOS.post("/orders/place-order/".concat(user.username), {}, {
-        params: {
-          artworkId: artwork.artworkId
-        }
-      })
-        .then(response => {
-          // JSON responses are automatically parsed.
-          this.orders.push(response.data);
-          this.errorPlaceOrder = ''
-        })
-        .catch(e => {
-          var errorMsg = e.response.data.message;
-          console.log(errorMsg);
-          this.errorPlaceOrder = errorMsg;
-        });
-    },
     createAddress: function (streetAddress, streetAddress2, postalCode, city, province, country) {
       AXIOS.post("/address/", {}, {
         params: {
