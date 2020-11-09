@@ -46,11 +46,11 @@
     <h3>List of existing events</h3>
     <table>
       <tr>
-        <td>___Name___</td>
-        <td>___Event description___</td>
-        <td>___Event date___</td>
-        <td>___Event start time___</td>
-        <td>___Event end time___</td>
+        <td>Name</td>
+        <td>Event description</td>
+        <td>Event date</td>
+        <td>Event start time</td>
+        <td>Event end time</td>
       </tr>
       <tr v-for="event in events">
         <td>{{event.name}}</td>
@@ -66,4 +66,7 @@
 <script src="./GalleryEvent.js"></script>
 
 <style>
+  table, th, td {
+    border: 1px solid black;
+  }
 </style>
