@@ -1,3 +1,5 @@
+import CreateAddress from "./createAddress"
+
 import axios from "axios";
 var config = require("../../config");
 
@@ -11,10 +13,15 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "purchaseartwork",
+  name: "PlaceOrder",
+  components: {
+    CreateAddress
+  },
+
   data() {
     return {
       artworks: [],
+      addresses: [],
       users: [],
       orders: [],
 
@@ -26,10 +33,12 @@ export default {
       errorUsers: '',
       errorArtworks: '',
       errorOrders: '',
+      errorAddress: '',
       errorPlaceOrder: '',
       response: []
     }
   },
+
   created: function () {
     // Initializing persons from backend
     AXIOS.get("/users")
@@ -57,6 +66,14 @@ export default {
         this.errorOrders = e;
         // this.errors.push(e)
       });
+    AXIOS.get("/address")
+      .then(response => {
+        this.addresses = response.data;
+      })
+      .catch(e => {
+        this.errorAddress = e;
+        // this.errors.push(e)
+      });
   },
   methods: {
 
@@ -81,6 +98,32 @@ export default {
           console.log(errorMsg);
           this.errorPlaceOrder = errorMsg;
         });
+    },
+
+    addAddress(newAddress) {
+      this.addresses.push(newAddress);
+
+      // AXIOS.post("/address/", {}, {
+      //   params: {
+      //     streetAddress: streetAddress,
+      //     streetAddress2: streetAddress2,
+      //     postalCode: postalCode,
+      //     city: city,
+      //     province: province,
+      //     country: country,
+      //   }
+      // }
+      // )
+      //   .then(response => {
+      //     // JSON responses are automatically parsed.
+      //     this.addresses.push(response.data);
+      //     this.errorAddress = "";
+      //   })
+      //   .catch(e => {
+      //     var errorMsg = e.response.data.message;
+      //     console.log(errorMsg);
+      //     this.errorAddress = errorMsg;
+      //   });
     }
   }
 };

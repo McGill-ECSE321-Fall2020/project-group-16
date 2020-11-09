@@ -11,62 +11,54 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "createaddress",
+  name: "CreateAddress",
   data() {
     return {
-      addresses: [],
-
-      newAddress: {
-        streetAddress: '',
-        streetAddress2: '',
-        postalCode: '',
-        city: 'Montreal',
-        province: 'QB',
-        country: 'Canada'
-      },
-
-      errorAddress: '',
-      response: []
+      streetAddress: '',
+      streetAddress2: '',
+      postalCode: '',
+      city: 'Montreal',
+      province: 'QB',
+      country: 'Canada'
     }
-  },
-  created: function () {
-    // Initializing persons from backend
-    AXIOS.get("/address")
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.addresses = response.data;
-      })
-      .catch(e => {
-        this.errorAddress = e;
-      });
   },
   methods: {
 
-    createAddress: function (streetAddress, streetAddress2, postalCode, city, province, country) {
+    createAddress(e) {
+      e.preventDefault();
+
+      const newAddress = {
+        addressId: '',
+        streetAddress: this.streetAddress,
+        streetAddress2: this.streetAddress2,
+        postalCode: this.postalCode,
+        city: this.city,
+        province: this.province,
+        country: this.country
+      };
+
       AXIOS.post("/address/", {}, {
         params: {
-          streetAddress: streetAddress,
-          streetAddress2: streetAddress2,
-          postalCode: postalCode,
-          city: city,
-          province: province,
-          country: country,
+          streetAddress: this.streetAddress,
+          streetAddress2: this.streetAddress2,
+          postalCode: this.postalCode,
+          city: this.city,
+          province: this.province,
+          country: this.country,
         }
       }
       )
         .then(response => {
           // JSON responses are automatically parsed.
-          this.addresses.push(response.data);
-          this.errorAddress = "";
-          this.newAddress.streetAddress = "";
-          this.newAddress.streetAddress2 = "";
-          this.newAddress.postalCode = "";
+          newAddress.addressId = response.data.addressId
+          this.$emit("add-address", newAddress);
         })
         .catch(e => {
           var errorMsg = e.response.data.message;
           console.log(errorMsg);
-          this.errorAddress = errorMsg;
         });
+
+
     }
   }
 };

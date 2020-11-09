@@ -1,57 +1,102 @@
 <template>
   <div id="place-order">
     <hr />
-    <h2>Users</h2>
-    <table id="user_table">
+    <h2>Objects</h2>
+    <table id="objects-table">
       <tr>
-        <th>Username</th>
-        <!-- <th>Events</th> -->
+        <th>Users</th>
+        <th>Artwork</th>
+        <th>Orders</th>
+        <th>Addresses</th>
       </tr>
-      <tr v-for="(user, i) in users" v-bind:key="`user-${i}`">
-        <td>{{ user.username }}</td>
+
+      <tr>
+        <td>
+          <table id="user-table">
+            <tr>
+              <th>Username</th>
+            </tr>
+            <tr v-for="(user, i) in users" v-bind:key="`user-${i}`">
+              <td>{{ user.username }}</td>
+            </tr>
+          </table>
+        </td>
+
+        <td>
+          <table id="artwork-table">
+            <tr>
+              <th>Title</th>
+              <th>Artwork ID</th>
+            </tr>
+            <tr v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
+              <td>{{ artwork.title }}</td>
+              <td>{{ artwork.artworkId }}</td>
+            </tr>
+          </table>
+        </td>
+
+        <td>
+          <table id="order-table">
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Artwork Title</th>
+              <th>Artwork ID</th>
+            </tr>
+            <tr v-for="(order, i) in orders" v-bind:key="`order-${i}`">
+              <td>{{ order.orderId }}</td>
+              <td>{{ order.customer.username }}</td>
+              <td>{{ order.artwork.title }}</td>
+              <td>{{ order.artwork.artworkId }}</td>
+            </tr>
+          </table>
+        </td>
+
+        <td>
+          <table>
+            <tr>
+              <th>Street</th>
+              <th>Street 2</th>
+              <th>Postal Code</th>
+              <th>City</th>
+              <th>Province</th>
+              <th>Country</th>
+              <!--<th>Edit</th>-->
+            </tr>
+            <tr v-for="(address, i) in addresses" v-bind:key="`address-${i}`">
+              <td>{{ address.streetAddress }}</td>
+              <td>{{ address.streetAddress2 }}</td>
+              <td>{{ address.postalCode }}</td>
+              <td>{{ address.city }}</td>
+              <td>{{ address.province }}</td>
+              <td>{{ address.country }}</td>
+              <!--<td>
+        <button v-on:click="updateEvent(event.name)">Edit</button>
+      </td>-->
+            </tr>
+          </table>
+        </td>
       </tr>
+
+      <hr />
     </table>
 
     <span v-if="errorUsers" style="color: red">Error: {{ errorUsers }} </span>
-    <hr />
-
-    <h2>Artwork</h2>
-    <table id="artwork_table">
-      <tr>
-        <th>Title</th>
-        <th>Artwork ID</th>
-      </tr>
-      <tr v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
-        <td>{{ artwork.title }}</td>
-        <td>{{ artwork.artworkId }}</td>
-      </tr>
-    </table>
-
     <span v-if="errorArtworks" style="color: red"
-      >Error: {{ errorArtworks }}
+      >Error: {{ errorArtworks }}</span
+    >
+    <span v-if="errorOrders" style="color: red">Error: {{ errorOrders }} </span>
+    <span v-if="errorAddress" style="color: red"
+      >Error: {{ errorAddress }}
     </span>
     <hr />
 
-    <h2>Orders</h2>
-    <table id="order_table">
-      <tr>
-        <th>Order ID</th>
-        <th>Customer</th>
-        <th>Artwork Title</th>
-        <th>Artwork ID</th>
-      </tr>
-      <tr v-for="(order, i) in orders" v-bind:key="`order-${i}`">
-        <td>{{ order.orderId }}</td>
-        <td>{{ order.customer.username }}</td>
-        <td>{{ order.artwork.title }}</td>
-        <td>{{ order.artwork.artworkId }}</td>
-      </tr>
-    </table>
+    <h4>Return Address</h4>
+    <CreateAddress v-on:add-address="addAddress" />
+    <h4>Shipping Address</h4>
+    <CreateAddress v-on:add-address="addAddress" />
 
-    <span v-if="errorOrders" style="color: red">Error: {{ errorOrders }} </span>
-    <hr />
-
-    <h2>Purchase Artwork</h2>
+    <!-- <h2>Purchase Artwork</h2>
     <label
       >User:
       <select v-model="selectedUser">
@@ -78,7 +123,7 @@
     </button>
     <span v-if="errorPlaceOrder" style="color: red"
       >Error: {{ errorPlaceOrder }}
-    </span>
+    </span> -->
     <hr />
     <hr />
   </div>
@@ -91,5 +136,10 @@
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;
   background: #f2ece8;
+}
+table th,
+td {
+  border: 1px solid black;
+  padding: 10px;
 }
 </style>
