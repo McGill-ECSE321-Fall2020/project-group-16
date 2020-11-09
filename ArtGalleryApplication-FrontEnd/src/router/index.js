@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import PlaceOrder from '@/components/PlaceOrder.vue'
 import CreateAddress from '@/components/CreateAddress.vue'
 import CreatePayment from '@/components/CreatePayment.vue'
+import CreateShipment from '@/components/CreateShipment.vue'
 import Checkout from '@/components/Checkout.vue'
 
 Vue.use(Router)
@@ -29,6 +30,11 @@ export default new Router({
       path: "/create-payment",
       name: "CreatePayment",
       component: CreatePayment
+    },
+    {
+      path: "/create-shipment",
+      name: "CreateShipment",
+      component: CreateShipment
     },
     {
       path: "/checkout",
