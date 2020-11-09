@@ -100,8 +100,9 @@ export default {
         });
     },
 
-    addAddress(newAddress) {
+    addAddress(newAddress, test) {
       this.addresses.push(newAddress);
+      console.log(test)
 
       // AXIOS.post("/address/", {}, {
       //   params: {

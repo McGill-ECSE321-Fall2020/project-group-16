@@ -55,24 +55,12 @@
         <td>
           <table>
             <tr>
+              <th>Address ID</th>
               <th>Street</th>
-              <th>Street 2</th>
-              <th>Postal Code</th>
-              <th>City</th>
-              <th>Province</th>
-              <th>Country</th>
-              <!--<th>Edit</th>-->
             </tr>
             <tr v-for="(address, i) in addresses" v-bind:key="`address-${i}`">
+              <td>{{ address.addressId }}</td>
               <td>{{ address.streetAddress }}</td>
-              <td>{{ address.streetAddress2 }}</td>
-              <td>{{ address.postalCode }}</td>
-              <td>{{ address.city }}</td>
-              <td>{{ address.province }}</td>
-              <td>{{ address.country }}</td>
-              <!--<td>
-        <button v-on:click="updateEvent(event.name)">Edit</button>
-      </td>-->
             </tr>
           </table>
         </td>
@@ -92,9 +80,9 @@
     <hr />
 
     <h4>Return Address</h4>
-    <CreateAddress v-on:add-address="addAddress" />
+    <CreateAddress v-on:add-address="addAddress($event)" />
     <h4>Shipping Address</h4>
-    <CreateAddress v-on:add-address="addAddress" />
+    <CreateAddress v-on:add-address="addAddress($event)" />
 
     <!-- <h2>Purchase Artwork</h2>
     <label

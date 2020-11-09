@@ -1,5 +1,6 @@
 import axios from "axios";
-import createAddress from "./createAddress";
+import CreateAddress from "./createAddress"
+
 var config = require("../../config");
 
 var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
@@ -12,7 +13,10 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "create-shipment",
+  name: "CreateShipment",
+  components: {
+    CreateAddress
+  },
   data() {
     return {
       addresses: [],
@@ -68,36 +72,19 @@ export default {
       });
   },
   methods: {
-    createAddress: function (newAddress) {
-      AXIOS.post("/address/", {}, {
-        params: {
-          streetAddress: newAddress.streetAddress,
-          streetAddress2: newAddress.streetAddress2,
-          postalCode: newAddress.postalCode,
-          city: newAddress.city,
-          province: newAddress.province,
-          country: newAddress.country,
-        }
-      }
-      )
-        .then(response => {
-          // JSON responses are automatically parsed.
-          this.addresses.push(response.data);
-          this.errorAddress = "";
-          newAddress.addressId = response.data.addressId
+    addAddress(newAddress, addressType) {
+      this.addresses.push(newAddress);
 
-          // newAddress.streetAddress = "";
-          // newAddress.streetAddress2 = "";
-          // newAddress.postalCode = "";
-        })
-        .catch(e => {
-          var errorMsg = e.response.data.message;
-          console.log(errorMsg);
-          this.errorAddress = errorMsg;
-        });
+      if (addressType === 'return') {
+        this.newReturnAddress = { ...newAddress }
+      } else if (addressType === 'destination') {
+        this.newDestAddress = { ...newAddress }
+      }
+
+      console.log(this.newReturnAddress.addressId)
+      console.log(this.newDestAddress.addressId)
     },
     createShipment: function (toGallery, returnAddressId, destinationAddressId) {
-
       // Get estimated date of delivery (1 week)
       var today = new Date();
       var nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7),
