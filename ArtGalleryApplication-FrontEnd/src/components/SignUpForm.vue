@@ -26,11 +26,11 @@
       v-model="password"
     /><br /><br />
 
-    <div class="button" v-on:click="signup()">Sign Up</div>
+    <div class="button" @click="signup">Sign Up</div>
   </div>
 </template>
 <script>
-import Axios from "axios";
+import { AXIOS } from "./registration";
 export default {
   name: "SignUpForm",
   data() {
@@ -45,25 +45,26 @@ export default {
     };
   },
   methods: {
-    signup: function signup() {
-      alert(this.username + this.email);
-      AXIOS.post("/users/".concat(username), {
-        params: {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-        },
-      })
+    signup: function () {
+      console.log(
+        this.firstName,
+        this.lastName,
+        this.username,
+        this.email,
+        this.password
+      );
+      AXIOS.post(
+        `/users/${this.username}?firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`
+      )
         .then((response) => {
           this.user = response.data;
           console.log(this.user);
+          this.$emit("update:user", this.user.username);
         })
         .catch((e) => {
           this.errorUser = e;
           console.log(this.errorUser);
         });
-      alert(this.user);
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div id="landing-page">
+  <div id="landing-page" class="container">
     <h1>Welcome to the gallery!</h1>
     <h2>Login or signup to view community artwork.</h2>
     <div class="sign-in-form">
@@ -18,10 +18,10 @@
         </h2>
       </div>
       <div v-if="form === 'signup'">
-        <SignUpForm />
+        <SignUpForm @update:user="updateUser" />
       </div>
       <div v-else-if="form === 'login'">
-        <LoginForm />
+        <LoginForm @update:user="updateUser" />
       </div>
     </div>
   </div>
@@ -38,7 +38,17 @@ export default {
   data() {
     return {
       form: "signup",
+      user: "",
     };
+  },
+  methods: {
+    updateUser: function (username) {
+      console.log(username);
+      this.$router.push({
+        name: "ProfilePage",
+        params: { username: username },
+      });
+    },
   },
 };
 </script>

@@ -9,11 +9,11 @@
       id="password"
       v-model="password"
     /><br /><br />
-    <div class="button" v-on:click="login(username, password)">Login</div>
+    <div class="button" v-on:click="login">Login</div>
   </div>
 </template>
 <script>
-import AXIOS from "./axiosInstance";
+import { AXIOS } from "./registration";
 export default {
   name: "SignUpForm",
   data() {
@@ -25,11 +25,12 @@ export default {
     };
   },
   methods: {
-    login: function login(username, password) {
-      AXIOS.get("/users/${username}")
+    login: function () {
+      AXIOS.get(`/users/${this.username}?password=${this.password}`)
         .then((response) => {
           this.user = response.data;
-          console.log(this.user);
+          console.log(this.user.username);
+          this.$emit("update:user", this.user.username);
         })
         .catch((e) => {
           this.errorUser = e;
