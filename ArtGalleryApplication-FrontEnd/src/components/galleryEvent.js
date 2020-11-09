@@ -65,7 +65,7 @@ export default {
                 this.newEvent.imageUrl = "";
                 this.newEvent.date = "2017-12-08";
                 this.newEvent.startTime = "09:00";
-                this.newEvent.startTime = "11:00";
+                this.newEvent.endTime = "11:00";
 
             }).catch((e) => {
                 //todo: send back the illegalArgument Error from backend rather than the error code
