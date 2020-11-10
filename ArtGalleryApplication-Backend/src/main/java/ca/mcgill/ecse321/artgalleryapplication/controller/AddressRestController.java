@@ -1,7 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.AddressDto;
-import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
+//import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
 import ca.mcgill.ecse321.artgalleryapplication.model.Address;
 import org.springframework.web.bind.annotation.*;
 

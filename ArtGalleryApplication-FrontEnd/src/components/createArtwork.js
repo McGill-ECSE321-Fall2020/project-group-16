@@ -30,7 +30,7 @@ export default{
     },
     methods: {
         createArtwork: function (title, description, dimensions, medium, collection, creationDate, price, imageUrl){
-            AXIOS.post('/artworks/?title={this.title}', {
+            AXIOS.post('/artworks/', {}, {
                 title: this.title,
                 description: this.description,
                 dimensions: this.dimensions, 
