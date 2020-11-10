@@ -51,8 +51,7 @@ export default {
       )
         .then(response => {
           // JSON responses are automatically parsed.
-          newAddress.addressId = response.data.addressId
-          this.$emit("add-address", newAddress);
+          this.$emit("add-address", response.data);
         })
         .catch(e => {
           var errorMsg = e.response.data.message;

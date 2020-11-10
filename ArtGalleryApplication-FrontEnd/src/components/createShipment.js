@@ -19,9 +19,6 @@ export default {
   },
   data() {
     return {
-      addresses: [],
-      shipments: [],
-
       newReturnAddress: {
         addressId: '',
         streetAddress: '',
@@ -31,6 +28,7 @@ export default {
         province: 'QB',
         country: 'Canada'
       },
+
       newDestAddress: {
         addressId: '',
         streetAddress: '',
@@ -40,49 +38,23 @@ export default {
         province: 'QB',
         country: 'Canada'
       },
+
       newShipment: {
         toGallery: false
       },
 
-      errorAddress: '',
-      errorReturnAddress: '',
-      errorDestinationAddress: '',
       errorShipment: '',
       response: []
     }
   },
-  created: function () {
-    // Initializing persons from backend
-    AXIOS.get("/address")
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.addresses = response.data;
-      })
-      .catch(e => {
-        this.errorAddress = e;
-      });
 
-    AXIOS.get("/shipments")
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.shipments = response.data;
-      })
-      .catch(e => {
-        this.errorShipment = e;
-      });
-  },
   methods: {
     addAddress(newAddress, addressType) {
-      this.addresses.push(newAddress);
-
       if (addressType === 'return') {
         this.newReturnAddress = { ...newAddress }
       } else if (addressType === 'destination') {
         this.newDestAddress = { ...newAddress }
       }
-
-      console.log(this.newReturnAddress.addressId)
-      console.log(this.newDestAddress.addressId)
     },
     createShipment: function (toGallery, returnAddressId, destinationAddressId) {
       // Get estimated date of delivery (1 week)
@@ -100,25 +72,19 @@ export default {
       var estimatedArrivalTime = "16:00:00"
       var estimatedArrivalDate = year + '-' + month + '-' + day;
 
-      // Get addresses
-      var indexRetAddress = this.addresses.map(x => x.addressId).indexOf(parseInt(returnAddressId))
-      var indexDestAddress = this.addresses.map(x => x.addressId).indexOf(parseInt(destinationAddressId))
-      var returnAddress = this.addresses[indexRetAddress]
-      var destinationAddress = this.addresses[indexDestAddress]
-
       AXIOS.post("/shipments/", {}, {
         params: {
           toGallery: toGallery,
           estimatedArrivalTime: estimatedArrivalTime,
           estimatedArrivalDate: estimatedArrivalDate,
-          returnAddressId: returnAddress.addressId,
-          destinationAddressId: destinationAddress.addressId
+          returnAddressId: returnAddressId,
+          destinationAddressId: destinationAddressId
         }
       }
       )
         .then(response => {
           // JSON responses are automatically parsed.
-          this.shipments.push(response.data);
+          this.$emit("add-shipment", response.data);
           this.errorShipment = "";
         })
         .catch(e => {

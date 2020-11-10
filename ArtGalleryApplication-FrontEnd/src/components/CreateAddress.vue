@@ -21,6 +21,7 @@
       <input type="text" v-model="city" placeholder="City" />
 
       <select type="text" v-model="province">
+        <option disabled value="">Province</option>
         <option>AB</option>
         <option>BC</option>
         <option>MB</option>
@@ -37,6 +38,7 @@
       </select>
 
       <select type="text" v-model="country">
+        <option disabled value="">Country</option>
         <option>Canada</option>
         <option>United States</option>
       </select>

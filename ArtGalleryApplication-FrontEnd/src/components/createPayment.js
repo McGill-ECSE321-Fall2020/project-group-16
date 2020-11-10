@@ -11,38 +11,18 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "create-payment",
+  name: "CreatePayment",
   data() {
     return {
-      payments: [],
+      cardNumber: '',
+      expirationDate: '',
+      cvv: '',
 
-      newPayment: {
-        cardNumber: '',
-        expirationDate: '',
-        cvv: '',
-        paymentForm: '',
-        paymentDate: '',
-        paymentTime: ''
-      },
-
-      errorPayment: '',
-      response: []
+      errorPayment: ''
     }
   },
-  created: function () {
-    // Initializing persons from backend
-    AXIOS.get("/payments")
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.payments = response.data;
-      })
-      .catch(e => {
-        this.errorPayment = e;
-      });
-  },
   methods: {
-
-    createPayment: function (cardNumber, cvv, expirationDateShort) {
+    createPayment: function () {
       var today = new Date(),
         month = '' + (today.getMonth() + 1),
         day = '' + today.getDate(),
@@ -55,14 +35,14 @@ export default {
 
       var paymentDate = year + '-' + month + '-' + day;
       var paymentTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      var expirationDate = "20" + expirationDateShort.slice(-2) + "-" + expirationDateShort.substring(0, 2) + "-" + "01";
+      var expirationDate = "20" + this.expirationDate.slice(-2) + "-" + this.expirationDate.substring(0, 2) + "-" + "01";
 
 
       AXIOS.post("/payments/", {}, {
         params: {
-          cardNumber: cardNumber,
+          cardNumber: this.cardNumber,
           expirationDate: expirationDate,
-          cvv: cvv,
+          cvv: this.cvv,
           paymentForm: "CreditCard",
           paymentDate: paymentDate,
           paymentTime: paymentTime
@@ -71,8 +51,11 @@ export default {
       )
         .then(response => {
           // JSON responses are automatically parsed.
-          this.payments.push(response.data);
-          this.errorAddress = "";
+          this.$emit("add-payment", response.data);
+          this.cardNumber = ''
+          this.cvv = ''
+          this.expirationDate = ''
+          this.errorPayment = "";
         })
         .catch(e => {
           var errorMsg = e.response.data.message;

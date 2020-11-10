@@ -8,6 +8,7 @@
         <th>Artwork</th>
         <th>Orders</th>
         <th>Addresses</th>
+        <th>Shipments</th>
       </tr>
 
       <tr>
@@ -64,6 +65,21 @@
             </tr>
           </table>
         </td>
+
+        <td>
+          <table>
+            <tr>
+              <th>Shipment ID</th>
+              <th>Return Address</th>
+              <th>Shipping Address</th>
+            </tr>
+            <tr v-for="(shipment, i) in shipments" v-bind:key="`shipment-${i}`">
+              <td>{{ shipment.shipmentId }}</td>
+              <td>{{ shipment.returnAddress.streetAddress }}</td>
+              <td>{{ shipment.destinationAddress.streetAddress }}</td>
+            </tr>
+          </table>
+        </td>
       </tr>
 
       <hr />
@@ -79,39 +95,41 @@
     </span>
     <hr />
 
-    <h4>Return Address</h4>
-    <CreateAddress v-on:add-address="addAddress($event)" />
-    <h4>Shipping Address</h4>
-    <CreateAddress v-on:add-address="addAddress($event)" />
+    <CreateShipment v-on:add-shipment="getShipment($event)" />
+    <hr />
+    <CreatePayment v-on:add-payment="getPayment($event)" />
+    <hr />
 
-    <!-- <h2>Purchase Artwork</h2>
-    <label
-      >User:
-      <select v-model="selectedUser">
-        <option disabled value="">Select a User</option>
-        <option v-for="(user, i) in users" v-bind:key="`user-${i}`">
-          {{ user.username }}
-        </option>
-      </select>
-    </label>
-    <label
-      >Artwork:
-      <select type="number" v-model="selectedArtwork">
-        <option disabled value="">Select an Artwork</option>
-        <option v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
-          {{ artwork.artworkId }}
-        </option>
-      </select>
-    </label>
-    <button
-      v-bind:disabled="!selectedUser || !selectedArtwork"
-      @click="placeOrder(selectedUser, selectedArtwork)"
-    >
-      Place Order
-    </button>
+    <h2>Purchase Artwork</h2>
+    <form @submit="placeOrder(selectedUser, selectedArtwork)">
+      <label
+        >User:
+        <select v-model="selectedUser">
+          <option disabled value="">Select a User</option>
+          <option v-for="(user, i) in users" v-bind:key="`user-${i}`">
+            {{ user.username }}
+          </option>
+        </select>
+      </label>
+      <label
+        >Artwork:
+        <select type="number" v-model="selectedArtwork">
+          <option disabled value="">Select an Artwork</option>
+          <option v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
+            {{ artwork.artworkId }}
+          </option>
+        </select>
+      </label>
+
+      <!-- v-bind:disabled="
+        !selectedUser || !selectedArtwork || !shipmentId || !paymentId
+      " -->
+      <input type="submit" value="PlaceOrder" class="btn" />
+    </form>
+
     <span v-if="errorPlaceOrder" style="color: red"
       >Error: {{ errorPlaceOrder }}
-    </span> -->
+    </span>
     <hr />
     <hr />
   </div>
