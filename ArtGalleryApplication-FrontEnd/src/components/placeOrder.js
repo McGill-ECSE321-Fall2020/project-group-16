@@ -23,12 +23,13 @@ export default {
   data() {
     return {
       artworks: [],
-      addresses: [],
       users: [],
       orders: [],
       shipments: [],
+      payments: [],
 
       newOrder: '',
+      selectedOrderId: '',
       shipmentId: '',
       paymentId: '',
 
@@ -71,17 +72,25 @@ export default {
         this.errorOrders = e;
         // this.errors.push(e)
       });
-    AXIOS.get("/address")
+    // AXIOS.get("/address")
+    //   .then(response => {
+    //     this.addresses = response.data;
+    //   })
+    //   .catch(e => {
+    //     this.errorAddress = e;
+    //     // this.errors.push(e)
+    //   });
+    AXIOS.get("/shipments")
       .then(response => {
-        this.addresses = response.data;
+        this.shipments = response.data;
       })
       .catch(e => {
         this.errorAddress = e;
         // this.errors.push(e)
       });
-    AXIOS.get("/shipments")
+    AXIOS.get("/payments")
       .then(response => {
-        this.shipments = response.data;
+        this.payments = response.data;
       })
       .catch(e => {
         this.errorAddress = e;
@@ -105,10 +114,7 @@ export default {
           // JSON responses are automatically parsed.
           this.orders.push(response.data);
 
-          console.log(response.data.orderId)
-          this.addPayment(response.data.orderId, this.paymentId)
-          console.log(response.data.orderId)
-          this.addShipment(response.data.orderId, this.shipmentId)
+          this.addPaymentAndShipment(response.data.orderId, this.paymentId, this.shipmentId)
 
           this.errorPlaceOrder = ''
         })
@@ -119,34 +125,17 @@ export default {
         });
     },
 
-    addShipment(orderId, shipmentId) {
-      AXIOS.put(`/orders/${orderId}/add-shipment`, {}, {
+    addPaymentAndShipment(orderId, paymentId, shipmentId) {
+      AXIOS.put(`/orders/${orderId}/add-payment-shipment`, {}, {
         params: {
+          paymentId: paymentId,
           shipmentId: shipmentId
         }
       })
         .then(response => {
           // JSON responses are automatically parsed.
-          // this.orders = this.orders.filter((order) => order.orderId !== orderId)
-          // this.orders.push(response.data);
-          this.errorPlaceOrder = ''
-        })
-        .catch(e => {
-          var errorMsg = e.response.data.message;
-          console.log(errorMsg);
-          this.errorPlaceOrder = errorMsg;
-        });
-    },
-    addPayment(orderId, paymentId) {
-      AXIOS.put(`/orders/${orderId}/add-payment`, {}, {
-        params: {
-          paymentId: paymentId
-        }
-      })
-        .then(response => {
-          // JSON responses are automatically parsed.
-          // this.orders = this.orders.filter((order) => order.orderId !== orderId)
-          // this.orders.push(response.data);
+          this.orders = this.orders.filter((order) => order.orderId !== orderId)
+          this.orders.push(response.data);
           this.errorPlaceOrder = ''
         })
         .catch(e => {
@@ -162,6 +151,7 @@ export default {
       console.log(newShipment.shipmentId)
     },
     getPayment(newPayment) {
+      this.payments.push(newPayment)
       this.paymentId = newPayment.paymentId;
       console.log(newPayment.paymentId)
     }

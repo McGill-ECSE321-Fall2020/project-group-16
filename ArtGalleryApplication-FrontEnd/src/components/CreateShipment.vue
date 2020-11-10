@@ -1,30 +1,31 @@
 <template>
   <div id="create-shipment">
     <h4>Shipment</h4>
-    <CreateAddress
-      title="Return Address"
-      v-on:add-address="addAddress($event, 'return')"
-    />
-    <CreateAddress
-      title="Shipping Address"
-      v-on:add-address="addAddress($event, 'destination')"
-    />
-
-    <form
-      @submit="
-        createShipment(
-          newShipment.toGallery,
-          newReturnAddress.addressId,
-          newDestAddress.addressId
-        )
-      "
-    >
-      <input type="checkbox" v-model="newShipment.toGallery" />
-      {{ newShipment.toGallery ? "Shipped to Gallery" : "Delivered" }}
+    <form @submit="createShipment(toGallery, newReturnAddress, newDestAddress)">
+      <input type="checkbox" v-model="toGallery" @click="updateAddresses" />
+      {{ toGallery ? "Shipped to Gallery" : "Delivered" }}
       <br />
+
+      <CreateAddress
+        title="Return Address"
+        v-bind:inputDisabled="toGallery"
+        v-bind:address="newReturnAddress"
+        v-on:add-address="addAddress($event, 'return')"
+      />
+      <CreateAddress
+        title="Shipping Address"
+        v-bind:inputDisabled="toGallery"
+        v-bind:address="newDestAddress"
+        v-on:add-address="addAddress($event, 'destination')"
+      />
+
       <input
         v-bind:disabled="
-          !newDestAddress.addressId || !newReturnAddress.addressId
+          !toGallery &&
+            (!newDestAddress.streetAddress ||
+              !newDestAddress.postalCode ||
+              !newReturnAddress.streetAddress ||
+              !newReturnAddress.postalCode)
         "
         type="submit"
         value="Create Shipment"

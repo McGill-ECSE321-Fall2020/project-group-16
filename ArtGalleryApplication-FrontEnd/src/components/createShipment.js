@@ -19,8 +19,8 @@ export default {
   },
   data() {
     return {
+      toGallery: false,
       newReturnAddress: {
-        addressId: '',
         streetAddress: '',
         streetAddress2: '',
         postalCode: '',
@@ -28,19 +28,13 @@ export default {
         province: 'QB',
         country: 'Canada'
       },
-
       newDestAddress: {
-        addressId: '',
         streetAddress: '',
         streetAddress2: '',
         postalCode: '',
         city: 'Montreal',
         province: 'QB',
         country: 'Canada'
-      },
-
-      newShipment: {
-        toGallery: false
       },
 
       errorShipment: '',
@@ -49,14 +43,47 @@ export default {
   },
 
   methods: {
-    addAddress(newAddress, addressType) {
-      if (addressType === 'return') {
-        this.newReturnAddress = { ...newAddress }
-      } else if (addressType === 'destination') {
-        this.newDestAddress = { ...newAddress }
+    updateAddresses() {
+      console.log(!this.toGallery)
+      if (this.toGallery) {
+        // reset address inputs 
+        this.newReturnAddress = {
+          streetAddress: '',
+          streetAddress2: '',
+          postalCode: '',
+          city: 'Montreal',
+          province: 'QB',
+          country: 'Canada'
+        }
+        this.newDestAddress = {
+          streetAddress: '',
+          streetAddress2: '',
+          postalCode: '',
+          city: 'Montreal',
+          province: 'QB',
+          country: 'Canada'
+        }
+      } else {
+        // sets addresses to Gallery address 
+        this.newReturnAddress = {
+          streetAddress: 'ARTIST ADDRESS',
+          streetAddress2: 'ARTIST ADDRESS 2',
+          postalCode: 'ARTIST POSTAL CODE',
+          city: 'Montreal',
+          province: 'QB',
+          country: 'Canada'
+        }
+        this.newDestAddress = {
+          streetAddress: 'GALLERY ADDRESS',
+          streetAddress2: 'GALLERY ADDRESS 2',
+          postalCode: 'GALLERY POSTAL CODE',
+          city: 'Montreal',
+          province: 'QB',
+          country: 'Canada'
+        }
       }
     },
-    createShipment: function (toGallery, returnAddressId, destinationAddressId) {
+    createShipment: function (toGallery, returnAddress, destinationAddress) {
       // Get estimated date of delivery (1 week)
       var today = new Date();
       var nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7),
@@ -72,16 +99,27 @@ export default {
       var estimatedArrivalTime = "16:00:00"
       var estimatedArrivalDate = year + '-' + month + '-' + day;
 
-      AXIOS.post("/shipments/", {}, {
+      AXIOS.post("/shipments/full/", {}, {
         params: {
           toGallery: toGallery,
           estimatedArrivalTime: estimatedArrivalTime,
           estimatedArrivalDate: estimatedArrivalDate,
-          returnAddressId: returnAddressId,
-          destinationAddressId: destinationAddressId
+
+          retStreetAddress: returnAddress.streetAddress,
+          retStreetAddress2: returnAddress.streetAddress2,
+          retPostalCode: returnAddress.postalCode,
+          retCity: returnAddress.city,
+          retProvince: returnAddress.province,
+          retCountry: returnAddress.country,
+
+          destStreetAddress: destinationAddress.streetAddress,
+          destStreetAddress2: destinationAddress.streetAddress2,
+          destPostalCode: destinationAddress.postalCode,
+          destCity: destinationAddress.city,
+          destProvince: destinationAddress.province,
+          destCountry: destinationAddress.country,
         }
-      }
-      )
+      })
         .then(response => {
           // JSON responses are automatically parsed.
           this.$emit("add-shipment", response.data);
@@ -92,10 +130,6 @@ export default {
           console.log(errorMsg);
           this.errorShipment = errorMsg;
         });
-
-      this.newReturnAddress.addressId = '';
-      this.newDestAddress.addressId = '';
-
     },
   }
 };

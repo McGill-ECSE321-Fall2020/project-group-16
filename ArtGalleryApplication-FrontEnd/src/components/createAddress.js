@@ -12,7 +12,7 @@ var AXIOS = axios.create({
 
 export default {
   name: "CreateAddress",
-  props: ['title'],
+  props: ['title', "inputDisabled", "address"],
   data() {
     return {
       streetAddress: '',

@@ -7,8 +7,8 @@
         <th>Users</th>
         <th>Artwork</th>
         <th>Orders</th>
-        <th>Addresses</th>
         <th>Shipments</th>
+        <th>Payments</th>
       </tr>
 
       <tr>
@@ -52,7 +52,7 @@
             </tr>
           </table>
         </td>
-
+        <!-- 
         <td>
           <table>
             <tr>
@@ -64,7 +64,7 @@
               <td>{{ address.streetAddress }}</td>
             </tr>
           </table>
-        </td>
+        </td> -->
 
         <td>
           <table>
@@ -77,6 +77,19 @@
               <td>{{ shipment.shipmentId }}</td>
               <td>{{ shipment.returnAddress.streetAddress }}</td>
               <td>{{ shipment.destinationAddress.streetAddress }}</td>
+            </tr>
+          </table>
+        </td>
+
+        <td>
+          <table>
+            <tr>
+              <th>Payment ID</th>
+              <th>Card Number</th>
+            </tr>
+            <tr v-for="(payment, i) in payments" v-bind:key="`payment-${i}`">
+              <td>{{ payment.paymentId }}</td>
+              <td>{{ payment.cardNumber }}</td>
             </tr>
           </table>
         </td>
@@ -121,16 +134,20 @@
         </select>
       </label>
 
-      <!-- v-bind:disabled="
-        !selectedUser || !selectedArtwork || !shipmentId || !paymentId
-      " -->
-      <input type="submit" value="PlaceOrder" class="btn" />
+      <input
+        type="submit"
+        value="PlaceOrder"
+        class="btn"
+        v-bind:disabled="
+          !selectedUser || !selectedArtwork || !shipmentId || !paymentId
+        "
+      />
     </form>
-
     <span v-if="errorPlaceOrder" style="color: red"
       >Error: {{ errorPlaceOrder }}
     </span>
     <hr />
+
     <hr />
   </div>
 </template>

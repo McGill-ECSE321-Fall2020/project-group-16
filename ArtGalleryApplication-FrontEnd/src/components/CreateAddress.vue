@@ -1,26 +1,38 @@
 <template>
   <div id="createaddress">
-    <hr />
-    <form @submit="createAddress">
+    <br />
+    <form>
       <h6>{{ title }}</h6>
       <input
         type="text"
-        v-model="streetAddress"
+        v-model="address.streetAddress"
         name="StreetAddress"
         placeholder="Street Address 1"
+        :disabled="inputDisabled"
       />
 
       <input
         type="text"
-        v-model="streetAddress2"
+        v-model="address.streetAddress2"
         placeholder="Street Address 2"
+        :disabled="inputDisabled"
       />
 
-      <input type="text" v-model="postalCode" placeholder="Postal Code" />
+      <input
+        type="text"
+        v-model="address.postalCode"
+        placeholder="Postal Code"
+        :disabled="inputDisabled"
+      />
 
-      <input type="text" v-model="city" placeholder="City" />
+      <input
+        type="text"
+        v-model="address.city"
+        placeholder="City"
+        :disabled="inputDisabled"
+      />
 
-      <select type="text" v-model="province">
+      <select type="text" v-model="address.province" :disabled="inputDisabled">
         <option disabled value="">Province</option>
         <option>AB</option>
         <option>BC</option>
@@ -37,21 +49,13 @@
         <option>YT</option>
       </select>
 
-      <select type="text" v-model="country">
+      <select type="text" v-model="address.country" :disabled="inputDisabled">
         <option disabled value="">Country</option>
         <option>Canada</option>
         <option>United States</option>
       </select>
-
-      <input
-        v-bind:disabled="!streetAddress || !postalCode"
-        type="submit"
-        value="Submit"
-        class="btn"
-      />
     </form>
-
-    <hr />
+    <br />
   </div>
 </template>
 
