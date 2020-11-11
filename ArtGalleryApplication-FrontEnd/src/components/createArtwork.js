@@ -70,7 +70,7 @@ export default{
             
             .then(response=> {
                  // JSON responses are automatically parsed.
-                
+                console.log(newArtwork)
                 this.artworks.push(response.data);
                 this.errorArtwork = ''
                 this.newArtwork.title = ''

@@ -71,7 +71,8 @@
         </tr>
     </table>
     <button
-    v-bind:disabled="!newArtwork.title" v-on:click="createArtwork(
+    v-bind:disabled="!newArtwork.title" 
+    v-on:click="createArtwork(
         newArtwork.title, 
         newArtwork.description, 
         newArtwork.creationDate,
