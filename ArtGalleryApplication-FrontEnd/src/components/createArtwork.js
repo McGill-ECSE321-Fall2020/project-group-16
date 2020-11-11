@@ -54,7 +54,7 @@ export default{
                 this.newArtwork.price, 
                 this.newArtwork.imageUrl
             )
-            AXIOS.post("/artworks".concat(newArtwork.title), {}, {
+            AXIOS.post("/artworks/".concat(newArtwork.atworkId), {}, {
                 params: {
                     title: newArtwork.title,
                     description: newArtwork.description,
