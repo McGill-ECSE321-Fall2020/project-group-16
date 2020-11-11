@@ -51,6 +51,7 @@
         <td>Event date</td>
         <td>Event start time</td>
         <td>Event end time</td>
+        <td>View event page</td>
       </tr>
       <tr v-for="event in events">
         <td>{{event.name}}</td>
@@ -58,6 +59,9 @@
         <td>{{event.eventDate}}</td>
         <td>{{event.startTime}}</td>
         <td>{{event.endTime}}</td>
+        <td>
+          <button @click="$router.push('events/' + event.id)">here</button>
+          </td>
       </tr>
     </table>
     <p v-else>No events created, yet</p>
