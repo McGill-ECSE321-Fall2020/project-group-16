@@ -3,10 +3,11 @@ var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-
+//var backendUrl = 'http://' + config.build.backendHost + ':' + config.build.backendPort
+//line 5 is locally, 6 is from heroku build
 var AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+  headers: 'Access-Control-Allow-Origin: *' 
 })
 
 export default{
@@ -22,42 +23,72 @@ export default{
                 collection: '',
                 creationDate: '', 
                 price: '', 
-                imageUrl: ''
+                imageUrl: '',
+                status: 'ForSale'
             },
             errorArtwork: '',
             response: []
         }
     },
+    created: function () {
+        // Initializing persons from backend
+        AXIOS.get("/artwork")
+          .then(response => {
+            // JSON responses are automatically parsed.
+            this.artworks = response.data;
+          })
+          .catch(e => {
+            this.errorAddress = e;
+          });
+      },
+
     methods: {
-        createArtwork: function (title, description, dimensions, medium, collection, creationDate, price, imageUrl){
-            AXIOS.post('/artworks/', {}, {
-                title: this.title,
-                description: this.description,
-                dimensions: this.dimensions, 
-                medium: this.medium, 
-                collection: this.collection, 
-                creationDate: this.creationDate, 
-                price: this.price, 
-                imageUrl: this.imageUrl
+        createArtwork: function (title, description, creationDate, medium, imageUrl, price, status, dimension, collection){
+            console.log(
+                this.newArtwork.title,
+                this.newArtwork.description,
+                this.newArtwork.dimensions, 
+                this.newArtwork.medium, 
+                this.newArtwork.collection, 
+                this.newArtwork.creationDate, 
+                this.newArtwork.price, 
+                this.newArtwork.imageUrl
+            )
+            AXIOS.post("/artworks".concat(newArtwork.title), {}, {
+                params: {
+                    title: newArtwork.title,
+                    description: newArtwork.description,
+                    creationDate: newArtwork.creationDate, 
+                    medium: newArtwork.medium, 
+                    imageUrl: newArtwork.imageUrl,
+                    price: newArtwork.price, 
+                    status: newArtwork.status,
+                    dimensions: newArtwork.dimensions,
+                    collection: newArtwork.collection, 
+                }
             })
-            .then((response)=> {
+            
+            .then(response=> {
                  // JSON responses are automatically parsed.
+                
                 this.artworks.push(response.data);
-                this.errorArtwork = "";
-                this.newArtwork.title = '';
-                this.newArtwork.description = '';
-                this.newArtwork.dimensions = '';
-                this.newArtwork.medium = '';
-                this.newArtwork.collection = '';
-                this.newArtwork.creationDate = '';
-                this.newArtwork.price = '';
-                this.newArtwork.imageUrl = '';
+                this.errorArtwork = ''
+                this.newArtwork.title = ''
+                this.newArtwork.description = ''
+                this.newArtwork.dimensions = ''
+                this.newArtwork.medium = ''
+                this.newArtwork.collection = ''
+                this.newArtwork.creationDate = ''
+                this.newArtwork.price = ''
+                this.newArtwork.imageUrl = ''
                 })
+
             .catch(e => {
-                var errorMsg = e.response.data.message;
-                console.log(errorMsg);
-                this.errorArtwork = errorMsg;
+                var errMsg = e.response.data.message
+                console.log(errMsg);
+                this.errorArtwork = errMsg;
             });
         }
 
-    }}
+    }
+};
