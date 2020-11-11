@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.errorRequest == false" id="specificEvent">
+  <div v-if="this.errorNotEvent == false" id="specificEvent">
     <h2>Welcome to the page of the Event: {{this.theEvent.name}}</h2>
 
     <br>
@@ -24,6 +24,9 @@
           </td>
         </tr>
       </table>
+      <p>
+        <span v-if="errorRegister" style="color:red"> {{errorRegister}}, Invalid username </span>
+      </p>
 
       <br>
 

@@ -60,8 +60,8 @@
         <td>{{event.startTime}}</td>
         <td>{{event.endTime}}</td>
         <td>
-          <button @click="$router.push('events/' + event.id)">here</button>
-          </td>
+          <button @click="$router.push('' + event.id)">here</button>
+        </td>
       </tr>
     </table>
     <p v-else>No events created, yet</p>
