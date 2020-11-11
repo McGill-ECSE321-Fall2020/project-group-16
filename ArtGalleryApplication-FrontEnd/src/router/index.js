@@ -29,12 +29,13 @@ export default new Router({
       path: "/create_artwork",
       name: "CreateArtwork", 
       component: CreateArtwork
-    }
+    },
     {
       path: '/artworks/:artworkid',
       name: 'ViewArtwork',
       component: ViewArtwork
-  }
+  
     }
+  
   ]
 })
