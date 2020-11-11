@@ -50,7 +50,8 @@ export default {
         .then((response) => { 
             this.theEvent = response.data;
         }).catch((e) => { 
-            this.errorEvent = e; 
+            this.errorRequest = e; 
+            //todo: do I have to reset the error string at some point?
         });
     },
 

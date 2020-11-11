@@ -44,7 +44,7 @@
     <br>
 
     <h3>List of existing events</h3>
-    <table>
+    <table v-if="events.length !== 0">
       <tr>
         <td>Name</td>
         <td>Event description</td>
@@ -60,6 +60,7 @@
         <td>{{event.endTime}}</td>
       </tr>
     </table>
+    <p v-else>No events created, yet</p>
   </div>
 </template>
 
