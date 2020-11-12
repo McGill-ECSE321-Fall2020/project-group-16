@@ -1,17 +1,11 @@
 <template>
   <div class="container">
-    <div class="jumbotron">
-      <span class="d-flex"
-        ><h1>{{ user.firstName }}&nbsp;</h1>
-        <h1>{{ user.lastName }}</h1></span
-      >
-      <h2>{{ user.username }}</h2>
-      <h3>{{ user.email }}</h3>
-    </div>
+    <UserProfileInfo />
   </div>
 </template>
 <script>
 import { AXIOS } from "./registration";
+import UserProfileInfo from "./UserProfileInfo";
 export default {
   name: "ProfilePage",
   data() {
@@ -19,6 +13,9 @@ export default {
       username: "",
       user: "",
     };
+  },
+  components: {
+    UserProfileInfo,
   },
   mounted: function () {
     this.username = this.$router.params;

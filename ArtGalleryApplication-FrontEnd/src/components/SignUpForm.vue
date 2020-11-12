@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import { AXIOS } from "./registration";
+import { AXIOS } from "./axiosInstance";
 export default {
   name: "SignUpForm",
   data() {

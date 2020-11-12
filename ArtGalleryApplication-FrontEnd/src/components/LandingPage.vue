@@ -38,15 +38,21 @@ export default {
   data() {
     return {
       form: "signup",
-      user: "",
+      username: "",
+      isLoggedIn: false,
     };
   },
   methods: {
     updateUser: function (username) {
-      console.log(username);
-      this.$router.push({
-        name: "ProfilePage",
-        params: { username: username },
+      this.username = username;
+      this.isLoggedIn = true;
+    },
+  },
+  watch: {
+    isLoggedIn: function () {
+      this.$emit("update:status", {
+        username: this.username,
+        isLoggedIn: this.isLoggedIn,
       });
     },
   },

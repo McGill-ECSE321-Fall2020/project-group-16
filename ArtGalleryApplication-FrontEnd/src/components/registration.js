@@ -19,6 +19,7 @@ export const AXIOS = axios.create({
 //         .then(response => {
 //             this.user = response.data;
 //             console.log(this.user);
+
 //         })
 //         .catch(e => {
 //             this.errorUser = e;

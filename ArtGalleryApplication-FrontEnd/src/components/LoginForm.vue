@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import { AXIOS } from "./registration";
+import { AXIOS } from "./axiosInstance";
 export default {
   name: "SignUpForm",
   data() {
@@ -29,7 +29,6 @@ export default {
       AXIOS.get(`/users/${this.username}?password=${this.password}`)
         .then((response) => {
           this.user = response.data;
-          console.log(this.user.username);
           this.$emit("update:user", this.user.username);
         })
         .catch((e) => {
