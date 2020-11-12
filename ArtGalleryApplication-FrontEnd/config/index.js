@@ -7,6 +7,7 @@ module.exports = {
     host: 'artgalleryapp-frontend-0.herokuapp.com',
     port: 443,
     backendHost: 'artgalleryapp-backend-0.herokuapp.com',
+    //backendHost: 'eventregistration-backend-123.herokuapp.com',
     backendPort: 443,
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),

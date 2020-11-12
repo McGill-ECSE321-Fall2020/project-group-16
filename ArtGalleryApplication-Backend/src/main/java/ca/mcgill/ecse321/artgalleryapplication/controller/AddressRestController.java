@@ -1,12 +1,16 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.AddressDto;
+//import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
 import ca.mcgill.ecse321.artgalleryapplication.model.Address;
 import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse321.artgalleryapplication.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -25,6 +29,11 @@ public class AddressRestController {
     public AddressDto getAddress(@PathVariable("id") int id) throws IllegalArgumentException {
         Address address = addressService.getAddressById(id);
         return ConvertToDto.convertToDto(address);
+    }
+
+    @GetMapping(value = { "/address", "/address/" })
+    public List<AddressDto> getAddress() throws IllegalArgumentException {
+        return addressService.getAllAddresses().stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
 
     /**

@@ -1,17 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Hello from '@/components/Hello'
 import LandingPage from '@/components/LandingPage'
 import ProfilePage from '@/components/ProfilePage'
+import PurchaseArtwork from '@/components/PurchaseArtwork.vue'
+import CreateAddress from '@/components/CreateAddress.vue'
+import CreateArtwork from '@/components/CreateArtwork.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
-        path: '/',
-        name: 'Hello',
-        component: Hello
-    },
-    {
         path: '/landing',
         name: 'LandingPage',
         component: LandingPage
@@ -23,6 +20,22 @@ const routes = [{
         meta: {
             isAuthenticated: true
         }
+    },
+
+    {
+        path: "/purchase",
+        name: "PurchaseArtwork",
+        component: PurchaseArtwork
+    },
+    {
+        path: "/create-address",
+        name: "CreateAddress",
+        component: CreateAddress
+    },
+    {
+        path: "/create_artwork",
+        name: "CreateArtwork",
+        component: CreateArtwork
     }
 ]
 
