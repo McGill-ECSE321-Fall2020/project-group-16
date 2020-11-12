@@ -52,4 +52,17 @@ export default {
   flex-direction: column;
   justify-content: center;
 } 
+
+@font-face {
+  font-family: "Lora";
+  src: local("Lora"), 
+  url(./fonts/Lora/Lora-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: local("Montserrat"), 
+  url(./fonts/Montserrat/Montserrat-Regular.ttf) format("truetype");
+}
+
 </style>
