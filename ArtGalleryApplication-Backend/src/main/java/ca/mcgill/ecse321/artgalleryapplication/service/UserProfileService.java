@@ -74,10 +74,10 @@ public class UserProfileService {
 
         //Check if user has been taken already
         if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("This email has already been taken.\n");
+            throw new ApiRequestException("This email has already been taken.\n");
         }
         if (userRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("This username has already been taken.\n");
+            throw new ApiRequestException("This username has already been taken.\n");
         }
 
         //Create new user
