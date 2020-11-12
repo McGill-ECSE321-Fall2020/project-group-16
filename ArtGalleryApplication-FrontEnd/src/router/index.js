@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 import LandingPage from '@/components/LandingPage'
 import ProfilePage from '@/components/ProfilePage'
 import PurchaseArtwork from '@/components/PurchaseArtwork.vue'
-import CreateAddress from '@/components/CreateAddress.vue'
 import CreateArtwork from '@/components/CreateArtwork.vue'
 import GalleryEvent from '@/components/GalleryEvent.vue'
 import SpecificEvent from '@/components/SpecificEvent.vue'
@@ -25,16 +24,10 @@ const routes = [{
     isAuthenticated: true
   }
 },
-
 {
   path: "/purchase",
   name: "PurchaseArtwork",
   component: PurchaseArtwork
-},
-{
-  path: "/create-address",
-  name: "CreateAddress",
-  component: CreateAddress
 },
 {
   path: "/checkout",

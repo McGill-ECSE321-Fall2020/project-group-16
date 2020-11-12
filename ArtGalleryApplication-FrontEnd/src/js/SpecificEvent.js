@@ -1,11 +1,11 @@
 import { AXIOS } from './axiosInstance'
 
-var backendUrl = backendConfigurer();
+// var backendUrl = backendConfigurer();
 
-var AXIOS = axios.create({
-    baseURL: backendUrl,
-    //headers: { 'Access-Control-Allow-Origin': frontendUrl }
-})
+// var AXIOS = axios.create({
+//     baseURL: backendUrl,
+//     //headers: { 'Access-Control-Allow-Origin': frontendUrl }
+// })
 
 
 
@@ -39,7 +39,7 @@ export default {
         };
     },
 
-    created: function() {
+    created: function () {
         //first thing: get the id of the page
         var url = window.location.hash;
         var id = url.substring(url.lastIndexOf('/') + 1);
@@ -63,7 +63,7 @@ export default {
 
     methods: {
 
-        registerToEvent: function() {
+        registerToEvent: function () {
             AXIOS.put("/events/register/", {}, {
                 params: {
                     username: localStorage.getItem('username'),
@@ -82,7 +82,7 @@ export default {
 
 
         //for staff only
-        deleteEvent: function() {
+        deleteEvent: function () {
             //first thing: get the id of the page
             var url = window.location.hash;
             var id = url.substring(url.lastIndexOf('/') + 1);

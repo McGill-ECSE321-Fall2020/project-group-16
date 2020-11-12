@@ -6,12 +6,12 @@
       {{ toGallery ? "Shipped to Gallery" : "Delivered" }}
       <br />
 
-      <Address
+      <!-- <Address
         title="Return Address"
         v-bind:inputDisabled="toGallery"
         v-bind:address="newReturnAddress"
         v-on:add-address="addAddress($event, 'return')"
-      />
+      /> -->
       <Address
         title="Shipping Address"
         v-bind:inputDisabled="toGallery"
@@ -23,9 +23,7 @@
         v-bind:disabled="
           !toGallery &&
             (!newDestAddress.streetAddress ||
-              !newDestAddress.postalCode ||
-              !newReturnAddress.streetAddress ||
-              !newReturnAddress.postalCode)
+              !newDestAddress.postalCode )
         "
         type="submit"
         value="Create Shipment"
@@ -35,7 +33,7 @@
   </div>
 </template>
 
-<script src="./shipment.js"></script>
+<script src="../js/shipment.js"></script>
 
 <style>
 #shipment {

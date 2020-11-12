@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<script src="./address.js"></script>
+<script src="../js/address.js"></script>
 
 <style>
 #address {
