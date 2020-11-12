@@ -1,12 +1,4 @@
-import { AXIOS } from './axiosInstance'
-
-var backendUrl = backendConfigurer();
-
-var AXIOS = axios.create({
-    baseURL: backendUrl,
-    //headers: { 'Access-Control-Allow-Origin': frontendUrl }
-})
-
+import { AXIOS } from "./axiosInstance";
 
 
 export default {
@@ -25,10 +17,18 @@ export default {
             },
             theCurrentUser: {
                 username: "",
+                password: "",
+                email: "",
+                firstName: "",
+                lastName: "",
+                description: "",
+                profileImageUrl: "",
+                address: "",
                 admin: "",
             },
 
             isCurrUserRegistered: "",
+            userToUnregister: "",
 
             errorNotEvent: "",
             errorRegister: "",
@@ -71,8 +71,8 @@ export default {
                 },
             }).then((response) => {
                 this.errorRegister = "";
-                location.reload();
-                //todo: location.reload() considered bad, is there a better way?
+                this.theEvent = response.data;
+                this.isCurrUserRegistered = "true";
             }).catch((e) => {
                 //todo: send back the illegalArgument Error from backend rather than the error code
                 console.log(e);
@@ -89,11 +89,29 @@ export default {
 
             AXIOS.delete("/events/".concat(id))
                 .then((response) => {
-                    alert("The event was deleted");
+                    alert("The event was deleted!");
                     location.reload();
                 }).catch((e) => {
                     this.errorNotEvent = e;
                 });
+        },
+
+        unregisterUser: function() {
+            AXIOS.put("/events/unregister/", {}, {
+                params: {
+                    username: this.userToUnregister,
+                    eventId: this.theEvent.id
+                },
+            }).then((response) => {
+                alert("user " + this.userToUnregister + " was unregistered!");
+                this.errorRegister = "";
+                this.theEvent = response.data;
+                if(this.userToUnregister === this.theCurrentUser.username) this.isCurrUserRegistered = "";
+            }).catch((e) => {
+                //todo: send back the illegalArgument Error from backend rather than the error code
+                console.log(e);
+                this.errorRegister = e;
+            });
         },
     },
 }
