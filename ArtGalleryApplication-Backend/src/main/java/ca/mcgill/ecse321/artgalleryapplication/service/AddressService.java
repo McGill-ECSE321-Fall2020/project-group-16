@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.artgalleryapplication.service;
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
-import com.sun.nio.sctp.IllegalReceiveException;
+//import com.sun.nio.sctp.IllegalReceiveException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

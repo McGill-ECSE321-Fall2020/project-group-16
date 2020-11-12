@@ -1,22 +1,49 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view @update:status="updateStatus"></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  components: {},
+  data() {
+    return {
+      username: "",
+      isLoggedIn: "",
+    };
+  },
+  methods: {
+    updateStatus: function (status) {
+      console.log("Emit worked");
+      this.username = status.username;
+      this.isLoggedIn = status.isLoggedIn;
+    },
+  },
+  watch: {
+    isLoggedIn: function () {
+      console.log("Watch worked")
+      if (this.isLoggedIn) {
+        console.log("Updated");
+        localStorage.setItem("username", this.username);
+        console.log(localStorage.getItem("username"))
+        this.$router.push({
+          name: "ProfilePage",
+          params: { username: this.username },
+        });
+      }
+    },
+  },
 };
 </script>
 
 <style>
+@import './css/main.css';
+
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
-}
+} 
 </style>

@@ -126,8 +126,13 @@ public class ArtworkService {
     }
     
     @Transactional
-    public List<Artwork> getArtworkByArtist(String artist) {
-    	if(artist == null || artist.length() == 0) throw new IllegalArgumentException("Please input an artist");
+    public List<Artwork> getArtworkByArtist(String username) {
+    	UserProfile artist = userRepository.findByUsername(username);
+    	if (artist == null) {
+    		throw new IllegalArgumentException("There was no user associated with this username.");
+		}
+
+
     	return toList(artworkRepository.findAllArtworkByArtist(artist));
     }
     
