@@ -50,6 +50,7 @@ export default {
   },
   watch: {
     isLoggedIn: function () {
+      console.log("Emit in Landing")
       this.$emit("update:status", {
         username: this.username,
         isLoggedIn: this.isLoggedIn,

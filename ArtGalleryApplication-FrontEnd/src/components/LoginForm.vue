@@ -28,8 +28,10 @@ export default {
     login: function () {
       AXIOS.get(`/users/${this.username}?password=${this.password}`)
         .then((response) => {
+          
           this.user = response.data;
           this.$emit("update:user", this.user.username);
+
         })
         .catch((e) => {
           this.errorUser = e;

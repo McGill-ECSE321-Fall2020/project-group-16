@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <UserProfileInfo />
+    {{user.username}}
   </div>
 </template>
 <script>
@@ -12,18 +13,19 @@ export default {
     return {
       username: "",
       user: "",
+    
     };
   },
   components: {
     UserProfileInfo,
   },
-  mounted: function () {
-    this.username = this.$router.params;
-  },
   created: function () {
+    this.username = this.$route.params.username;
+    console.log(this.username + "router")
     AXIOS.get(`/users/${this.username}`)
       .then((response) => {
-        this.user = response.data[0];
+        console.log(response.data)
+        this.user = response.data;
       })
       .catch((e) => {
         console.log(e);
