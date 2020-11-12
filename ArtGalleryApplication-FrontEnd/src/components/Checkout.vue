@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hr />
+    <!-- <hr />
     <h2>Objects</h2>
     <table id="objects-table">
       <tr>
@@ -93,12 +93,12 @@
     <span v-if="errorAddress" style="color: red"
       >Error: {{ errorAddress }}
     </span>
+    <hr /> -->
+    <hr />
+    <h2>Checkout</h2>
     <hr />
 
-
-    <form @submit="placeOrder(selectedUser, selectedArtwork)" id="checkout">
-      <h2>Checkout</h2><hr />
-
+    <form @submit="placeOrder(username, artworkId)" v-if="!orderId && !errorCheckout" id="checkout">
       <!--  -->
       <Shipment v-if="!shipmentId"  v-bind:address="shippingAddress" v-on:add-shipment="getShipment($event)" />
       <Payment v-if="shipmentId && !paymentId" v-bind:payment="payment" v-on:add-payment="getPayment($event)" />
@@ -144,37 +144,29 @@
         </table>
 
         <label
-          >User:
-          <select v-model="selectedUser">
-            <option disabled value="">Select a User</option>
-            <option v-for="(user, i) in users" v-bind:key="`user-${i}`">
-              {{ user.username }}
-            </option>
-          </select>
+          >User: {{ username }}
         </label>
         <label
-          >Artwork:
-          <select type="number" v-model="selectedArtwork">
-            <option disabled value="">Select an Artwork</option>
-            <option v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
-              {{ artwork.artworkId }}
-            </option>
-          </select>
+          >Artwork: {{ artworkId}}
         </label>
         <input
           type="submit"
-          value="PlaceOrder"
+          value="Place Order"
           class="btn"
           v-bind:disabled="
-            !selectedUser || !selectedArtwork || !shipmentId || !paymentId
+            !username || !artworkId || !shipmentId || !paymentId
           "
         />
       </div>
+    </form>
 
-      <span v-if="errorCheckout" style="color: red"
+    <span v-if="errorCheckout" style="color: red"
       >Error: {{ errorCheckout }}
       </span>
-    </form>
+
+    <div v-if="orderId">
+      Order Placed
+    </div>
     
     <hr />
 
