@@ -31,7 +31,7 @@
     
   </div>
 </template>
-<script src="../js/signup.js">
+<script src="../js/signUp.js">
 
 </script>
 <style scoped src="../css/signInForm.css">
