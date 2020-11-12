@@ -50,12 +50,6 @@ public class ShipmentRestController {
 	public ShipmentDto createShipment (@RequestParam("toGallery") Boolean toGallery,
 									   @RequestParam("estimatedArrivalTime") Time estimatedArrivalTime,
 									   @RequestParam("estimatedArrivalDate") Date estimatedArrivalDate,
-									   @RequestParam("retStreetAddress") String retStreetAddress,
-									   @RequestParam("retStreetAddress2") String retStreetAddress2,
-									   @RequestParam("retPostalCode") String retPostalCode,
-									   @RequestParam("retCity") String retCity,
-									   @RequestParam("retProvince") String retProvince,
-									   @RequestParam("retCountry") String retCountry,
 									   @RequestParam("destStreetAddress") String destStreetAddress,
 									   @RequestParam("destStreetAddress2") String destStreetAddress2,
 									   @RequestParam("destPostalCode") String destPostalCode,
@@ -65,10 +59,9 @@ public class ShipmentRestController {
 									   )
 			throws IllegalArgumentException{
 
-		AddressDto retAddressDto = convertToDto(addressService.createAddress(retStreetAddress, retStreetAddress2, retPostalCode, retCity, retProvince, retCountry));
 		AddressDto destAddressDto = convertToDto(addressService.createAddress(destStreetAddress, destStreetAddress2, destPostalCode, destCity, destProvince, destCountry));
 
-		return convertToDto(shipmentService.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, retAddressDto.getAddressId(), destAddressDto.getAddressId()));
+		return convertToDto(shipmentService.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, 0, destAddressDto.getAddressId()));
 	}
 	
 	@GetMapping(value = {"/shipments/{id}", "/shipments/{id}/"})	
