@@ -1,5 +1,5 @@
 <template>
-  <div id="createaddress">
+  <div id="address">
     <br />
     <form>
       <h6>{{ title }}</h6>
@@ -59,10 +59,10 @@
   </div>
 </template>
 
-<script src="./createAddress.js"></script>
+<script src="./address.js"></script>
 
 <style>
-#createaddress {
+#address {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;
   background: #f2ece8;

@@ -1,264 +1,157 @@
 <template>
-  <div id="checkout">
+  <div>
     <hr />
-    <h2>TEST</h2>
-    <h2>Users</h2>
-    <table id="user_table">
+    <h2>Objects</h2>
+    <table id="objects-table">
       <tr>
-        <th>Username</th>
-        <!-- <th>Events</th> -->
+        <th>Users</th>
+        <th>Artwork</th>
+        <th>Orders</th>
+        <th>Shipments</th>
+        <th>Payments</th>
       </tr>
-      <tr v-for="(user, i) in users" v-bind:key="`user-${i}`">
-        <td>{{ user.username }}</td>
+
+      <tr>
+        <td>
+          <table id="user-table">
+            <tr>
+              <th>Username</th>
+            </tr>
+            <tr v-for="(user, i) in users" v-bind:key="`user-${i}`">
+              <td>{{ user.username }}</td>
+            </tr>
+          </table>
+        </td>
+
+        <td>
+          <table id="artwork-table">
+            <tr>
+              <th>Title</th>
+              <th>Artwork ID</th>
+            </tr>
+            <tr v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
+              <td>{{ artwork.title }}</td>
+              <td>{{ artwork.artworkId }}</td>
+            </tr>
+          </table>
+        </td>
+
+        <td>
+          <table id="order-table">
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Artwork Title</th>
+              <th>Artwork ID</th>
+            </tr>
+            <tr v-for="(order, i) in orders" v-bind:key="`order-${i}`">
+              <td>{{ order.orderId }}</td>
+              <td>{{ order.customer.username }}</td>
+              <td>{{ order.artwork.title }}</td>
+              <td>{{ order.artwork.artworkId }}</td>
+            </tr>
+          </table>
+        </td>
+        <!-- 
+        <td>
+          <table>
+            <tr>
+              <th>Address ID</th>
+              <th>Street</th>
+            </tr>
+            <tr v-for="(address, i) in addresses" v-bind:key="`address-${i}`">
+              <td>{{ address.addressId }}</td>
+              <td>{{ address.streetAddress }}</td>
+            </tr>
+          </table>
+        </td> -->
+
+        <td>
+          <table>
+            <tr>
+              <th>Shipment ID</th>
+              <th>Return Address</th>
+              <th>Shipping Address</th>
+            </tr>
+            <tr v-for="(shipment, i) in shipments" v-bind:key="`shipment-${i}`">
+              <td>{{ shipment.shipmentId }}</td>
+              <td>{{ shipment.returnAddress.streetAddress }}</td>
+              <td>{{ shipment.destinationAddress.streetAddress }}</td>
+            </tr>
+          </table>
+        </td>
+
+        <td>
+          <table>
+            <tr>
+              <th>Payment ID</th>
+              <th>Card Number</th>
+            </tr>
+            <tr v-for="(payment, i) in payments" v-bind:key="`payment-${i}`">
+              <td>{{ payment.paymentId }}</td>
+              <td>{{ payment.cardNumber }}</td>
+            </tr>
+          </table>
+        </td>
       </tr>
+
+      <hr />
     </table>
 
     <span v-if="errorUsers" style="color: red">Error: {{ errorUsers }} </span>
-    <hr />
-
-    <h2>Artwork</h2>
-    <table id="artwork_table">
-      <tr>
-        <th>Title</th>
-        <th>Artwork ID</th>
-      </tr>
-      <tr v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
-        <td>{{ artwork.title }}</td>
-        <td>{{ artwork.artworkId }}</td>
-      </tr>
-    </table>
-
     <span v-if="errorArtworks" style="color: red"
-      >Error: {{ errorArtworks }}
-    </span>
-    <hr />
-
-    <h2>Addresses</h2>
-    <table>
-      <tr>
-        <th>Street</th>
-        <th>Street 2</th>
-        <th>Postal Code</th>
-        <th>City</th>
-        <th>Province</th>
-        <th>Country</th>
-        <!--<th>Edit</th>-->
-      </tr>
-      <tr v-for="(address, i) in addresses" v-bind:key="`address-${i}`">
-        <td>{{ address.streetAddress }}</td>
-        <td>{{ address.streetAddress2 }}</td>
-        <td>{{ address.postalCode }}</td>
-        <td>{{ address.city }}</td>
-        <td>{{ address.province }}</td>
-        <td>{{ address.country }}</td>
-        <!--<td>
-        <button v-on:click="updateEvent(event.name)">Edit</button>
-      </td>-->
-      </tr>
-    </table>
-
-    <hr />
-    <hr />
-
-    <h2>Shipping Address</h2>
-    <table>
-      <tr>
-        <td>
-          <input
-            type="text"
-            v-model="newAddress.streetAddress"
-            placeholder="Street Address 1"
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            v-model="newAddress.streetAddress2"
-            placeholder="Street Address 2"
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            v-model="newAddress.postalCode"
-            placeholder="Postal Code"
-          />
-        </td>
-        <td>
-          <input type="text" v-model="newAddress.city" placeholder="City" />
-        </td>
-        <td>
-          <select type="text" v-model="newAddress.province">
-            <option>AB</option>
-            <option>BC</option>
-            <option>MB</option>
-            <option>NB</option>
-            <option>NL</option>
-            <option>NT</option>
-            <option>NS</option>
-            <option>NU</option>
-            <option>ON</option>
-            <option>PE</option>
-            <option>QB</option>
-            <option>SK</option>
-            <option>YT</option>
-          </select>
-        </td>
-        <td>
-          <select type="text" v-model="newAddress.country">
-            <option>Canada</option>
-            <option>United States</option>
-          </select>
-        </td>
-        <td>
-          <button
-            v-bind:disabled="
-              !newAddress.streetAddress || !newAddress.postalCode
-            "
-            v-on:click="
-              createAddress(
-                newAddress.streetAddress,
-                newAddress.streetAddress2,
-                newAddress.postalCode,
-                newAddress.city,
-                newAddress.province,
-                newAddress.country
-              )
-            "
-          >
-            Create
-          </button>
-        </td>
-      </tr>
-    </table>
-
-    <hr />
-    <h2>Return Address</h2>
-    <table>
-      <tr>
-        <td>
-          <input
-            type="text"
-            v-model="newAddress.streetAddress"
-            placeholder="Street Address 1"
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            v-model="newAddress.streetAddress2"
-            placeholder="Street Address 2"
-          />
-        </td>
-        <td>
-          <input
-            type="text"
-            v-model="newAddress.postalCode"
-            placeholder="Postal Code"
-          />
-        </td>
-        <td>
-          <input type="text" v-model="newAddress.city" placeholder="City" />
-        </td>
-        <td>
-          <select type="text" v-model="newAddress.province">
-            <option>AB</option>
-            <option>BC</option>
-            <option>MB</option>
-            <option>NB</option>
-            <option>NL</option>
-            <option>NT</option>
-            <option>NS</option>
-            <option>NU</option>
-            <option>ON</option>
-            <option>PE</option>
-            <option>QB</option>
-            <option>SK</option>
-            <option>YT</option>
-          </select>
-        </td>
-        <td>
-          <select type="text" v-model="newAddress.country">
-            <option>Canada</option>
-            <option>United States</option>
-          </select>
-        </td>
-        <td>
-          <button
-            v-bind:disabled="
-              !newAddress.streetAddress || !newAddress.postalCode
-            "
-            v-on:click="
-              createAddress(
-                newAddress.streetAddress,
-                newAddress.streetAddress2,
-                newAddress.postalCode,
-                newAddress.city,
-                newAddress.province,
-                newAddress.country
-              )
-            "
-          >
-            Create
-          </button>
-        </td>
-      </tr>
-    </table>
-
+      >Error: {{ errorArtworks }}</span
+    >
+    <span v-if="errorOrders" style="color: red">Error: {{ errorOrders }} </span>
     <span v-if="errorAddress" style="color: red"
       >Error: {{ errorAddress }}
     </span>
     <hr />
 
-    <h2>Orders</h2>
-    <table id="order_table">
-      <tr>
-        <th>Order ID</th>
-        <th>Customer</th>
-        <th>Artwork Title</th>
-        <th>Artwork ID</th>
-      </tr>
-      <tr v-for="(order, i) in orders" v-bind:key="`order-${i}`">
-        <td>{{ order.orderId }}</td>
-        <td>{{ order.customer.username }}</td>
-        <td>{{ order.artwork.title }}</td>
-        <td>{{ order.artwork.artworkId }}</td>
-      </tr>
-    </table>
+    
+    <form @submit="placeOrder(selectedUser, selectedArtwork)" id="checkout">
+      <h2>Checkout</h2><hr />
 
-    <span v-if="errorOrders" style="color: red">Error: {{ errorOrders }} </span>
+      <Shipment v-on:add-shipment="getShipment($event)" />
+      <hr />
+      <Payment v-on:add-payment="getPayment($event)" />
+      <hr />
+
+      <h4>Place Order</h4>
+      <label
+        >User:
+        <select v-model="selectedUser">
+          <option disabled value="">Select a User</option>
+          <option v-for="(user, i) in users" v-bind:key="`user-${i}`">
+            {{ user.username }}
+          </option>
+        </select>
+      </label>
+      <label
+        >Artwork:
+        <select type="number" v-model="selectedArtwork">
+          <option disabled value="">Select an Artwork</option>
+          <option v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
+            {{ artwork.artworkId }}
+          </option>
+        </select>
+      </label>
+      <input
+        type="submit"
+        value="PlaceOrder"
+        class="btn"
+        v-bind:disabled="
+          !selectedUser || !selectedArtwork || !shipmentId || !paymentId
+        "
+      />
+    
+      <span v-if="errorCheckout" style="color: red"
+      >Error: {{ errorCheckout }}
+      </span>
+    </form>
+    
     <hr />
 
-    <h2>Purchase Artwork</h2>
-    <label
-      >User:
-      <select v-model="selectedUser">
-        <option disabled value="">Select a User</option>
-        <option v-for="(user, i) in users" v-bind:key="`user-${i}`">
-          {{ user.username }}
-        </option>
-      </select>
-    </label>
-    <label
-      >Artwork:
-      <select type="number" v-model="selectedArtwork">
-        <option disabled value="">Select an Artwork</option>
-        <option v-for="(artwork, i) in artworks" v-bind:key="`artwork-${i}`">
-          {{ artwork.artworkId }}
-        </option>
-      </select>
-    </label>
-    <button
-      v-bind:disabled="!selectedUser || !selectedArtwork"
-      @click="placeOrder(selectedUser, selectedArtwork)"
-    >
-      Place Order
-    </button>
-    <span v-if="errorPlaceOrder" style="color: red"
-      >Error: {{ errorPlaceOrder }}
-    </span>
-    <hr />
-    <hr />
   </div>
 </template>
 
@@ -269,5 +162,10 @@
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;
   background: #f2ece8;
+}
+table th,
+td {
+  border: 1px solid black;
+  padding: 10px;
 }
 </style>

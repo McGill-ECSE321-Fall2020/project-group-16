@@ -11,7 +11,7 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "CreatePayment",
+  name: "Payment",
   data() {
     return {
       cardNumber: '',

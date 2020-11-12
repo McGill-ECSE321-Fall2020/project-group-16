@@ -11,7 +11,7 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "CreateAddress",
+  name: "Address",
   props: ['title', "inputDisabled", "address"],
   data() {
     return {

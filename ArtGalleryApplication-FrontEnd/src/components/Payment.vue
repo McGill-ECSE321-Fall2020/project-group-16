@@ -1,5 +1,5 @@
 <template>
-  <div id="create-payment">
+  <div id="payment">
     <h4>Payment</h4>
     <form @submit="createPayment">
       <input type="text" v-model="cardNumber" placeholder="Card Number" />
@@ -20,10 +20,10 @@
   </div>
 </template>
 
-<script src="./createPayment.js"></script>
+<script src="./payment.js"></script>
 
 <style>
-#createaddress {
+#payment {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;
   background: #f2ece8;

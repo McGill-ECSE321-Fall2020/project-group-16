@@ -1,3 +1,6 @@
+import Shipment from "./Shipment.vue"
+import Payment from "./Payment.vue"
+
 import axios from "axios";
 var config = require("../../config");
 
@@ -11,24 +14,24 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "purchaseartwork",
+  name: "Checkout",
+  components: {
+    Shipment,
+    Payment
+  },
+
   data() {
     return {
       artworks: [],
       users: [],
       orders: [],
-      addresses: [],
-
-      newAddress: {
-        streetAddress: '',
-        streetAddress2: '',
-        postalCode: '',
-        city: 'Montreal',
-        province: 'QB',
-        country: 'Canada'
-      },
+      shipments: [],
+      payments: [],
 
       newOrder: '',
+      selectedOrderId: '',
+      shipmentId: '',
+      paymentId: '',
 
       selectedUser: '',
       selectedArtwork: '',
@@ -36,11 +39,12 @@ export default {
       errorUsers: '',
       errorArtworks: '',
       errorOrders: '',
-      errorPlaceOrder: '',
       errorAddress: '',
+      errorCheckout: '',
       response: []
     }
   },
+
   created: function () {
     // Initializing persons from backend
     AXIOS.get("/users")
@@ -68,14 +72,29 @@ export default {
         this.errorOrders = e;
         // this.errors.push(e)
       });
-    // Initializing persons from backend
-    AXIOS.get("/address")
+    // AXIOS.get("/address")
+    //   .then(response => {
+    //     this.addresses = response.data;
+    //   })
+    //   .catch(e => {
+    //     this.errorAddress = e;
+    //     // this.errors.push(e)
+    //   });
+    AXIOS.get("/shipments")
       .then(response => {
-        // JSON responses are automatically parsed.
-        this.addresses = response.data;
+        this.shipments = response.data;
       })
       .catch(e => {
         this.errorAddress = e;
+        // this.errors.push(e)
+      });
+    AXIOS.get("/payments")
+      .then(response => {
+        this.payments = response.data;
+      })
+      .catch(e => {
+        this.errorAddress = e;
+        // this.errors.push(e)
       });
   },
   methods: {
@@ -86,71 +105,49 @@ export default {
       var user = this.users[indexUser]
       var artwork = this.artworks[indexArtwork]
 
-      // // Create Shippment
-      // AXIOS.post("/shipments/", {}, {
-      //   params: {
-      //     toGallery: toGallery,
-      //     estimatedArrivalTime: estimatedArrivalTime,
-      //     estimatedArrivalDate: estimatedArrivalDate,
-      //     returnAddressId: returnAddressId,
-      //     destinationAddressId: destinationAddressId,
-      //   }
-      // })
-      //   .then(response => {
-      //     // JSON responses are automatically parsed.
-      //     this.orders.push(response.data);
-      //     this.errorPlaceOrder = ''
-      //   })
-      //   .catch(e => {
-      //     var errorMsg = e.response.data.message;
-      //     console.log(errorMsg);
-      //     this.errorPlaceOrder = errorMsg;
-      //   });
-
-
-      // Create Order
       AXIOS.post("/orders/place-order/".concat(user.username), {}, {
         params: {
           artworkId: artwork.artworkId
         }
       })
         .then(response => {
-          // JSON responses are automatically parsed.
-          this.orders.push(response.data);
-          this.errorPlaceOrder = ''
+          // JSON responses are automatically parsed]
+          this.addPaymentAndShipment(response.data.orderId, this.paymentId, this.shipmentId)
         })
         .catch(e => {
           var errorMsg = e.response.data.message;
           console.log(errorMsg);
-          this.errorPlaceOrder = errorMsg;
+          this.errorCheckout = errorMsg;
         });
-
     },
-    createAddress: function (streetAddress, streetAddress2, postalCode, city, province, country) {
-      AXIOS.post("/address/", {}, {
+
+    addPaymentAndShipment(orderId, paymentId, shipmentId) {
+      AXIOS.put(`/orders/${orderId}/add-payment-shipment`, {}, {
         params: {
-          streetAddress: streetAddress,
-          streetAddress2: streetAddress2,
-          postalCode: postalCode,
-          city: city,
-          province: province,
-          country: country,
+          paymentId: paymentId,
+          shipmentId: shipmentId
         }
-      }
-      )
+      })
         .then(response => {
-          // JSON responses are automatically parsed.
-          this.addresses.push(response.data);
-          this.errorAddress = "";
-          this.newAddress.streetAddress = "";
-          this.newAddress.streetAddress2 = "";
-          this.newAddress.postalCode = "";
+          this.orders.push(response.data);
+          this.errorCheckout = ''
         })
         .catch(e => {
           var errorMsg = e.response.data.message;
           console.log(errorMsg);
-          this.errorAddress = errorMsg;
+          this.errorCheckout = errorMsg;
         });
+    },
+
+    getShipment(newShipment) {
+      this.shipments.push(newShipment)
+      this.shipmentId = newShipment.shipmentId;
+      console.log(newShipment.shipmentId)
+    },
+    getPayment(newPayment) {
+      this.payments.push(newPayment)
+      this.paymentId = newPayment.paymentId;
+      console.log(newPayment.paymentId)
     }
   }
 };

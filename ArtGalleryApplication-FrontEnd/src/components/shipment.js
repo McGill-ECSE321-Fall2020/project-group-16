@@ -1,5 +1,5 @@
 import axios from "axios";
-import CreateAddress from "./createAddress"
+import Address from "./Address.vue"
 
 var config = require("../../config");
 
@@ -13,9 +13,9 @@ var AXIOS = axios.create({
 });
 
 export default {
-  name: "CreateShipment",
+  name: "Shipment",
   components: {
-    CreateAddress
+    Address
   },
   data() {
     return {
@@ -83,6 +83,7 @@ export default {
         }
       }
     },
+
     createShipment: function (toGallery, returnAddress, destinationAddress) {
       // Get estimated date of delivery (1 week)
       var today = new Date();

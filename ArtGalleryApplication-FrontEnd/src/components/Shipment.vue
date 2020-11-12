@@ -1,18 +1,18 @@
 <template>
-  <div id="create-shipment">
+  <div id="shipment">
     <h4>Shipment</h4>
     <form @submit="createShipment(toGallery, newReturnAddress, newDestAddress)">
       <input type="checkbox" v-model="toGallery" @click="updateAddresses" />
       {{ toGallery ? "Shipped to Gallery" : "Delivered" }}
       <br />
 
-      <CreateAddress
+      <Address
         title="Return Address"
         v-bind:inputDisabled="toGallery"
         v-bind:address="newReturnAddress"
         v-on:add-address="addAddress($event, 'return')"
       />
-      <CreateAddress
+      <Address
         title="Shipping Address"
         v-bind:inputDisabled="toGallery"
         v-bind:address="newDestAddress"
@@ -35,10 +35,10 @@
   </div>
 </template>
 
-<script src="./createShipment.js"></script>
+<script src="./shipment.js"></script>
 
 <style>
-#createaddress {
+#shipment {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #2c3e50;
   background: #f2ece8;
