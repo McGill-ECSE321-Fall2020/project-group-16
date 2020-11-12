@@ -1,13 +1,15 @@
 <template>
   <div id="app">
+    <NavBar v-if="$route.path !== '/'"/>
     <router-view @update:status="updateStatus"></router-view>
   </div>
 </template>
 
 <script>
+import NavBar from './components/NavBar'
 export default {
   name: "app",
-  components: {},
+  components: {NavBar,},
   data() {
     return {
       username: "",
@@ -44,6 +46,10 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin-top: 60px;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 } 
 </style>
