@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import BrowseArt from '@/components/BrowseArt'
+import ArtPage from '@/components/ArtPage'
 
 Vue.use(Router)
 
@@ -18,7 +19,7 @@ export default new Router({
       component: BrowseArt
     },
     {
-      path: '/artPage',
+      path: '/artpage',
       name: 'ArtPage',
       component: ArtPage
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="art-product">
+  <div id="art-product">
     <img src="" alt="" />
     <h2>{{ artwork.title }}</h2>
     <h3>{{ artwork.artist }}</h3>
@@ -14,8 +14,11 @@ import { AXIOS } from "./axiosInstance.js";
 
 export default {
   name: "ArtProduct",
+  data() {
+    artworks: ""
+  },
   created() {
-    axios
+    AXIOS
       .get("/artworks")
       .then(res => (this.artworks = res.data))
       .catch(err => console.log(err));
