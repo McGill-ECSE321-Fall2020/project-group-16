@@ -20,7 +20,7 @@
               !address.postalCode )
         "
         type="submit"
-        value="Create Shipment"
+        value="Continue"
         class="btn"
       />
     </form>

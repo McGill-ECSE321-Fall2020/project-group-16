@@ -22,17 +22,11 @@ export default {
 
   data() {
     return {
-      artworks: [],
-      users: [],
-      orders: [],
-      shipments: [],
-      payments: [],
+      orderId: '',
+      username: '',
+      artworkId: '',
 
-      payment: {
-        cardNumber: '',
-        expirationDate: '',
-        cvv: ''
-      },
+      shipmentId: '',
       shippingAddress: {
         streetAddress: '',
         streetAddress2: '',
@@ -42,91 +36,53 @@ export default {
         country: 'Canada'
       },
 
-      newOrder: '',
-      selectedOrderId: '',
-      shipmentId: '',
       paymentId: '',
+      payment: {
+        cardNumber: '',
+        expirationDate: '',
+        cvv: ''
+      },
 
-      selectedUser: '',
-      selectedArtwork: '',
-
-      errorUsers: '',
-      errorArtworks: '',
-      errorOrders: '',
-      errorAddress: '',
       errorCheckout: '',
       response: []
     }
   },
 
   created: function () {
-    // Initializing persons from backend
-    AXIOS.get("/users")
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.users = response.data;
-      })
-      .catch(e => {
-        this.errorUsers = e;
+    AXIOS.get(`/users/${this.$route.params.username}`)
+      .then(
+        this.username = this.$route.params.username
+      )
+      .catch((e) => {
+        console.log(e);
+        this.errorCheckout = e.response //"User Not Found"
+        if (e.response) {
+          console.log(e.response.data);
+          console.log(e.response.status);
+          console.log(e.response.headers);
+        }
       });
-    // Initializing events
-    AXIOS.get("/artworks")
-      .then(response => {
-        this.artworks = response.data;
-      })
-      .catch(e => {
-        this.errorArtworks = e;
-        // this.errors.push(e)
-      });
-    AXIOS.get("/orders")
-      .then(response => {
-        this.orders = response.data;
-      })
-      .catch(e => {
-        this.errorOrders = e;
-        // this.errors.push(e)
-      });
-    // AXIOS.get("/address")
-    //   .then(response => {
-    //     this.addresses = response.data;
-    //   })
-    //   .catch(e => {
-    //     this.errorAddress = e;
-    //     // this.errors.push(e)
-    //   });
-    AXIOS.get("/shipments")
-      .then(response => {
-        this.shipments = response.data;
-      })
-      .catch(e => {
-        this.errorAddress = e;
-        // this.errors.push(e)
-      });
-    AXIOS.get("/payments")
-      .then(response => {
-        this.payments = response.data;
-      })
-      .catch(e => {
-        this.errorAddress = e;
-        // this.errors.push(e)
+    AXIOS.get(`/artworks/${this.$route.params.artworkId}`)
+      .then(
+        this.artworkId = this.$route.params.artworkId
+      )
+      .catch((e) => {
+        console.log(e);
+        this.errorCheckout = "Error Artwork Not Found"
       });
   },
   methods: {
 
     placeOrder: function (username, artworkId) {
-      var indexUser = this.users.map(x => x.username).indexOf(username)
-      var indexArtwork = this.artworks.map(x => x.artworkId).indexOf(parseInt(artworkId))
-      var user = this.users[indexUser]
-      var artwork = this.artworks[indexArtwork]
-
-      AXIOS.post("/orders/place-order/".concat(user.username), {}, {
+      AXIOS.post("/orders/place-order/".concat(this.username), {}, {
         params: {
-          artworkId: artwork.artworkId
+          artworkId: this.artworkId
         }
       })
         .then(response => {
           // JSON responses are automatically parsed]
           this.addPaymentAndShipment(response.data.orderId, this.paymentId, this.shipmentId)
+          this.orderId = response.data.orderId
         })
         .catch(e => {
           var errorMsg = e.response.data.message;
@@ -142,10 +98,9 @@ export default {
           shipmentId: shipmentId
         }
       })
-        .then(response => {
-          this.orders.push(response.data);
+        .then(
           this.errorCheckout = ''
-        })
+        )
         .catch(e => {
           var errorMsg = e.response.data.message;
           console.log(errorMsg);
@@ -154,14 +109,10 @@ export default {
     },
 
     getShipment(newShipment) {
-      this.shipments.push(newShipment)
       this.shipmentId = newShipment.shipmentId;
-      console.log(newShipment.shipmentId)
     },
     getPayment(newPayment) {
-      this.payments.push(newPayment)
       this.paymentId = newPayment.paymentId;
-      console.log(newPayment.paymentId)
     }
   }
 };

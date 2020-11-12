@@ -30,7 +30,7 @@ const routes = [{
   component: PurchaseArtwork
 },
 {
-  path: "/checkout",
+  path: "/checkout/:username/:artworkId",
   name: "Checkout",
   component: Checkout
 },
