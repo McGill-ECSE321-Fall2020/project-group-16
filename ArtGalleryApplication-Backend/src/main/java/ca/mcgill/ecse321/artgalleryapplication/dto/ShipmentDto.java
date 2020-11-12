@@ -35,7 +35,7 @@ public class ShipmentDto {
 		return this.estimatedArrivalTime;
 	}
 
-	public int shipmentId() {
+	public int getShipmentId() {
 		return this.shipmentId;
 	}
 

@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus;
+import ca.mcgill.ecse321.artgalleryapplication.model.PaymentForm;
 import ca.mcgill.ecse321.artgalleryapplication.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +45,37 @@ public class OrderRestController {
 
         return convertToDto(orderService.placeOrder(artworkId, username));
     }
+
+//    @PostMapping(value = { "/orders/place-order/{username}/{artworkId}", "/orders/place-order/{username}/{artworkId}/" })
+//    public OrderDto placeOrder(
+//            @PathVariable("username") String username,
+//            @PathVariable("artworkId") int artworkId,
+//            @RequestParam("paymentForm") PaymentForm paymentForm,
+//            @RequestParam("cardNumber") String cardNumber,
+//            @RequestParam("expirationDate") Date expirationDate,
+//            @RequestParam("cvv") int cvv,
+//            @RequestParam("toGallery") Boolean toGallery,
+//            @RequestParam("estimatedArrivalTime") Time estimatedArrivalTime,
+//            @RequestParam("estimatedArrivalDate") Date estimatedArrivalDate,
+//            @RequestParam("retStreetAddress") String retStreetAddress,
+//            @RequestParam("retStreetAddress") String retStreetAddress2,
+//            @RequestParam("retStreetAddress") String retPostalCode,
+//            @RequestParam("retStreetAddress") String retCity,
+//            @RequestParam("retStreetAddress") String retProvince,
+//            @RequestParam("retStreetAddress") String retCountry,
+//            @RequestParam("destStreetAddress") String destStreetAddress,
+//            @RequestParam("destStreetAddress") String destStreetAddress2,
+//            @RequestParam("destStreetAddress") String destPostalCode,
+//            @RequestParam("destStreetAddress") String destCity,
+//            @RequestParam("destStreetAddress") String destProvince,
+//            @RequestParam("destStreetAddress") String destCountry
+//    ) throws IllegalArgumentException {
+//
+//        OrderDto initOrder = convertToDto(orderService.placeOrder(artworkId, username));
+//        AddressDto retAddress =
+//
+//        return convertToDto(orderService.placeOrder(artworkId, username));
+//    }
 
 
     // --- Getters --- //
@@ -123,6 +157,13 @@ public class OrderRestController {
     public OrderDto addShipmentToOrder(@PathVariable("id") int orderId,
                                        @RequestParam("shipmentId") int shipmentId) {
         return convertToDto(orderService.addShipmentToOrder(orderId, shipmentId));
+    }
+
+    @PutMapping(value = { "/orders/{id}/add-payment-shipment", "/orders/{id}/add-payment-shipment/" })
+    public OrderDto addShipmentToOrder(@PathVariable("id") int orderId,
+                                       @RequestParam("paymentId") int paymentId,
+                                       @RequestParam("shipmentId") int shipmentId) {
+        return convertToDto(orderService.addPaymentAndShipmentToOrder(orderId, paymentId, shipmentId));
     }
 
     /**

@@ -7,6 +7,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.artgalleryapplication.dto.AddressDto;
+import ca.mcgill.ecse321.artgalleryapplication.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,11 @@ public class ShipmentRestController {
 
 	@Autowired
 	private ShipmentService shipmentService;
-	
-	
+	@Autowired
+	private AddressService addressService;
+
+
+
 	@PostMapping(value = {"/shipments", "/shipments/"})
 	public ShipmentDto createShipment (@RequestParam("toGallery") Boolean toGallery,
 									 @RequestParam("estimatedArrivalTime") Time estimatedArrivalTime,
@@ -39,6 +44,31 @@ public class ShipmentRestController {
 		Shipment shipment = shipmentService.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, returnAddressId, destinationAddressId);
 		
 		return ConvertToDto.convertToDto(shipment);
+	}
+
+	@PostMapping(value = {"/shipments/full", "/shipments/full/"})
+	public ShipmentDto createShipment (@RequestParam("toGallery") Boolean toGallery,
+									   @RequestParam("estimatedArrivalTime") Time estimatedArrivalTime,
+									   @RequestParam("estimatedArrivalDate") Date estimatedArrivalDate,
+									   @RequestParam("retStreetAddress") String retStreetAddress,
+									   @RequestParam("retStreetAddress2") String retStreetAddress2,
+									   @RequestParam("retPostalCode") String retPostalCode,
+									   @RequestParam("retCity") String retCity,
+									   @RequestParam("retProvince") String retProvince,
+									   @RequestParam("retCountry") String retCountry,
+									   @RequestParam("destStreetAddress") String destStreetAddress,
+									   @RequestParam("destStreetAddress2") String destStreetAddress2,
+									   @RequestParam("destPostalCode") String destPostalCode,
+									   @RequestParam("destCity") String destCity,
+									   @RequestParam("destProvince") String destProvince,
+									   @RequestParam("destCountry") String destCountry
+									   )
+			throws IllegalArgumentException{
+
+		AddressDto retAddressDto = convertToDto(addressService.createAddress(retStreetAddress, retStreetAddress2, retPostalCode, retCity, retProvince, retCountry));
+		AddressDto destAddressDto = convertToDto(addressService.createAddress(destStreetAddress, destStreetAddress2, destPostalCode, destCity, destProvince, destCountry));
+
+		return convertToDto(shipmentService.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, retAddressDto.getAddressId(), destAddressDto.getAddressId()));
 	}
 	
 	@GetMapping(value = {"/shipments/{id}", "/shipments/{id}/"})	
