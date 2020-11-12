@@ -45,33 +45,33 @@ export default {
     }
 
     .container {
-        width: 50%;
-        height: 50%;
-        flex-direction: column;
-        border: 2px so
-        lid black;
+        width: 300px;
+        height: 400px;
+        border: 2px solid black;
         padding: 10px;
+        
+        display: flex;
+        flex-direction: column;
     }
 
     .row {
         border: 2px solid red;
         padding: 10px;
+        
         display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: center;
     }
 
     .col-1 {
         border: 2px solid blue;
         padding: 10px;
-        flex: 3;
+        text-align: left;
     }
 
     .col-2 {
         border: 2px solid blue;
         padding: 10px;
-        flex: 1;
 
         text-align: right;
     }
