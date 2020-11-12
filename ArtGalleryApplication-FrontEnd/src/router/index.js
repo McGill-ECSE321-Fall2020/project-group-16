@@ -8,6 +8,7 @@ import CreateArtwork from '@/components/CreateArtwork.vue'
 import GalleryEvent from '@/components/GalleryEvent.vue'
 import SpecificEvent from '@/components/SpecificEvent.vue'
 import Checkout from '@/components/Checkout.vue'
+import EditProfile from '@/components/EditProfile.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [{
   meta: {
     isAuthenticated: true
   }
+},
+{
+  path: '/user/edit/:username',
+  name: 'EditProfile',
+  component: EditProfile
 },
 {
   path: "/purchase",

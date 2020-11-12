@@ -9,7 +9,7 @@ export default {
                 name: "",
                 description: "",
                 imageUrl: "",
-                date: "2017-12-08",
+                date: "2020-12-08",
                 startTime: "09:00",
                 endTime: "11:00",
             },

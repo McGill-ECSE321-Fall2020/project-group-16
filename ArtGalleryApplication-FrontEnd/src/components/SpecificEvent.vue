@@ -47,7 +47,7 @@
 
       <!-- for staff only: Delete event and unregister user -->
       <div v-if="this.theCurrentUser.admin == true">
-        <h3>Art Gallery Admin tools</h3>
+        <h3>Art Gallery Admin tools:</h3>
         <table>
           <tr>
             <td><label>Unregister a user:</label></td>

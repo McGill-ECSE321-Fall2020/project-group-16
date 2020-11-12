@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import { AXIOS } from './axiosInstance'
-
-
-=======
 import { AXIOS } from "./axiosInstance";
->>>>>>> a11930a85b217a5fa86a9327670ea31ac31f8409
 
 export default {
     name: "specificEvent",
@@ -22,13 +16,6 @@ export default {
             },
             theCurrentUser: {
                 username: "",
-                password: "",
-                email: "",
-                firstName: "",
-                lastName: "",
-                description: "",
-                profileImageUrl: "",
-                address: "",
                 admin: "",
             },
 
@@ -86,7 +73,7 @@ export default {
         },
 
 
-        //for staff only
+        //for admin only
         deleteEvent: function () {
             //first thing: get the id of the page
             var url = window.location.hash;
@@ -101,6 +88,7 @@ export default {
                 });
         },
 
+        //for admin only
         unregisterUser: function () {
             AXIOS.put("/events/unregister/", {}, {
                 params: {
