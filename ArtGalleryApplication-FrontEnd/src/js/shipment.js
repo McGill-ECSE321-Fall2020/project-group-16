@@ -17,17 +17,10 @@ export default {
   components: {
     Address
   },
+  props: ["address"],
   data() {
     return {
       toGallery: false,
-      newDestAddress: {
-        streetAddress: '',
-        streetAddress2: '',
-        postalCode: '',
-        city: 'Montreal',
-        province: 'QB',
-        country: 'Canada'
-      },
 
       errorShipment: '',
       response: []
@@ -39,28 +32,26 @@ export default {
       console.log(!this.toGallery)
       if (this.toGallery) {
         // reset address inputs 
-        this.newDestAddress = {
-          streetAddress: '',
-          streetAddress2: '',
-          postalCode: '',
-          city: 'Montreal',
-          province: 'QB',
-          country: 'Canada'
-        }
+        this.address.streetAddress = ''
+        this.address.streetAddress2 = ''
+        this.address.postalCode = ''
+        this.address.city = 'Montreal'
+        this.address.province = 'QB'
+        this.address.country = 'Canada'
+
       } else {
         // sets addresses to Gallery address 
-        this.newDestAddress = {
-          streetAddress: 'GALLERY ADDRESS',
-          streetAddress2: 'GALLERY ADDRESS 2',
-          postalCode: 'GALLERY POSTAL CODE',
-          city: 'Montreal',
-          province: 'QB',
-          country: 'Canada'
-        }
+        this.address.streetAddress = 'GALLERY ADDRESS'
+        this.address.streetAddress2 = 'GALLERY ADDRESS 2'
+        this.address.postalCode = 'GALLERY POSTAL CODE'
+        this.address.city = 'Montreal'
+        this.address.province = 'QB'
+        this.address.country = 'Canada'
+
       }
     },
 
-    createShipment: function (toGallery, returnAddress, destinationAddress) {
+    createShipment: function (toGallery, destinationAddress) {
       // Get estimated date of delivery (1 week)
       var today = new Date();
       var nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7),

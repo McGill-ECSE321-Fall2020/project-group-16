@@ -1,35 +1,31 @@
 <template>
   <div id="shipment">
     <h4>Shipment</h4>
-    <form @submit="createShipment(toGallery, newReturnAddress, newDestAddress)">
+    <form @submit="createShipment(toGallery, address)">
       <input type="checkbox" v-model="toGallery" @click="updateAddresses" />
       {{ toGallery ? "Shipped to Gallery" : "Delivered" }}
       <br />
 
-      <!-- <Address
-        title="Return Address"
-        v-bind:inputDisabled="toGallery"
-        v-bind:address="newReturnAddress"
-        v-on:add-address="addAddress($event, 'return')"
-      /> -->
       <Address
         title="Shipping Address"
         v-bind:inputDisabled="toGallery"
-        v-bind:address="newDestAddress"
+        v-bind:address="address"
         v-on:add-address="addAddress($event, 'destination')"
       />
 
       <input
         v-bind:disabled="
           !toGallery &&
-            (!newDestAddress.streetAddress ||
-              !newDestAddress.postalCode )
+            (!address.streetAddress ||
+              !address.postalCode )
         "
         type="submit"
         value="Create Shipment"
         class="btn"
       />
     </form>
+
+    <hr />
   </div>
 </template>
 

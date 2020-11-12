@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import BootstrapVue from "bootstrap-vue"
+import VueCardFormat from 'vue-credit-card-validation';
 import App from './App'
 import {
     router
@@ -10,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
+Vue.use(VueCardFormat);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
