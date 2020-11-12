@@ -81,7 +81,7 @@
   </div>
 </template>
 
-<script src = "./purchaseArtwork.js"></script>
+<script src = "../js/purchaseArtwork.js"></script>
 
 <style>
 #purchaseartwork {

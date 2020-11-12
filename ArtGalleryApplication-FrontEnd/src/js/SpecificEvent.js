@@ -1,21 +1,21 @@
 import axios from 'axios'
 var config = require('../../config')
 
-var backendConfigurer = function(){
-    switch(process.env.NODE_ENV){
+var backendConfigurer = function() {
+    switch (process.env.NODE_ENV) {
         case 'development':
             return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort;
             //return 'https://' + config.build.backendHost + ':' + config.build.backendPort ;
         case 'production':
-            return 'https://' + config.build.backendHost + ':' + config.build.backendPort ;
+            return 'https://' + config.build.backendHost + ':' + config.build.backendPort;
     }
 };
 
 var backendUrl = backendConfigurer();
 
 var AXIOS = axios.create({
-  baseURL: backendUrl,
-  //headers: { 'Access-Control-Allow-Origin': frontendUrl }
+    baseURL: backendUrl,
+    //headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
 
@@ -40,7 +40,7 @@ export default {
             },
 
             isCurrUserRegistered: "",
-            
+
             errorNotEvent: "",
             errorRegister: "",
             errorCurrentUser: "",
@@ -50,32 +50,32 @@ export default {
         };
     },
 
-    created: function () {
+    created: function() {
         //first thing: get the id of the page
         var url = window.location.hash;
         var id = url.substring(url.lastIndexOf('/') + 1);
 
         //get the current user to get admin status
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
-        .then((response) => { 
-            this.theCurrentUser = response.data;
-        }).catch((e) => { 
-            this.errorCurrentUser = e;
-        });
+            .then((response) => {
+                this.theCurrentUser = response.data;
+            }).catch((e) => {
+                this.errorCurrentUser = e;
+            });
 
         //get the event for setup
         AXIOS.get("/events/".concat(id))
-        .then((response) => { 
-            this.theEvent = response.data;
-        }).catch((e) => { 
-            this.errorNotEvent = e; 
-        });
+            .then((response) => {
+                this.theEvent = response.data;
+            }).catch((e) => {
+                this.errorNotEvent = e;
+            });
     },
 
     methods: {
 
-        registerToEvent: function () {
-            AXIOS.put("/events/register/", {}, { 
+        registerToEvent: function() {
+            AXIOS.put("/events/register/", {}, {
                 params: {
                     username: localStorage.getItem('username'),
                     eventId: this.theEvent.id
@@ -93,18 +93,18 @@ export default {
 
 
         //for staff only
-        deleteEvent: function () {
+        deleteEvent: function() {
             //first thing: get the id of the page
             var url = window.location.hash;
             var id = url.substring(url.lastIndexOf('/') + 1);
 
             AXIOS.delete("/events/".concat(id))
-            .then((response) => { 
-                alert("The event was deleted");
-                location.reload();
-            }).catch((e) => { 
-                this.errorNotEvent = e; 
-            });
+                .then((response) => {
+                    alert("The event was deleted");
+                    location.reload();
+                }).catch((e) => {
+                    this.errorNotEvent = e;
+                });
         },
     },
 }

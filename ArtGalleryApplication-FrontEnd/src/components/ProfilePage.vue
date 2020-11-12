@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import { AXIOS } from "./registration";
+import { AXIOS } from "../js/axiosInstance";
 import UserProfileInfo from "./UserProfileInfo";
 export default {
   name: "ProfilePage",

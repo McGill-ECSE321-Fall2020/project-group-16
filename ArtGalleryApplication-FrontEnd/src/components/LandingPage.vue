@@ -59,28 +59,6 @@ export default {
   },
 };
 </script>
-<style scoped>
-.sign-in-form {
-  display: flex;
-  flex-direction: column;
-  width: 35%;
-  margin: 30px auto;
-  background-color: #dddddd;
-  padding: 15px;
-  border-radius: 25px;
-  text-align: left;
-}
-.form-tabs {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-.form-tabs h2 {
-  cursor: pointer;
-}
+<style scoped src="../css/landing.css">
 
-.active {
-  color: #ff8c00;
-  border-bottom: 3px solid #ff8c00;
-}
 </style>

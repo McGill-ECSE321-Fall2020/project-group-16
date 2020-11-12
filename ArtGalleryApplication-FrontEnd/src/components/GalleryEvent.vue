@@ -68,7 +68,7 @@
   </div>
 </template>
 
-<script src="./GalleryEvent.js"></script>
+<script src="../js/GalleryEvent.js"></script>
 
 <style>
   table, th, td {

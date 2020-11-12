@@ -39,14 +39,11 @@ export default {
 </script>
 
 <style>
-
+@import './css/main.css';
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  background: #E9E7DB;
   margin-top: 60px;
 } 
 </style>

@@ -88,7 +88,7 @@
     </div>
 </template>
 
-<script src= "./createArtwork.js">
+<script src= "../js/createArtwork.js">
 </script>
 
 <style>

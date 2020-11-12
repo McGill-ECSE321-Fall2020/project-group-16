@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import { AXIOS } from "./axiosInstance";
+import { AXIOS } from "../js/axiosInstance";
 export default {
   name: "SignUpForm",
   data() {

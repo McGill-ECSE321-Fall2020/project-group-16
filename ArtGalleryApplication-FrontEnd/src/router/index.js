@@ -11,7 +11,7 @@ import SpecificEvent from '@/components/SpecificEvent.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-        path: '/landing',
+        path: '/',
         name: 'LandingPage',
         component: LandingPage
     },

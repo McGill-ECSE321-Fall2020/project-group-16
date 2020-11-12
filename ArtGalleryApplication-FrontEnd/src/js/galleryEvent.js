@@ -1,21 +1,21 @@
 import axios from 'axios'
 var config = require('../../config')
 
-var backendConfigurer = function(){
-    switch(process.env.NODE_ENV){
+var backendConfigurer = function() {
+    switch (process.env.NODE_ENV) {
         case 'development':
             return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort;
             //return 'https://' + config.build.backendHost + ':' + config.build.backendPort ;
         case 'production':
-            return 'https://' + config.build.backendHost + ':' + config.build.backendPort ;
+            return 'https://' + config.build.backendHost + ':' + config.build.backendPort;
     }
 };
 
 var backendUrl = backendConfigurer();
 
 var AXIOS = axios.create({
-  baseURL: backendUrl,
-  //headers: { 'Access-Control-Allow-Origin': frontendUrl }
+    baseURL: backendUrl,
+    //headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
 export default {
@@ -30,25 +30,25 @@ export default {
                 date: "2017-12-08",
                 startTime: "09:00",
                 endTime: "11:00",
-              },
+            },
             errorRequest: "",
             response: []
         };
     },
 
-    created: function () {
+    created: function() {
         AXIOS.get("/events")
-        .then((response) => { 
-            this.events = response.data; 
-        }).catch((e) => { 
-            this.errorEvent = e; 
-        });
+            .then((response) => {
+                this.events = response.data;
+            }).catch((e) => {
+                this.errorEvent = e;
+            });
     },
 
     methods: {
 
-        createEvent: function (name, description, imageUrl, date, startTime, endTime) {
-            AXIOS.post("/events/".concat(name), {}, { 
+        createEvent: function(name, description, imageUrl, date, startTime, endTime) {
+            AXIOS.post("/events/".concat(name), {}, {
                 params: {
                     description: description,
                     imageUrl: imageUrl,

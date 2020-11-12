@@ -61,7 +61,7 @@
 
 </template>
 
-<script src="./SpecificEvent.js">
+<script src="../js/SpecificEvent.js">
 </script>
 
 <style>

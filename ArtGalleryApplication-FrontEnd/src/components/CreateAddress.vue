@@ -99,7 +99,7 @@
   </div>
 </template>
 
-<script src = "./createAddress.js"></script>
+<script src = "../js/createAddress.js"></script>
 
 <style>
 #createaddress {
