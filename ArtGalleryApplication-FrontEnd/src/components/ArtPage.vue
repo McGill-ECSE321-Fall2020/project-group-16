@@ -1,5 +1,7 @@
 <template>
     <div id="artpage">
+        <div id="nav-space">
+        </div>
         <div class="box-1">
             <div class="outline">
                 <img src="../assets/birth-of-venus-botticelli.jpg"> 
@@ -25,9 +27,10 @@ export default {
 <style scoped>
     #artpage {
         padding: 60px;
+        padding-top: 200px;
         display: flex; 
     }
-
+    
     .box-1 {
         display: flex;
         flex: 1;
@@ -102,6 +105,12 @@ export default {
         font-size: 24px;
         line-height: 29px;
         text-align: center;
+        transition: 0.5s;
+    }
+
+    button:hover {
+        background-color: #000000;
+        color: #E9E7DB;
     }
 
     .purchase {
@@ -110,6 +119,7 @@ export default {
     }
 
     .more {
+        background: #E9E7DB;
         color: #000000;
         border: 1px solid #000000;
     }

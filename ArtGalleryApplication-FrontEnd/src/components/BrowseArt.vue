@@ -1,29 +1,13 @@
 <template>
     <div id="browseart"> 
+        <ArtProduct/>
+        
         <!-- <div>
             <div v-bind:key="artwork.id" v-for="artwork in artworks">
               <ArtProduct v-bind:artwork="artwork" v-on:goto-artwork="$emit('goto-artwork', artwork.id)" />
             </div>
         </div>
         -->
-
-        <div class="container">
-            <div class="row">
-                row 1
-            </div>
-            <div class="row">
-                <div class="col-1">
-                    row 2 col 1
-                </div>
-                <div class="col-2">
-                    row 2 col 2
-                </div>
-            </div>
-            <div class="row">
-                <button>hi</button>
-            </div>
-        </div>
-
     </div>
 </template>
 
@@ -40,39 +24,74 @@ export default {
 
 <style>
     #browseart {
+        font-family: Montserrat;
+        font-style: normal;
         padding: 60px;
         display: flex;
     }
 
     .container {
-        width: 300px;
-        height: 400px;
-        border: 2px solid black;
+        width: 290px;
+        height: 320px;
+        border: 1px solid black;
         padding: 10px;
         
         display: flex;
         flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
     }
 
-    .row {
-        border: 2px solid red;
+    .my-row {
         padding: 10px;
-        
         display: flex;
         flex-direction: row;
-        justify-content: center;
     }
 
-    .col-1 {
-        border: 2px solid blue;
-        padding: 10px;
-        text-align: left;
+    img {
+        height: 160px;
     }
 
-    .col-2 {
-        border: 2px solid blue;
-        padding: 10px;
-
-        text-align: right;
+    .title {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
     }
+
+    .artist {
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .date {
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    button {
+        width: 140px;
+        height: 30px;
+
+        border: 1px solid #000000;
+        background-color: #E9E7DB;
+        color: #000000;
+        box-sizing: border-box;
+        border-radius: 3px;
+
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center; 
+
+        transition: 0.5s;
+    }
+
+    button:hover {
+        background-color: #000000;
+        color: #E9E7DB;
+    }
+
 </style>
