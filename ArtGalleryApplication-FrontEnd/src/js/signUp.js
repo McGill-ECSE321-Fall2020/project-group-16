@@ -30,8 +30,13 @@ export default {
                     this.$emit("update:user", this.user.username);
                 })
                 .catch((e) => {
-                    this.errorUser = e;
-                    console.log(this.errorUser);
+                    if (e.response) {
+                        console.log(e.response)
+                    } else if (e.request) {
+                        console.log(e.response)
+                    } else {
+                        console.log(e)
+                    }
                 });
         },
     },
