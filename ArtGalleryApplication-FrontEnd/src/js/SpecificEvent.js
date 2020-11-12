@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { AXIOS } from "./axiosInstance";
+=======
+import { AXIOS } from './axiosInstance'
+
+>>>>>>> ce592c2e7d58c8ab8c04499b51aba571915d71bf
 
 export default {
     name: "specificEvent",
@@ -31,7 +36,7 @@ export default {
         };
     },
 
-    created: function () {
+    created: function() {
         //first thing: get the id of the page
         var url = window.location.hash;
         var id = url.substring(url.lastIndexOf('/') + 1);
@@ -55,7 +60,7 @@ export default {
 
     methods: {
 
-        registerToEvent: function () {
+        registerToEvent: function() {
             AXIOS.put("/events/register/", {}, {
                 params: {
                     username: localStorage.getItem('username'),
@@ -73,8 +78,13 @@ export default {
         },
 
 
+<<<<<<< HEAD
         //for admin only
         deleteEvent: function () {
+=======
+        //for staff only
+        deleteEvent: function() {
+>>>>>>> ce592c2e7d58c8ab8c04499b51aba571915d71bf
             //first thing: get the id of the page
             var url = window.location.hash;
             var id = url.substring(url.lastIndexOf('/') + 1);
@@ -88,8 +98,12 @@ export default {
                 });
         },
 
+<<<<<<< HEAD
         //for admin only
         unregisterUser: function () {
+=======
+        unregisterUser: function() {
+>>>>>>> ce592c2e7d58c8ab8c04499b51aba571915d71bf
             AXIOS.put("/events/unregister/", {}, {
                 params: {
                     username: this.userToUnregister,

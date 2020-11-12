@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiException;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,7 @@ public class UserProfileService {
 
     // ----- Creation methods -----
     @Transactional
-    public UserProfile createUserProfile(String firstName, String lastName, String username, String email, String password, boolean isAdmin) throws IllegalArgumentException {
+    public UserProfile createUserProfile(String firstName, String lastName, String username, String email, String password, boolean isAdmin) {
         email = email.toLowerCase();
         String error = "";
         //Validate inputs
@@ -67,7 +69,7 @@ public class UserProfileService {
         }
 
         if (error.length() > 0){
-            throw new IllegalArgumentException(error);
+            throw new ApiRequestException(error);
         }
 
         //Check if user has been taken already
@@ -104,7 +106,7 @@ public class UserProfileService {
      * @throws IllegalArgumentException
      */
     @Transactional
-    public UserProfile createAdminProfile(String firstName, String lastName, String username, String email, String password) throws IllegalArgumentException{
+    public UserProfile createAdminProfile(String firstName, String lastName, String username, String email, String password){
         return createUserProfile(firstName, lastName, username, email, password, true);
     }
 
@@ -118,7 +120,7 @@ public class UserProfileService {
      * @throws IllegalArgumentException
      */
     @Transactional
-    public UserProfile createRegularUserProfile(String firstName, String lastName, String username, String email, String password) throws IllegalArgumentException{
+    public UserProfile createRegularUserProfile(String firstName, String lastName, String username, String email, String password){
         return createUserProfile(firstName, lastName, username, email, password, false);
     }
 
