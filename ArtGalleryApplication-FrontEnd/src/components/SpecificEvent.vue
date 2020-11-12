@@ -21,6 +21,8 @@
           </td>
         </tr>
       </table>
+      <p v-if="this.isCurrUserRegistered === 'true'">You are already registered to this event!</p>
+
     
       <br>
 
@@ -43,11 +45,27 @@
     
       <br>
 
-      <!-- Delete event, for staff only -->
+      <!-- for staff only: Delete event and unregister user -->
       <div v-if="this.theCurrentUser.admin == true">
+        <h3>Art Gallery Admin tools</h3>
         <table>
           <tr>
-            <td>Delete this event here:</td>
+            <td><label>Unregister a user:</label></td>
+            <td>
+              <label> Select the user: 
+                <select v-model="userToUnregister">
+                  <option value="">username</option>
+                  <option v-for="participant in this.theEvent.participants" v-bind:key="participant.username">{{ participant.username }}</option>
+                </select>
+              </label>
+            </td>
+            <td>
+              <button v-bind:disabled="!userToUnregister" @click="unregisterUser()">Unregister</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Delete this event:</td>
+            <td>Caution this will permanently delete the event</td>
             <td>
               <button @click="deleteEvent()">Delete</button>
             </td>

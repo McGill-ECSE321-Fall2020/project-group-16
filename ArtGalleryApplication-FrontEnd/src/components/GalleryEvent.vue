@@ -16,7 +16,7 @@
           <input type="text" v-model="newEvent.description" placeholder="Event Description">
         </td>
         <td>
-          <input type="text" v-model="newEvent.imageUrl" placeholder="Event Image">
+          <input type="text" v-model="newEvent.imageUrl" placeholder="Event Image Link">
         </td>
         <td>
           <input type="date" v-model="newEvent.date" placeholder="YYYY-MM-DD">

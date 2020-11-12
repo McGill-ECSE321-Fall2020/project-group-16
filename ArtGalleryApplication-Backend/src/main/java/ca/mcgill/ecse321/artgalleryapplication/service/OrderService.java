@@ -69,6 +69,42 @@ public class OrderService {
         return order;
     }
 
+    @Transactional
+    public Order placeOrder(int artworkId, String username,
+                            PaymentForm paymentForm, String cardNumber, Date expirationDate, int cvv,
+                            Boolean toGallery, Time estimatedArrivalTime, Date estimatedArrivalDate,
+                            String retStreetAddress, String retStreetAddress2, String retPostalCode, String retCity, String retProvince, String retCountry,
+                            String destStreetAddress, String destStreetAddress2, String destPostalCode, String destCity, String destProvince, String destCountry){
+        Date orderDate = Date.valueOf(LocalDate.now());
+        Time orderTime = Time.valueOf(LocalTime.now());
+        Date paymentDate = orderDate;
+        Time paymentTime = orderTime;
+
+        if (username.trim().length() == 0)
+            throw new IllegalArgumentException("Customer Username cannot be empty.");
+
+        Artwork artwork = artworkRepository.findArtworkByArtworkId(artworkId);
+        if (artwork == null) {
+            throw new IllegalArgumentException("No artwork associated with this artworkId.");
+        }
+
+        UserProfile customer = userRepository.findByUsername(username);
+        if (customer == null) {
+            throw new IllegalArgumentException("No user associated with this username.");
+        }
+
+        Order order = new Order();
+        order.setOrderStatus(PaymentPending);
+        order.setTotalAmount(artwork.getPrice());
+        order.setOrderDate(orderDate);
+        order.setOrderTime(orderTime);
+        order.setArtwork(artwork);
+        order.setCustomer(customer);
+        orderRepository.save(order);
+
+        return order;
+    }
+
 
     // --- Delete --- //
 
@@ -203,6 +239,25 @@ public class OrderService {
 
         updateOrder.setShipment(addedShipment);
         updateOrder.setOrderStatus(Shipped);
+        orderRepository.save(updateOrder);
+        return updateOrder;
+    }
+
+    @Transactional
+    public Order addPaymentAndShipmentToOrder(int orderId, int paymentId, int shipmentId){
+        Order updateOrder = orderRepository.findOrderByOrderId(orderId);
+        Payment addedPayment = paymentRepository.findPaymentByPaymentId(paymentId);
+        Shipment addedShipment = shipmentRepository.findShipmentByShipmentId(shipmentId);
+        if (updateOrder == null)
+            throw new IllegalArgumentException("Order does not exist in database.");
+        if (addedPayment == null)
+            throw new IllegalArgumentException("Payment does not exist in database.");
+        if (addedShipment == null)
+            throw new IllegalArgumentException("Shipment does not exist in database.");
+
+        updateOrder.setPayment(addedPayment);
+        updateOrder.setShipment(addedShipment);
+        updateOrder.setOrderStatus(Placed);
         orderRepository.save(updateOrder);
         return updateOrder;
     }

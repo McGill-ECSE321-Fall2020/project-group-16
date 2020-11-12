@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { AXIOS } from './axiosInstance'
 
 
+=======
+import { AXIOS } from "./axiosInstance";
+>>>>>>> a11930a85b217a5fa86a9327670ea31ac31f8409
 
 export default {
     name: "specificEvent",
@@ -18,10 +22,18 @@ export default {
             },
             theCurrentUser: {
                 username: "",
+                password: "",
+                email: "",
+                firstName: "",
+                lastName: "",
+                description: "",
+                profileImageUrl: "",
+                address: "",
                 admin: "",
             },
 
             isCurrUserRegistered: "",
+            userToUnregister: "",
 
             errorNotEvent: "",
             errorRegister: "",
@@ -32,7 +44,7 @@ export default {
         };
     },
 
-    created: function() {
+    created: function () {
         //first thing: get the id of the page
         var url = window.location.hash;
         var id = url.substring(url.lastIndexOf('/') + 1);
@@ -56,7 +68,7 @@ export default {
 
     methods: {
 
-        registerToEvent: function() {
+        registerToEvent: function () {
             AXIOS.put("/events/register/", {}, {
                 params: {
                     username: localStorage.getItem('username'),
@@ -64,8 +76,8 @@ export default {
                 },
             }).then((response) => {
                 this.errorRegister = "";
-                location.reload();
-                //todo: location.reload() considered bad, is there a better way?
+                this.theEvent = response.data;
+                this.isCurrUserRegistered = "true";
             }).catch((e) => {
                 //todo: send back the illegalArgument Error from backend rather than the error code
                 console.log(e);
@@ -75,18 +87,36 @@ export default {
 
 
         //for staff only
-        deleteEvent: function() {
+        deleteEvent: function () {
             //first thing: get the id of the page
             var url = window.location.hash;
             var id = url.substring(url.lastIndexOf('/') + 1);
 
             AXIOS.delete("/events/".concat(id))
                 .then((response) => {
-                    alert("The event was deleted");
+                    alert("The event was deleted!");
                     location.reload();
                 }).catch((e) => {
                     this.errorNotEvent = e;
                 });
+        },
+
+        unregisterUser: function () {
+            AXIOS.put("/events/unregister/", {}, {
+                params: {
+                    username: this.userToUnregister,
+                    eventId: this.theEvent.id
+                },
+            }).then((response) => {
+                alert("user " + this.userToUnregister + " was unregistered!");
+                this.errorRegister = "";
+                this.theEvent = response.data;
+                if (this.userToUnregister === this.theCurrentUser.username) this.isCurrUserRegistered = "";
+            }).catch((e) => {
+                //todo: send back the illegalArgument Error from backend rather than the error code
+                console.log(e);
+                this.errorRegister = e;
+            });
         },
     },
 }
