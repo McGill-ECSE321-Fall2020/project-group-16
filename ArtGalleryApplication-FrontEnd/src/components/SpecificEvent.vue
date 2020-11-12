@@ -17,17 +17,10 @@
         <tr>
           <td>Register here:</td>
           <td>
-            <input type="text" v-model="toRegisterUsername" placeholder="username">
-          </td>
-          <td>
-            <button v-bind:disabled="!toRegisterUsername" @click="registerToEvent(toRegisterUsername)">Register</button>
+            <button @click="registerToEvent()">Register</button>
           </td>
         </tr>
       </table>
-      <p>
-        <span v-if="errorRegister" style="color:red"> {{errorRegister}}, Invalid username </span>
-      </p>
-
       <br>
 
       <h3>List of the event participants:</h3>
@@ -38,7 +31,7 @@
             <td>Last name</td>
             <td>Email address</td>
           </tr>
-          <tr v-for="participant in this.theEvent.participants" v-bind:key="participant">
+          <tr v-for="participant in this.theEvent.participants" v-bind:key="participant.username">
             <td>{{participant.username}}</td>
             <td>{{participant.firstName}}</td>
             <td>{{participant.lastName}}</td>

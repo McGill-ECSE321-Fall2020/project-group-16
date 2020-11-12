@@ -34,7 +34,7 @@ export default {
                 endTime: "",
                 participants: [],
               },
-            toRegisterUsername: "",
+            toRegisterUsername: localStorage.getItem('username'),
             errorNotEvent: "",
             errorRegister: "",
             response: []
@@ -56,10 +56,10 @@ export default {
 
     methods: {
 
-        registerToEvent: function (username) {
+        registerToEvent: function () {
             AXIOS.put("/events/register/", {}, { 
                 params: {
-                    username: username,
+                    username: localStorage.getItem('username'),
                     eventId: this.theEvent.id
                 },
             }).then((response) => {
