@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -47,11 +47,4 @@ export default {
   background: #E9E7DB;
   margin-top: 60px;
 } 
-#app h1 {
-  font-family: 'Lora';
-}
-
-#app h2 {
-  font-family: 'Montserrat';
-}
 </style>
