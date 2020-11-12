@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script src="./payment.js"></script>
+<script src="../js/payment.js"></script>
 
 <style>
 #payment {

@@ -1,6 +1,5 @@
 import { AXIOS } from "./axiosInstance";
 
-
 export default {
     name: "specificEvent",
     data() {
@@ -39,7 +38,7 @@ export default {
         };
     },
 
-    created: function() {
+    created: function () {
         //first thing: get the id of the page
         var url = window.location.hash;
         var id = url.substring(url.lastIndexOf('/') + 1);
@@ -63,7 +62,7 @@ export default {
 
     methods: {
 
-        registerToEvent: function() {
+        registerToEvent: function () {
             AXIOS.put("/events/register/", {}, {
                 params: {
                     username: localStorage.getItem('username'),
@@ -82,7 +81,7 @@ export default {
 
 
         //for staff only
-        deleteEvent: function() {
+        deleteEvent: function () {
             //first thing: get the id of the page
             var url = window.location.hash;
             var id = url.substring(url.lastIndexOf('/') + 1);
@@ -96,7 +95,7 @@ export default {
                 });
         },
 
-        unregisterUser: function() {
+        unregisterUser: function () {
             AXIOS.put("/events/unregister/", {}, {
                 params: {
                     username: this.userToUnregister,
@@ -106,7 +105,7 @@ export default {
                 alert("user " + this.userToUnregister + " was unregistered!");
                 this.errorRegister = "";
                 this.theEvent = response.data;
-                if(this.userToUnregister === this.theCurrentUser.username) this.isCurrUserRegistered = "";
+                if (this.userToUnregister === this.theCurrentUser.username) this.isCurrUserRegistered = "";
             }).catch((e) => {
                 //todo: send back the illegalArgument Error from backend rather than the error code
                 console.log(e);

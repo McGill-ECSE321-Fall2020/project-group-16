@@ -1,5 +1,5 @@
 import axios from "axios";
-import Address from "./Address.vue"
+import Address from "../components/Address.vue"
 
 var config = require("../../config");
 
@@ -20,14 +20,6 @@ export default {
   data() {
     return {
       toGallery: false,
-      newReturnAddress: {
-        streetAddress: '',
-        streetAddress2: '',
-        postalCode: '',
-        city: 'Montreal',
-        province: 'QB',
-        country: 'Canada'
-      },
       newDestAddress: {
         streetAddress: '',
         streetAddress2: '',
@@ -47,14 +39,6 @@ export default {
       console.log(!this.toGallery)
       if (this.toGallery) {
         // reset address inputs 
-        this.newReturnAddress = {
-          streetAddress: '',
-          streetAddress2: '',
-          postalCode: '',
-          city: 'Montreal',
-          province: 'QB',
-          country: 'Canada'
-        }
         this.newDestAddress = {
           streetAddress: '',
           streetAddress2: '',
@@ -65,14 +49,6 @@ export default {
         }
       } else {
         // sets addresses to Gallery address 
-        this.newReturnAddress = {
-          streetAddress: 'ARTIST ADDRESS',
-          streetAddress2: 'ARTIST ADDRESS 2',
-          postalCode: 'ARTIST POSTAL CODE',
-          city: 'Montreal',
-          province: 'QB',
-          country: 'Canada'
-        }
         this.newDestAddress = {
           streetAddress: 'GALLERY ADDRESS',
           streetAddress2: 'GALLERY ADDRESS 2',
@@ -105,13 +81,6 @@ export default {
           toGallery: toGallery,
           estimatedArrivalTime: estimatedArrivalTime,
           estimatedArrivalDate: estimatedArrivalDate,
-
-          retStreetAddress: returnAddress.streetAddress,
-          retStreetAddress2: returnAddress.streetAddress2,
-          retPostalCode: returnAddress.postalCode,
-          retCity: returnAddress.city,
-          retProvince: returnAddress.province,
-          retCountry: returnAddress.country,
 
           destStreetAddress: destinationAddress.streetAddress,
           destStreetAddress2: destinationAddress.streetAddress2,

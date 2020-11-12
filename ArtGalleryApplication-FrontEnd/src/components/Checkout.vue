@@ -155,7 +155,7 @@
   </div>
 </template>
 
-<script src="./checkout.js"></script>
+<script src="../js/checkout.js"></script>
 
 <style>
 #checkout {

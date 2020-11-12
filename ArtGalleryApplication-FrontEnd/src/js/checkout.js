@@ -1,5 +1,5 @@
-import Shipment from "./Shipment.vue"
-import Payment from "./Payment.vue"
+import Shipment from "../components/Shipment.vue"
+import Payment from "../components/Payment.vue"
 
 import axios from "axios";
 var config = require("../../config");
