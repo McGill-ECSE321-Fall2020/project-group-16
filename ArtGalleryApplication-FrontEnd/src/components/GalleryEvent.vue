@@ -53,7 +53,7 @@
         <td>Event end time</td>
         <td>View event page</td>
       </tr>
-      <tr v-for="event in events">
+      <tr v-for="event in events" v-bind:key="event">
         <td>{{event.name}}</td>
         <td>{{event.eventDescription}}</td>
         <td>{{event.eventDate}}</td>

@@ -38,7 +38,7 @@
             <td>Last name</td>
             <td>Email address</td>
           </tr>
-          <tr v-for="participant in this.theEvent.participants">
+          <tr v-for="participant in this.theEvent.participants" v-bind:key="participant">
             <td>{{participant.username}}</td>
             <td>{{participant.firstName}}</td>
             <td>{{participant.lastName}}</td>
