@@ -5,6 +5,8 @@ import ProfilePage from '@/components/ProfilePage'
 import PurchaseArtwork from '@/components/PurchaseArtwork.vue'
 import CreateAddress from '@/components/CreateAddress.vue'
 import CreateArtwork from '@/components/CreateArtwork.vue'
+import GalleryEvent from '@/components/GalleryEvent.vue'
+import SpecificEvent from '@/components/SpecificEvent.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +38,16 @@ const routes = [{
         path: "/create_artwork",
         name: "CreateArtwork",
         component: CreateArtwork
+    },
+    {
+        path: '/events',
+        name: 'GalleryEvents',
+        component: GalleryEvent
+    },
+    {
+        path: '/events/:id',
+        name: 'SpecificEvent',
+        component: SpecificEvent
     }
 ]
 
