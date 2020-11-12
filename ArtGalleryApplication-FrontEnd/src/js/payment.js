@@ -12,12 +12,9 @@ var AXIOS = axios.create({
 
 export default {
   name: "Payment",
+  props: ["payment"],
   data() {
     return {
-      cardNumber: '',
-      expirationDate: '',
-      cvv: '',
-
       errorPayment: ''
     }
   },
@@ -35,14 +32,14 @@ export default {
 
       var paymentDate = year + '-' + month + '-' + day;
       var paymentTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      var expirationDate = "20" + this.expirationDate.slice(-2) + "-" + this.expirationDate.substring(0, 2) + "-" + "01";
-
+      var expirationDate = "20" + this.payment.expirationDate.slice(-2) + "-" + this.payment.expirationDate.substring(0, 2) + "-" + "01";
+      var cardNumber = this.payment.cardNumber.split(" ").join("");
 
       AXIOS.post("/payments/", {}, {
         params: {
-          cardNumber: this.cardNumber,
+          cardNumber: cardNumber,
           expirationDate: expirationDate,
-          cvv: this.cvv,
+          cvv: this.payment.cvv,
           paymentForm: "CreditCard",
           paymentDate: paymentDate,
           paymentTime: paymentTime
@@ -52,9 +49,9 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           this.$emit("add-payment", response.data);
-          this.cardNumber = ''
-          this.cvv = ''
-          this.expirationDate = ''
+          // this.payment.cardNumber = ''
+          // this.payment.cvv = ''
+          // this.payment.expirationDate = ''
           this.errorPayment = "";
         })
         .catch(e => {

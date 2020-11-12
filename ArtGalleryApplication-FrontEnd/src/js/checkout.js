@@ -28,6 +28,20 @@ export default {
       shipments: [],
       payments: [],
 
+      payment: {
+        cardNumber: '',
+        expirationDate: '',
+        cvv: ''
+      },
+      shippingAddress: {
+        streetAddress: '',
+        streetAddress2: '',
+        postalCode: '',
+        city: 'Montreal',
+        province: 'QB',
+        country: 'Canada'
+      },
+
       newOrder: '',
       selectedOrderId: '',
       shipmentId: '',
