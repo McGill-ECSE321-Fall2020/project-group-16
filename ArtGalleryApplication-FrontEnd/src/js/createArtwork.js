@@ -1,14 +1,4 @@
-import axios from 'axios'
-var config = require('../../config')
-
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-    //var backendUrl = 'http://' + config.build.backendHost + ':' + config.build.backendPort
-    //line 5 is locally, 6 is from heroku build
-var AXIOS = axios.create({
-    baseURL: backendUrl,
-    headers: 'Access-Control-Allow-Origin: *'
-})
+import { AXIOS } from './axiosInstance'
 
 export default {
     name: "CreateArtwork",

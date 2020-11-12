@@ -1,15 +1,4 @@
-import axios from 'axios'
-var config = require('../../config')
-
-var backendConfigurer = function() {
-    switch (process.env.NODE_ENV) {
-        case 'development':
-            return 'http://' + config.dev.backendHost + ':' + config.dev.backendPort;
-            //return 'https://' + config.build.backendHost + ':' + config.build.backendPort ;
-        case 'production':
-            return 'https://' + config.build.backendHost + ':' + config.build.backendPort;
-    }
-};
+import { AXIOS } from './axiosInstance'
 
 var backendUrl = backendConfigurer();
 
