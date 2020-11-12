@@ -33,10 +33,19 @@ export default {
                 startTime: "",
                 endTime: "",
                 participants: [],
-              },
-            toRegisterUsername: localStorage.getItem('username'),
+            },
+            theCurrentUser: {
+                username: "",
+                admin: "",
+            },
+
+            isCurrUserRegistered: "",
+            
             errorNotEvent: "",
             errorRegister: "",
+            errorCurrentUser: "",
+            errorDeleteEvent: "",
+
             response: []
         };
     },
@@ -46,6 +55,15 @@ export default {
         var url = window.location.hash;
         var id = url.substring(url.lastIndexOf('/') + 1);
 
+        //get the current user to get admin status
+        AXIOS.get("/users/".concat(localStorage.getItem('username')))
+        .then((response) => { 
+            this.theCurrentUser = response.data;
+        }).catch((e) => { 
+            this.errorCurrentUser = e;
+        });
+
+        //get the event for setup
         AXIOS.get("/events/".concat(id))
         .then((response) => { 
             this.theEvent = response.data;
@@ -63,7 +81,6 @@ export default {
                     eventId: this.theEvent.id
                 },
             }).then((response) => {
-                this.toRegisterUsername = "";
                 this.errorRegister = "";
                 location.reload();
                 //todo: location.reload() considered bad, is there a better way?
@@ -74,5 +91,20 @@ export default {
             });
         },
 
+
+        //for staff only
+        deleteEvent: function () {
+            //first thing: get the id of the page
+            var url = window.location.hash;
+            var id = url.substring(url.lastIndexOf('/') + 1);
+
+            AXIOS.delete("/events/".concat(id))
+            .then((response) => { 
+                alert("The event was deleted");
+                location.reload();
+            }).catch((e) => { 
+                this.errorNotEvent = e; 
+            });
+        },
     },
 }

@@ -17,10 +17,11 @@
         <tr>
           <td>Register here:</td>
           <td>
-            <button @click="registerToEvent()">Register</button>
+            <button v-bind:disabled="this.isCurrUserRegistered === 'true'" @click="registerToEvent()">Register</button>
           </td>
         </tr>
       </table>
+    
       <br>
 
       <h3>List of the event participants:</h3>
@@ -39,9 +40,24 @@
           </tr>
         </table>
       <span v-else>No participants registered to this event, yet</span>
+    
+      <br>
+
+      <!-- Delete event, for staff only -->
+      <div v-if="this.theCurrentUser.admin == true">
+        <table>
+          <tr>
+            <td>Delete this event here:</td>
+            <td>
+              <button @click="deleteEvent()">Delete</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
     </div>
   </div>
-  <p v-else>This event does not exist, yet</p>
+  <p v-else>This event was deleted or does not exist, yet</p>
 
 </template>
 
