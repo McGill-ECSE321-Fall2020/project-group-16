@@ -28,6 +28,8 @@ export default {
     },
 
     created: function () {
+        var self = this;
+
         //first thing: get the username of the requested page
         var url = window.location.hash;
         var username = url.substring(url.lastIndexOf('/') + 1);
@@ -37,16 +39,18 @@ export default {
         AXIOS.get("/users/".concat(username))
             .then((response) => {
                 this.theTargetUser = response.data;
-            }).catch((e) => {
-                this.errorTargetUser = e;
+            }).catch(function(err) {
+                console.log(err.response)
+                self.errorTargetUser = err.response.data.message;
             });
 
-        //ge the current user
+        //get the current user
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
         .then((response) => {
             this.theCurrentUser = response.data;
-        }).catch((e) => {
-            this.errorCurrentUser = e;
+        }).catch(function(err) {
+            console.log(err.response);
+            self.errorCurrentUser = err.response.data.message;
         });
     },
 
