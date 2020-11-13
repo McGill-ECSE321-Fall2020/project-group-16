@@ -4,13 +4,14 @@
         </div>
         <div class="box-1">
             <div class="outline">
-                <img src="../assets/birth-of-venus-botticelli.jpg"> 
+                <img src="../assets/art-1.jpg"> 
             </div>
         </div>
         <div class="box-2">
             <p class="title">Title</p>
             <p class="artist">Artist</p>
             <p class="date">November 11, 2020</p>
+            <p class="date">Medium</p>
             <p class="descrip">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce placerat commodo elit. Morbi vel iaculis augue. Cras egestas aliquam consectetur. Sed lacinia, nisi sit amet fringilla convallis, lectus orci venenatis nunc, id tincidunt lorem ex nec arcu. Curabitur quis sapien efficitur, vulputate tellus vel, finibus urna. </p>   
             <p> <button class="purchase">$100 - PURCHASE</button> </p>
             <p> <button class="more">MORE FROM THIS ARTIST</button> </p>
@@ -19,9 +20,6 @@
 </template>
 
 <script>
-export default {
-     name: "ArtPage"
-}
 </script>
 
 <style scoped>

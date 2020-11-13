@@ -1,97 +1,161 @@
 <template>
-    <div id="browseart"> 
-        <ArtProduct/>
-        
-        <!-- <div>
-            <div v-bind:key="artwork.id" v-for="artwork in artworks">
-              <ArtProduct v-bind:artwork="artwork" v-on:goto-artwork="$emit('goto-artwork', artwork.id)" />
-            </div>
-        </div>
-        -->
+  <div id="browseart">
+    <div class="filters">
+      <div>
+        <label>Status:</label>
+        <select>
+          <option value="All">All</option>
+          <option value="For Sale">For Sale</option>
+          <option value="Not For Sale">Not for Sale</option>
+          <option value="Sold">Sold</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Price range:</label>
+        <input type="text" id="minprice" name="minprice" /> to
+        <input type="text" id="maxprice" name="maxprice" />
+      </div>
+
+      <div>
+        <label>Date created: </label>
+        between
+        <input type="date" id="mindate" name="mindate" /> and
+        <input type="date" id="maxdate" name="maxdate" />
+      </div>
+
+      <div>
+        <button>FILTER</button>
+      </div>
     </div>
+
+    <div class="artproducts" v-bind:key="artwork.id" v-for="artwork in artworks">
+      <div class="grid-item">
+        <ArtProduct
+          v-bind:title="artwork.title"
+          v-bind:artist="artwork.artist"
+          v-bind:date="artwork.date"
+          v-bind:status="artwork.status"
+          v-bind:price="artwork.price"
+          v-bind:imageurl="artwork.imageurl"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
-<script>
-import ArtProduct from './ArtProduct.vue';
-export default {
-    name: "BrowseArt",
-    components: {
-        ArtProduct
-    },
-    props: ["artworks"]
-}
-</script>
+<script src="../js/browseArt.js"></script>
 
 <style>
-    #browseart {
-        font-family: Montserrat;
-        font-style: normal;
-        padding: 60px;
-        display: flex;
-    }
+#browseart {
+  font-family: Montserrat;
+  font-style: normal;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+}
 
-    .container {
-        width: 290px;
-        height: 320px;
-        border: 1px solid black;
-        padding: 10px;
-        
-        display: flex;
-        flex-direction: column;
+.artproducts {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
 
-        justify-content: center;
-        align-items: center;
-    }
+.filters {
+  display: flex;
+  padding-bottom: 30px;
+  justify-content: space-evenly;
+}
 
-    .my-row {
-        padding: 10px;
-        display: flex;
-        flex-direction: row;
-    }
+.col {
+  flex-grow: 1;
+}
 
-    img {
-        height: 160px;
-    }
+p {
+  font-family: Montserrat;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+}
 
-    .title {
-        font-weight: 600;
-        font-size: 18px;
-        line-height: 22px;
-    }
+select {
+  background-color: #e9e7db;
+  color: #000000;
+}
 
-    .artist {
-        font-weight: normal;
-        font-size: 18px;
-        line-height: 22px;
-    }
+input {
+  background-color: #e9e7db;
+  border: 1px solid black;
+}
+input[type="text"] {
+  width: 70px;
+}
+input[type="date"] {
+  width: 160px;
+}
 
-    .date {
-        font-weight: normal;
-        font-size: 18px;
-        line-height: 22px;
-    }
+.container {
+  width: 290px;
+  height: 320px;
+  border: 1px solid black;
+  padding: 10px;
 
-    button {
-        width: 140px;
-        height: 30px;
+  display: flex;
+  flex-direction: column;
 
-        border: 1px solid #000000;
-        background-color: #E9E7DB;
-        color: #000000;
-        box-sizing: border-box;
-        border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+}
 
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 17px;
-        text-align: center; 
+.my-row {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+}
 
-        transition: 0.5s;
-    }
+img {
+  height: 160px;
+}
 
-    button:hover {
-        background-color: #000000;
-        color: #E9E7DB;
-    }
+.title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+}
 
+.artist {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.date {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+button {
+  width: 140px;
+  height: 30px;
+
+  border: 1px solid #000000;
+  background-color: #e9e7db;
+  color: #000000;
+  box-sizing: border-box;
+  border-radius: 3px;
+
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+
+  transition: 0.5s;
+}
+
+button:hover {
+  background-color: #000000;
+  color: #e9e7db;
+}
 </style>

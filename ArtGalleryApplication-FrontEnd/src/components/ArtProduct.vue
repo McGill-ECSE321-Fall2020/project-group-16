@@ -2,19 +2,19 @@
   <div id="art-product">
     <div class="container">
       <div class="row-1">
-        <img src="../assets/birth-of-venus-botticelli.jpg" />
+        <img src=""/>
       </div>
       <div class="row-2">
-        <div class="title">Title</div>
+        <div class="title">{{title}}</div>
       </div>
       <div class="row-2">
-        <div class="artist">Artist</div>
+        <div class="artist">{{artist}}</div>
       </div>
       <div class="row-2">
-        <div class="date">November 11, 2020</div>
+        <div class="date">{{date}}</div>
       </div>
       <div class="row-2">
-        <div class="for-sale">$50</div>
+        <div class="for-sale">${{price}}</div>
       </div>
       <div class="row-1">
         <button>VIEW ARTWORK</button>
@@ -23,20 +23,7 @@
   </div>
 </template>
 
-<script>
-import { AXIOS } from "../js/axiosInstance.js";
-
-export default {
-  name: "ArtProduct",
-  /*data() {
-    artworks: "";
-  },
-  created() {
-    AXIOS.get("/artworks")
-      .then(res => (this.artworks = res.data))
-      .catch(err => console.log(err));
-  } */
-};
+<script src="../js/artProduct.js">
 </script>
 
 <style scoped>
