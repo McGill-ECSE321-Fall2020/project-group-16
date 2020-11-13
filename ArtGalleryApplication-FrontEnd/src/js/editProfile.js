@@ -74,12 +74,12 @@ export default {
         updateEmail: function(newEmail) {
             var self = this;
 
-            AXIOS.put("users/" + this.theTargetUser.username + "/update-email/", {}, {
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-email/", {}, {
                 params: {
                     newEmail: newEmail,
                 },
             }).then((response) => {
-                this.theTargetUser.push(response.data);
+                this.theTargetUser = response.data;
 
                 //reinitialize the field
                 this.newEmail = "";
@@ -94,13 +94,13 @@ export default {
         updateFirstLastName: function(newFirstName, newLastName) {
             var self = this;
 
-            AXIOS.put("users/" + this.theTargetUser.username + "/update-name/", {}, {
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-name/", {}, {
                 params: {
                     newFirstName: newFirstName,
                     newLastName: newLastName
                 },
             }).then((response) => {
-                this.theTargetUser.push(response.data);
+                this.theTargetUser = response.data;
 
                 //reinitialize the field
                 this.newFirstName = "";
@@ -116,13 +116,13 @@ export default {
         updatePassword: function(verificationPassword, newPassword) {
             var self = this;
 
-            AXIOS.put("users/" + this.theTargetUser.username + "/update-password/", {}, {
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-password/", {}, {
                 params: {
                     password: verificationPassword,
                     newPassword: newPassword
                 },
             }).then((response) => {
-                this.theTargetUser.push(response.data);
+                this.theTargetUser = response.data;
 
                 //reinitialize the field
                 this.verificationPassword = "";
@@ -138,12 +138,12 @@ export default {
         updateDescription: function(newDescription) {
             var self = this;
 
-            AXIOS.put("users/" + this.theTargetUser.username + "/update-description/", {}, {
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-description/", {}, {
                 params: {
                     description: newDescription,
                 },
             }).then((response) => {
-                this.theTargetUser.push(response.data);
+                this.theTargetUser = response.data;
 
                 //reinitialize the field
                 this.newDescription = "";
@@ -158,12 +158,12 @@ export default {
         updateImage: function(newImageUrl) {
             var self = this;
 
-            AXIOS.put("users/" + this.theTargetUser.username + "/update-profile-image-url/", {}, {
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-profile-image-url/", {}, {
                 params: {
                     imageUrl: newImageUrl,
                 },
             }).then((response) => {
-                this.theTargetUser.push(response.data);
+                this.theTargetUser = response.data;
 
                 //reinitialize the field
                 this.newImageUrl = "";
