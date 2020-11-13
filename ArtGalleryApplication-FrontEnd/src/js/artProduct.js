@@ -6,10 +6,10 @@ export default {
 
 
 onload = function() {
-    if(imageurl !== "undefined"){
+   /* if(imageurl !== "undefined"){
         document.getElementById('art-img').src = imageUrl;
     }
     else{
         setTimeout(waitForElement, 250);
-    }
+    }*/
  };

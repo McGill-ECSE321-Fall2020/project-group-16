@@ -10,7 +10,7 @@ var AXIOS = axios.create({
 })
 
 export default{
-    name: "ViewArtowrk",
+    name: "ViewArtwork",
     data(){
         return{
             artworkId:'',
@@ -24,7 +24,8 @@ export default{
         AXIOS.get(`/artworks/${this.artworkId}`)
       .then((response) => {
         this.artwork = response.data[0];
-      })
+        
+        })
       .catch((e) => {
         console.log(e);
       });
