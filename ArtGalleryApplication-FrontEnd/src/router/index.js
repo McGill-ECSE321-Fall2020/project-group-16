@@ -57,13 +57,8 @@ export
   })
 
 
-export default new Router({
+export default new VueRouter({
   routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: Hello
-    },
     {
       path: "/purchase",
       name: "PurchaseArtwork",
