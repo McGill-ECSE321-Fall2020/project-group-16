@@ -20,6 +20,21 @@ export default {
                 admin: "",
             },
 
+            newEmail: "",
+            newDescription: "",
+            newImageUrl: "",
+            newPassword: "",
+            verificationPassword: "",
+            newFirstName: "",
+            newLastName: "",
+
+            errorNewFirstLastName: "",
+            errorNewEmail: "",
+            errorNewDescription: "",
+            errorNewImageUrl: "",
+            errorNewPassword: "",
+
+
             errorTargetUser: "",
             errorCurrentUser: "",
 
@@ -28,6 +43,8 @@ export default {
     },
 
     created: function () {
+        var self = this;
+
         //first thing: get the username of the requested page
         var url = window.location.hash;
         var username = url.substring(url.lastIndexOf('/') + 1);
@@ -37,19 +54,124 @@ export default {
         AXIOS.get("/users/".concat(username))
             .then((response) => {
                 this.theTargetUser = response.data;
-            }).catch((e) => {
-                this.errorTargetUser = e;
+            }).catch(function(err) {
+                console.log(err.response)
+                self.errorTargetUser = err.response.data.message;
             });
 
-        //ge the current user
+        //get the current user
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
         .then((response) => {
             this.theCurrentUser = response.data;
-        }).catch((e) => {
-            this.errorCurrentUser = e;
+        }).catch(function(err) {
+            console.log(err.response);
+            self.errorCurrentUser = err.response.data.message;
         });
     },
 
     methods: {
+
+        updateEmail: function(newEmail) {
+            var self = this;
+
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-email/", {}, {
+                params: {
+                    newEmail: newEmail,
+                },
+            }).then((response) => {
+                this.theTargetUser = response.data;
+
+                //reinitialize the field
+                this.newEmail = "";
+                this.errorNewEmail = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewEmail = "Error: " + err.response.data.message;
+            });
+        },
+
+
+        updateFirstLastName: function(newFirstName, newLastName) {
+            var self = this;
+
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-name/", {}, {
+                params: {
+                    newFirstName: newFirstName,
+                    newLastName: newLastName
+                },
+            }).then((response) => {
+                this.theTargetUser = response.data;
+
+                //reinitialize the field
+                this.newFirstName = "";
+                this.newLastName = "";
+                this.errorNewFirstLastName = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewFirstLastName = "Error: " + err.response.data.message;
+            });
+        },
+
+
+        updatePassword: function(verificationPassword, newPassword) {
+            var self = this;
+
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-password/", {}, {
+                params: {
+                    password: verificationPassword,
+                    newPassword: newPassword
+                },
+            }).then((response) => {
+                this.theTargetUser = response.data;
+
+                //reinitialize the field
+                this.verificationPassword = "";
+                this.newPassword = "";
+                this.errorNewPassword = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewPassword = "Error: " + err.response.data.message;
+            });
+        },
+
+
+        updateDescription: function(newDescription) {
+            var self = this;
+
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-description/", {}, {
+                params: {
+                    description: newDescription,
+                },
+            }).then((response) => {
+                this.theTargetUser = response.data;
+
+                //reinitialize the field
+                this.newDescription = "";
+                this.errorNewDescription = "";
+                }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewDescription = "Error: " + err.response.data.message;
+            });
+        },
+
+
+        updateImage: function(newImageUrl) {
+            var self = this;
+
+            AXIOS.put("/users/" + this.theTargetUser.username + "/update-profile-image-url/", {}, {
+                params: {
+                    imageUrl: newImageUrl,
+                },
+            }).then((response) => {
+                this.theTargetUser = response.data;
+
+                //reinitialize the field
+                this.newImageUrl = "";
+                this.errorNewImageUrl = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewImageUrl = "Error: " + err.response.data.message;
+            });
+        },
     },
 }
