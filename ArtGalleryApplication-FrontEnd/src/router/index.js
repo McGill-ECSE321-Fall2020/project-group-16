@@ -1,5 +1,6 @@
 import Vue from 'vue'
-
+import BrowseArt from '@/components/BrowseArt'
+import ArtPage from '@/components/ArtPage'
 import VueRouter from 'vue-router'
 import LandingPage from '@/components/LandingPage'
 import ProfilePage from '@/components/ProfilePage'
@@ -8,6 +9,7 @@ import GalleryEvent from '@/components/GalleryEvent.vue'
 import SpecificEvent from '@/components/SpecificEvent.vue'
 import Checkout from '@/components/Checkout.vue'
 import EditProfile from '@/components/EditProfile.vue'
+import ViewArtwork from '@/components/ViewArtwork'
 
 Vue.use(VueRouter)
 
@@ -48,12 +50,49 @@ const routes = [{
         path: '/events/:id',
         name: 'SpecificEvent',
         component: SpecificEvent
+    },
+    {
+        path: '/browseart',
+        name: 'BrowseArt',
+        component: BrowseArt
+    },
+    {
+        path: '/artPage',
+        name: 'ArtPage',
+        component: ArtPage
     }
 ]
 
 export
 const router = new VueRouter({
     routes
+})
+
+
+export default new VueRouter({
+    routes: [
+        /*{
+          path: "/purchase",
+          name: "PurchaseArtwork",
+          component: PurchaseArtwork
+        },
+        {
+          path: "/create-address",
+          name: "CreateAddress",
+          component: CreateAddress
+        },*/
+        {
+            path: "/create_artwork",
+            name: "CreateArtwork",
+            component: CreateArtwork
+        },
+        {
+            path: "/artworks/:artworkid",
+            name: "ViewArtwork",
+            component: ViewArtwork
+        }
+
+    ]
 })
 
 router.beforeEach((to, from, next) => {

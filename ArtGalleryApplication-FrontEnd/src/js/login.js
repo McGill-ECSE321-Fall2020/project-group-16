@@ -10,7 +10,9 @@ export default {
         };
     },
     methods: {
+
         login: function() {
+            var self = this;
             AXIOS.get(`/users/${this.username}?password=${this.password}`)
                 .then((response) => {
 
@@ -19,9 +21,9 @@ export default {
                     this.$emit("update:user", this.user.username);
 
                 })
-                .catch((e) => {
-                    this.errorUser = e;
-                    console.log(this.errorUser);
+                .catch(function(e) {
+                    self.errorUser = e;
+                    console.log(self.errorUser);
                 });
         },
     },

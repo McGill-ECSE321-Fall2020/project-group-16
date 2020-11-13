@@ -10,7 +10,7 @@ var AXIOS = axios.create({
 })
 
 export default{
-    name: "ViewArtwork",
+    name: "ViewArtowrk",
     data(){
         return{
             artworkId:'',
