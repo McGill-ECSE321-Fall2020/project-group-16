@@ -25,10 +25,10 @@
         <SignUpForm @update:user="updateUser" @update:error="updateError"/>
       </div>
       <div v-else-if="form === 'login'">
-        <LoginForm @update:user="updateUser" />
+        <LoginForm @update:user="updateUser" @update:error="updateError"/>
       </div>
     </div>
-    <div class="alert alert-danger" v-if="error !== ''">{{error}}</div>
+    <div class="alert alert-danger mx-auto" style="width: fit-content" v-if="error !== ''">{{error}}</div>
   </div>
 </template>
 <script src="../js/landing.js">

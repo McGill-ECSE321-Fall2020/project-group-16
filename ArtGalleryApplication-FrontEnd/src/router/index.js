@@ -60,6 +60,11 @@ const routes = [{
         path: '/artPage',
         name: 'ArtPage',
         component: ArtPage
+    },
+    {
+        path: "/artworks/:artworkid",
+        name: "ViewArtwork",
+        component: ViewArtwork
     }
 ]
 
@@ -81,16 +86,16 @@ export default new VueRouter({
           name: "CreateAddress",
           component: CreateAddress
         },*/
-        {
-            path: "/create_artwork",
-            name: "CreateArtwork",
-            component: CreateArtwork
-        },
-        {
-            path: "/artworks/:artworkid",
-            name: "ViewArtwork",
-            component: ViewArtwork
-        }
+        // {
+        //     path: "/create_artwork",
+        //     name: "CreateArtwork",
+        //     component: CreateArtwork
+        // },
+        // {
+        //     path: "/artworks/:artworkid",
+        //     name: "ViewArtwork",
+        //     component: ViewArtwork
+        // }
 
     ]
 })

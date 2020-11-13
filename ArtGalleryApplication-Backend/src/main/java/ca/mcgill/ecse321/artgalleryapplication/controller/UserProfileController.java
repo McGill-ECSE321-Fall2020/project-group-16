@@ -45,8 +45,11 @@ public class UserProfileController {
                                            @RequestParam String lastName,
                                            @RequestParam String email,
                                            @RequestParam String password){
-        UserProfile user = userService.createRegularUserProfile(firstName, lastName, username, email, password);
-        return convertToDto(user);
+
+            UserProfile user = userService.createRegularUserProfile(firstName, lastName, username, email, password);
+            return convertToDto(user);
+
+
     }
 
     /**

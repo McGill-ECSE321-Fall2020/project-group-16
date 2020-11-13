@@ -1,7 +1,7 @@
 <template>
   <div id="app" v-bind:class="{landing: $route.path === '/'}">
     <NavBar v-if="$route.path !== '/'"/>
-    <router-view v-bind:class="{content: $route.path !== '/'}" @update:status="updateStatus"></router-view>
+    <router-view v-bind:class="{content: $route.path !== '/'}" @update:status="logIn"></router-view>
   </div>
 </template>
 
