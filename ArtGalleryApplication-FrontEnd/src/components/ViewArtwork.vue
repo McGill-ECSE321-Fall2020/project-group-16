@@ -1,6 +1,6 @@
 <template>
     <div id="viewartwork">
-        <img src={{artwork.imageUrl}} alt="artwork image" width="600" height="600">
+        <img src="../assets/no-img.png" alt="artwork image" width="600" height="600">
         <h1>
             {{artwork.title}}
         </h1>
@@ -16,10 +16,10 @@
         <body>
             {{artwork.description}}
         </body>
-
+    </div>
 </template>
 
-<script src="./viewArtwork.js">
+<script src="../js/viewArtwork.js">
 </script>
 
 <style>

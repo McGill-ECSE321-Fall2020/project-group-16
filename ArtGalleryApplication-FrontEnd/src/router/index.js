@@ -9,6 +9,7 @@ import GalleryEvent from '@/components/GalleryEvent.vue'
 import SpecificEvent from '@/components/SpecificEvent.vue'
 import Checkout from '@/components/Checkout.vue'
 import EditProfile from '@/components/EditProfile.vue'
+import ViewArtwork from '@/components/ViewArtwork'
 
 Vue.use(VueRouter)
 
@@ -70,7 +71,7 @@ export
 
 export default new VueRouter({
   routes: [
-    {
+    /*{
       path: "/purchase",
       name: "PurchaseArtwork",
       component: PurchaseArtwork
@@ -79,17 +80,16 @@ export default new VueRouter({
       path: "/create-address",
       name: "CreateAddress",
       component: CreateAddress
-    },
+    },*/
     {
       path: "/create_artwork",
       name: "CreateArtwork", 
       component: CreateArtwork
     },
     {
-      path: '/artworks/:artworkid',
-      name: 'ViewArtwork',
+      path: "/artworks/:artworkid",
+      name: "ViewArtwork",
       component: ViewArtwork
-  
     }
   
   ]

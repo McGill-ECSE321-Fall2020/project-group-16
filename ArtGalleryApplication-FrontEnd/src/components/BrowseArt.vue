@@ -32,12 +32,13 @@
     <div class="artproducts">
       <div class="grid-item" v-bind:key="artwork.id" v-for="artwork in artworks">
         <ArtProduct
+          v-bind:artworkId="artwork.artworkId"
           v-bind:title="artwork.title"
-          v-bind:artist="artwork.artist"
-          v-bind:date="artwork.date"
-          v-bind:status="artwork.status"
+          v-bind:artists="artwork.artists"
+          v-bind:creationDate="artwork.creationDate"
+          v-bind:artworkStatus="artwork.artworkStatus"
           v-bind:price="artwork.price"
-          v-bind:imageurl="artwork.imageurl"
+          v-bind:imageUrl="artwork.imageUrl"
         />
       </div>
     </div>
@@ -59,6 +60,8 @@
 .artproducts {
   display: grid;
   grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto;
+  grid-gap: 50px;
 }
 
 .filters {
