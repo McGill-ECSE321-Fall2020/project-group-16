@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.errorNotEvent == false" id="specificEvent">
+  <div v-if="!this.errorNotEvent" id="specificEvent">
     <h2>Welcome to the page of the Event: {{this.theEvent.name}}</h2>
 
     <br>
@@ -22,6 +22,7 @@
         </tr>
       </table>
       <p v-if="this.isCurrUserRegistered === 'true'">You are already registered to this event!</p>
+      <p v-if="!errorRegister">{{errorRegister}}</p>
 
     
       <br>
