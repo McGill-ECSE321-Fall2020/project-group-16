@@ -43,7 +43,7 @@ public class UserProfileService {
 
     // ----- Creation methods -----
     @Transactional
-    public UserProfile createUserProfile(String firstName, String lastName, String username, String email, String password, boolean isAdmin) {
+    public UserProfile createUserProfile(String firstName, String lastName, String username, String email, String password, boolean isAdmin) throws ApiRequestException{
         email = email.toLowerCase();
         String error = "";
         //Validate inputs

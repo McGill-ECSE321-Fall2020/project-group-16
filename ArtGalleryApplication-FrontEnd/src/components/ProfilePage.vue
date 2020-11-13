@@ -1,36 +1,20 @@
 <template>
-  <div class="container">
-    <UserProfileInfo />
-    {{user.username}}
+  <div id="profile-page">
+    <div class="row info-orders">
+      <div class="col col-4 pl-0" mr-5><UserProfileInfo v-bind:user="user"/></div>
+      <div class="col col-7 offset-1 pr-0"><PastOrders v-bind:username="username"/></div>
+    </div>
+    <div class="mx-auto py-3 seperator"></div>
+    <div class="artwork-section mt-3">
+      <h1>YOUR ARTWORK</h1>
+      <div class="edit-button py-2 px-4">CREATE NEW ARTWORK</div>
+    </div>
+    
   </div>
 </template>
-<script>
-import { AXIOS } from "../js/axiosInstance";
-import UserProfileInfo from "./UserProfileInfo";
-export default {
-  name: "ProfilePage",
-  data() {
-    return {
-      username: "",
-      user: "",
-    
-    };
-  },
-  components: {
-    UserProfileInfo,
-  },
-  created: function () {
-    this.username = this.$route.params.username;
-    console.log(this.username + "router")
-    AXIOS.get(`/users/${this.username}`)
-      .then((response) => {
-        console.log(response.data)
-        this.user = response.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  },
-};
+<script src="../js/profilePage.js">
+
 </script>
-<style scoped></style>
+<style scoped src="../css/profilePage.css">
+
+</style>

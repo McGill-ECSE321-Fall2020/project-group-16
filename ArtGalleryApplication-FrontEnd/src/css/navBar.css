@@ -1,9 +1,9 @@
 @import "./main.css";
 #nav-bar {
     width: 90%;
-    align-self: center;
+    margin: 0 auto;
     border-bottom: solid 1px black;
-    position: absolute;
+    position: fixed;
     top: 70px;
 }
 
@@ -13,7 +13,7 @@
     text-align: center;
     bottom: 0;
     position: absolute;
-    right: 25px;
+    right: 100px;
 }
 
 .nav-tab {
@@ -22,6 +22,8 @@
     border-right: solid 1px black;
     cursor: pointer;
     transition: 0.5s;
+    font-size: 24px;
+    font-family: "Lora";
 }
 
 .nav-tab:hover {
@@ -33,10 +35,6 @@
     background-color: black;
     color: white;
     pointer-events: none;
-}
-
-.nav-tab h1 {
-    font-size: 24px;
 }
 
 .title {
