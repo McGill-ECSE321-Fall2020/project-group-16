@@ -29,8 +29,8 @@
       </div>
     </div>
 
-    <div class="artproducts" v-bind:key="artwork.id" v-for="artwork in artworks">
-      <div class="grid-item">
+    <div class="artproducts">
+      <div class="grid-item" v-bind:key="artwork.id" v-for="artwork in artworks">
         <ArtProduct
           v-bind:title="artwork.title"
           v-bind:artist="artwork.artist"
@@ -53,6 +53,7 @@
   padding: 60px;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 }
 
 .artproducts {

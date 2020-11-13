@@ -2,7 +2,8 @@
   <div id="art-product">
     <div class="container">
       <div class="row-1">
-        <img src=""/>
+        <img id="art-img" src="../assets/no-img.png">
+        <div class="date">{{imageurl}}</div>
       </div>
       <div class="row-2">
         <div class="title">{{title}}</div>
