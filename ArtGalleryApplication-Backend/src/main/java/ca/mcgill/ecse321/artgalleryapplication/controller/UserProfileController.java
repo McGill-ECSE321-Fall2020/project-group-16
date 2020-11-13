@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
 import ca.mcgill.ecse321.artgalleryapplication.dto.UserProfileDto;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.Artwork;
 import ca.mcgill.ecse321.artgalleryapplication.model.GalleryEvent;
 import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
@@ -43,7 +44,7 @@ public class UserProfileController {
                                            @RequestParam String firstName,
                                            @RequestParam String lastName,
                                            @RequestParam String email,
-                                           @RequestParam String password) throws IllegalArgumentException{
+                                           @RequestParam String password){
         UserProfile user = userService.createRegularUserProfile(firstName, lastName, username, email, password);
         return convertToDto(user);
     }
@@ -62,7 +63,7 @@ public class UserProfileController {
                                                    @RequestParam String firstName,
                                                    @RequestParam String lastName,
                                                    @RequestParam String email,
-                                                   @RequestParam String password) throws IllegalArgumentException{
+                                                   @RequestParam String password){
         UserProfile user = userService.createAdminProfile(firstName, lastName, username, email, password);
         return convertToDto(user);
     }

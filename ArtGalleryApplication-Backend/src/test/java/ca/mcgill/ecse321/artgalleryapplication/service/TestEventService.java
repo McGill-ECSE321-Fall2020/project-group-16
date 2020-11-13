@@ -24,6 +24,7 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import  ca.mcgill.ecse321.artgalleryapplication.model.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import org.mockito.stubbing.OngoingStubbing;
 
 @ExtendWith(MockitoExtension.class)
@@ -83,7 +84,7 @@ public class TestEventService {
         GalleryEvent event = null;
         try {
             event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 
@@ -103,7 +104,7 @@ public class TestEventService {
 
         try {
             event = eventService.createEvent(null, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -118,7 +119,7 @@ public class TestEventService {
 
         try {
             event = eventService.createEvent("", CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -133,7 +134,7 @@ public class TestEventService {
 
         try {
             event = eventService.createEvent(CORRECTEVENTNAME, null, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -148,7 +149,7 @@ public class TestEventService {
 
         try {
             event = eventService.createEvent(CORRECTEVENTNAME, "", CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, CORRECTENDTIME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -163,7 +164,7 @@ public class TestEventService {
 
         try {
             event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, null, CORRECTSTARTTIME, CORRECTENDTIME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -178,7 +179,7 @@ public class TestEventService {
 
         try {
             event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, null, CORRECTENDTIME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -193,7 +194,7 @@ public class TestEventService {
 
         try {
             event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, CORRECTSTARTTIME, null);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -208,7 +209,7 @@ public class TestEventService {
 
         try {
             event = eventService.createEvent(CORRECTEVENTNAME, CORRECTEVENTDESCRIPTION, CORRECTIMAGEURL, CORRECTDATE, Time.valueOf("12:00:00"), Time.valueOf("10:00:00"));
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -222,7 +223,7 @@ public class TestEventService {
 
         try {
             event = eventService.getEventById(VALID_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 
@@ -237,7 +238,7 @@ public class TestEventService {
 
         try {
             event = eventService.getEventById(NULL_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -252,7 +253,7 @@ public class TestEventService {
 
         try {
             event = eventService.getEventById(INVALID_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -266,7 +267,7 @@ public class TestEventService {
 
         try {
             events = eventService.getAllEvents();
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 
@@ -278,7 +279,7 @@ public class TestEventService {
     public void testDeleteEvent() {
         try {
              eventService.deleteEvent(VALID_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
     }
@@ -289,7 +290,7 @@ public class TestEventService {
 
         try {
             eventService.deleteEvent(NULL_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -302,7 +303,7 @@ public class TestEventService {
 
         try {
             eventService.deleteEvent(INVALID_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -318,7 +319,7 @@ public class TestEventService {
 
         try {
              event = eventService.registerUserToEvent(user, event);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 
@@ -337,7 +338,7 @@ public class TestEventService {
 
         try {
             event = eventService.registerUserToEvent(user, event);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -356,7 +357,7 @@ public class TestEventService {
 
         try {
             event = eventService.registerUserToEvent(user, event);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -371,7 +372,7 @@ public class TestEventService {
 
         try {
              eventService.registerUserToEvent(user, null);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -388,7 +389,7 @@ public class TestEventService {
 
         try {
             event = eventService.unregisterUserToEvent(user, event);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 
@@ -407,7 +408,7 @@ public class TestEventService {
 
         try {
             event = eventService.unregisterUserToEvent(user, event);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -426,7 +427,7 @@ public class TestEventService {
 
         try {
             event = eventService.unregisterUserToEvent(user, event);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -441,7 +442,7 @@ public class TestEventService {
 
         try {
             eventService.registerUserToEvent(null, event);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 

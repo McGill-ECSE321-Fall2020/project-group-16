@@ -4,11 +4,11 @@ import ArtPage from '@/components/ArtPage'
 import VueRouter from 'vue-router'
 import LandingPage from '@/components/LandingPage'
 import ProfilePage from '@/components/ProfilePage'
-import PurchaseArtwork from '@/components/PurchaseArtwork.vue'
 import CreateArtwork from '@/components/CreateArtwork.vue'
 import GalleryEvent from '@/components/GalleryEvent.vue'
 import SpecificEvent from '@/components/SpecificEvent.vue'
 import Checkout from '@/components/Checkout.vue'
+import EditProfile from '@/components/EditProfile.vue'
 
 Vue.use(VueRouter)
 
@@ -26,12 +26,12 @@ const routes = [{
   }
 },
 {
-  path: "/purchase",
-  name: "PurchaseArtwork",
-  component: PurchaseArtwork
+  path: '/user/edit/:username',
+  name: 'EditProfile',
+  component: EditProfile
 },
 {
-  path: "/checkout",
+  path: "/checkout/:username/:artworkId",
   name: "Checkout",
   component: Checkout
 },

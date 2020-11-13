@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.errorNotEvent == false" id="specificEvent">
+  <div v-if="!this.errorNotEvent" id="specificEvent">
     <h2>Welcome to the page of the Event: {{this.theEvent.name}}</h2>
 
     <br>
@@ -22,6 +22,7 @@
         </tr>
       </table>
       <p v-if="this.isCurrUserRegistered === 'true'">You are already registered to this event!</p>
+      <p v-if="!errorRegister">{{errorRegister}}</p>
 
     
       <br>
@@ -47,7 +48,7 @@
 
       <!-- for staff only: Delete event and unregister user -->
       <div v-if="this.theCurrentUser.admin == true">
-        <h3>Art Gallery Admin tools</h3>
+        <h3>Art Gallery Admin tools:</h3>
         <table>
           <tr>
             <td><label>Unregister a user:</label></td>

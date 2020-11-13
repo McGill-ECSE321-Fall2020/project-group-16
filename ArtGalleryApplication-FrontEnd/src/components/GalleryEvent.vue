@@ -1,6 +1,7 @@
 <template>
   <div id="galleryEvents">
     <h2>Events</h2>
+    <p v-if="errorEvent" style="color:red"> {{errorEvent}} </p>
 
     <br>
     <br>
@@ -68,7 +69,7 @@
   </div>
 </template>
 
-<script src="../js/GalleryEvent.js"></script>
+<script src="../js/galleryEvent.js"></script>
 
 <style>
   table, th, td {

@@ -18,7 +18,7 @@
       <input
         v-bind:disabled="!payment.cardNumber || !payment.expirationDate || !payment.cvv"
         type="submit"
-        value="Submit Payment"
+        value="Continue"
         class="btn"
       />
     </form>

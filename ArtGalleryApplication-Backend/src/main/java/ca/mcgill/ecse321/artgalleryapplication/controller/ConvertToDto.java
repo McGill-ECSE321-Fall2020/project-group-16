@@ -21,7 +21,7 @@ public class ConvertToDto {
                 order.getOrderDate(), order.getOrderTime(), paymentDto, shipmentDto);
     }
 
-    public static UserProfileDto convertToDto(UserProfile user) throws IllegalArgumentException {
+    public static UserProfileDto convertToDto(UserProfile user){
         if (user == null) {
             throw new IllegalArgumentException("The user cannot be null");
         }

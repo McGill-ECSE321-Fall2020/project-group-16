@@ -9,11 +9,12 @@ export default {
             lastName: "",
             email: "",
             user: "",
-            errorUser: "",
+            error: "",
         };
     },
     methods: {
         signup: function() {
+            var self = this;
             console.log(
                 this.firstName,
                 this.lastName,
@@ -29,9 +30,10 @@ export default {
                     console.log("Sign up post: " + this.user);
                     this.$emit("update:user", this.user.username);
                 })
-                .catch((e) => {
-                    this.errorUser = e;
-                    console.log(this.errorUser);
+                .catch(function(err) {
+                    console.log(err.response);
+                    self.error = err.response.data.message;
+                    self.$emit("update:error", self.error)
                 });
         },
     },

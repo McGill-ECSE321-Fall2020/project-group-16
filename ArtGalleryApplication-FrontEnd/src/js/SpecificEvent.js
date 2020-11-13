@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import { AXIOS } from './axiosInstance'
-
-
-=======
 import { AXIOS } from "./axiosInstance";
->>>>>>> a11930a85b217a5fa86a9327670ea31ac31f8409
 
 export default {
     name: "specificEvent",
@@ -22,13 +16,6 @@ export default {
             },
             theCurrentUser: {
                 username: "",
-                password: "",
-                email: "",
-                firstName: "",
-                lastName: "",
-                description: "",
-                profileImageUrl: "",
-                address: "",
                 admin: "",
             },
 
@@ -45,6 +32,8 @@ export default {
     },
 
     created: function () {
+        var self = this;
+        
         //first thing: get the id of the page
         var url = window.location.hash;
         var id = url.substring(url.lastIndexOf('/') + 1);
@@ -53,41 +42,45 @@ export default {
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
             .then((response) => {
                 this.theCurrentUser = response.data;
-            }).catch((e) => {
-                this.errorCurrentUser = e;
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorCurrentUser = "Error: " + err.response.data.message;
             });
 
         //get the event for setup
         AXIOS.get("/events/".concat(id))
             .then((response) => {
                 this.theEvent = response.data;
-            }).catch((e) => {
-                this.errorNotEvent = e;
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNotEvent = "Error: " + err.response.data.message;
             });
     },
 
     methods: {
 
         registerToEvent: function () {
+            var self = this;
+
             AXIOS.put("/events/register/", {}, {
                 params: {
                     username: localStorage.getItem('username'),
                     eventId: this.theEvent.id
                 },
             }).then((response) => {
-                this.errorRegister = "";
+                //this.errorRegister = "";
                 this.theEvent = response.data;
                 this.isCurrUserRegistered = "true";
-            }).catch((e) => {
-                //todo: send back the illegalArgument Error from backend rather than the error code
-                console.log(e);
-                this.errorRegister = e;
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorRegister = "Error: " + err.response.data.message;
             });
         },
 
-
         //for staff only
         deleteEvent: function () {
+            var self = this;
+
             //first thing: get the id of the page
             var url = window.location.hash;
             var id = url.substring(url.lastIndexOf('/') + 1);
@@ -96,12 +89,16 @@ export default {
                 .then((response) => {
                     alert("The event was deleted!");
                     location.reload();
-                }).catch((e) => {
-                    this.errorNotEvent = e;
-                });
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNotEvent = "Error: " + err.response.data.message;
+            });
         },
 
+        //for admin only
         unregisterUser: function () {
+            var self = this;
+
             AXIOS.put("/events/unregister/", {}, {
                 params: {
                     username: this.userToUnregister,
@@ -112,10 +109,9 @@ export default {
                 this.errorRegister = "";
                 this.theEvent = response.data;
                 if (this.userToUnregister === this.theCurrentUser.username) this.isCurrUserRegistered = "";
-            }).catch((e) => {
-                //todo: send back the illegalArgument Error from backend rather than the error code
-                console.log(e);
-                this.errorRegister = e;
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorRegister = "Error: " + err.response.data.message;
             });
         },
     },
