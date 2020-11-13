@@ -3,13 +3,11 @@ export default {
   props: ["artworkId", "title", "artists", "creationDate", "artworkStatus", "price", "imageUrl"]
 };
 
-
-
-onload = function() {
+/*onload = function() {
     if(imageurl !== "undefined"){
-        document.getElementById('art-img').src = imageUrl;
+        document.getElementById('art-img').src = imageurl;
     }
     else{
         setTimeout(waitForElement, 250);
     }
- };
+ };*/

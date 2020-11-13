@@ -3,8 +3,7 @@
     <div class="container">
       <div class="row-1">
         <img id="art-img" :src="imageUrl">
-        <div class="date">{{imageUrl}}</div>
-      </div>
+        </div>
       <div class="row-2">
         <div class="title">{{title}}</div>
       </div>
@@ -18,7 +17,7 @@
         <div class="for-sale">${{price}}</div>
       </div>
       <div class="row-1">
-        <button @click="$router.push({ path: `/artworks/${artworkId}` })">VIEW ARTWORK</button>
+        <button @click="$router.push({ path: `/artworks/${artworkId}` }), router.params">VIEW ARTWORK</button>
       </div>
     </div>
   </div>
