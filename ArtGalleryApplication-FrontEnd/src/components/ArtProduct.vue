@@ -2,23 +2,23 @@
   <div id="art-product">
     <div class="container">
       <div class="row-1">
-        <img id="art-img" src="../assets/no-img.png">
-        <div class="date">{{imageurl}}</div>
+        <img id="art-img" :src="imageUrl">
+        <div class="date">{{imageUrl}}</div>
       </div>
       <div class="row-2">
         <div class="title">{{title}}</div>
       </div>
       <div class="row-2">
-        <div class="artist">{{artist}}</div>
+        <div class="artist">{{artists[0]}}</div>
       </div>
       <div class="row-2">
-        <div class="date">{{date}}</div>
+        <div class="date">{{creationDate}}</div>
       </div>
       <div class="row-2">
         <div class="for-sale">${{price}}</div>
       </div>
       <div class="row-1">
-        <button>VIEW ARTWORK</button>
+        <button @click="$router.push({ path: `/artworks/${artworkId}` })">VIEW ARTWORK</button>
       </div>
     </div>
   </div>

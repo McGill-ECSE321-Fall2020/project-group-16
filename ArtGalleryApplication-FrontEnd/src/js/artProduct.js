@@ -1,13 +1,15 @@
 export default {
   name: "ArtProduct",
-  props: ["title", "artist", "date", "status", "price", "imageurl"]
+  props: ["artworkId", "title", "artists", "creationDate", "artworkStatus", "price", "imageUrl"]
 };
 
-/*onload = function() {
+
+
+onload = function() {
     if(imageurl !== "undefined"){
-        document.getElementById('art-img').src = imageurl;
+        document.getElementById('art-img').src = imageUrl;
     }
     else{
         setTimeout(waitForElement, 250);
     }
- };*/
+ };
