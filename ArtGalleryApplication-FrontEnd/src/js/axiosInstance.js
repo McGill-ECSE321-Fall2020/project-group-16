@@ -15,6 +15,7 @@ if (process.env.NODE_ENV === "development") {
 export const AXIOS = axios.create({
     baseURL: backendUrl,
     headers: {
-        'Access-Control-Allow-Origin': frontendUrl
-    }
+        'Access-Control-Allow-Origin': '*'
+    },
+    mode: 'cors',
 })

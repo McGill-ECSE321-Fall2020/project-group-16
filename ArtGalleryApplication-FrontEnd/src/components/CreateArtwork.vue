@@ -48,7 +48,7 @@
         <tr>
             <td>Creation Date:</td>
             <td><input 
-            type="text"
+            type="date"
             v-model = "newArtwork.creationDate"
             placeholder="YYYY-MM-DD">
             </td>

@@ -67,6 +67,34 @@ export
     routes
   })
 
+
+export default new VueRouter({
+  routes: [
+    {
+      path: "/purchase",
+      name: "PurchaseArtwork",
+      component: PurchaseArtwork
+    },
+    {
+      path: "/create-address",
+      name: "CreateAddress",
+      component: CreateAddress
+    },
+    {
+      path: "/create_artwork",
+      name: "CreateArtwork", 
+      component: CreateArtwork
+    },
+    {
+      path: '/artworks/:artworkid',
+      name: 'ViewArtwork',
+      component: ViewArtwork
+  
+    }
+  
+  ]
+})
+
 router.beforeEach((to, from, next) => {
   if (to.name != 'LandingPage') {
     if (localStorage.getItem('username') == null) {
@@ -82,3 +110,4 @@ router.beforeEach((to, from, next) => {
     })
   }
 })
+
