@@ -1,6 +1,11 @@
 @import "./main.css";
 #landing-page {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
 }
 
 .sign-in-form {

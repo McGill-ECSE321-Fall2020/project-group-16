@@ -19,47 +19,17 @@
         
       </div>
       <div v-if="form === 'signup'">
-        <SignUpForm @update:user="updateUser" />
+        <SignUpForm @update:user="updateUser" @update:error="updateError"/>
       </div>
       <div v-else-if="form === 'login'">
         <LoginForm @update:user="updateUser" />
       </div>
     </div>
+    <div class="alert alert-danger" v-if="error !== ''">{{error}}</div>
   </div>
 </template>
-<script>
-import SignUpForm from "./SignUpForm";
-import LoginForm from "./LoginForm";
-export default {
-  name: "LandingPage",
-  components: {
-    SignUpForm,
-    LoginForm,
-  },
-  data() {
-    return {
-      form: "signup",
-      username: "",
-      isLoggedIn: false,
-    };
-  },
-  methods: {
-    updateUser: function (username) {
-      console.log("Update user in landing")
-      this.username = username;
-      this.isLoggedIn = true;
-    },
-  },
-  watch: {
-    isLoggedIn: function () {
-      console.log("Emit in Landing")
-      this.$emit("update:status", {
-        username: this.username,
-        isLoggedIn: this.isLoggedIn,
-      });
-    },
-  },
-};
+<script src="../js/landing.js">
+
 </script>
 <style scoped src="../css/landing.css">
 

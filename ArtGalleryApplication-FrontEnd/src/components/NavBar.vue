@@ -2,9 +2,9 @@
   <div id="nav-bar">
       <h1 class="title ml-5 py-2">Art Gallery</h1>
       <div class="nav-tabs row mr-5">
-          <div class="nav-tab col-sm px-4 py-2 align-middle" v-bind:class="{active: curTab === 'artwork'}" v-on:click="curTab = 'artwork'"><h1>Artwork</h1></div>
-          <div class="nav-tab col-sm px-4 py-2 align-middle" v-bind:class="{active: curTab === 'events'}" v-on:click="curTab = 'events'"><h1>Events</h1></div>
-          <div class="nav-tab col-sm px-4 py-2 align-middle" v-bind:class="{active: curTab === 'profile'}" v-on:click="curTab = 'profiles'"><h1>My Profile</h1></div>
+          <div class="nav-tab col-sm px-4 py-2 align-middle" id="home" v-bind:class="{active: $route.path === '/home'}" v-on:click="changeTab">Artwork</div>
+          <div class="nav-tab col-sm px-4 py-2 align-middle" id="events" v-bind:class="{active: $route.path === '/events'}" v-on:click="changeTab">Events</div>
+          <div class="nav-tab col-sm px-4 py-2 align-middle" id="user" v-bind:class="{active: $route.path === `/user/${username}`}" v-on:click="changeTab">My Profile</div>
 
       </div>
   </div>
@@ -15,10 +15,20 @@ export default {
     name: "NavBar",
     data() {
         return {
-            curTab: "artwork",
+            username: localStorage.getItem("username")
         }
-        
     },
+    methods: {
+        changeTab: function (e) {
+            console.log(e)
+            if (e.target.id === 'user'){this.$router.push({path: `/${e.target.id}/${this.username}`})
+            } else {
+                this.$router.push({path: `/${e.target.id}`})
+            }
+            
+
+        }
+    }
     
 
 }

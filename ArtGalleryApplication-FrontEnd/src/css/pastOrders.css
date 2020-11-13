@@ -1,0 +1,11 @@
+.order-container {
+    text-align: center;
+    border: 1px black solid;
+    height: 100%;
+    overflow: auto;
+}
+
+.order {
+    display: grid;
+    grid-template-columns: auto auto;
+}
