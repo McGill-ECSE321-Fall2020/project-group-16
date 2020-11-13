@@ -17,7 +17,7 @@
         <div class="for-sale">${{price}}</div>
       </div>
       <div class="row-1">
-        <button @click="$router.push({ path: `/artworks/${artworkId}` }), router.params">VIEW ARTWORK</button>
+        <div class="button" @click="goToArtwork">VIEW ARTWORK</div>
       </div>
     </div>
   </div>
@@ -46,6 +46,11 @@
   padding-left: 10px;
   padding-right: 10px;
   align-self: start;
+}
+
+.button {
+  cursor: pointer;
+  border: 1px solid black;
 }
 
 img {
