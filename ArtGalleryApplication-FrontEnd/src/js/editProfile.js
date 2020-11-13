@@ -20,6 +20,21 @@ export default {
                 admin: "",
             },
 
+            newEmail: "",
+            newDescription: "",
+            newImageUrl: "",
+            newPassword: "",
+            verificationPassword: "",
+            newFirstName: "",
+            newLastName: "",
+
+            errorNewFirstLastName: "",
+            errorNewEmail: "",
+            errorNewDescription: "",
+            errorNewImageUrl: "",
+            errorNewPassword: "",
+
+
             errorTargetUser: "",
             errorCurrentUser: "",
 
@@ -55,5 +70,103 @@ export default {
     },
 
     methods: {
+
+        updateEmail: function(newEmail) {
+            var self = this;
+
+            AXIOS.put("users/" + this.theTargetUser.username + "/update-email/", {}, {
+                params: {
+                    newEmail: newEmail,
+                },
+            }).then((response) => {
+                this.theTargetUser.push(response.data);
+
+                //reinitialize the field
+                this.newEmail = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewEmail = "Error: " + err.response.data.message;
+            });
+        },
+
+
+        updateFirstLastName: function(newFirstName, newLastName) {
+            var self = this;
+
+            AXIOS.put("users/" + this.theTargetUser.username + "/update-name/", {}, {
+                params: {
+                    newFirstName: newFirstName,
+                    newLastName: newLastName
+                },
+            }).then((response) => {
+                this.theTargetUser.push(response.data);
+
+                //reinitialize the field
+                this.newFirstName = "";
+                this.newLastName = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewFirstLastName = "Error: " + err.response.data.message;
+            });
+        },
+
+
+        updatePassword: function(verificationPassword, newPassword) {
+            var self = this;
+
+            AXIOS.put("users/" + this.theTargetUser.username + "/update-password/", {}, {
+                params: {
+                    password: verificationPassword,
+                    newPassword: newPassword
+                },
+            }).then((response) => {
+                this.theTargetUser.push(response.data);
+
+                //reinitialize the field
+                this.verificationPassword = "";
+                this.newPassword = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewPassword = "Error: " + err.response.data.message;
+            });
+        },
+
+
+        updateDescription: function(newDescription) {
+            var self = this;
+
+            AXIOS.put("users/" + this.theTargetUser.username + "/update-description/", {}, {
+                params: {
+                    description: newDescription,
+                },
+            }).then((response) => {
+                this.theTargetUser.push(response.data);
+
+                //reinitialize the field
+                this.newDescription = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewDescription = "Error: " + err.response.data.message;
+            });
+        },
+
+
+        updateImage: function(newImageUrl) {
+            var self = this;
+
+            AXIOS.put("users/" + this.theTargetUser.username + "/update-profile-image-url/", {}, {
+                params: {
+                    imageUrl: newImageUrl,
+                },
+            }).then((response) => {
+                this.theTargetUser.push(response.data);
+
+                //reinitialize the field
+                this.newImageUrl = "";
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorNewImageUrl = "Error: " + err.response.data.message;
+            });
+        },
     },
 }
