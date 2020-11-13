@@ -5,12 +5,12 @@ export default {
     props: ['username'],
     data() {
         return {
-            orders: []
+            orders: [],
         }
     },
-    created: function() {
+    mounted: function() {
         var self = this
-        AXIOS.get(`/orders/get-by-username/${this.username}`)
+        AXIOS.get(`/orders/get-by-user/${this.username}`)
             .then((response) => {
                 console.log(response.data);
                 this.orders = response.data
@@ -19,4 +19,10 @@ export default {
                 console.log(error)
             })
     },
+    computed: {
+        getHeight: function() {
+            console.log(document.getElementById("profile-info").offsetHeight)
+            return { height: document.getElementById("profile-info").offsetHeight + "px" }
+        }
+    }
 }

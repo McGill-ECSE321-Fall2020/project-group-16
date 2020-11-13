@@ -12,62 +12,62 @@ import EditProfile from '@/components/EditProfile.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-  path: '/',
-  name: 'LandingPage',
-  component: LandingPage
-},
-{
-  path: '/user/:username',
-  name: 'ProfilePage',
-  component: ProfilePage,
-  meta: {
-    isAuthenticated: true
-  }
-},
-{
-  path: '/user/edit/:username',
-  name: 'EditProfile',
-  component: EditProfile
-},
-{
-  path: "/checkout/:username/:artworkId",
-  name: "Checkout",
-  component: Checkout
-},
-{
-  path: "/create_artwork",
-  name: "CreateArtwork",
-  component: CreateArtwork
-},
-{
-  path: '/events',
-  name: 'GalleryEvents',
-  component: GalleryEvent
-},
-{
-  path: '/events/:id',
-  name: 'SpecificEvent',
-  component: SpecificEvent
-}
+        path: '/',
+        name: 'LandingPage',
+        component: LandingPage
+    },
+    {
+        path: '/user/:username',
+        name: 'ProfilePage',
+        component: ProfilePage,
+        meta: {
+            isAuthenticated: true
+        }
+    },
+    {
+        path: '/user/edit/:username',
+        name: 'EditProfile',
+        component: EditProfile
+    },
+    {
+        path: "/checkout/:username/:artworkId",
+        name: "Checkout",
+        component: Checkout
+    },
+    {
+        path: "/create_artwork",
+        name: "CreateArtwork",
+        component: CreateArtwork
+    },
+    {
+        path: '/events',
+        name: 'GalleryEvents',
+        component: GalleryEvent
+    },
+    {
+        path: '/events/:id',
+        name: 'SpecificEvent',
+        component: SpecificEvent
+    }
 ]
 
 export
-  const router = new VueRouter({
+const router = new VueRouter({
     routes
-  })
+})
 
 router.beforeEach((to, from, next) => {
-  if (to.name != 'LandingPage') {
-    if (localStorage.getItem('username') == null) {
-      next({
-        name: LandingPage
-      })
+    if (to.name !== 'LandingPage') {
+        if (localStorage.getItem('username') === null) {
+            next({
+                name: LandingPage
+            })
+        } else {
+            next()
+        }
     } else {
-      next()
+        next({
+            name: LandingPage
+        })
     }
-  } else {
-    next({
-      name: LandingPage
-    })
-  }
 })

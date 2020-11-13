@@ -33,4 +33,11 @@ export default {
             });
         },
     },
+    beforeRouteLeave(to, from, next) {
+        if (localStorage.getItem("username") === null) {
+            next(false)
+        } else {
+            next()
+        }
+    }
 };

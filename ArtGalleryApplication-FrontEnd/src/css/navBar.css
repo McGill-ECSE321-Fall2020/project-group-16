@@ -34,7 +34,11 @@
 .active {
     background-color: black;
     color: white;
-    pointer-events: none;
+}
+
+.active:hover {
+    background-color: black;
+    color: white;
 }
 
 .title {

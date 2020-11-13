@@ -2,9 +2,7 @@
 #profile-page {
     display: flex;
     flex-direction: column;
-    top: 200px;
     position: relative;
-    width: 80%;
 }
 
 .seperator {
@@ -20,11 +18,10 @@
 
 .artwork-section {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
-.edit-button {
+.black-button {
     width: fit-content;
     background-color: black;
     text-align: center;
@@ -33,6 +30,6 @@
     color: white;
 }
 
-.edit-button:hover {
+.black-button:hover {
     background-color: #006F45;
 }

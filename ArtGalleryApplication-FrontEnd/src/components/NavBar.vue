@@ -3,8 +3,8 @@
       <h1 class="title ml-5 py-2">Art Gallery</h1>
       <div class="nav-tabs row mr-5">
           <div class="nav-tab col-sm px-4 py-2 align-middle" id="home" v-bind:class="{active: $route.path === '/home'}" v-on:click="changeTab">Artwork</div>
-          <div class="nav-tab col-sm px-4 py-2 align-middle" id="events" v-bind:class="{active: $route.path === '/events'}" v-on:click="changeTab">Events</div>
-          <div class="nav-tab col-sm px-4 py-2 align-middle" id="user" v-bind:class="{active: $route.path === `/user/${username}`}" v-on:click="changeTab">My Profile</div>
+          <div class="nav-tab col-sm px-4 py-2 align-middle" id="events" v-bind:class="{active: $route.name === 'GalleryEvents' || $route.name === 'SpecificEvent'}" v-on:click="changeTab">Events</div>
+          <div class="nav-tab col-sm px-4 py-2 align-middle" id="user" v-bind:class="{active: $route.name === `ProfilePage` || $route.name === `EditProfile`}" v-on:click="changeTab">My Profile</div>
 
       </div>
   </div>

@@ -1,5 +1,8 @@
 <template>
-  <div id="landing-page" class="container">
+  <div id="landing-page" class="p-0 m-0">
+    <div class="circle"></div>
+    <div class="square"></div>
+    <div class="triangle"></div>
     <h1 class="mb-3">Welcome to the gallery!</h1>
     <h2>Please <strong>sign up</strong> or <strong>log in</strong>  to see more.</h2>
     <div class="sign-in-form">

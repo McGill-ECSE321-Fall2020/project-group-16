@@ -11,7 +11,7 @@
     margin: 0 auto;
 }
 
-.profile-info {
+#profile-info {
     text-align: center;
     border: solid 1px black;
 }
@@ -20,7 +20,7 @@ p {
     text-align: left;
 }
 
-.edit-button {
+.black-button {
     width: fit-content;
     background-color: black;
     text-align: center;
@@ -29,6 +29,20 @@ p {
     color: white;
 }
 
-.edit-button:hover {
+.black-button:hover {
     background-color: #006F45;
+}
+
+.border-button {
+    width: fit-content;
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s;
+    color: black;
+}
+
+.border-button:hover {
+    background-color: black;
+    color: white;
 }
