@@ -4,7 +4,6 @@ export default {
 };
 
 
-
 onload = function() {
    /* if(imageurl !== "undefined"){
         document.getElementById('art-img').src = imageUrl;
@@ -13,3 +12,13 @@ onload = function() {
         setTimeout(waitForElement, 250);
     }*/
  };
+
+/*onload = function() {
+    if(imageurl !== "undefined"){
+        document.getElementById('art-img').src = imageurl;
+    }
+    else{
+        setTimeout(waitForElement, 250);
+    }
+ };*/
+

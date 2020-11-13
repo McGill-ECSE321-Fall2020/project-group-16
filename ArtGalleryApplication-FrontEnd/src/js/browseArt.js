@@ -22,5 +22,13 @@ export default {
       .catch(e => {
         this.errorArtworks = e;
       });
+  },
+
+  methods: {
+    filter: function() {
+      console.log(document.getElementById("minprice").value);
+      //AXIOS.get(`/artworks/byArtworkStatus/${}`)
+    }
   }
+  
 };

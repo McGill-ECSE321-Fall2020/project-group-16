@@ -2,7 +2,7 @@
     <div id="viewartwork">
         <img :src="imageUrl" alt="artwork image" width="600" height="600">
         <h1>
-            {{artwork.title}}
+            {{this.artwork.title}}
         </h1>
         <h2>
             {{artwork.dimensions}}
@@ -10,11 +10,11 @@
             ${{artwork.price}}
         </h2>
         <h3>
-            {{artwork.collection}}
-            {{artwork.creationDate}}
+            {{this.collection}}
+            {{this.creationDate}}
         </h3>
         <body>
-            {{artwork.description}}
+            {{this.description}}
         </body>
     </div>
 </template>

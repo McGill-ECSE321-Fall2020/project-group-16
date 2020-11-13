@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class ConvertToDto {
 
     public static UserProfileDto convertToDto(UserProfile user){
         if (user == null) {
-            throw new IllegalArgumentException("The user cannot be null");
+            throw new ApiRequestException("The user cannot be null");
         }
 
         return new UserProfileDto(user.getFirstName(), user.getLastName(), user.getUsername(), user.getEmail(), user.getPassword(), user.getIsAdmin(), user.getDescription(), user.getProfileImageUrl(), convertToDto(user.getAddress()));

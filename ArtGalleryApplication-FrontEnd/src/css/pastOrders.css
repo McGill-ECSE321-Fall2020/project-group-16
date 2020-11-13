@@ -1,11 +1,45 @@
 .order-container {
     text-align: center;
     border: 1px black solid;
-    height: 100%;
     overflow: auto;
 }
 
-.order {
+.orders {
     display: grid;
     grid-template-columns: auto auto;
+    column-gap: 15px;
+    row-gap: 15px;
+    top: 90px;
+    position: relative;
+    z-index: 0;
+    margin-bottom: 20px;
+}
+
+.header {
+    position: absolute;
+    background: #E9E7DB;
+    margin: 0 auto;
+    width: 100%;
+    z-index: 1;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.border-button {
+    width: fit-content;
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s;
+    color: black;
+}
+
+.border-button:hover {
+    background-color: black;
+    color: white;
 }

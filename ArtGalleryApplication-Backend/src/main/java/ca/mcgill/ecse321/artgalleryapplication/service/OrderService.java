@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,7 +152,7 @@ public class OrderService {
     public List<Order> getOrdersByUser(String username) {
         UserProfile customer = userRepository.findByUsername(username);
         if (customer == null)
-            throw new IllegalArgumentException("No user associated with this username.");
+            throw new ApiRequestException("No user associated with this username.");
 
         return orderRepository.findByCustomer(customer);
     }

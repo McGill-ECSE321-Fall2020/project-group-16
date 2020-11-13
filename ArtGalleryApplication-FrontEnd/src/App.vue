@@ -1,43 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:class="{landing: $route.path === '/'}">
     <NavBar v-if="$route.path !== '/'"/>
-    <router-view @update:status="updateStatus"></router-view>
+    <router-view v-bind:class="{content: $route.path !== '/'}" @update:status="logIn"></router-view>
   </div>
 </template>
 
-<script>
-import NavBar from './components/NavBar'
-export default {
-  name: "app",
-  components: {NavBar,},
-  data() {
-    return {
-      username: "",
-      isLoggedIn: "",
-    };
-  },
-  methods: {
-    updateStatus: function (status) {
-      console.log("Emit worked");
-      this.username = status.username;
-      this.isLoggedIn = status.isLoggedIn;
-    },
-  },
-  watch: {
-    isLoggedIn: function () {
-      console.log("Watch worked")
-      if (this.isLoggedIn) {
-        console.log("Updated");
-        localStorage.setItem("username", this.username);
-        console.log(localStorage.getItem("username"))
-        this.$router.push({
-          name: "ProfilePage",
-          params: { username: this.username },
-        });
-      }
-    },
-  },
-};
+<script src="./js/app.js">
+
 </script>
 
 <style>
@@ -53,6 +22,16 @@ export default {
   align-items: center;
 } 
 
+.content {
+  width: 80%;
+  top: 200px;
+  position: relative;
+}
+
+.landing {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
 @font-face {
   font-family: "Lora";
   src: local("Lora"), 

@@ -23,7 +23,8 @@
     cursor: pointer;
     transition: 0.5s;
     font-size: 24px;
-    font-family: "Lora";
+    font-family: "Lora" !important;
+    text-align: center;
 }
 
 .nav-tab:hover {
@@ -34,7 +35,11 @@
 .active {
     background-color: black;
     color: white;
-    pointer-events: none;
+}
+
+.active:hover {
+    background-color: black;
+    color: white;
 }
 
 .title {

@@ -283,7 +283,7 @@ public class UserProfileService {
 
         try {
             user = userRepository.findByUsername(username);
-        } catch (ApiRequestException e) {
+        } catch (Exception e) {
             throw new ApiRequestException("There was an error when retrieving the user.\n");
         }
 
@@ -310,7 +310,7 @@ public class UserProfileService {
 
         try {
             user = userRepository.findByUsername(username);
-        } catch (ApiRequestException e) {
+        } catch (Exception e) {
             throw new ApiRequestException("There was an error when retrieving the user.\n");
         }
 
