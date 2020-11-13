@@ -25,7 +25,7 @@
       </div>
 
       <div>
-        <button>FILTER</button>
+        <button v-on:click="filter()">FILTER</button>
       </div>
     </div>
 
