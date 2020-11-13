@@ -4,7 +4,7 @@ var config = require('../../config')
 var frontendUrl
 var backendUrl
 
-if (this.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development") {
     frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
     backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 } else {
