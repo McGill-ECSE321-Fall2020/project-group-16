@@ -1,23 +1,55 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <NavBar v-if="$route.path !== '/'"/>
+    <router-view @update:status="updateStatus"></router-view>
   </div>
 </template>
 
 <script>
+import NavBar from './components/NavBar'
 export default {
-  name: 'app'
-}
+  name: "app",
+  components: {NavBar,},
+  data() {
+    return {
+      username: "",
+      isLoggedIn: "",
+    };
+  },
+  methods: {
+    updateStatus: function (status) {
+      console.log("Emit worked");
+      this.username = status.username;
+      this.isLoggedIn = status.isLoggedIn;
+    },
+  },
+  watch: {
+    isLoggedIn: function () {
+      console.log("Watch worked")
+      if (this.isLoggedIn) {
+        console.log("Updated");
+        localStorage.setItem("username", this.username);
+        console.log(localStorage.getItem("username"))
+        this.$router.push({
+          name: "ProfilePage",
+          params: { username: this.username },
+        });
+      }
+    },
+  },
+};
 </script>
 
 <style>
+@import './css/main.css';
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} 
 </style>

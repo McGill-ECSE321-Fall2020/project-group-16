@@ -23,6 +23,14 @@ The implementation of this system requires:
 * System Validation through unit testing
 * Automation of the software delivery process
 
+## How to run the Application and where it is deployed to
+Backend deployed to: https://artgalleryapp-backend-0.herokuapp.com/  
+Start the Backend locally by running the Application at: ```ArtGalleryApplication-Backend/src/main/java/ca/mcgill/ecse321/artgalleryapplication/ArtGalleryApplication.java```
+  
+Frontend deployed to: https://artgalleryapp-frontend-0.herokuapp.com/  
+Start the Frontend locally by executing the command ```npm run dev``` in ```ArtGalleryApplication-FrontEnd```
+
+
 ## Important links:
 * [Software Requirements Specification](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification)
   * [System Requirements](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#2-requirements)

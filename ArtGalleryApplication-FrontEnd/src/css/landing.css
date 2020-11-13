@@ -1,0 +1,51 @@
+@import "./main.css";
+#landing-page {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.sign-in-form {
+    display: flex;
+    flex-direction: column;
+    margin: 30px auto;
+    text-align: left;
+    width: 35%;
+    box-sizing: border-box;
+    border: 1px solid #000000;
+}
+
+.form-tabs {
+    box-sizing: border-box;
+    border: 1px solid #000000;
+    margin: 0;
+}
+
+.form-tab {
+    text-align: center;
+    width: 50%;
+    padding: 10px;
+}
+
+.form-tabs h2 {
+    cursor: pointer;
+    margin: 0;
+    font-family: 'Lora';
+}
+
+.active {
+    color: white;
+    background-color: black;
+}
+
+h1 {
+    color: #006F45;
+    font-size: 96px;
+}
+
+h2 {
+    font-size: 24px;
+}

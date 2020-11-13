@@ -51,10 +51,6 @@ public class ShipmentService {
     	if(estimatedArrivalDate == null) {
     		nulls.add("estimatedArrivalDate ");
     	}
-    	Address returnAddress = addressRepository.findAddressByAddressId(returnAddressId);
-    	if(returnAddress == null) {
-    		nulls.add("returnAddress ");
-    	}
 		Address destinationAddress = addressRepository.findAddressByAddressId(destinationAddressId);
     	if(destinationAddress == null) {
     		nulls.add("destinationAddress ");
@@ -68,15 +64,11 @@ public class ShipmentService {
     		errors += "must not be null";
     		throw new IllegalArgumentException(errors);
     	}
-    	
-    	if(equalAddresses(destinationAddress, returnAddress)) {
-    		throw new IllegalArgumentException("must have different destination and return addresses");
-    	}
+
     	Shipment s = new Shipment();
     	s.setDestination(destinationAddress);
     	s.setEstimatedArrivalDate(estimatedArrivalDate);
     	s.setEstimatedArrivalTime(estimatedArrivalTime);
-    	s.setReturnAddress(returnAddress);
     	s.setToGallery(toGallery);
     	
     	shipmentRepository.save(s);

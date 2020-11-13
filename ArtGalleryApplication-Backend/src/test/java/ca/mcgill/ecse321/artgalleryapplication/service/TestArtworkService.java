@@ -60,7 +60,7 @@ public class TestArtworkService {
 	private static final String DIMENSIONS = "4' x 5'";
 	private static final String COLLECTION = "classics";
 	
-	private static final String ARTIST = "da vinky";
+	private static final UserProfile ARTIST = new UserProfile();
 	
 	
 	//MOCK OUTPUTS
@@ -86,7 +86,7 @@ public class TestArtworkService {
 			return allArtwork;
 		});
 		
-		lenient().when(artworkDao.findAllArtworkByArtist(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+		lenient().when(artworkDao.findAllArtworkByArtist(any(UserProfile.class))).thenAnswer((InvocationOnMock invocation) -> {
 			Artwork a = new Artwork();
 			if(invocation.getArgument(0).equals(ARTIST)) {
 				setMockArtworkAttributes(a);
@@ -115,7 +115,7 @@ public class TestArtworkService {
 		lenient().when(userDao.findByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
             if (invocation.getArgument(0).equals(ARTIST)) {
                 UserProfile p = new UserProfile();
-            	p.setUsername(ARTIST);
+            	p.setUsername("TestUser");
             	return p;
             } else {
                 return null;
@@ -143,7 +143,7 @@ public class TestArtworkService {
 		a.setCollection(COLLECTION);
 		
 		UserProfile artist = new UserProfile();
-		artist.setUsername(ARTIST);
+		artist.setUsername("TestUser");
 		HashSet<UserProfile> artists = new HashSet<>();
 		artists.add(artist);
 		
@@ -376,7 +376,7 @@ public class TestArtworkService {
 			fail();
 		}
 		
-		List<Artwork> allArtworks = service.getArtworkByArtist(ARTIST);
+		List<Artwork> allArtworks = service.getArtworkByArtist("TestUser");
 		assertEquals(1, allArtworks.size());
 		assertEquals(ARTIST, allArtworks.get(0).getArtist().iterator().next().getUsername());
 	}
@@ -546,7 +546,7 @@ public class TestArtworkService {
 		Artwork a = service.getArtwork(ARTWORK_ID);
 		
 		try {
-			service.addArtistToArtwork(a, ARTIST);
+			service.addArtistToArtwork(a, ARTIST.getUsername());
 		}
 		catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
@@ -578,7 +578,7 @@ public class TestArtworkService {
 		String error = "";
 		
 		try {
-			service.addArtistToArtwork(a, ARTIST);
+			service.addArtistToArtwork(a, ARTIST.getUsername());
 		}
 		catch (IllegalArgumentException e) {
 			error = e.getMessage();

@@ -6,6 +6,7 @@ import ca.mcgill.ecse321.artgalleryapplication.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -38,14 +39,14 @@ public class EventService {
      */
     @Transactional
     public GalleryEvent createEvent(String name, String description, String imageUrl,  Date date, Time startTime, Time endTime) {
-        if(name == null || name.trim().length() == 0) throw new IllegalArgumentException("Name is currently null or length 0. Please enter a valid name.");
-        if(description == null || description.trim().length() == 0) throw new IllegalArgumentException("Description is currently null or length 0. Please enter a valid description.");
-        if(date == null) throw new IllegalArgumentException("Date is currently null. Please enter a valid date");
-        if(startTime == null) throw new IllegalArgumentException("Start time is currently null. Please enter a valid start time");
-        if(endTime == null) throw new IllegalArgumentException("End time is currently null. Please enter a valid end time");
-        if(imageUrl == null || imageUrl.trim().length() == 0) throw new IllegalArgumentException("Image is currently null or length 0. Please enter a valid image url string.");
+        if(name == null || name.trim().length() == 0) throw new ApiRequestException("Name is currently null or length 0. Please enter a valid name.");
+        if(description == null || description.trim().length() == 0) throw new ApiRequestException("Description is currently null or length 0. Please enter a valid description.");
+        if(date == null) throw new ApiRequestException("Date is currently null. Please enter a valid date");
+        if(startTime == null) throw new ApiRequestException("Start time is currently null. Please enter a valid start time");
+        if(endTime == null) throw new ApiRequestException("End time is currently null. Please enter a valid end time");
+        if(imageUrl == null || imageUrl.trim().length() == 0) throw new ApiRequestException("Image is currently null or length 0. Please enter a valid image url string.");
 
-        if(startTime.compareTo(endTime) >= 0) throw new IllegalArgumentException("Start time is after the End time");
+        if(startTime.compareTo(endTime) >= 0) throw new ApiRequestException("Start time is after the End time");
 
         GalleryEvent event = new GalleryEvent();
         event.setEventName(name);
@@ -97,9 +98,9 @@ public class EventService {
      */
     @Transactional
     public void deleteEvent(Integer eventId) {
-        if(eventId == null) throw new IllegalArgumentException("Event ID to be deleted is null");
+        if(eventId == null) throw new ApiRequestException("Event ID to be deleted is null");
         GalleryEvent event = galleryEventRepository.findGalleryEventByEventId(eventId);
-        if(event == null) throw new IllegalArgumentException("There is no Event with this ID");
+        if(event == null) throw new ApiRequestException("There is no Event with this ID");
         galleryEventRepository.deleteGalleryEventByEventId(eventId);
     }
 
@@ -119,9 +120,9 @@ public class EventService {
      */
     @Transactional
     public GalleryEvent getEventById(Integer eventId) {
-        if(eventId == null) throw new IllegalArgumentException("Event ID is null");
+        if(eventId == null) throw new ApiRequestException("Event ID is null");
         GalleryEvent event = galleryEventRepository.findGalleryEventByEventId(eventId);
-        if(event == null) throw new IllegalArgumentException("There is no Event with this ID");
+        if(event == null) throw new ApiRequestException("There is no Event with this ID");
         return event;
     }
 
@@ -131,13 +132,13 @@ public class EventService {
      * @param event
      */
     private void checkValidUserAndEvent(UserProfile user, GalleryEvent event) {
-        if(event == null) throw new IllegalArgumentException("Event to register to is null");
-        if(getEventById(event.getEventId()) == null) throw new IllegalArgumentException("Event does not exist");
+        if(event == null) throw new ApiRequestException("Event to register to is null");
+        if(getEventById(event.getEventId()) == null) throw new ApiRequestException("Event does not exist");
         GalleryEvent eventInSystem = galleryEventRepository.findGalleryEventByEventId(event.getEventId());
-        if(eventInSystem == null) throw new IllegalArgumentException("Unable to retrieve event in system");
-        if(user == null) throw new IllegalArgumentException("User to register to event is null");
+        if(eventInSystem == null) throw new ApiRequestException("Unable to retrieve event in system");
+        if(user == null) throw new ApiRequestException("User to register to event is null");
         UserProfile userInSystem = userRepository.findByUsername(user.getUsername());
-        if(userInSystem == null) throw new IllegalArgumentException("User " + user + " does not exist in system");
+        if(userInSystem == null) throw new ApiRequestException("User " + user + " does not exist in system");
     }
 
     /**
