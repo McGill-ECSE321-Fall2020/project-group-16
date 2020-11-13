@@ -83,6 +83,7 @@ export default {
 
                 //reinitialize the field
                 this.newEmail = "";
+                this.errorNewEmail = "";
             }).catch(function(err) {
                 console.log(err.response);
                 self.errorNewEmail = "Error: " + err.response.data.message;
@@ -104,6 +105,7 @@ export default {
                 //reinitialize the field
                 this.newFirstName = "";
                 this.newLastName = "";
+                this.errorNewFirstLastName = "";
             }).catch(function(err) {
                 console.log(err.response);
                 self.errorNewFirstLastName = "Error: " + err.response.data.message;
@@ -125,6 +127,7 @@ export default {
                 //reinitialize the field
                 this.verificationPassword = "";
                 this.newPassword = "";
+                this.errorNewPassword = "";
             }).catch(function(err) {
                 console.log(err.response);
                 self.errorNewPassword = "Error: " + err.response.data.message;
@@ -144,7 +147,8 @@ export default {
 
                 //reinitialize the field
                 this.newDescription = "";
-            }).catch(function(err) {
+                this.errorNewDescription = "";
+                }).catch(function(err) {
                 console.log(err.response);
                 self.errorNewDescription = "Error: " + err.response.data.message;
             });
@@ -163,6 +167,7 @@ export default {
 
                 //reinitialize the field
                 this.newImageUrl = "";
+                this.errorNewImageUrl = "";
             }).catch(function(err) {
                 console.log(err.response);
                 self.errorNewImageUrl = "Error: " + err.response.data.message;

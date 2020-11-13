@@ -6,9 +6,12 @@
             
             <!-- if the current user is the target or is admin -->
             <div v-else>
-                <h3>Edit {{this.theTargetUser.username}}'s profile here</h3>
+                <h3>Edit {{theTargetUser.username}}'s profile here</h3>
+                <br>
 
                 <!-- update email -->
+                <label>Current email: {{theTargetUser.email}}</label>
+                <br>
                 <label>Update user email: 
                     <input type="text" v-model="newEmail" placeholder="New Email">
                     <button v-bind:disabled="!newEmail" @click="updateEmail(newEmail)">Update</button>
@@ -17,6 +20,8 @@
                 <br>
 
                 <!-- update firstname and lastname -->
+                <label>Current name: {{theTargetUser.firstName}} {{theTargetUser.lastName}}</label>
+                <br>
                 <label>Update first name: 
                     <input type="text" v-model="newFirstName" placeholder="New First Name">
                     <label> and last name: </label>
@@ -37,6 +42,8 @@
                 <br>
                 
                 <!-- update description -->
+                <label>Current description: {{theTargetUser.description}} <span v-if="!theTargetUser.description">Empty description</span></label>
+                <br>
                 <label>Update user Description: 
                     <input type="text" v-model="newDescription" placeholder="New Description">
                     <button v-bind:disabled="!newDescription" @click="updateDescription(newDescription)">Update</button>
@@ -45,6 +52,8 @@
                 <br>
 
                 <!-- update imageUrl -->
+                <label>Current image: {{theTargetUser.profileImageUrl}} <span v-if="!theTargetUser.profileImageUrl">Empty image</span></label>
+                <br>
                 <label>Update profile Image: 
                     <input type="text" v-model="newImageUrl" placeholder="New Image">
                     <button v-bind:disabled="!newImageUrl" @click="updateImage(newImageUrl)">Update</button>
