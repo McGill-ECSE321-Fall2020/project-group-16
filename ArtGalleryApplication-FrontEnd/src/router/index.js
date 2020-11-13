@@ -3,7 +3,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LandingPage from '@/components/LandingPage'
 import ProfilePage from '@/components/ProfilePage'
-import PurchaseArtwork from '@/components/PurchaseArtwork.vue'
 import CreateArtwork from '@/components/CreateArtwork.vue'
 import GalleryEvent from '@/components/GalleryEvent.vue'
 import SpecificEvent from '@/components/SpecificEvent.vue'
@@ -29,11 +28,6 @@ const routes = [{
   path: '/user/edit/:username',
   name: 'EditProfile',
   component: EditProfile
-},
-{
-  path: "/purchase",
-  name: "PurchaseArtwork",
-  component: PurchaseArtwork
 },
 {
   path: "/checkout/:username/:artworkId",
