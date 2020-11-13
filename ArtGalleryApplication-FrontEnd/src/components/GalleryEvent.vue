@@ -1,6 +1,7 @@
 <template>
   <div id="galleryEvents">
     <h2>Events</h2>
+    <p v-if="errorEvent" style="color:red"> {{errorEvent}} </p>
 
     <br>
     <br>

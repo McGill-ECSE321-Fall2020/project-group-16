@@ -13,23 +13,30 @@ export default {
                 startTime: "09:00",
                 endTime: "11:00",
             },
+
+            errorEvent: "",
             errorRequest: "",
             response: []
         };
     },
 
     created: function() {
+        var self = this;
+
         AXIOS.get("/events")
             .then((response) => {
                 this.events = response.data;
-            }).catch((e) => {
-                this.errorEvent = e;
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorEvent = "Error: " + err.response.data.message;
             });
     },
 
     methods: {
 
         createEvent: function(name, description, imageUrl, date, startTime, endTime) {
+            var self = this;
+
             AXIOS.post("/events/".concat(name), {}, {
                 params: {
                     description: description,
@@ -45,14 +52,13 @@ export default {
                 this.newEvent.name = "";
                 this.newEvent.description = "";
                 this.newEvent.imageUrl = "";
-                this.newEvent.date = "2017-12-08";
+                this.newEvent.date = "2020-12-08";
                 this.newEvent.startTime = "09:00";
                 this.newEvent.endTime = "11:00";
 
-            }).catch((e) => {
-                //todo: send back the illegalArgument Error from backend rather than the error code
-                console.log(e);
-                this.errorRequest = e;
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorRequest = "Error: " + err.response.data.message;
             });
         },
     },
