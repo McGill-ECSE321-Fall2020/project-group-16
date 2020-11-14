@@ -1,14 +1,4 @@
-import axios from "axios";
-var config = require("../../config");
-
-var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
-var backendUrl =
-  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
-
-var AXIOS = axios.create({
-  baseURL: backendUrl,
-  headers: "Access-Control-Allow-Origin: *"
-});
+import AXIOS from "./axiosInstance.js";
 
 export default {
   name: "ViewArtwork",
@@ -28,14 +18,15 @@ export default {
       }
     };
   },
-  mounted: function() {
-    this.artworkId = this.$router.params;
+  created: function() {
+    this.artwork.artworkId = this.$route.params;
     console.log(artworkId);
   },
-  created: function() {
-    AXIOS.get(`/artworks/${this.artworkId}`)
+  mounted: function() {
+    AXIOS.get(`/artworks/${this.artwork.artworkId}`)
       .then(response => {
         this.artwork = response.data[0];
+        console.log(this.artwork);
       })
       .catch(e => {
         console.log(e);
