@@ -14,6 +14,7 @@
 #profile-info {
     text-align: center;
     border: solid 1px black;
+    border-radius: 3px;
 }
 
 p {
@@ -27,6 +28,7 @@ p {
     cursor: pointer;
     transition: 0.5s;
     color: white;
+    border-radius: 3px;
 }
 
 .black-button:hover {
@@ -40,6 +42,7 @@ p {
     cursor: pointer;
     transition: 0.5s;
     color: black;
+    border-radius: 3px;
 }
 
 .border-button:hover {

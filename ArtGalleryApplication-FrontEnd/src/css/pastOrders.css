@@ -2,32 +2,24 @@
     text-align: center;
     border: 1px black solid;
     overflow: auto;
+    border-radius: 3px;
 }
 
 .orders {
-    display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 15px;
-    row-gap: 15px;
-    top: 90px;
-    position: relative;
-    z-index: 0;
     margin-bottom: 20px;
+    width: auto;
+    text-align: left;
 }
 
-.header {
-    position: absolute;
-    background: #E9E7DB;
-    margin: 0 auto;
-    width: 100%;
-    z-index: 1;
+.order:hover {
+    background-color: #9b9a92;
+    cursor: pointer;
+    border-radius: 15px;
 }
 
-.order {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid black;
+img {
+    width: 64px;
+    height: auto;
 }
 
 .border-button {
@@ -37,6 +29,7 @@
     cursor: pointer;
     transition: 0.5s;
     color: black;
+    border-radius: 3px;
 }
 
 .border-button:hover {
