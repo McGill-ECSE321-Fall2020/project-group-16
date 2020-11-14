@@ -98,6 +98,25 @@
     <h2>Checkout</h2>
     <hr />
 
+    <div v-if="!orderId && !errorCheckout">
+    <h5>Artwork:</h5>
+      <p>
+        Title: {{ artwork.title }} <br>
+        Price: ${{ artwork.price }} <br>
+        Url: {{ artwork.imageUrl }} 
+      </p>
+    </div>
+    
+    <div v-if="!orderId && !errorCheckout">
+      <hr />
+      <p>Subtotal: ${{ artwork.price }}</p>
+      <p>Taxes: ${{ tax }}</p>
+       <hr />
+      <h6>Total: ${{ total }}</h6>
+      <hr />
+    </div>
+    
+
     <form @submit="placeOrder(username, artworkId)" v-if="!orderId && !errorCheckout" id="checkout">
       <!--  -->
       <Shipment v-if="!shipmentId"  v-bind:address="shippingAddress" v-on:add-shipment="getShipment($event)" />
@@ -143,12 +162,15 @@
           </tr>
         </table>
 
+        <!-- FOR TESTING REMOVE WHEN STYLING -->
         <label
           >User: {{ username }}
         </label>
         <label
           >Artwork: {{ artworkId}}
         </label>
+        <!-- -->
+
         <input
           type="submit"
           value="Place Order"

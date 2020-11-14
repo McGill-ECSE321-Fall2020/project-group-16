@@ -3,7 +3,7 @@
     width: 90%;
     margin: 0 auto;
     border-bottom: solid 1px black;
-    position: fixed;
+    position: relative;
     top: 70px;
 }
 

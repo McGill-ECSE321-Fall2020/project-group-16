@@ -1,4 +1,5 @@
-import { AXIOS } from "../js/axiosInstance";
+import Axios from "axios";
+import { AXIOS } from "./axiosInstance";
 export default {
     name: "SignUpForm",
     data() {
@@ -9,11 +10,12 @@ export default {
             lastName: "",
             email: "",
             user: "",
-            error: "",
+            errorUser: "",
         };
     },
     methods: {
-        signup: function() {
+        signup: async function() {
+            this.$emit("update:user", { username: "", isLoggedIn: false })
             var self = this;
             console.log(
                 this.firstName,
@@ -22,19 +24,23 @@ export default {
                 this.email,
                 this.password
             );
-            AXIOS.post(
-                    `/users/${this.username}?firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`
-                )
-                .then((response) => {
-                    this.user = response.data;
-                    console.log("Sign up post: " + this.user);
-                    this.$emit("update:user", this.user.username);
-                })
-                .catch(function(err) {
-                    console.log(err.response);
-                    self.error = err.response.data.message;
-                    self.$emit("update:error", self.error)
-                });
+
+            try {
+                const res = await AXIOS.post(`/users/${this.username}?firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`)
+                this.user = res.data
+                console.log(res.data)
+                this.$emit("update:user", { username: this.user.username, isLoggedIn: true });
+            } catch (e) {
+                console.log(e.response)
+                if (
+                    e.response) {
+                    self.errorUser = e.response.data.message
+                    this.$emit("update:error", self.errorUser)
+                } else {
+                    console.log(e)
+                }
+
+            }
         },
     },
 };

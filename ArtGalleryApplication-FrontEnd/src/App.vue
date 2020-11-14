@@ -24,8 +24,8 @@
 
 .content {
   width: 80%;
-  top: 200px;
   position: relative;
+  top: 115px;
 }
 
 .landing {

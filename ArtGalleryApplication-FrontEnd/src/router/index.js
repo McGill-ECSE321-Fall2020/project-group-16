@@ -9,7 +9,7 @@ import GalleryEvent from '@/components/GalleryEvent.vue'
 import SpecificEvent from '@/components/SpecificEvent.vue'
 import Checkout from '@/components/Checkout.vue'
 import EditProfile from '@/components/EditProfile.vue'
-import ViewArtwork from '@/components/ViewArtwork'
+import ViewArtwork from '@/components/ViewArtwork.vue'
 
 Vue.use(VueRouter)
 
@@ -62,7 +62,7 @@ const routes = [{
         component: ArtPage
     },
     {
-        path: "/artworks/:artworkid",
+        path: "/artworks/:artworkId",
         name: "ViewArtwork",
         component: ViewArtwork
     }

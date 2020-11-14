@@ -1,5 +1,5 @@
 <template>
-  <div id="browseart">
+  <div id="browse-art">
     <div class="filters">
       <div>
         <label>Status:</label>
@@ -48,7 +48,7 @@
 <script src="../js/browseArt.js"></script>
 
 <style>
-#browseart {
+#brows-eart {
   font-family: Montserrat;
   font-style: normal;
   padding: 60px;

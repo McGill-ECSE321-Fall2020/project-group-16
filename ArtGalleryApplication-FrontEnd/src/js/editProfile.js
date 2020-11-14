@@ -28,21 +28,24 @@ export default {
             newFirstName: "",
             newLastName: "",
 
-            errorNewFirstLastName: "",
-            errorNewEmail: "",
-            errorNewDescription: "",
-            errorNewImageUrl: "",
-            errorNewPassword: "",
+            error: "",
 
 
             errorTargetUser: "",
             errorCurrentUser: "",
 
-            response: []
+            response: [],
+
+            nameModalActive: false,
+            emailModalActive: false,
+            descriptionModalActive: false,
+            passwordModalActive: false,
+
+            success: false
         };
     },
 
-    created: function () {
+    created: function() {
         var self = this;
 
         //first thing: get the username of the requested page
@@ -61,12 +64,13 @@ export default {
 
         //get the current user
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
-        .then((response) => {
-            this.theCurrentUser = response.data;
-        }).catch(function(err) {
-            console.log(err.response);
-            self.errorCurrentUser = err.response.data.message;
-        });
+            .then((response) => {
+                this.theCurrentUser = response.data;
+            }).catch(function(err) {
+                console.log(err.response);
+                self.errorCurrentUser = err.response.data.message;
+
+            });
     },
 
     methods: {
@@ -83,10 +87,14 @@ export default {
 
                 //reinitialize the field
                 this.newEmail = "";
-                this.errorNewEmail = "";
+                this.error = "";
+                this.hideEmailModal()
+                this.success = true
             }).catch(function(err) {
                 console.log(err.response);
-                self.errorNewEmail = "Error: " + err.response.data.message;
+                self.error = err.response.data.message;
+                this.success = false
+
             });
         },
 
@@ -105,10 +113,15 @@ export default {
                 //reinitialize the field
                 this.newFirstName = "";
                 this.newLastName = "";
-                this.errorNewFirstLastName = "";
+                this.error = "";
+                this.hideNameModal()
+                this.success = true
+
             }).catch(function(err) {
                 console.log(err.response);
-                self.errorNewFirstLastName = "Error: " + err.response.data.message;
+                self.error = err.response.data.message;
+                this.success = false
+
             });
         },
 
@@ -127,10 +140,14 @@ export default {
                 //reinitialize the field
                 this.verificationPassword = "";
                 this.newPassword = "";
-                this.errorNewPassword = "";
+                this.error = "";
+                this.hidePasswordModal()
+                this.success = true
             }).catch(function(err) {
                 console.log(err.response);
-                self.errorNewPassword = "Error: " + err.response.data.message;
+                self.error = err.response.data.message;
+                this.success = false
+
             });
         },
 
@@ -147,10 +164,15 @@ export default {
 
                 //reinitialize the field
                 this.newDescription = "";
-                this.errorNewDescription = "";
-                }).catch(function(err) {
+                this.error = "";
+                this.hideDescriptionModal()
+                this.success = true
+
+            }).catch(function(err) {
                 console.log(err.response);
-                self.errorNewDescription = "Error: " + err.response.data.message;
+                self.error = err.response.data.message;
+                this.success = false
+
             });
         },
 
@@ -167,11 +189,81 @@ export default {
 
                 //reinitialize the field
                 this.newImageUrl = "";
-                this.errorNewImageUrl = "";
+                this.error = "";
             }).catch(function(err) {
                 console.log(err.response);
-                self.errorNewImageUrl = "Error: " + err.response.data.message;
+                self.error = err.response.data.message;
             });
         },
+
+        displayNameModal: function() {
+            this.success = false
+            this.error = ""
+
+            this.hideDescriptionModal()
+            this.hideEmailModal()
+            this.hidePasswordModal()
+
+            this.nameModalActive = true
+
+
+        },
+
+        displayEmailModal: function() {
+            this.success = false
+            this.error = ""
+
+
+            this.hideDescriptionModal()
+            this.hideNameModal()
+            this.hidePasswordModal()
+
+            this.emailModalActive = true
+
+        },
+
+        displayDescriptionModal: function() {
+            this.success = false
+            this.error = ""
+
+
+            this.hideNameModal()
+            this.hideEmailModal()
+            this.hidePasswordModal()
+            this.descriptionModalActive = true
+
+        },
+
+        displayPasswordModal: function() {
+            this.success = false
+            this.error = ""
+
+
+            this.hideDescriptionModal()
+            this.hideEmailModal()
+            this.hideNameModal()
+            this.passwordModalActive = true
+
+        },
+
+        hideNameModal: function() {
+            this.nameModalActive = false
+        },
+
+        hideEmailModal: function() {
+            this.emailModalActive = false
+        },
+
+        hideDescriptionModal: function() {
+            this.descriptionModalActive = false
+        },
+
+        hidePasswordModal: function() {
+            this.passwordModalActive = false
+        },
+
+        done: function() {
+            this.$router.push({ name: "ProfilePage", params: { username: this.theTargetUser.username } })
+        }
     },
 }
