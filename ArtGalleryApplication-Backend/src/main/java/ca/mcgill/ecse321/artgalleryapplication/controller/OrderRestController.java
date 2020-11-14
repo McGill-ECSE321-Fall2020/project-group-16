@@ -162,7 +162,10 @@ public class OrderRestController {
     @PutMapping(value = { "/orders/{id}/add-payment-shipment", "/orders/{id}/add-payment-shipment/" })
     public OrderDto addShipmentToOrder(@PathVariable("id") int orderId,
                                        @RequestParam("paymentId") int paymentId,
-                                       @RequestParam("shipmentId") int shipmentId) {
+                                       @RequestParam("shipmentId") int shipmentId,
+                                       @RequestParam("amount") double amount) {
+
+        orderService.updateOrderAmount(orderId, amount);
         return convertToDto(orderService.addPaymentAndShipmentToOrder(orderId, paymentId, shipmentId));
     }
 

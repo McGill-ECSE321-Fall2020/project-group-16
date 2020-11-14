@@ -14,7 +14,7 @@ export default {
         };
     },
     methods: {
-        signup: async function() {
+        signup: async function () {
             this.$emit("update:user", { username: "", isLoggedIn: false })
             var self = this;
             console.log(
