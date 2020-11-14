@@ -44,17 +44,17 @@ export default {
                 this.newArtwork.price,
                 this.newArtwork.imageUrl
             )
-            AXIOS.post("/artworks/".concat(newArtwork.atworkId), {}, {
+            AXIOS.post("/artworks/".concat(this.newArtwork.atworkId), {}, {
                 params: {
-                    title: newArtwork.title,
-                    description: newArtwork.description,
-                    creationDate: newArtwork.creationDate,
-                    medium: newArtwork.medium,
-                    imageUrl: newArtwork.imageUrl,
-                    price: newArtwork.price,
-                    status: newArtwork.status,
-                    dimensions: newArtwork.dimensions,
-                    collection: newArtwork.collection,
+                    title: this.newArtwork.title,
+                    description: this.newArtwork.description,
+                    creationDate: this.newArtwork.creationDate,
+                    medium: this.newArtwork.medium,
+                    imageUrl: this.newArtwork.imageUrl,
+                    price: this.newArtwork.price,
+                    status: this.newArtwork.status,
+                    dimensions: this.newArtwork.dimensions,
+                    collection: this.newArtwork.collection,
                 }
             })
 
