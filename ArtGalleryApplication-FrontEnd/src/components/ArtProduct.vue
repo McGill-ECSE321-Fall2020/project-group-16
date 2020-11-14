@@ -17,7 +17,7 @@
         <div class="for-sale">${{price}}</div>
       </div>
       <div class="row-1">
-        <button @click="$router.push({ path: `/artworks/${artworkId}` }), router.params">VIEW ARTWORK</button>
+        <button @click="$router.push({ path: `/artworks/${artworkId}` })">VIEW ARTWORK</button>
       </div>
     </div>
   </div>
