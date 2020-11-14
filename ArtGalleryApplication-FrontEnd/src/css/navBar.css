@@ -13,6 +13,7 @@
     text-align: center;
     bottom: 0;
     position: absolute;
+    overflow: hidden;
     right: 100px;
 }
 
