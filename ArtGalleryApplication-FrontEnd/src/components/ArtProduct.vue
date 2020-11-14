@@ -48,6 +48,11 @@
   align-self: start;
 }
 
+.button {
+  cursor: pointer;
+  border: 1px solid black;
+}
+
 img {
   height: 160px;
 }

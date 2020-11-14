@@ -1,39 +1,63 @@
 <template>
   <div id="nav-bar">
-      <h1 class="title ml-5 py-2">Art Gallery</h1>
-      <div class="nav-tabs row mr-5">
-          <div class="nav-tab col-sm px-4 py-2" id="browseart" v-bind:class="{active: $route.name === 'BroseArtwork'}" v-on:click="changeTab">Artwork</div>
-          <div class="nav-tab col-sm px-4 py-2" id="events" v-bind:class="{active: $route.name === 'GalleryEvents' || $route.name === 'SpecificEvent'}" v-on:click="changeTab">Events</div>
-          <div class="nav-tab col-sm px-4 py-2" id="user" v-bind:class="{active: $route.name === `ProfilePage` || $route.name === `EditProfile`}" v-on:click="changeTab">My Profile</div>
-
+    <h1 class="title ml-5 py-2">Art Gallery</h1>
+    <div class="nav-tabs row mr-5">
+      <div
+        class="nav-tab col-sm px-4 py-2"
+        id="browseart"
+        v-bind:class="{
+          active: $route.name === 'BrowseArt' || $route.name === 'ViewArtwork',
+        }"
+        v-on:click="changeTab"
+      >
+        Artwork
       </div>
+      <div
+        class="nav-tab col-sm px-4 py-2"
+        id="events"
+        v-bind:class="{
+          active:
+            $route.name === 'GalleryEvents' || $route.name === 'SpecificEvent',
+        }"
+        v-on:click="changeTab"
+      >
+        Events
+      </div>
+      <div
+        class="nav-tab col-sm px-4 py-2"
+        id="user"
+        v-bind:class="{
+          active:
+            $route.name === `ProfilePage` || $route.name === `EditProfile`,
+        }"
+        v-on:click="changeTab"
+      >
+        My Profile
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-    name: "NavBar",
-    data() {
-        return {
-            username: localStorage.getItem("username")
-        }
+  name: "NavBar",
+  data() {
+    return {
+      username: localStorage.getItem("username"),
+    };
+  },
+  methods: {
+    changeTab: function (e) {
+      console.log(e);
+      if (e.target.id === "user") {
+        this.$router.push({ path: `/${e.target.id}/${this.username}` });
+      } else {
+        this.$router.push({ path: `/${e.target.id}` });
+      }
     },
-    methods: {
-        changeTab: function (e) {
-            console.log(e)
-            if (e.target.id === 'user'){this.$router.push({path: `/${e.target.id}/${this.username}`})
-            } else {
-                this.$router.push({path: `/${e.target.id}`})
-            }
-            
-
-        }
-    }
-    
-
-}
+  },
+};
 </script>
 
 <style scoped src="../css/navBar.css">
-
 </style>

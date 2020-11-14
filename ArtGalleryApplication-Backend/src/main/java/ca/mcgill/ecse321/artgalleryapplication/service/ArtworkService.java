@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.apache.catalina.User;
@@ -98,7 +99,7 @@ public class ArtworkService {
     @Transactional
     public Artwork getArtwork(int id) {
     	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
-    	if(artwork == null) throw new IllegalArgumentException("No artwork with ID " + id + " in the system.");
+    	if(artwork == null) throw new ApiRequestException("No artwork with ID " + id + " in the system.");
     	return artwork;
     }
 

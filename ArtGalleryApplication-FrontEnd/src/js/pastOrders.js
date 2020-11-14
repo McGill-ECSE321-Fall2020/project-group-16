@@ -19,10 +19,13 @@ export default {
                 console.log(error)
             })
     },
-    computed: {
+    methods: {
         getHeight: function() {
             console.log(document.getElementById("profile-info").offsetHeight)
             return { height: document.getElementById("profile-info").offsetHeight + "px" }
+        },
+        goToArtwork: function(id) {
+            this.$router.push({ name: "ViewArtwork", params: { artworkId: id } })
         }
     }
 }

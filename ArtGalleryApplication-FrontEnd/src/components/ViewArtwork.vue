@@ -1,6 +1,6 @@
 <template>
     <div id="viewartwork">
-        <img src="../assets/no-img.png" alt="artwork image" width="600" height="600">
+        <img src="../assets/no-img.png" alt="artwork image" style="width:500px, height:200px">
         <h1>
             {{artwork.title}}
         </h1>

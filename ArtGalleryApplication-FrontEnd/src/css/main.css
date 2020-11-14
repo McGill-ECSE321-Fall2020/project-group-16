@@ -15,3 +15,32 @@ body {
     background: #E9E7DB;
     color: black;
 }
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #a09f98;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #006F45;
+    border-radius: 10px;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #005233;
+}
