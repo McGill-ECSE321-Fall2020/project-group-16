@@ -14,7 +14,22 @@ export default {
     return {
       orderId: '',
       username: '',
+
       artworkId: '',
+      artwork: {
+        title: "",
+        description: "",
+        dimensions: "",
+        medium: "",
+        collection: "",
+        creationDate: "",
+        price: "",
+        imageUrl: "",
+        status: ""
+      },
+
+      tax: '',
+      total: '',
 
       shipmentId: '',
       shippingAddress: {
@@ -53,9 +68,20 @@ export default {
         }
       });
     AXIOS.get(`/artworks/${this.$route.params.artworkId}`)
-      .then(
+      .then(response => {
         this.artworkId = this.$route.params.artworkId
-      )
+
+        const price = response.data.price
+        const tax = price * 0.15
+        const total = price * 1.15
+
+        this.tax = tax.toFixed(2)
+        this.total = total.toFixed(2)
+
+        this.artwork.title = response.data.title
+        this.artwork.price = price.toFixed(2)
+        this.artwork.imageUrl = response.data.imageUrl
+      })
       .catch((e) => {
         console.log(e);
         this.errorCheckout = "Error Artwork Not Found"
@@ -71,7 +97,7 @@ export default {
       })
         .then(response => {
           // JSON responses are automatically parsed]
-          this.addPaymentAndShipment(response.data.orderId, this.paymentId, this.shipmentId)
+          this.addPaymentAndShipment(response.data.orderId, this.paymentId, this.shipmentId, this.total)
           this.orderId = response.data.orderId
         })
         .catch(e => {
@@ -81,11 +107,12 @@ export default {
         });
     },
 
-    addPaymentAndShipment(orderId, paymentId, shipmentId) {
+    addPaymentAndShipment(orderId, paymentId, shipmentId, total) {
       AXIOS.put(`/orders/${orderId}/add-payment-shipment`, {}, {
         params: {
           paymentId: paymentId,
-          shipmentId: shipmentId
+          shipmentId: shipmentId,
+          amount: total
         }
       })
         .then(
