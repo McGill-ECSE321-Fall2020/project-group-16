@@ -1,52 +1,87 @@
 <template>
   <div id="galleryEvents">
     <h2>Events</h2>
-    <p v-if="errorEvent" style="color:red"> {{errorEvent}} </p>
+    <p v-if="errorEvent" style="color: red">{{ errorEvent }}</p>
 
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
 
     <h3>Create new Event</h3>
     <table>
       <tr>
         <td>
-          <input type="text" v-model="newEvent.name" placeholder="Event Name">
+          <input type="text" v-model="newEvent.name" placeholder="Event Name" />
         </td>
         <td>
-          <input type="text" v-model="newEvent.description" placeholder="Event Description">
+          <input
+            type="text"
+            v-model="newEvent.description"
+            placeholder="Event Description"
+          />
         </td>
         <td>
-          <input type="text" v-model="newEvent.imageUrl" placeholder="Event Image Link">
+          <input
+            type="text"
+            v-model="newEvent.imageUrl"
+            placeholder="Event Image Link"
+          />
         </td>
         <td>
-          <input type="date" v-model="newEvent.date" placeholder="YYYY-MM-DD">
+          <input type="date" v-model="newEvent.date" placeholder="YYYY-MM-DD" />
         </td>
         <td>
-          <input type="time" v-model="newEvent.startTime" placeholder="HH:mm">
+          <input type="time" v-model="newEvent.startTime" placeholder="HH:mm" />
         </td>
         <td>
-          <input type="time" v-model="newEvent.endTime" placeholder="HH:mm">
+          <input type="time" v-model="newEvent.endTime" placeholder="HH:mm" />
         </td>
         <td>
-          <button v-bind:disabled="!newEvent.name" @click="createEvent(newEvent.name, newEvent.description, newEvent.imageUrl, newEvent.date, newEvent.startTime, newEvent.endTime)">Create</button>
+          <button
+            v-bind:disabled="!newEvent.name"
+            @click="
+              createEvent(
+                newEvent.name,
+                newEvent.description,
+                newEvent.imageUrl,
+                newEvent.date,
+                newEvent.startTime,
+                newEvent.endTime
+              )
+            "
+          >
+            Create
+          </button>
         </td>
       </tr>
     </table>
     <p>
-      <span v-if="errorRequest" style="color:red"> {{errorRequest}} </span>
+      <span v-if="errorRequest" style="color: red"> {{ errorRequest }} </span>
     </p>
 
-
-
-
-    <br>
-    <br>
-    <br>
-
-    <h3>List of existing events</h3>
-    <table v-if="events.length !== 0">
-      <tr>
+    <h1>List of existing events</h1>
+    <div v-if="events.length !== 0" class="events my-5">
+      <div class="row">
+        <div class="col"><h3>Name</h3></div>
+        <div class="col"><h3>Description</h3></div>
+        <div class="col"><h3>Date</h3></div>
+        <div class="col"><h3>Start Time</h3></div>
+        <div class="col"><h3>End Time</h3></div>
+      </div>
+      <div
+        class="row my-3 py-3 event"
+        v-for="event in events"
+        v-bind:key="event.id"
+        @click="$router.push('events/' + event.id)"
+      >
+        <div class="col">{{ event.name }}</div>
+        <div class="col">{{ event.eventDescription }}</div>
+        <div class="col">{{ event.eventDate }}</div>
+        <div class="col">{{ event.startTime }}</div>
+        <div class="col">{{ event.endTime }}</div>
+      </div>
+    </div>
+    <!-- <tr>
         <td>Name</td>
         <td>Event description</td>
         <td>Event date</td>
@@ -63,16 +98,17 @@
         <td>
           <button @click="$router.push('/events/' + event.id)">here</button>
         </td>
-      </tr>
-    </table>
+      </tr> -->
     <p v-else>No events created, yet</p>
   </div>
 </template>
 
 <script src="../js/galleryEvent.js"></script>
 
-<style>
-  table, th, td {
-    border: 1px solid black;
-  }
+<style scoped src="../css/galleryEvent.css">
+table,
+th,
+td {
+  border: 1px solid black;
+}
 </style>
