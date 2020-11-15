@@ -1,7 +1,9 @@
 <template>
   <div class="order-container" v-bind:style="getHeight()">
     <h1 style="text-align: center" class="py-4">PAST ORDERS</h1>
-    <h2 v-if="this.orders.length === 0">You have no past orders</h2>
+    <h2 v-if="this.orders.length === 0" class="px-3">
+      You have no past orders
+    </h2>
     <ul v-else class="list-unstyled orders mx-5">
       <li
         v-for="order in orders"

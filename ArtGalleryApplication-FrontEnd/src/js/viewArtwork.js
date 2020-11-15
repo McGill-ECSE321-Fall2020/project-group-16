@@ -1,4 +1,4 @@
-import { AXIOS } from './axiosInstance'
+import { AXIOS } from "./axiosInstance.js";
 
 export default {
     name: "ViewArtwork",
@@ -19,27 +19,17 @@ export default {
         };
     },
     created: function() {
-        AXIOS.get(`/artworks/${this.$route.params.artworkId}`)
-            .then(response => {
-                console.log(response)
-                this.artwork = response.data;
-                console.log(this.artwork)
-            })
-            .catch(function(e) {
-                console.log(e)
-                console.log(e.response);
-            });
-        console.log("mounted")
-
+        this.artwork.artworkId = this.$route.params.artworkId;
+        console.log(artworkId);
     },
     mounted: function() {
-        // AXIOS.get(`/artworks/${this.artwork.artworkId}`)
-        //     .then(response => {
-        //         this.artwork = response.data[0];
-        //         console.log(this.artwork)
-        //     })
-        //     .catch(e => {
-        //         console.log(e);
-        //     });
+        AXIOS.get(`/artworks/${this.artwork.artworkId}`)
+            .then(response => {
+                this.artwork = response.data;
+                console.log(this.artwork);
+            })
+            .catch(e => {
+                console.log(e);
+            });
     }
 };

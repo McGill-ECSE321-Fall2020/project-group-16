@@ -1,0 +1,14 @@
+.event:hover {
+    background-color: #9b9a92;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+h3 {
+    font-weight: bold;
+    font-family: "Montserrat";
+}
+
+#galleryEvents {
+    font-family: "Montserrat";
+}
