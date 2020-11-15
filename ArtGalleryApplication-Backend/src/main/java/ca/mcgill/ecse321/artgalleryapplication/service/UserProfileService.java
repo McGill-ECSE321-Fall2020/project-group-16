@@ -1,15 +1,11 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
-import ca.mcgill.ecse321.artgalleryapplication.exception.ApiException;
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.orm.ObjectRetrievalFailureException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;

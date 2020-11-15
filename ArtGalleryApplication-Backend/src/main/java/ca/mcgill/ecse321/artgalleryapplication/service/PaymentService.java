@@ -1,47 +1,39 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
-import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PaymentService {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
-    private ShipmentRepository shipmentRepository;
+
     @Autowired
     private PaymentRepository paymentRepository;
-    @Autowired
-    private GalleryEventRepository galleryEventRepository;
-    @Autowired
-    private ArtworkRepository artworkRepository;
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private ArtGalleryApplicationRepository artGalleryApplicationRepository;
 
 
 
     //create the Transactional methods
-    
+
+	/**
+	 *
+	 * @param paymentForm
+	 * @param paymentDate
+	 * @param cardNumber
+	 * @param expirationDate
+	 * @param cvv
+	 * @param paymentTime
+	 * @return
+	 */
     @Transactional
     public Payment createPayment(PaymentForm paymentForm, Date paymentDate, String cardNumber, Date expirationDate, int cvv, Time paymentTime){
     	//check if anything is null that shouldn't be
@@ -90,21 +82,35 @@ public class PaymentService {
     	
     	return payment;
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @return
+	 */
+	@Transactional
     public List<Payment> getAllPayments(){
     	return toList(paymentRepository.findAll());
     }
 
-    @Transactional
+	/**
+	 *
+	 * @param paymentId
+	 * @return
+	 */
+	@Transactional
     public Payment getPayment(int paymentId) {
     	if(paymentRepository.findPaymentByPaymentId(paymentId) == null) {
     		throw new ApiRequestException("No payment with this ID");
     	}
     	return paymentRepository.findPaymentByPaymentId(paymentId);
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param cardNumber
+	 * @return
+	 */
+	@Transactional
     public List<Payment> getAllPaymentsByCardNumber(String cardNumber){
     	if(cardNumber==null || cardNumber.trim().length() == 0) {
     		throw new ApiRequestException("The card number must not be empty");
@@ -116,8 +122,13 @@ public class PaymentService {
     	}
     	return payments;
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param pd
+	 * @return
+	 */
+	@Transactional
     public List<Payment> getAllPaymentsByPaymentDate(Date pd){
     	if(pd==null) {
     		throw new ApiRequestException("The date must not be empty");
@@ -129,8 +140,13 @@ public class PaymentService {
     	}
     	return payments;
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param pt
+	 * @return
+	 */
+	@Transactional
     public List<Payment> getAllPaymentsByPaymentTime(Time pt){
     	if(pt==null) {
     		throw new ApiRequestException("The time must not be empty");
@@ -142,7 +158,18 @@ public class PaymentService {
     	}
     	return payments;
     }
-    
+
+	/**
+	 *
+	 * @param pf
+	 * @param pd
+	 * @param cardNumber
+	 * @param expiration
+	 * @param cvv
+	 * @param paymentId
+	 * @param paymentTime
+	 * @return
+	 */
     @Transactional
     public Payment updatePayment(PaymentForm pf, Date pd, String cardNumber, Date expiration, int cvv, int paymentId, Time paymentTime){
     	if(paymentRepository.findPaymentByPaymentId(paymentId)==null) {
@@ -166,7 +193,8 @@ public class PaymentService {
     	}
     	paymentRepository.save(p);
     	return p;
-    }	
+    }
+
     //helper methods
 
     private <T> List<T> toList(Iterable<T> iterable){

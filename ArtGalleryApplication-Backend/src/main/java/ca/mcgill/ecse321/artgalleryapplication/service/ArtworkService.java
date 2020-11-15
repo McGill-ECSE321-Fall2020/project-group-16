@@ -1,53 +1,47 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
-import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.format.annotation.DateTimeFormat;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
 
 @Service
 public class ArtworkService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
-    private ShipmentRepository shipmentRepository;
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    private GalleryEventRepository galleryEventRepository;
+
     @Autowired
     private ArtworkRepository artworkRepository;
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private ArtGalleryApplicationRepository artGalleryApplicationRepository;
 
 
 
     //CREATE METHODS
-    
+
+	/**
+	 *
+	 * @param title
+	 * @param description
+	 * @param creationDate
+	 * @param medium
+	 * @param imageUrl
+	 * @param price
+	 * @param status
+	 * @param dimensions
+	 * @param collection
+	 * @return
+	 */
     @Transactional
     public Artwork createArtwork(String title,  String description,  Date creationDate,
     								String medium, String imageUrl, Double price, ArtworkStatus status,
@@ -81,7 +75,19 @@ public class ArtworkService {
  
     
     //UPDATE METHODS
-    
+
+	/**
+	 *
+	 * @param id
+	 * @param newTitle
+	 * @param newDescription
+	 * @param newImageUrl
+	 * @param newPrice
+	 * @param newStatus
+	 * @param newDimensions
+	 * @param newCollection
+	 * @return
+	 */
 	@Transactional
 	public Artwork updateArtworkFields(int id, String newTitle, String newDescription, String newImageUrl, double newPrice, ArtworkStatus newStatus, String newDimensions, String newCollection) {
 
@@ -102,7 +108,12 @@ public class ArtworkService {
 	}
 
 	//GETTERS 
-	
+
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
     @Transactional
     public Artwork getArtwork(int id) {
     	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
@@ -110,13 +121,22 @@ public class ArtworkService {
     	return artwork;
     }
 
-    @Transactional
+	/**
+	 *
+	 * @return
+	 */
+	@Transactional
     public List<Artwork> getAllArtworks() {
     	List<Artwork> allArtworks = toList(artworkRepository.findAll());
     	return allArtworks;
     }
 
-    @Transactional
+	/**
+	 *
+	 * @param n
+	 * @return
+	 */
+	@Transactional
     //method that returns first n artworks instead of all of them
     public List<Artwork> getFirstNArtworks(int n) {
     	if(n <= 0) throw new ApiRequestException("n must be greater than 0");
@@ -132,8 +152,13 @@ public class ArtworkService {
    		}
    		return firstNArtworks;
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param username
+	 * @return
+	 */
+	@Transactional
     public List<Artwork> getArtworkByArtist(String username) {
     	UserProfile artist = userRepository.findByUsername(username);
     	if (artist == null) {
@@ -143,8 +168,14 @@ public class ArtworkService {
 
     	return toList(artworkRepository.findAllArtworkByArtist(artist));
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param minPrice
+	 * @param maxPrice
+	 * @return
+	 */
+	@Transactional
     public List<Artwork> getArtworkByPrice(Double minPrice, Double maxPrice) {
     	List<Artwork> allArtwork = toList(artworkRepository.findAll());
     	List<Artwork> filteredArtwork = new ArrayList<>();
@@ -173,7 +204,12 @@ public class ArtworkService {
     	return filteredArtwork;   	
     }
 
-   
+	/**
+	 *
+	 * @param minDate
+	 * @param maxDate
+	 * @return
+	 */
     @Transactional
     public List<Artwork> getArtworkByCreationDate(Date minDate, Date maxDate) {
     	List<Artwork> allArtwork = toList(artworkRepository.findAll());
@@ -206,15 +242,25 @@ public class ArtworkService {
 
     	return filteredArtwork;   	
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param status
+	 * @return
+	 */
+	@Transactional
     public List<Artwork> getArtworkByStatus(ArtworkStatus status) {
     	if(status == null) throw new ApiRequestException("Please enter a status");
     	return toList(artworkRepository.findAllArtworkByArtworkStatus(status));
     }
 
     //ADD ARTIST TO ARTWORK METHOD
-    
+
+	/**
+	 *
+	 * @param a
+	 * @param artist
+	 */
 	@Transactional
 	public void addArtistToArtwork(Artwork a, String artist) {
 		if(a == null) throw new ApiRequestException("No artwork with this id in the system.");		
@@ -234,7 +280,11 @@ public class ArtworkService {
 	}
 
 	//DELETE METHOD
-	
+
+	/**
+	 *
+	 * @param id
+	 */
 	@Transactional
     public void deleteArtwork(int id) {
 	    Artwork a = artworkRepository.findArtworkByArtworkId(id);

@@ -1,45 +1,37 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
-import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ShipmentService {
 
-    @Autowired
-    private UserRepository userRepository;
+
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
     private ShipmentRepository shipmentRepository;
-    @Autowired
-    private PaymentRepository paymentRepository;
-    @Autowired
-    private GalleryEventRepository galleryEventRepository;
-    @Autowired
-    private ArtworkRepository artworkRepository;
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private ArtGalleryApplicationRepository artGalleryApplicationRepository;
 
 
-
+	/**
+	 *
+	 * @param toGallery
+	 * @param estimatedArrivalTime
+	 * @param estimatedArrivalDate
+	 * @param returnAddressId
+	 * @param destinationAddressId
+	 * @return
+	 */
     @Transactional
     public Shipment createShipment(Boolean toGallery, Time estimatedArrivalTime, Date estimatedArrivalDate, int returnAddressId, int destinationAddressId) {
     	List<String> nulls = new ArrayList<>();
@@ -75,8 +67,13 @@ public class ShipmentService {
     	shipmentRepository.save(s);
     	return s;
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param shipmentId
+	 * @return
+	 */
+	@Transactional
     public Shipment getShipment(int shipmentId) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)==null) {
     		throw new ApiRequestException("No shipment with this ID");
@@ -85,12 +82,21 @@ public class ShipmentService {
     	return s;
     }
 
-    @Transactional
+	/**
+	 *
+	 * @return
+	 */
+	@Transactional
     public List<Shipment> getAllShipments(){
     	return toList(shipmentRepository.findAll());
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param arrivalDate
+	 * @return
+	 */
+	@Transactional
     public List<Shipment> getAllShipmentsByEstimatedArrivalDate(Date arrivalDate){
     	if(arrivalDate == null) {
     		throw new ApiRequestException("Must enter a Date variable");
@@ -102,8 +108,13 @@ public class ShipmentService {
     	}
     	return s;
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
+	@Transactional
     public List<Shipment> getAllShipmentsByReturnAddress(int id){
 		Address returnAddress = addressRepository.findAddressByAddressId(id);
     	if( returnAddress == null) {
@@ -116,8 +127,13 @@ public class ShipmentService {
     	}
     	return s;
     }
-    
-    @Transactional
+
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
+	@Transactional
     public List<Shipment> getAllShipmentsByDestinationAddress(int id){
 		Address destinationAddress = addressRepository.findAddressByAddressId(id);
     	if(destinationAddress == null) {
@@ -130,7 +146,17 @@ public class ShipmentService {
     	}
     	return s;
     }
-    
+
+	/**
+	 *
+	 * @param toGal
+	 * @param eta
+	 * @param shipmentId
+	 * @param estimatedArrival
+	 * @param r
+	 * @param d
+	 * @return
+	 */
     @Transactional
     public Shipment updateShipment(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)==null) {
@@ -153,7 +179,11 @@ public class ShipmentService {
     	return s;
     }
 
-    @Transactional
+	/**
+	 *
+	 * @param shipmentId
+	 */
+	@Transactional
     public void deleteShipment(int shipmentId) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId) == null) {
     		throw new ApiRequestException("No shipment with this ID exists");
