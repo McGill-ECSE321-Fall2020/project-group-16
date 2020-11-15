@@ -12,7 +12,7 @@
         @click="goToArtwork(order.artwork.artworkId)"
       >
         <img
-          src="../assets/art-2.jpg"
+          v-bind:src="order.artwork.imageUrl"
           alt=""
           class="align-content-center mr-3"
         />
@@ -27,16 +27,6 @@
         </div>
       </li>
     </ul>
-    <!-- <div class="orders mx-4">
-      <div class="order py-3" v-for="order in orders" v-bind:key="order.id">
-        <h1>{{ order.title }}</h1>
-        <h2>
-          {{ order.customer.firstName }}&nbsp;{{ order.customer.lastName }}
-        </h2>
-        <p>Purchased on: {{ order.orderDate }}</p>
-        <div class="border-button py-1 px-2 mx-auto">View Artwork</div>
-      </div>
-    </div> -->
   </div>
 </template>
 

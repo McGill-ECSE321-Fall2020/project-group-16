@@ -61,34 +61,6 @@
             />
           </div>
 
-          <!-- <div>
-            <div>
-              <div>
-                <button @click="click1">choose a photo</button>
-                <input
-                  type="file"
-                  ref="input1"
-                  style="display: none"
-                  @change="previewImage"
-                  accept="image/*"
-                />
-              </div>
-
-              <div class="border-circle">
-                <img
-                  v-if="imageData !== null"
-                  class="preview rounded-circle"
-                  height="250px"
-                  width="250px"
-                  v-bind:src="img1"
-                />
-                <br />
-              </div>
-            </div>
-
-            <button @click="create">Upload</button>
-          </div> -->
-
           <div class="name">
             <h2 class="">
               {{ theTargetUser.firstName }}&nbsp;{{
