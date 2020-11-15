@@ -8,7 +8,7 @@
         <div class="title">{{ title }}</div>
       </div>
       <div class="row-2">
-        <div class="artist">{{ artists[0] }}</div>
+        <div class="artist" v-if="artists[0]">{{ artists[0].firstName }} {{ artists[0].lastName }}</div>
       </div>
       <div class="row-2">
         <div class="date">{{ creationDate }}</div>
