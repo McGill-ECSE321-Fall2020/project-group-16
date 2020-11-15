@@ -42,6 +42,8 @@ export default {
     },
     created: function () {
 
+        //first thing: get the id of the page
+
         //get the current user to get admin status
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
             .then((response) => {
@@ -82,6 +84,8 @@ export default {
 
             AXIOS.post("/artworks/".concat(this.newArtwork.title), {}, {
                 params: {
+
+                    title: this.newArtwork.title,
                     description: this.newArtwork.description,
                     creationDate: this.newArtwork.creationDate,
                     medium: this.newArtwork.medium,

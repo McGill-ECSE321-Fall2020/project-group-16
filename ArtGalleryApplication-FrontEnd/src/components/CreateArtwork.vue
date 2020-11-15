@@ -91,6 +91,9 @@
             </td>
         </tr> -->
     </table>
+    <p>
+      <span v-if="errorArtwork" style="color: red"> {{ errorArtwork }} </span>
+    </p>
     <button
     v-bind:disabled="!newArtwork.title" 
     v-on:click="createArtwork(
@@ -128,10 +131,16 @@
         </table>
 
         <table>
+            <p>
+            <span v-if="errorAllUsers" style="color: red"> {{ errorAllUsers }} </span>
+            </p>
             <tr>List of added artists:</tr>
             <tr v-for="artist in newArtwork.artists" v-bind:key="artist.username">
                 {{ artist.username }}
             </tr>
+            <p>
+            <span v-if="errorAddArtist" style="color: red"> {{ errorAddArtist }} </span>
+            </p>
         </table>
     </div>
 
