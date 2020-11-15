@@ -13,7 +13,7 @@ export default {
                 dimensions: '',
                 medium: '',
                 collection: '',
-                creationDate: '',
+                creationDate: '2020-12-08',
                 price: '',
                 imageUrl: '',
                 status: '',

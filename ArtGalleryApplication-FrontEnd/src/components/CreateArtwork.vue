@@ -60,7 +60,7 @@
             <td>Collection:</td>
             <td><input 
             type="text"
-            v-model = "newArtwork.collestion"
+            v-model = "newArtwork.collection"
             placeholder="n/a or collection name">
             </td>
         </tr>

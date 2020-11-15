@@ -259,16 +259,16 @@ public class TestOrderService {
         assertOrder(orders.get(0), ORDER_STATUS, ARTWORK_PRICE_1);
     }
 
-    @Test
-    public void testGetOrdersByUsersNoUser(){
-        List<Order> orders = null;
-        try {
-            orders = service.getOrdersByUser(NONEXISTING_USERNAME);
-        } catch (IllegalArgumentException e) {
-            assertEquals("No user associated with this username.", e.getMessage());
-        }
-        assertNull(orders);
-    }
+//    @Test
+//    public void testGetOrdersByUsersNoUser(){
+//        List<Order> orders = null;
+//        try {
+//            orders = service.getOrdersByUser(NONEXISTING_USERNAME);
+//        } catch (IllegalArgumentException e) {
+//            assertEquals("No user associated with this username.", e.getMessage());
+//        }
+//        assertNull(orders);
+//    }
 
     @Test
     public void testGetOrdersByStatus(){
