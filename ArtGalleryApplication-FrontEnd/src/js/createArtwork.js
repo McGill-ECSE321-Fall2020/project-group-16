@@ -17,11 +17,28 @@ export default {
                 status: 'ForSale'
             },
             errorArtwork: '',
-            response: []
+            response: [],
+
+            theCurrentUser: {
+                username: "",
+                admin: "",
+            },
         }
     },
     created: function() {
-        // Initializing persons from backend
+        //first thing: get the id of the page
+        var url = window.location.hash;
+        var id = url.substring(url.lastIndexOf('/') + 1);
+
+        //get the current user to get admin status
+        AXIOS.get("/users/".concat(localStorage.getItem('username')))
+            .then((response) => {
+                this.theCurrentUser = response.data;
+            }).catch(function(err) {
+                console.log(err.response);
+                this.errorCurrentUser = "Error: " + err.response.data.message;
+            });
+        // getting artworks from backend
         AXIOS.get("/artwork")
             .then(response => {
                 // JSON responses are automatically parsed.
@@ -35,6 +52,7 @@ export default {
     methods: {
         createArtwork: function(title, description, creationDate, medium, imageUrl, price, status, dimension, collection) {
             console.log(
+                this.theCurrentUser.username,
                 this.newArtwork.title,
                 this.newArtwork.description,
                 this.newArtwork.dimensions,
@@ -46,6 +64,7 @@ export default {
             )
             AXIOS.post("/artworks/".concat(this.newArtwork.atworkId), {}, {
                 params: {
+                    username: localStorage.getItem('username'),
                     title: this.newArtwork.title,
                     description: this.newArtwork.description,
                     creationDate: this.newArtwork.creationDate,
@@ -62,6 +81,7 @@ export default {
                 // JSON responses are automatically parsed.
                 console.log(newArtwork)
                 this.artworks.push(response.data);
+
                 this.errorArtwork = ''
                 this.newArtwork.title = ''
                 this.newArtwork.description = ''
@@ -73,10 +93,14 @@ export default {
                 this.newArtwork.imageUrl = ''
             })
 
-            .catch(e => {
+           /* .catch(e => {
                 var errMsg = e.response.data.message
                 console.log(errMsg);
                 this.errorArtwork = errMsg;
+            });*/
+            .catch(function(err) {
+                console.log(err.response);
+                self.errorRegister = "Error: " + err.response.data.message;
             });
         }
 

@@ -17,5 +17,5 @@ export const AXIOS = axios.create({
     headers: {
         'Access-Control-Allow-Origin': '*'
     },
-    mode: 'cors',
+    mode: 'cors'
 })
