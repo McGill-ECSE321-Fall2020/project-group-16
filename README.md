@@ -25,12 +25,14 @@ The implementation of this system requires:
 
 ## How to run the Application and where it is deployed to
 Backend deployed to: https://artgalleryapp-backend-0.herokuapp.com/  
-Start the Backend locally by running the Application at: ```ArtGalleryApplication-Backend/src/main/java/ca/mcgill/ecse321/artgalleryapplication/ArtGalleryApplication.java```
-  
+Start the Backend locally by running the Application at: ```ArtGalleryApplication-Backend/src/main/java/ca/mcgill/ecse321/artgalleryapplication/ArtGalleryApplication.java```  
+The backend application will be hosted on ```localhost:8080```  
+
 Frontend deployed to: https://artgalleryapp-frontend-0.herokuapp.com/  
-Start the Frontend locally by executing the command ```npm run dev``` in ```ArtGalleryApplication-FrontEnd```
+Start the Frontend locally by executing the command ```npm run dev``` in ```ArtGalleryApplication-FrontEnd```  
+The frontend application will be hosted on ```localhost:8087```  
 
-
+  
 ## Important links:
 * [Software Requirements Specification](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification)
   * [System Requirements](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#2-requirements)
@@ -86,4 +88,3 @@ More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project
 |Arian Omidi    |                    |         |
 |Dina Shoham    |                    |         |
 |Evan Wechsler  |                    |         |
-

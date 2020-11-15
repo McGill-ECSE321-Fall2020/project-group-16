@@ -9,15 +9,26 @@ export default {
 
   data() {
     return {
-      artworks: ""
+      artworks: [],
+      filteredArtworks: [],
+
+      filter: {
+        status: 'All',
+        minPrice: '',
+        maxPrice: '',
+        from: '',
+        to: ''
+      },
+
+      sortBy: ''
     };
   },
 
-  created: function() {
+  created: function () {
     AXIOS.get("/artworks")
       .then(response => {
         this.artworks = response.data;
-        console.log(this.artworks)
+        this.filteredArtworks = response.data;
       })
       .catch(e => {
         this.errorArtworks = e;
@@ -25,21 +36,113 @@ export default {
   },
 
   methods: {
-    filter: function() {
-      console.log(document.getElementById("minprice").value);
-      console.log(document.getElementById("maxprice").value);
-      console.log(document.getElementById("mindate").value);
-      console.log(document.getElementById("maxdate").value);
-      console.log(document.getElementById('status').value);
-      status = document.getElementById('status').value;
-      AXIOS.get(`/artworks/byArtworkStatus/${status}`).then(response => {
-        this.artwork = response.data[0];
-        console.log(this.artwork);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    filterArtworks() {
+      this.filteredArtworks = []
+
+      for (var i = 0; i < this.artworks.length; i++) {
+        var artwork = this.artworks[i]
+
+        if (this.filter.status !== "All" && artwork.artworkStatus !== this.filter.status) {     // Status
+          continue
+        }
+
+        if (this.filter.minPrice && artwork.price < this.filter.minPrice) {                     // Min Price
+          continue
+        }
+        if (this.filter.maxPrice && artwork.price > this.filter.maxPrice) {                     // Max Price
+          continue
+        }
+
+        if (this.filter.from) {                               // From Date
+          var fromDate = new Date(this.filter.from);
+          var artworkDate = new Date(artwork.creationDate)
+
+          if (fromDate > artworkDate) {
+            continue
+          }
+        }
+        if (this.filter.to) {                                 // To Date
+          var toDate = new Date(this.filter.to);
+          var artworkDate = new Date(artwork.creationDate)
+
+          if (toDate < artworkDate) {
+            continue
+          }
+        }
+
+        this.filteredArtworks.push(artwork)
+      }
+
+      if (this.sortBy) {
+        this.sort()
+      }
+    },
+    resetFilters() {
+      this.filter.status = "All"
+      this.filter.minPrice = ''
+      this.filter.maxPrice = ''
+      this.filter.from = ''
+      this.filter.to = ''
+      this.sortBy = ''
+
+      this.filteredArtworks = this.artworks
+    },
+    sort() {
+      if (this.sortBy === "PriceInc") {
+        this.filteredArtworks.sort(function (a, b) {
+          var keyA = a.price
+          var keyB = b.price
+          // Compare the 2 dates
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
+          return 0;
+        });
+      } else if (this.sortBy === "PriceDec") {
+        this.filteredArtworks.sort(function (a, b) {
+          var keyA = a.price
+          var keyB = b.price
+          // Compare the 2 dates
+          if (keyA < keyB) return 1;
+          if (keyA > keyB) return -1;
+          return 0;
+        });
+      } else if (this.sortBy === "DateInc") {
+        this.filteredArtworks.sort(function (a, b) {
+          var keyA = new Date(a.creationDate)
+          var keyB = new Date(b.creationDate)
+          // Compare the 2 dates
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
+          return 0;
+        });
+      } else if (this.sortBy === "DateDec") {
+        this.filteredArtworks.sort(function (a, b) {
+          var keyA = new Date(a.creationDate)
+          var keyB = new Date(b.creationDate)
+          // Compare the 2 dates
+          if (keyA < keyB) return 1;
+          if (keyA > keyB) return -1;
+          return 0;
+        });
+      }
+    },
+    showFilters() {
+      var show = document.getElementById("filters")
+      var text = document.getElementById("toggle-filters");
+ 
+      if(show.style.display == "none") {
+        show.style.display = "block";
+      } else {
+        show.style.display = "none";
+      }
+
+      if(text.textContent == " + SHOW FILTERS") {
+        text.textContent = " - HIDE FILTERS";
+      }
+      else {
+        text.textContent = " + SHOW FILTERS";
+      }
     }
   }
-  
+
 };

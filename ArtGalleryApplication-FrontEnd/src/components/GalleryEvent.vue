@@ -21,13 +21,6 @@
           />
         </td>
         <td>
-          <input
-            type="text"
-            v-model="newEvent.imageUrl"
-            placeholder="Event Image Link"
-          />
-        </td>
-        <td>
           <input type="date" v-model="newEvent.date" placeholder="YYYY-MM-DD" />
         </td>
         <td>
@@ -43,7 +36,6 @@
               createEvent(
                 newEvent.name,
                 newEvent.description,
-                newEvent.imageUrl,
                 newEvent.date,
                 newEvent.startTime,
                 newEvent.endTime

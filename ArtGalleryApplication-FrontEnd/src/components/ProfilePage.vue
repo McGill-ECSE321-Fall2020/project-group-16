@@ -20,9 +20,10 @@
       }"
     >
       <h1>{{ currentUser ? "YOUR" : "THEIR" }} ARTWORK</h1>
-      <div class="black-button py-2 px-4" v-if="currentUser">
+      <!--<div class="black-button py-2 px-4" v-if="currentUser" @click="createArtwork">
         CREATE NEW ARTWORK
-      </div>
+      </div>-->
+      <button @click="$router.push({ path: `/create_artwork` })">CREATE ARTWORK</button>
     </div>
   </div>
 </template>

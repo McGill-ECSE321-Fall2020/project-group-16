@@ -54,9 +54,15 @@ public class ArtworkService {
     								String dimensions, String collection) {
 
     	//title, price, and status are the only required attributes to create an artwork
-		if(title == null || title.trim().length() == 0) throw new IllegalArgumentException("title is null or length 0. Please enter valid title.");
-    	if(price == null) throw new IllegalArgumentException("Entered price is null. Please enter a valid price.");
-		if(status == null) throw new IllegalArgumentException("Entered artwork status is null. Please enter a valid status.");	
+		if(title == null || title.trim().length() == 0) throw new ApiRequestException("title is null or length 0. Please enter valid title.");
+		if(description == null || description.trim().length() == 0) throw new ApiRequestException("description is null or length 0. Please enter valid description.");
+		if(creationDate == null) throw new ApiRequestException("Creation Date is null. Please enter valid date.");
+		if(medium == null || medium.trim().length() == 0) throw new ApiRequestException("medium is null or length 0. Please enter valid medium.");
+		if(imageUrl == null || imageUrl.trim().length() == 0) throw new ApiRequestException("Image Url is null or length 0. Please enter valid url.");
+		if(price == null) throw new ApiRequestException("Entered price is null. Please enter a valid price.");
+		if(status == null) throw new ApiRequestException("Entered artwork status is null. Please enter a valid status.");	
+		if(dimensions == null||dimensions.trim().length()==0) throw new ApiRequestException("dimensions are null or length 0. Please enter valid dimensions.");
+		if(collection == null || collection.trim().length() == 0) throw new ApiRequestException("collection is null or length 0. Please enter valid collection.");
 		
     	Artwork artwork = new Artwork();
     	artwork.setTitle(title);
@@ -80,10 +86,11 @@ public class ArtworkService {
 	public Artwork updateArtworkFields(int id, String newTitle, String newDescription, String newImageUrl, double newPrice, ArtworkStatus newStatus, String newDimensions, String newCollection) {
 
     	Artwork artwork = artworkRepository.findArtworkByArtworkId(id);
-    	if(artwork == null) throw new IllegalArgumentException("No artwork with ID " + id + " in the system.");
+    	if(artwork == null) throw new ApiRequestException("No artwork with ID " + id + " in the system.");
 
-		if(newTitle != null && newTitle.trim().length() != 0) artwork.setTitle(newTitle);
-		if(newDescription != null && !newDescription.equals(artwork.getDescription())) artwork.setDescription(newDescription);
+		
+    	if(newTitle != null && newTitle.trim().length() != 0) artwork.setTitle(newTitle);
+    	if(newDescription != null && !newDescription.equals(artwork.getDescription())) artwork.setDescription(newDescription);
 		if(newImageUrl != null && !newImageUrl.equals(artwork.getImageUrl())) artwork.setImageUrl(newImageUrl);
 		if(newPrice != artwork.getPrice()) artwork.setPrice(newPrice);
 		if(newStatus != artwork.getArtworkStatus()) artwork.setArtworkStatus(newStatus);
@@ -112,7 +119,7 @@ public class ArtworkService {
     @Transactional
     //method that returns first n artworks instead of all of them
     public List<Artwork> getFirstNArtworks(int n) {
-    	if(n <= 0) throw new IllegalArgumentException("n must be greater than 0");
+    	if(n <= 0) throw new ApiRequestException("n must be greater than 0");
     	
     	List<Artwork> firstNArtworks = new ArrayList<Artwork>();
     	
@@ -130,7 +137,7 @@ public class ArtworkService {
     public List<Artwork> getArtworkByArtist(String username) {
     	UserProfile artist = userRepository.findByUsername(username);
     	if (artist == null) {
-    		throw new IllegalArgumentException("There was no user associated with this username.");
+    		throw new ApiRequestException("There was no user associated with this username.");
 		}
 
 
@@ -153,7 +160,7 @@ public class ArtworkService {
     	}
     	
     	if(minPrice >= maxPrice) {
-    		throw new IllegalArgumentException("Minimum price must be less than maximum price");
+    		throw new ApiRequestException("Minimum price must be less than maximum price");
     	}
     	
     	//filtering results
@@ -175,7 +182,7 @@ public class ArtworkService {
     	//error handling
        	if (minDate != null && maxDate != null) {
        		if(minDate.compareTo(maxDate) > 0) { //if minDate is on or after maxDate
-       			throw new IllegalArgumentException("Maximum date must be after minimum date");
+       			throw new ApiRequestException("Maximum date must be after minimum date");
        		}
        	}
     	
@@ -202,7 +209,7 @@ public class ArtworkService {
     
     @Transactional
     public List<Artwork> getArtworkByStatus(ArtworkStatus status) {
-    	if(status == null) throw new IllegalArgumentException("Please enter a status");
+    	if(status == null) throw new ApiRequestException("Please enter a status");
     	return toList(artworkRepository.findAllArtworkByArtworkStatus(status));
     }
 
@@ -210,11 +217,11 @@ public class ArtworkService {
     
 	@Transactional
 	public void addArtistToArtwork(Artwork a, String artist) {
-		if(a == null) throw new IllegalArgumentException("No artwork with this id in the system.");		
+		if(a == null) throw new ApiRequestException("No artwork with this id in the system.");		
 		Artwork artworkInSystem = artworkRepository.findArtworkByArtworkId(a.getArtworkId());
 
 		UserProfile p = userRepository.findByUsername(artist);
-		if(p == null) throw new IllegalArgumentException("No user in system associated to this username");
+		if(p == null) throw new ApiRequestException("No user in system associated to this username");
 
 		Set<UserProfile> artists = new HashSet<>();
 		artists.add(p);
@@ -231,7 +238,7 @@ public class ArtworkService {
 	@Transactional
     public void deleteArtwork(int id) {
 	    Artwork a = artworkRepository.findArtworkByArtworkId(id);
-        if (a == null) throw new IllegalArgumentException("No artwork with this id in the system.");
+        if (a == null) throw new ApiRequestException("No artwork with this id in the system.");
 	    artworkRepository.delete(a);
     }
     
