@@ -17,6 +17,9 @@
         <body>
             {{artwork.description}}
         </body>
+        <button @click="$router.push({ path: `/checkout/${theCurrentUser.username}/${artwork.artworkId}` })">
+            Purchase
+        </button>    
     </div>
 </template>
 
