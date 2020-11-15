@@ -80,10 +80,8 @@ export default {
 
             AXIOS.post("/artworks/".concat(this.newArtwork.title), {}, {
                 params: {
-<<<<<<< HEAD
+
                     title: this.newArtwork.title,
-=======
->>>>>>> c288340269d29554ef9809a42c45647ef2f95be6
                     description: this.newArtwork.description,
                     creationDate: this.newArtwork.creationDate,
                     medium: this.newArtwork.medium,
