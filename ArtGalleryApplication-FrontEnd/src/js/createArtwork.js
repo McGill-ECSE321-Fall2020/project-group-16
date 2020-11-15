@@ -4,8 +4,9 @@ export default {
     name: "CreateArtwork",
     data() {
         return {
-            artworks: [],
+            //artworks: [],
             newArtwork: {
+                artworkId: '',
                 title: '',
                 description: '',
                 dimensions: '',
@@ -14,9 +15,19 @@ export default {
                 creationDate: '',
                 price: '',
                 imageUrl: '',
-                status: 'ForSale'
+                status: 'ForSale',
+                artists: []
             },
+
+            artistToAdd: "",
+
+            allUsers: [],
+
+
             errorArtwork: '',
+            errorAllUsers: '',
+            errorAddArtist: '',
+
             response: [],
 
             theCurrentUser: {
@@ -26,9 +37,6 @@ export default {
         }
     },
     created: function() {
-        //first thing: get the id of the page
-        var url = window.location.hash;
-        var id = url.substring(url.lastIndexOf('/') + 1);
 
         //get the current user to get admin status
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
@@ -37,20 +45,25 @@ export default {
             }).catch(function(err) {
                 console.log(err.response);
                 this.errorCurrentUser = "Error: " + err.response.data.message;
-            });
-        // getting artworks from backend
-        AXIOS.get("/artwork")
-            .then(response => {
-                // JSON responses are automatically parsed.
-                this.artworks = response.data;
-            })
-            .catch(e => {
-                this.errorAddress = e;
-            });
+        });
+
+        //get all users
+        AXIOS.get("/users/")
+        .then((response) => {
+            this.allUsers = response.data;
+        }).catch(function(err) {
+            console.log(err.response);
+            this.errorAllUsers = "Error: " + err.response.data.message;
+        });
+
+
     },
 
     methods: {
+
         createArtwork: function(title, description, creationDate, medium, imageUrl, price, status, dimension, collection) {
+            var self = this;
+
             console.log(
                 this.theCurrentUser.username,
                 this.newArtwork.title,
@@ -62,10 +75,9 @@ export default {
                 this.newArtwork.price,
                 this.newArtwork.imageUrl
             )
-            AXIOS.post("/artworks/".concat(this.newArtwork.atworkId), {}, {
+
+            AXIOS.post("/artworks/".concat(this.newArtwork.title), {}, {
                 params: {
-                    username: localStorage.getItem('username'),
-                    title: this.newArtwork.title,
                     description: this.newArtwork.description,
                     creationDate: this.newArtwork.creationDate,
                     medium: this.newArtwork.medium,
@@ -76,33 +88,48 @@ export default {
                     collection: this.newArtwork.collection,
                 }
             })
-
             .then(response => {
                 // JSON responses are automatically parsed.
-                console.log(newArtwork)
-                this.artworks.push(response.data);
-
-                this.errorArtwork = ''
-                this.newArtwork.title = ''
-                this.newArtwork.description = ''
-                this.newArtwork.dimensions = ''
-                this.newArtwork.medium = ''
-                this.newArtwork.collection = ''
-                this.newArtwork.creationDate = ''
-                this.newArtwork.price = ''
-                this.newArtwork.imageUrl = ''
+                console.log(this.newArtwork)
+                //this.artworks.push(response.data);
+                this.newArtwork = response.data;
             })
-
-           /* .catch(e => {
-                var errMsg = e.response.data.message
-                console.log(errMsg);
-                this.errorArtwork = errMsg;
-            });*/
             .catch(function(err) {
                 console.log(err.response);
-                self.errorRegister = "Error: " + err.response.data.message;
+                self.errorArtwork = "Error: " + err.response.data.message;
             });
-        }
+        },
 
+        addArtist: function() {
+            var self = this;
+
+            AXIOS.put("/artworks/" + this.newArtwork.artworkId + "/add-artist/", {}, {
+                params: {
+                    username: this.artistToAdd
+                }
+            })
+            .then(response => {
+                this.newArtwork.artists.push(response.data.artists[0]);
+                this.artistToAdd = '';
+
+                // this.errorArtwork = ''
+                // this.newArtwork.title = ''
+                // this.newArtwork.description = ''
+                // this.newArtwork.dimensions = ''
+                // this.newArtwork.medium = ''
+                // this.newArtwork.collection = ''
+                // this.newArtwork.creationDate = ''
+                // this.newArtwork.price = ''
+                // this.newArtwork.imageUrl = ''
+            })
+            .catch(function(err) {
+                console.log(err.response);
+                self.errorAddArtist = "Error: " + err.response.data.message;
+            });
+        },
+
+        reloadPage: function() {
+            location.reload();
+        }
     }
 };

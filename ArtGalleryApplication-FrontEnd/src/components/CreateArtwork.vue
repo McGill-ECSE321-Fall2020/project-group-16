@@ -84,6 +84,39 @@
         )">
     Add Artwork
     </button>
+
+    <br>
+    <br>
+    <div>
+        <h2>Add Artists to the artwork {{newArtwork.title}}:</h2>
+        <table>
+            <tr>
+                <td><label>Add artist</label></td>
+                <td>
+                    <label> Select the user: 
+                    <select v-model="artistToAdd">
+                        <option value="">username</option>
+                        <option v-for="user in allUsers" v-bind:key="user.username">{{ user.username }}</option>
+                    </select>
+                    </label>
+                </td>
+                <td>
+                    <button v-bind:disabled="!artistToAdd" @click="addArtist()">Add artist</button>
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>List of added artists:</tr>
+            <tr v-for="artist in newArtwork.artists" v-bind:key="artist.username">
+                {{ artist.username }}
+            </tr>
+        </table>
+    </div>
+
+    <br>
+    <br>
+    <button @click="reloadPage()">Done</button>
     
     </div>
 </template>
