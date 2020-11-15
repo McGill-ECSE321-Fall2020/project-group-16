@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.AddressRepository;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -167,23 +168,22 @@ public class TestShipmentService {
 		
 	}
 	
-//	@Test
-//	public void testCreateShipment() {
-//
-//		Shipment shipment = null;
-//		try {
-//			shipment = service.createShipment(TO_GALLERY2, ESTIMATED_ARRIVAL_TIME2, ESTIMATED_ARRIVAL_DATE2, RETURN_ADDRESS2.getAddressId(), DESTINATION2.getAddressId());
-//		} catch (IllegalArgumentException e) {
-//			// Check that no error occurred
-//			fail();
-//		}
-//		assertNotNull(shipment);
-//		assertEquals(TO_GALLERY2, shipment.getToGallery());
-//		assertEquals(ESTIMATED_ARRIVAL_TIME2, shipment.getEstimatedArrivalTime());
-//		assertEquals(ESTIMATED_ARRIVAL_DATE2, shipment.getEstimatedArrivalDate());
-//		assertEquals(RETURN_ADDRESS2.getAddressId(), shipment.getReturnAddress().getAddressId());
-//		assertEquals(DESTINATION2.getAddressId(), shipment.getDestination().getAddressId());
-//	}
+	@Test
+	public void testCreateShipment() {
+
+		Shipment shipment = null;
+		try {
+			shipment = service.createShipment(TO_GALLERY2, ESTIMATED_ARRIVAL_TIME2, ESTIMATED_ARRIVAL_DATE2, RETURN_ADDRESS2.getAddressId(), DESTINATION2.getAddressId());
+		} catch (ApiRequestException e) {
+			// Check that no error occurred
+			fail();
+		}
+		assertNotNull(shipment);
+		assertEquals(TO_GALLERY2, shipment.getToGallery());
+		assertEquals(ESTIMATED_ARRIVAL_TIME2, shipment.getEstimatedArrivalTime());
+		assertEquals(ESTIMATED_ARRIVAL_DATE2, shipment.getEstimatedArrivalDate());
+		assertEquals(DESTINATION2.getAddressId(), shipment.getDestination().getAddressId());
+	}
 	
 	@Test
 	public void testCreateShipmentNull() {
@@ -235,7 +235,7 @@ public class TestShipmentService {
 							
 							try {
 								shipment = service.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, 4, 5);
-							} catch (IllegalArgumentException e) {
+							} catch (ApiRequestException e) {
 								error = e.getMessage();
 								for(String s:nulls) {
 									theoreticalError += s;
@@ -256,30 +256,11 @@ public class TestShipmentService {
 		}
 	}
 	
-//	@Test
-//	public void testCreateShipmentInvalidAddresses() {
-//		Shipment shipment = null;
-//		String error = null;
-//		String theoreticalError = "must have different destination and return addresses";
-//		Boolean toGallery = false;
-//		Time estimatedArrivalTime = java.sql.Time.valueOf(LocalTime.of(11, 35));
-//		int shipmentId = 999999999;
-//		Date estimatedArrivalDate = java.sql.Date.valueOf(LocalDate.of(2024, Month.NOVEMBER, 19));
-//		Address returnAddress = createReturnAddress();
-//		Address destinationAddress = createReturnAddress();
-//		try {
-//			shipment = service.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, returnAddress.getAddressId(), destinationAddress.getAddressId());
-//		} catch(IllegalArgumentException e) {
-//			error = e.getMessage();
-//		}
-//		assertEquals(theoreticalError, error);
-//	}
-	
 	@Test
 	public void testDeleteShipment() {
 		try {
 			service.deleteShipment(SHIPMENT_ID);
-		} catch(IllegalArgumentException e) {
+		} catch(ApiRequestException e) {
 			fail();
 		}
 	}
@@ -289,7 +270,7 @@ public class TestShipmentService {
 		String error="";
 		try {
 			service.deleteShipment(NONEXISTING_ID);
-		}catch(IllegalArgumentException e) {
+		}catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error, "No shipment with this ID exists");
@@ -301,7 +282,7 @@ public class TestShipmentService {
 
 	    try {
 	        shipment = service.getShipment(SHIPMENT_ID);
-	    } catch (IllegalArgumentException e) {
+	    } catch (ApiRequestException e) {
 	        fail();
 	    }
 
@@ -315,7 +296,7 @@ public class TestShipmentService {
 		String error = "";
 		try {
 	        shipment = service.getShipment(NONEXISTING_ID);
-	    } catch (IllegalArgumentException e) {
+	    } catch (ApiRequestException e) {
 	        error = e.getMessage();
 	    }
 
@@ -354,7 +335,7 @@ public class TestShipmentService {
 		String error = null;
 		try {
 			List<Shipment> allShipments = service.getAllShipmentsByEstimatedArrivalDate(estimatedArrival);
-		}catch(IllegalArgumentException e) {
+		}catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error, "Must enter a Date variable");
@@ -374,7 +355,7 @@ public class TestShipmentService {
 		String error = null;
 		try {
 			List<Shipment> allShipments = service.getAllShipmentsByReturnAddress(notValidReturnAddressId);
-		}catch(IllegalArgumentException e) {
+		}catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error, "Must enter a return address");
@@ -396,7 +377,7 @@ public class TestShipmentService {
 		String error = null;
 		try {
 			List<Shipment> allShipments = service.getAllShipmentsByDestinationAddress(notValidDestinationAddressId);
-		}catch(IllegalArgumentException e) {
+		}catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error, "Must enter a destination address");
@@ -417,7 +398,7 @@ public class TestShipmentService {
 
 	     try {
 	         shipment = service.updateShipment(toGallery, estimatedArrivalTime, SHIPMENT_ID, estimatedArrivalDate, returnAddress, destinationAddress);
-	     } catch (IllegalArgumentException e) {
+	     } catch (ApiRequestException e) {
 	         fail();
 	     }
 	     assertNotNull(shipment);
@@ -442,7 +423,7 @@ public class TestShipmentService {
 
 	     try {
 	         shipment = service.updateShipment(toGallery, estimatedArrivalTime, NONEXISTING_ID, estimatedArrivalDate, returnAddress, destinationAddress);
-	     } catch (IllegalArgumentException e) {
+	     } catch (ApiRequestException e) {
 	         error = e.getMessage();
 	     }
 	     assertNull(shipment);

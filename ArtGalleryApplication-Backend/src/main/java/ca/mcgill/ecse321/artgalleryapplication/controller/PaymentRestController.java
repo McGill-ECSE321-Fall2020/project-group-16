@@ -1,12 +1,11 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
-import static ca.mcgill.ecse321.artgalleryapplication.controller.ConvertToDto.convertToDto;
-
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +30,7 @@ public class PaymentRestController {
 									 @RequestParam("expirationDate") Date expirationDate,
 									 @RequestParam("cvv") int cvv,
 									 @RequestParam("paymentTime") Time paymentTime)
-									 throws IllegalArgumentException{
+									 throws ApiRequestException {
 		
 		Payment payment = paymentService.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
 		
