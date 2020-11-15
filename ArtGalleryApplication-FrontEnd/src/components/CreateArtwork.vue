@@ -75,7 +75,7 @@
         <tr>
             <td>Price (in $CAD):</td>
             <td><input 
-            type="text"
+            type="number"
             v-model = "newArtwork.price"
             placeholder="1000">
             </td>
