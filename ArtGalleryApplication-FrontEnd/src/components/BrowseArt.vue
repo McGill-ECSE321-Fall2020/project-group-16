@@ -3,11 +3,11 @@
     <div class="filters">
       <div>
         <label>Status:</label>
-        <select>
-          <option value="All">All</option>
-          <option value="For Sale">For Sale</option>
-          <option value="Not For Sale">Not for Sale</option>
-          <option value="Sold">Sold</option>
+        <select type="status" id="status">
+          <option value="all">All</option>
+          <option value="forsale">For Sale</option>
+          <option value="notforsale">Not for Sale</option>
+          <option value="sold">Sold</option>
         </select>
       </div>
 
