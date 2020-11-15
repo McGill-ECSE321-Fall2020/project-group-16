@@ -31,21 +31,37 @@
       <div class="edit-form mx-auto mb-5 pt-5 px-5">
         <h1 class="">Edit Your Profile</h1>
         <div class="current-info">
-          <img
-            v-if="theCurrentUser.profileImageUrl === ''"
-            src="../assets/Profile Pic.png"
-            alt=""
-            class="rounded-circle"
-          />
-          <img
-            v-else
-            class="profile-image my-3 rounded-circle"
-            :src="theTargetUser.profileImageUrl"
-            alt=""
-          />
+          <div class="profile-image">
+            <img v-if="imageData !== null" :src="img1" alt="" class="image" />
+            <img
+              v-else-if="theTargetUser.profileImageUrl === ''"
+              src="../assets/Profile Pic.png"
+              alt=""
+              class="image"
+            />
+            <img
+              v-else
+              class="profile-image my-3 image"
+              v-bind:src="theTargetUser.profileImageUrl"
+              alt=""
+            />
+            <div v-if="imageData === null" class="button" @click="click1">
+              CHANGE PHOTO
+            </div>
 
-          <div>
-            <h1>Upload a photo</h1>
+            <div v-else-if="imageData !== null" class="button" @click="create">
+              SAVE
+            </div>
+            <input
+              type="file"
+              ref="input1"
+              style="display: none"
+              @change="previewImage"
+              accept="image/*"
+            />
+          </div>
+
+          <!-- <div>
             <div>
               <div>
                 <button @click="click1">choose a photo</button>
@@ -58,20 +74,20 @@
                 />
               </div>
 
-              <div>
+              <div class="border-circle">
                 <img
-                  v-if="imageData != null"
-                  class="preview"
-                  height="268"
-                  width="356"
-                  :src="img1"
+                  v-if="imageData !== null"
+                  class="preview rounded-circle"
+                  height="250px"
+                  width="250px"
+                  v-bind:src="img1"
                 />
                 <br />
               </div>
             </div>
 
             <button @click="create">Upload</button>
-          </div>
+          </div> -->
 
           <div class="name">
             <h2 class="">

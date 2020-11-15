@@ -11,18 +11,21 @@ export default {
         goToArtwork: function() {
             this.$router.push({ name: "ViewArtwork", params: { artworkId: this.id } })
         }
+    },
+    mounted: function() {
+        console.log(this.artworkStatus)
     }
 };
 
 
 onload = function() {
-   /* if(imageurl !== "undefined"){
-        document.getElementById('art-img').src = imageUrl;
-    }
-    else{
-        setTimeout(waitForElement, 250);
-    }*/
- };
+    /* if(imageurl !== "undefined"){
+         document.getElementById('art-img').src = imageUrl;
+     }
+     else{
+         setTimeout(waitForElement, 250);
+     }*/
+};
 
 /*onload = function() {
     if(imageurl !== "undefined"){
@@ -32,4 +35,3 @@ onload = function() {
         setTimeout(waitForElement, 250);
     }
  };*/
-

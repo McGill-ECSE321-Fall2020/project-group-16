@@ -8,6 +8,12 @@
     background: #E9E7DB;
 }
 
+@media (max-width: 1000px) {
+    .edit-form {
+        width: 85%;
+    }
+}
+
 p {
     text-align: left;
 }
@@ -148,4 +154,36 @@ textarea:focus {
 
 .done:hover {
     background-color: #006F45;
+}
+
+.image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.button {
+    position: absolute;
+    font-size: 20px;
+    width: 170px;
+    height: 40px;
+    bottom: 50%;
+    right: 50%;
+    margin: 0px -85px -20px 0px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+    line-height: 40px;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background: #006F45;
+}
+
+.profile-image {
+    position: relative;
+    text-align: center;
 }

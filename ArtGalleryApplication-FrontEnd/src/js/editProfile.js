@@ -63,7 +63,6 @@ export default {
         AXIOS.get("/users/".concat(username))
             .then((response) => {
                 this.theTargetUser = response.data;
-                this.theTargetUser.profileImageUrl = "../assets/Profile Pic.png"
             }).catch(function(err) {
                 console.log(err.response)
                 self.errorTargetUser = err.response.data.message;
@@ -197,6 +196,7 @@ export default {
                 //reinitialize the field
                 this.newImageUrl = "";
                 this.error = "";
+                console.log(this.theTargetUser.profileImageUrl)
             }).catch(function(err) {
                 console.log(err.response);
                 self.error = err.response.data.message;
@@ -282,6 +282,8 @@ export default {
             firebase.database().ref('PhotoGallery').push(post)
                 .then((response) => {
                     console.log(response)
+                    this.updateImage(this.img1)
+                    this.imageData = null
 
                 })
                 .catch(err => {
@@ -308,7 +310,6 @@ export default {
                     storageRef.snapshot.ref.getDownloadURL().then((url) => {
                         this.img1 = url;
                         console.log(this.img1)
-                        this.theTargetUser.profileImageUrl = this.img1
                     });
                 }
             );

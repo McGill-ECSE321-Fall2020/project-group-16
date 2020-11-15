@@ -18,7 +18,7 @@
     </div>
     <p><b>Email: </b>{{ user.email }}</p>
     <p><b>Description: </b>{{ checkDescription() }}</p>
-    //
+
     <div
       v-if="currentUser"
       class="border-button py-1 px-2 mx-auto"

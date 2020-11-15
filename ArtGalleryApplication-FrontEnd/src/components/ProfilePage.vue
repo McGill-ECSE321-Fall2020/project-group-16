@@ -4,7 +4,7 @@
       <div class="col px-0 col-4" v-bind:class="{'offset-4': !currentUser}"><UserProfileInfo v-bind:user="user" v-bind:currentUser="currentUser"/></div>
       <div class="col col-7 offset-1 px-0"><PastOrders v-if="currentUser" v-bind:username="username"/></div>
     </div> -->
-    <div class="info-orders">
+    <div v-bind:class="{ 'info-orders': currentUser, 'mx-auto': !currentUser }">
       <div class="">
         <UserProfileInfo v-bind:user="user" v-bind:currentUser="currentUser" />
       </div>
@@ -24,6 +24,7 @@
         CREATE NEW ARTWORK
       </div>-->
       <div
+        v-if="currentUser"
         class="black-button px-3 py-2"
         @click="$router.push({ path: `/create_artwork` })"
       >

@@ -1,0 +1,18 @@
+.button {
+    background: black;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+    width: fit-content;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background: #006F45;
+}
+
+.participant:hover {
+    background: #9b9a92;
+    cursor: pointer;
+    border-radius: 10px;
+}
