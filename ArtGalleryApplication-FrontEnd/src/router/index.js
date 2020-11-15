@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import BrowseArt from '@/components/BrowseArt'
-import ArtPage from '@/components/ArtPage'
 import VueRouter from 'vue-router'
 import LandingPage from '@/components/LandingPage'
 import ProfilePage from '@/components/ProfilePage'
@@ -53,14 +52,9 @@ const routes = [{
     component: SpecificEvent
 },
 {
-    path: '/browseart',
+    path: '/artworks',
     name: 'BrowseArt',
     component: BrowseArt
-},
-{
-    path: '/artPage',
-    name: 'ArtPage',
-    component: ArtPage
 },
 {
     path: "/artworks/:artworkId",

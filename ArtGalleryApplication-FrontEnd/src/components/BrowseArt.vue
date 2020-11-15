@@ -1,6 +1,6 @@
 <template>
   <div id="browse-art">
-    <div>
+    <div class="filters">
       <button id="toggle-filters" textContent=" + SHOW FILTERS" v-on:click="showFilters"> + SHOW FILTERS</button>
     </div>
     <div class="filters" id="filters" style="display:none">
@@ -121,6 +121,10 @@
   .artproducts {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+#togglefilters {
+  padding: 10px;
 }
 
 .filters {
