@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -154,6 +155,11 @@ public class ArtworkRestController {
 		Artwork a = artworkService.getArtwork(id);
 		artworkService.addArtistToArtwork(a, username);
 		return ConvertToDto.convertToDto(a);
+	}
+
+	@DeleteMapping(value = { "/artworks/{id}", "/artworks/{id}/" })
+	public boolean deleteOrder(@PathVariable("id") int id) throws ApiRequestException {
+		return artworkService.deleteArtwork(id);
 	}
 }
  

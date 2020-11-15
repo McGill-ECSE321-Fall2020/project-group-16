@@ -13,38 +13,64 @@ export default {
                 collection: "",
                 creationDate: "",
                 price: "",
+                artists: [],
                 imageUrl: "",
-                status: "ForSale",
+                status: "",
             },
             theCurrentUser: {
                 username: "",
                 admin: "",
             },
 
-            errorCurrentUser: ''
+            userOwnsArtwork: false,
+            deleted: false,
+
+            errorCurrentUser: '',
+            errorArtwork: ''
         };
     },
-    created: function() {
+    created: function () {
         this.artwork.artworkId = this.$route.params.artworkId;
-        console.log(this.artwork.artworkId);
     },
-    mounted: function() {
+    mounted: function () {
         AXIOS.get(`/artworks/${this.artwork.artworkId}`)
             .then(response => {
                 this.artwork = response.data;
-                console.log(this.artwork);
+                this.isUserOwnerOfArtwork(response.data.artists)
             })
             .catch(e => {
                 console.log(e);
             });
-        
+
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
             .then((response) => {
                 this.theCurrentUser = response.data;
-                console.log(this.theCurrentUser.username)
             }).catch(function (err) {
                 console.log(err.response);
                 this.errorCurrentUser = "Error: " + err.response.data.message;
             });
+    },
+    methods: {
+        isUserOwnerOfArtwork(artists) {
+            const curUsername = localStorage.getItem('username')
+            console.log(curUsername)
+            artists.forEach(user => {
+                console.log(user.username)
+                if (user.username === curUsername) {
+                    this.userOwnsArtwork = true
+                }
+            });
+        },
+
+        deleteArtwork(artworkId) {
+            AXIOS.delete("/artworks/".concat(artworkId), {}, {
+            })
+                .then(this.deleted = true)
+                .catch(e => {
+                    var errorMsg = e.response.data.message;
+                    console.log(errorMsg);
+                    this.errorArtwork = errorMsg;
+                });
+        }
     }
 };

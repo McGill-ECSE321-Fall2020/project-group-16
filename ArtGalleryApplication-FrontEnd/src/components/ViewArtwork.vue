@@ -1,26 +1,42 @@
 <template>
-  <div id="viewartwork">
-    <div class="box-1">
-      <div class="outline">
-        <img :src="artwork.imageUrl" alt="artwork image" />
-      </div>
+    <div v-if="!deleted">
+    <div id="viewartwork">
+        <div class="box-1">
+        <div class="outline">
+            <img :src="artwork.imageUrl" alt="artwork image" />
+        </div>
+        </div>
+
+        <div class="box-2">
+            <p class="title">{{ artwork.title }}</p>
+            <p class="artist" v-if="artwork.artists[0]">{{ artwork.artists[0].firstName }} {{ artwork.artists[0].lastName }}</p>
+            <p class="date">{{ artwork.creationDate }}</p>
+            <p class="detail">{{ artwork.collection }}</p>
+            <p class="detail">{{ artwork.dimensions }}</p>
+            <p class="detail">{{ artwork.medium }}</p>
+            <p class="descrip">{{ artwork.description }}</p>
+
+            <p><button v-if="!userOwnsArtwork" class="purchase" @click="$router.push(
+                {path: `/checkout/${theCurrentUser.username}/${artwork.artworkId}`})">
+                PURCHASE - ${{ artwork.price }}
+            </button></p>
+
+            <!-- ADDED -->
+            <button v-if="!userOwnsArtwork" @click="$router.push({ path: `/user/${artwork.artists[0].username}` })">
+                More From This Artist
+            </button>
+            <button v-if="userOwnsArtwork" @click="deleteArtwork(artwork.artworkId)">
+                Delete Artwork
+            </button>
+            <!--  -->
+        </div>
     </div>
 
-    <div class="box-2">
-        <p class="title">{{ artwork.title }}</p>
-        <p class="artist">{{ artwork.artists[0] }}</p>
-        <p class="date">{{ artwork.creationDate }}</p>
-        <p class="detail">{{ artwork.collection }}</p>
-        <p class="detail">{{ artwork.dimensions }}</p>
-        <p class="detail">{{ artwork.medium }}</p>
-        <p class="descrip">{{ artwork.description }}</p>
-
-        <p><button class="purchase" @click="$router.push(
-            {path: `/checkout/${theCurrentUser.username}/${artwork.artworkId}`})">
-            PURCHASE - ${{ artwork.price }}
-        </button></p>
+    <!-- ADDED -->
+    <div v-if="deleted">
+        <h1>Artwork Deleted</h1>
     </div>
-
+    <!--  -->
   </div>
 </template>
 
