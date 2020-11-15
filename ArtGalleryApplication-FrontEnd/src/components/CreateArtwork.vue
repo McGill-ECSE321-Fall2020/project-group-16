@@ -113,48 +113,9 @@
         newArtwork.dimensions, 
         newArtwork.collection
         ); create()">
-    Add Artwork
+    Post Artwork
     </button>
 
-    <br>
-    <br>
-    <div v-if="newArtwork.artworkId">
-        <h2>Add Artists to the artwork {{newArtwork.title}}:</h2>
-        <table>
-            <tr>
-                <td><label>Add artist</label></td>
-                <td>
-                    <label> Select the user: 
-                    <select v-model="artistToAdd">
-                        <option value="">username</option>
-                        <option v-for="user in allUsers" v-bind:key="user.username">{{ user.username }}</option>
-                    </select>
-                    </label>
-                </td>
-                <td>
-                    <button v-bind:disabled="!artistToAdd" @click="addArtist()">Add artist</button>
-                </td>
-            </tr>
-        </table>
-
-        <table>
-            <p>
-            <span v-if="errorAllUsers" style="color: red"> {{ errorAllUsers }} </span>
-            </p>
-            <tr>List of added artists:</tr>
-            <tr v-for="artist in newArtwork.artists" v-bind:key="artist.username">
-                {{ artist.username }}
-            </tr>
-            <p>
-            <span v-if="errorAddArtist" style="color: red"> {{ errorAddArtist }} </span>
-            </p>
-        </table>
-    </div>
-
-    <br>
-    <br>
-    <button v-bind:disabled="!newArtwork.artworkId" @click="reloadPage()">Done</button>
-    
     </div>
 </template>
 

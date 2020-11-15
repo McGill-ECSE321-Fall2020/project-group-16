@@ -112,6 +112,7 @@ export default {
                     this.newArtwork.price = response.data.price
                     this.newArtwork.imageUrl = response.data.imageUrl
 
+                    this.addArtist(response.data.artworkId, this.theCurrentUser.username)
                     //indicate that the artwork was indeed created
                     this.artworkCreated = "true"
                 })
@@ -121,27 +122,16 @@ export default {
                 });
         },
 
-        addArtist: function () {
+        addArtist: function (artworkId, username) {
             var self = this;
 
-            AXIOS.put("/artworks/" + this.newArtwork.artworkId + "/add-artist/", {}, {
+            AXIOS.put("/artworks/" + artworkId + "/add-artist/", {}, {
                 params: {
-                    username: this.artistToAdd
+                    username: username
                 }
             })
                 .then(response => {
-                    this.newArtwork.artists.push(response.data.artists[0]);
-                    this.artistToAdd = '';
-
-                    // this.errorArtwork = ''
-                    // this.newArtwork.title = ''
-                    // this.newArtwork.description = ''
-                    // this.newArtwork.dimensions = ''
-                    // this.newArtwork.medium = ''
-                    // this.newArtwork.collection = ''
-                    // this.newArtwork.creationDate = ''
-                    // this.newArtwork.price = ''
-                    // this.newArtwork.imageUrl = ''
+                    this.reloadPage()
                 })
                 .catch(function (err) {
                     console.log(err.response);

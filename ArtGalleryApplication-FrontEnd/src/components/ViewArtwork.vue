@@ -1,6 +1,6 @@
 <template>
-    <div v-if="!deleted">
-    <div id="viewartwork">
+    <div>
+    <div v-if="!deleted" id="viewartwork">
         <div class="box-1">
         <div class="outline">
             <img :src="artwork.imageUrl" alt="artwork image" />
@@ -16,12 +16,14 @@
             <p class="detail">{{ artwork.medium }}</p>
             <p class="descrip">{{ artwork.description }}</p>
 
-            <p><button v-if="!userOwnsArtwork" class="purchase" @click="$router.push(
+            <p><button v-if="!userOwnsArtwork && artwork.artworkStatus === 'ForSale'" class="purchase" @click="$router.push(
                 {path: `/checkout/${theCurrentUser.username}/${artwork.artworkId}`})">
                 PURCHASE - ${{ artwork.price }}
             </button></p>
 
             <!-- ADDED -->
+            <p class="Sold" v-if="artwork.artworkStatus !== 'ForSale'">{{ artwork.artworkStatus }}</p>
+
             <button v-if="!userOwnsArtwork" @click="$router.push({ path: `/user/${artwork.artists[0].username}` })">
                 More From This Artist
             </button>

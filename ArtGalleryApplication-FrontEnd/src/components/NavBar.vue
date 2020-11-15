@@ -93,7 +93,7 @@ export default {
       if (e.target.classList.contains("user")) {
         this.$router.push({ path: `/user/${this.username}` });
       } else if (e.target.classList.contains("browseart")) {
-        this.$router.push({ path: `/artworks` });
+        this.$router.push({ path: `/browseart` });
       } else if (e.target.classList.contains("events")) {
         this.$router.push({ path: "/events" });
       }

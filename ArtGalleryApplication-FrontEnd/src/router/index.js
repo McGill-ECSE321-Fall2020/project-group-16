@@ -15,78 +15,78 @@ import NotFound from '@/components/404.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-        path: '/',
-        name: 'LandingPage',
-        component: LandingPage
-    },
-    {
-        path: '/user/:username',
-        name: 'ProfilePage',
-        component: ProfilePage,
-        meta: {
-            isAuthenticated: true
-        }
-    },
-    {
-        path: '/user/edit/:username',
-        name: 'EditProfile',
-        component: EditProfile
-    },
-    {
-        path: "/checkout/:username/:artworkId",
-        name: "Checkout",
-        component: Checkout
-    },
-    {
-        path: "/create_artwork",
-        name: "CreateArtwork",
-        component: CreateArtwork
-    },
-    {
-        path: '/events',
-        name: 'GalleryEvents',
-        component: GalleryEvent
-    },
-    {
-        path: '/events/:id',
-        name: 'SpecificEvent',
-        component: SpecificEvent
-    },
-    {
-        path: '/browseart',
-        name: 'BrowseArt',
-        component: BrowseArt
-    },
-    {
-        path: '/artPage',
-        name: 'ArtPage',
-        component: ArtPage
-    },
-    {
-        path: "/artworks/:artworkId",
-        name: "ViewArtwork",
-        component: ViewArtwork
-    },
-    {
-        path: "/upload",
-        name: "ArtworkUpload",
-        component: ArtworkUpload
-    },
-    {
-        path: '/404',
-        name: 'NotFound',
-        component: NotFound
-
-    }, {
-        path: '*',
-        redirect: '/404'
+    path: '/',
+    name: 'LandingPage',
+    component: LandingPage
+},
+{
+    path: '/user/:username',
+    name: 'ProfilePage',
+    component: ProfilePage,
+    meta: {
+        isAuthenticated: true
     }
+},
+{
+    path: '/user/edit/:username',
+    name: 'EditProfile',
+    component: EditProfile
+},
+{
+    path: "/checkout/:username/:artworkId",
+    name: "Checkout",
+    component: Checkout
+},
+{
+    path: "/create_artwork",
+    name: "CreateArtwork",
+    component: CreateArtwork
+},
+{
+    path: '/events',
+    name: 'GalleryEvents',
+    component: GalleryEvent
+},
+{
+    path: '/events/:id',
+    name: 'SpecificEvent',
+    component: SpecificEvent
+},
+{
+    path: '/browseart',
+    name: 'BrowseArt',
+    component: BrowseArt
+},
+// {
+//     path: '/artPage',
+//     name: 'ArtPage',
+//     component: ArtPage
+// },
+{
+    path: "/artworks/:artworkId",
+    name: "ViewArtwork",
+    component: ViewArtwork
+},
+{
+    path: "/upload",
+    name: "ArtworkUpload",
+    component: ArtworkUpload
+},
+{
+    path: '/404',
+    name: 'NotFound',
+    component: NotFound
+
+}, {
+    path: '*',
+    redirect: '/404'
+}
 ]
 
 export
-const router = new VueRouter({
-    routes
-})
+    const router = new VueRouter({
+        routes
+    })
 
 
 export default new VueRouter({
