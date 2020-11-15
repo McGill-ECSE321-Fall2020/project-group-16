@@ -128,8 +128,36 @@ export default {
     getShipment(newShipment) {
       this.shipmentId = newShipment.shipmentId;
     },
+
     getPayment(newPayment) {
       this.paymentId = newPayment.paymentId;
+    },
+
+    showShipping() {
+      var show = document.getElementById("shipping");
+      var text = document.getElementById("toggle-shipping");
+      console.log(text.textContent)
+ 
+      if(show.style.display == "none") {
+        show.style.display = "block";
+        text.textContent = " - SHIPPING";
+      } else {
+        show.style.display = "none";
+        text.textContent = " + SHIPPING";
+      }
+    },
+
+    showPayment() {
+      var show = document.getElementById("payment");
+      var text = document.getElementById("toggle-payment");
+      
+      if(show.style.display == "none") {
+        show.style.display = "block";
+        text.textContent = " - PAYMENT";
+      } else {
+        show.style.display = "none";
+        text.textContent = " + PAYMENT";
+      }
     }
   }
-};
+}

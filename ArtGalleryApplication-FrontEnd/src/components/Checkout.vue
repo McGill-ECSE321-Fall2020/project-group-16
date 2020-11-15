@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="checkout">
     <!-- <hr />
     <h2>Objects</h2>
     <table id="objects-table">
@@ -94,33 +94,64 @@
       >Error: {{ errorAddress }}
     </span>
     <hr /> -->
-    <hr />
-    <h2>Checkout</h2>
-    <hr />
+    <div><h1>Checkout</h1></div>
 
-    <div v-if="!orderId && !errorCheckout">
-    <h5>Artwork:</h5>
-      <p>
-        Title: {{ artwork.title }} <br>
-        Price: ${{ artwork.price }} <br>
-        Url: {{ artwork.imageUrl }} 
-      </p>
-    </div>
-    
-    <div v-if="!orderId && !errorCheckout">
-      <hr />
-      <p>Subtotal: ${{ artwork.price }}</p>
-      <p>Taxes: ${{ tax }}</p>
-       <hr />
-      <h6>Total: ${{ total }}</h6>
-      <hr />
-    </div>
-    
+    <div class="container">
+      <div class="box-1" v-if="!orderId && !errorCheckout">
+        <img class="art-img" :src="artwork.imageUrl" />
+        <!--<div class="artist">{{ artwork.artists[0] }}</div>-->
+      </div>
 
-    <form @submit="placeOrder(username, artworkId)" v-if="!orderId && !errorCheckout" id="checkout">
+      <div class="box-2" v-if="!orderId && !errorCheckout">
+        <div class="title">{{ artwork.title }}</div>
+        <p>Subtotal: ${{ artwork.price }}</p>
+        <p>Taxes: ${{ tax }}</p>
+        <div class="total">Total: ${{ total }}</div>
+
+        <!--shipping-->
+        <div class="shipping">
+          <button
+            id="toggle-shipping"
+            textContent=" + SHIPPING"
+            v-on:click="showShipping"
+          >
+            + SHIPPING
+          </button>
+        </div>
+        <div class="shipping" id="shipping" style="display:none">
+          <Shipment
+            v-if="!shipmentId"
+            v-bind:address="shippingAddress"
+            v-on:add-shipment="getShipment($event)"
+          />
+        </div>
+
+        <!--payment-->
+        <div class="payment">
+          <button
+            id="toggle-payment"
+            textContent=" + PAYMENT"
+            v-on:click="showPayment"
+          >
+            + PAYMENT
+          </button>
+        </div>
+        <div class="payment" id="payment" style="display:none">
+          <Payment
+            v-if="shipmentId && !paymentId"
+            v-bind:payment="payment"
+            v-on:add-payment="getPayment($event)"
+          />
+        </div>
+      </div>
+    </div>
+
+    <form
+      @submit="placeOrder(username, artworkId)"
+      v-if="!orderId && !errorCheckout"
+      id="checkout"
+    >
       <!--  -->
-      <Shipment v-if="!shipmentId"  v-bind:address="shippingAddress" v-on:add-shipment="getShipment($event)" />
-      <Payment v-if="shipmentId && !paymentId" v-bind:payment="payment" v-on:add-payment="getPayment($event)" />
 
       <div v-if="shipmentId && paymentId">
         <h4>Review Order</h4>
@@ -141,17 +172,17 @@
             <th>City:</th>
             <td>{{ shippingAddress.city }}</td>
           </tr>
-           <tr>
+          <tr>
             <th>Province:</th>
             <td>{{ shippingAddress.province }}</td>
           </tr>
-           <tr>
+          <tr>
             <th>Country:</th>
             <td>{{ shippingAddress.country }}</td>
           </tr>
         </table>
 
-       <table>
+        <table>
           <tr>
             <th>Card Number:</th>
             <td>{{ payment.cardNumber }}</td>
@@ -163,21 +194,15 @@
         </table>
 
         <!-- FOR TESTING REMOVE WHEN STYLING -->
-        <label
-          >User: {{ username }}
-        </label>
-        <label
-          >Artwork: {{ artworkId}}
-        </label>
+        <label>User: {{ username }} </label>
+        <label>Artwork: {{ artworkId }} </label>
         <!-- -->
 
         <input
           type="submit"
           value="Place Order"
           class="btn"
-          v-bind:disabled="
-            !username || !artworkId || !shipmentId || !paymentId
-          "
+          v-bind:disabled="!username || !artworkId || !shipmentId || !paymentId"
         />
       </div>
     </form>
@@ -189,23 +214,85 @@
     <div v-if="orderId">
       Order Placed
     </div>
-    
-    <hr />
 
+    <hr />
   </div>
 </template>
 
 <script src="../js/checkout.js"></script>
 
-<style>
+<style scoped>
 #checkout {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-  background: #f2ece8;
+  padding: 30px;
 }
-table th,
-td {
-  border: 1px solid black;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.box-1 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  padding: 30px;
+  border: 1px solid #000000;
+}
+
+.box-2 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 10px;
+}
+
+.title {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 60px;
+  color: #000000;
+}
+
+.total {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 24px;
+  color: #000000;
+}
+
+button {
+  width: 140px;
+  height: 30px;
+
+  border: 1px solid #000000;
+  background-color: #e9e7db;
+  color: #000000;
+  box-sizing: border-box;
+  border-radius: 3px;
+
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+
+  transition: 0.5s;
+}
+
+button:hover {
+  background-color: #000000;
+  color: #e9e7db;
 }
 </style>
