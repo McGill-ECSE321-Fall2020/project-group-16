@@ -8,7 +8,6 @@
       <p>Date of the event: {{this.theEvent.eventDate}}</p>
       <p>Starts at {{this.theEvent.startTime}} and ends at {{this.theEvent.endTime}}</p>
       <p>Descrption: {{this.theEvent.eventDescription}}</p>
-      <p>This is the image url ---> {{this.theEvent.eventImageUrl}}</p>
 
       <br>
 
