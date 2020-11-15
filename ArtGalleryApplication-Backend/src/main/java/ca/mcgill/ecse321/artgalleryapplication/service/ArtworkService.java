@@ -284,13 +284,24 @@ public class ArtworkService {
 	/**
 	 *
 	 * @param id
+	 * @return
 	 */
 	@Transactional
-    public void deleteArtwork(int id) {
+    public boolean deleteArtwork(int id) {
 	    Artwork a = artworkRepository.findArtworkByArtworkId(id);
         if (a == null) throw new ApiRequestException("No artwork with this id in the system.");
+
+        for (UserProfile user: a.getArtist()){
+        	user.setArtwork(new HashSet<>());
+        	userRepository.save(user);
+		}
+
+		a.setArtist(new HashSet<>());
+        artworkRepository.save(a);
+
 	    artworkRepository.delete(a);
-    }
+		return true;
+	}
     
     //helper methods
 
