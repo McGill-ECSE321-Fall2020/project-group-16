@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 //import com.sun.nio.sctp.IllegalReceiveException;
@@ -31,11 +32,11 @@ public class AddressService {
      */
     @Transactional
     public Address createAddress(String streetAddress, String streetAddress2, String postalCode, String city, String province, String country){
-        if(streetAddress == null || streetAddress.trim().length() == 0) throw new IllegalArgumentException("StreetAddress is null or length 0. Please enter a valid streetAddress");
-        if(postalCode == null || postalCode.trim().length() == 0) throw new IllegalArgumentException("postalCode is null or length 0. Please enter a valid postalCode");
-        if(city == null || city.trim().length() == 0) throw new IllegalArgumentException("City is null or length 0. Please enter a valid city");
-        if(province == null || province.trim().length() == 0) throw new IllegalArgumentException("Province is null or length 0. Please enter a valid province");
-        if(country == null || country.trim().length() == 0) throw new IllegalArgumentException("Country is null or length 0. Please enter a valid country");
+        if(streetAddress == null || streetAddress.trim().length() == 0) throw new ApiRequestException("StreetAddress is null or length 0. Please enter a valid streetAddress");
+        if(postalCode == null || postalCode.trim().length() == 0) throw new ApiRequestException("postalCode is null or length 0. Please enter a valid postalCode");
+        if(city == null || city.trim().length() == 0) throw new ApiRequestException("City is null or length 0. Please enter a valid city");
+        if(province == null || province.trim().length() == 0) throw new ApiRequestException("Province is null or length 0. Please enter a valid province");
+        if(country == null || country.trim().length() == 0) throw new ApiRequestException("Country is null or length 0. Please enter a valid country");
 
         Address address = new Address();
         address.setStreetAddress(streetAddress);
@@ -55,9 +56,9 @@ public class AddressService {
      */
     @Transactional
     public void deleteAddress(Integer addressId) {
-        if(addressId == null) throw new IllegalArgumentException("AddressID is null. Please enter a valid addressID");
+        if(addressId == null) throw new ApiRequestException("AddressID is null. Please enter a valid addressID");
         Address address = addressRepository.findAddressByAddressId(addressId);
-        if(address == null) throw new IllegalArgumentException("No address in system associated with addressID: " + addressId);
+        if(address == null) throw new ApiRequestException("No address in system associated with addressID: " + addressId);
         addressRepository.deleteAddressByAddressId(addressId);
     }
 
@@ -68,15 +69,10 @@ public class AddressService {
      */
     @Transactional
     public Address getAddressById(Integer addressId) {
-        if(addressId == null) throw new IllegalArgumentException("AddressID is null. Please enter a valid addressID");
+        if(addressId == null) throw new ApiRequestException("AddressID is null. Please enter a valid addressID");
         Address address = addressRepository.findAddressByAddressId(addressId);
-        if(address == null) throw new IllegalArgumentException("No address in system associated with addressID: " + addressId);
+        if(address == null) throw new ApiRequestException("No address in system associated with addressID: " + addressId);
         return address;
-    }
-
-    @Transactional
-    public List<Address> getAllAddresses() {
-        return toList(addressRepository.findAll());
     }
 
     /**
@@ -92,9 +88,9 @@ public class AddressService {
      */
     @Transactional
     public Address updateAddress(Integer addressId, String streetAddress, String streetAddress2, String postalCode, String city, String province, String country) {
-        if(addressId == null) throw new IllegalArgumentException("AddressID is null. Please enter a valid addressID");
+        if(addressId == null) throw new ApiRequestException("AddressID is null. Please enter a valid addressID");
         Address address = addressRepository.findAddressByAddressId(addressId);
-        if(address == null) throw new IllegalArgumentException("No address in system associated with addressID: " + addressId);
+        if(address == null) throw new ApiRequestException("No address in system associated with addressID: " + addressId);
 
         if(streetAddress != null && streetAddress.trim().length() != 0) address.setStreetAddress(streetAddress);
         if(streetAddress2 != null && streetAddress2.trim().length() != 0) address.setStreetAddress2(streetAddress2);
@@ -104,13 +100,5 @@ public class AddressService {
         if(country != null && country.trim().length() != 0) address.setCountry(country);
 
         return address;
-    }
-
-    private <T> List<T> toList(Iterable<T> iterable){
-        List<T> resultList = new ArrayList<>();
-        for (T t : iterable) {
-            resultList.add(t);
-        }
-        return resultList;
     }
 }

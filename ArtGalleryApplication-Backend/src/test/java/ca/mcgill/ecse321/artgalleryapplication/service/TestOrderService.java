@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -164,7 +165,7 @@ public class TestOrderService {
         try {
             order = service.placeOrder(ARTWORK_ID_1, USERNAME_1);
             order.setOrderId(ORDER_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             e.printStackTrace();
             fail();
         }
@@ -177,7 +178,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.placeOrder(ARTWORK_ID_1, "");
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Customer Username cannot be empty.", e.getMessage());
         }
         assertNull(order);
@@ -188,7 +189,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.placeOrder(ARTWORK_ID_1, NONEXISTING_USERNAME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("No user associated with this username.", e.getMessage());
         }
         assertNull(order);
@@ -199,7 +200,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.placeOrder(NONEXISTING_ID, USERNAME_1);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("No artwork associated with this artworkId.", e.getMessage());
         }
         assertNull(order);
@@ -218,7 +219,7 @@ public class TestOrderService {
         Order order = null;
         try {
             service.deleteOrder(NONEXISTING_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Order does not exist to be deleted.", e.getMessage());
         }
         assertNull(order);
@@ -232,7 +233,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.getOrderById(ORDER_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             e.printStackTrace();
             fail();
         }
@@ -245,7 +246,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.getOrderById(NONEXISTING_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("No Order associated with this id.", e.getMessage());
         }
         assertNull(order);
@@ -259,16 +260,16 @@ public class TestOrderService {
         assertOrder(orders.get(0), ORDER_STATUS, ARTWORK_PRICE_1);
     }
 
-//    @Test
-//    public void testGetOrdersByUsersNoUser(){
-//        List<Order> orders = null;
-//        try {
-//            orders = service.getOrdersByUser(NONEXISTING_USERNAME);
-//        } catch (IllegalArgumentException e) {
-//            assertEquals("No user associated with this username.", e.getMessage());
-//        }
-//        assertNull(orders);
-//    }
+    @Test
+    public void testGetOrdersByUsersNoUser(){
+        List<Order> orders = null;
+        try {
+            orders = service.getOrdersByUser(NONEXISTING_USERNAME);
+        } catch (ApiRequestException e) {
+            assertEquals("No user associated with this username.", e.getMessage());
+        }
+        assertNull(orders);
+    }
 
     @Test
     public void testGetOrdersByStatus(){
@@ -283,7 +284,7 @@ public class TestOrderService {
         List<Order> orders = null;
         try {
             orders = service.getOrdersByStatus(null);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Not a valid OrderStatus.", e.getMessage());
         }
         assertNull(orders);
@@ -301,7 +302,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.getCurrentOrder(NONEXISTING_USERNAME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("No user associated with this username.", e.getMessage());
         }
         assertNull(order);
@@ -320,7 +321,7 @@ public class TestOrderService {
         List<Order> orders = null;
         try {
             orders = service.getPastOrders(NONEXISTING_USERNAME);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("No user associated with this username.", e.getMessage());
         }
         assertNull(orders);
@@ -342,7 +343,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.addPaymentToOrder(ORDER_ID, PAYMENT_ID_1);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             e.printStackTrace();
             fail();
         }
@@ -355,7 +356,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.addPaymentToOrder(NONEXISTING_ID, PAYMENT_ID_1);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Order does not exist in database.", e.getMessage());
         }
         assertNull(order);
@@ -366,7 +367,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.addPaymentToOrder(ORDER_ID, NONEXISTING_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Payment does not exist in database.", e.getMessage());
         }
         assertNull(order);
@@ -377,7 +378,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.addShipmentToOrder(ORDER_ID, SHIPMENT_ID_1);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             e.printStackTrace();
             fail();
         }
@@ -390,7 +391,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.addShipmentToOrder(NONEXISTING_ID, SHIPMENT_ID_1);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Order does not exist in database.", e.getMessage());
         }
         assertNull(order);
@@ -401,11 +402,58 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.addShipmentToOrder(ORDER_ID, NONEXISTING_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Shipment does not exist in database.", e.getMessage());
         }
         assertNull(order);
     }
+
+    @Test
+    public void testAddPaymentAndShipmentToOrder() {
+        Order order = null;
+        try {
+            order = service.addPaymentAndShipmentToOrder(ORDER_ID, PAYMENT_ID_1, SHIPMENT_ID_1);
+        } catch (ApiRequestException e) {
+            e.printStackTrace();
+            fail();
+        }
+
+        assertOrder(order, OrderStatus.Placed, ARTWORK_PRICE_1);
+    }
+
+    @Test
+    public void testAddPaymentAndShipmentToOrderNoOrder() {
+        Order order = null;
+        try {
+            order = service.addPaymentAndShipmentToOrder(NONEXISTING_ID, PAYMENT_ID_1, SHIPMENT_ID_1);
+        } catch (ApiRequestException e) {
+            assertEquals("Order does not exist in database.", e.getMessage());
+        }
+        assertNull(order);
+    }
+
+    @Test
+    public void testAddPaymentAndShipmentToOrderNoShipment() {
+        Order order = null;
+        try {
+            order = service.addPaymentAndShipmentToOrder(ORDER_ID, PAYMENT_ID_1, NONEXISTING_ID);
+        } catch (ApiRequestException e) {
+            assertEquals("Shipment does not exist in database.", e.getMessage());
+        }
+        assertNull(order);
+    }
+
+    @Test
+    public void testAddPaymentAndShipmentToOrderNoPayment() {
+        Order order = null;
+        try {
+            order = service.addPaymentAndShipmentToOrder(ORDER_ID, NONEXISTING_ID, SHIPMENT_ID_1);
+        } catch (ApiRequestException e) {
+            assertEquals("Payment does not exist in database.", e.getMessage());
+        }
+        assertNull(order);
+    }
+
 
 
     // --- Update Tests --- //
@@ -416,7 +464,7 @@ public class TestOrderService {
         OrderStatus orderStatus = OrderStatus.Delivered;
         try {
             order = service.updateOrderStatus(ORDER_ID, orderStatus);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             e.printStackTrace();
             fail();
         }
@@ -429,7 +477,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.updateOrderStatus(NONEXISTING_ID, null);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Order does not exist in database.", e.getMessage());
         }
         assertNull(order);
@@ -440,7 +488,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.updateOrderStatus(ORDER_ID, null);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Order Status cannot be empty.", e.getMessage());
         }
         assertNull(order);
@@ -452,7 +500,7 @@ public class TestOrderService {
         double amount = 20.99;
         try {
             order = service.updateOrderAmount(ORDER_ID, amount);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             e.printStackTrace();
             fail();
         }
@@ -465,7 +513,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.updateOrderAmount(NONEXISTING_ID, 1000);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Order does not exist in database.", e.getMessage());
         }
         assertNull(order);
@@ -476,7 +524,7 @@ public class TestOrderService {
         Order order = null;
         try {
             order = service.updateOrderAmount(ORDER_ID, -1000);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             assertEquals("Amount cannot be negative.", e.getMessage());
         }
         assertNull(order);

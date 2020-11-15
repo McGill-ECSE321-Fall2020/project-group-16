@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -159,7 +160,7 @@ public class TestPaymentService {
 		Payment payment = null;
 		try {
 			payment = service.createPayment(PAYMENT_FORM2, PAYMENT_DATE2, CARD_NUMBER2, EXPIRATION_DATE2, CVV2, PAYMENT_TIME2);
-		} catch (IllegalArgumentException e) {
+		} catch (ApiRequestException e) {
 			// Check that no error occurred
 			fail();
 		}
@@ -223,7 +224,7 @@ public class TestPaymentService {
 							
 							try {
 								payment = service.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime);
-							} catch (IllegalArgumentException e) {
+							} catch (ApiRequestException e) {
 								error = e.getMessage();
 								for(String s:nulls) {
 									theoreticalError += s;
@@ -259,7 +260,7 @@ public class TestPaymentService {
 		try {
 			payment = service.createPayment(PAYMENT_FORM, PAYMENT_DATE, cardNumber, EXPIRATION_DATE, CVV, PAYMENT_TIME);
 		
-		} catch(IllegalArgumentException e) {
+		} catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(theoreticalError, error);
@@ -277,7 +278,7 @@ public class TestPaymentService {
 		try {
 
 			payment = service.createPayment(PAYMENT_FORM, paymentDate, CARD_NUMBER, expirationDate, CVV, PAYMENT_TIME);
-		} catch(IllegalArgumentException e) {
+		} catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(theoreticalError, error);
@@ -293,7 +294,7 @@ public class TestPaymentService {
 		
 		try {
 			payment = service.createPayment(PAYMENT_FORM, PAYMENT_DATE, CARD_NUMBER, EXPIRATION_DATE, cvv, PAYMENT_TIME);
-		} catch(IllegalArgumentException e) {
+		} catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(theoreticalError, error);
@@ -305,7 +306,7 @@ public class TestPaymentService {
 
 	    try {
 	        payment = service.getPayment(PAYMENT_ID);
-	    } catch (IllegalArgumentException e) {
+	    } catch (ApiRequestException e) {
 	        fail();
 	    }
 
@@ -319,7 +320,7 @@ public class TestPaymentService {
 		String error = "";
 		try {
 	        payment = service.getPayment(NONEXISTING_ID);
-	    } catch (IllegalArgumentException e) {
+	    } catch (ApiRequestException e) {
 	        error = e.getMessage();
 	    }
 
@@ -357,7 +358,7 @@ public class TestPaymentService {
 		String error = null;
 		try{
 			List<Payment> allPayments = service.getAllPaymentsByCardNumber(cardNumber);
-		}catch(IllegalArgumentException e) {
+		}catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error, "The card number must not be empty");
@@ -369,7 +370,7 @@ public class TestPaymentService {
 		String error = null;
 		try{
 			List<Payment> allPayments = service.getAllPaymentsByCardNumber(cardNumber);
-		}catch(IllegalArgumentException e) {
+		}catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error, "The card number must not be empty");
@@ -388,7 +389,7 @@ public class TestPaymentService {
 		String error = null;
 		try{
 			List<Payment> allPayments = service.getAllPaymentsByPaymentTime(paymentTime);
-		}catch(IllegalArgumentException e) {
+		}catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error, "The time must not be empty");
@@ -407,7 +408,7 @@ public class TestPaymentService {
 		String error = null;
 		try{
 			List<Payment> allPayments = service.getAllPaymentsByPaymentDate(paymentDate);
-		}catch(IllegalArgumentException e) {
+		}catch(ApiRequestException e) {
 			error = e.getMessage();
 		}
 		assertEquals(error, "The date must not be empty");
@@ -427,7 +428,7 @@ public class TestPaymentService {
 			
 	     try {
 	         payment = service.updatePayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, PAYMENT_ID, paymentTime);
-	     } catch (IllegalArgumentException e) {
+	     } catch (ApiRequestException e) {
 	         fail();
 	     }
 	     assertNotNull(payment);
@@ -453,7 +454,7 @@ public class TestPaymentService {
 
 	     try {
 	         payment = service.updatePayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, NONEXISTING_ID, paymentTime);
-	     } catch (IllegalArgumentException e) {
+	     } catch (ApiRequestException e) {
 	         error = e.getMessage();
 	     }
 	     assertNull(payment);

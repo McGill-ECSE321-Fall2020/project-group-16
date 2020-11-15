@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,7 @@ public class ShipmentService {
     			errors += e;
     		}
     		errors += "must not be null";
-    		throw new IllegalArgumentException(errors);
+    		throw new ApiRequestException(errors);
     	}
 
     	Shipment s = new Shipment();
@@ -78,7 +79,7 @@ public class ShipmentService {
     @Transactional
     public Shipment getShipment(int shipmentId) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)==null) {
-    		throw new IllegalArgumentException("No shipment with this ID");
+    		throw new ApiRequestException("No shipment with this ID");
     	}
     	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
     	return s;
@@ -92,12 +93,12 @@ public class ShipmentService {
     @Transactional
     public List<Shipment> getAllShipmentsByEstimatedArrivalDate(Date arrivalDate){
     	if(arrivalDate == null) {
-    		throw new IllegalArgumentException("Must enter a Date variable");
+    		throw new ApiRequestException("Must enter a Date variable");
     	}
     	
     	List<Shipment> s = shipmentRepository.findShipmentByEstimatedArrivalDate(arrivalDate);
     	if(s.isEmpty()) {
-    		throw new IllegalArgumentException("No shipments made with this estimated arrival date");
+    		throw new ApiRequestException("No shipments made with this estimated arrival date");
     	}
     	return s;
     }
@@ -106,12 +107,12 @@ public class ShipmentService {
     public List<Shipment> getAllShipmentsByReturnAddress(int id){
 		Address returnAddress = addressRepository.findAddressByAddressId(id);
     	if( returnAddress == null) {
-    		throw new IllegalArgumentException("Must enter a return address");
+    		throw new ApiRequestException("Must enter a return address");
     	}
     	
     	List<Shipment> s = shipmentRepository.findShipmentByReturnAddress(returnAddress);
     	if(s.isEmpty()) {
-    		throw new IllegalArgumentException("No shipments made with this return address");
+    		throw new ApiRequestException("No shipments made with this return address");
     	}
     	return s;
     }
@@ -120,12 +121,12 @@ public class ShipmentService {
     public List<Shipment> getAllShipmentsByDestinationAddress(int id){
 		Address destinationAddress = addressRepository.findAddressByAddressId(id);
     	if(destinationAddress == null) {
-    		throw new IllegalArgumentException("Must enter a destination address");
+    		throw new ApiRequestException("Must enter a destination address");
     	}
     	
     	List<Shipment> s = shipmentRepository.findShipmentByDestination(destinationAddress);
     	if(s.isEmpty()) {
-    		throw new IllegalArgumentException("No shipments made to this destination");
+    		throw new ApiRequestException("No shipments made to this destination");
     	}
     	return s;
     }
@@ -133,7 +134,7 @@ public class ShipmentService {
     @Transactional
     public Shipment updateShipment(Boolean toGal, Time eta, int shipmentId, Date estimatedArrival, Address r, Address d) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId)==null) {
-    		throw new IllegalArgumentException("must enter a shipment id that is in the table");
+    		throw new ApiRequestException("must enter a shipment id that is in the table");
     	}
     	
     	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
@@ -155,7 +156,7 @@ public class ShipmentService {
     @Transactional
     public void deleteShipment(int shipmentId) {
     	if(shipmentRepository.findShipmentByShipmentId(shipmentId) == null) {
-    		throw new IllegalArgumentException("No shipment with this ID exists");
+    		throw new ApiRequestException("No shipment with this ID exists");
     	}
     	Shipment s = shipmentRepository.findShipmentByShipmentId(shipmentId);
     	shipmentRepository.delete(s);
@@ -169,25 +170,6 @@ public class ShipmentService {
             resultList.add(t);
         }
         return resultList;
-    }
-    
-    private static Boolean equalAddresses(Address a1, Address a2) {
-    	if(!a1.getStreetAddress().equals(a2.getStreetAddress())) {
-    		return false;
-    	} if(!a1.getStreetAddress2().equals(a2.getStreetAddress2())) {
-    		return false;
-    	} if(!a1.getPostalCode().equals(a2.getPostalCode())) {
-    		return false;
-    	} if(!a1.getCity().equals(a2.getCity())) {
-    		return false;
-    	} if(!a1.getProvince().equals(a2.getProvince())) {
-    		return false;
-    	} if(!a1.getCountry().equals(a2.getCountry())) {
-    		return false;
-    	}
-    	
-    	return true;
-    	
     }
     
 }
