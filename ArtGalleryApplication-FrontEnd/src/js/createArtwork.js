@@ -37,7 +37,9 @@ export default {
             },
 
             img1: '',
-            imageData: null
+            imageData: null,
+
+            artworkCreated: ""
         }
     },
     created: function () {
@@ -109,6 +111,9 @@ export default {
                     this.newArtwork.creationDate = response.data.creationDate
                     this.newArtwork.price = response.data.price
                     this.newArtwork.imageUrl = response.data.imageUrl
+
+                    //indicate that the artwork was indeed created
+                    this.artworkCreated = "true"
                 })
                 .catch(function (err) {
                     console.log(err.response);
