@@ -2,71 +2,114 @@
   <div id="galleryEvents">
     <div v-if="createModalActive" class="modal-container">
       <div
-          v-if="errorEvent !== ''"
-          class="alert alert-danger alert-dismissible fade show mx-auto mb-4"
-          role="alert"
+        v-if="errorEvent !== ''"
+        class="alert alert-danger alert-dismissible fade show mx-auto mb-4"
+        role="alert"
+      >
+        <strong>{{ error }}</strong>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
         >
-          <strong>{{ error }}</strong>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="edit-modal p-4 modal">
-          <i class="fas fa-times fa-lg close" @click="hideModal()"></i
-          ><br />
-          <h1 class="mb-3">Create Event</h1>
-          <input
-            id="name"
-            v-model="newEvent.name"
-            type="text"
-            placeholder="Event Name"
-          /><br />
-          <textarea rows="5" cols="30"
-            id="description"
-            v-model="newEvent.description"
-            type="text"
-            placeholder="Event Description"
-          /> <br>
-          <input
-            id="date"
-            v-model="newEvent.date"
-            type="date"
-            placeholder="YYYY-MM-DD"
-          /><br />
-          <input type="time" name="" id="start-time" placeholder="HH:MM" v-model="newEvent.startTime">
-          <br>
-          <input type="time" name="" id="end-time" v-model="newEvent.endTime" placeholder="HH:MM">
-          <div
-            class="save-button px-3 py-2 mx-auto mt-3"
-            @click="createEvent(newEvent.title, newEvent.decription, newEvent.date, newEvent.startTime, newEvent.endTime)"
-          >
-            SAVE
-          </div>
-        </div>
-    </div>
-    <div class="create-button mx-auto px-3 py-2" @click="showModal">CREATE EVENT</div>
-  
-    <div v-if="errorRequest" class="alert alert-danger alert-dismissible fade show mx-auto" style="width: 100%" role="alert">
- {{errorRequest}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="height:100%">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-
-    
-    <p>
-      <div v-if="errorRequest" class="alert alert-danger alert-dismissible fade show mx-auto" style="width: 100%" role="alert">
- {{errorRequest}}
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="height:100%">
-    <span aria-hidden="true">&times;</span>
-  </button>
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </p>
+      <div class="edit-modal p-4 modal">
+        <i class="fas fa-times fa-lg close" @click="hideModal()"></i><br />
+        <h1 class="mb-3">Create Event</h1>
+        <input
+          id="name"
+          v-model="newEvent.name"
+          type="text"
+          placeholder="Event Name"
+        /><br />
+        <textarea
+          rows="5"
+          cols="30"
+          id="description"
+          v-model="newEvent.description"
+          type="text"
+          placeholder="Event Description"
+        />
+        <br />
+        <input
+          id="date"
+          v-model="newEvent.date"
+          type="date"
+          placeholder="YYYY-MM-DD"
+        /><br />
+        <input
+          type="time"
+          name=""
+          id="start-time"
+          placeholder="HH:MM"
+          v-model="newEvent.startTime"
+        />
+        <br />
+        <input
+          type="time"
+          name=""
+          id="end-time"
+          v-model="newEvent.endTime"
+          placeholder="HH:MM"
+        />
+        <div
+          class="save-button px-3 py-2 mx-auto mt-3"
+          @click="
+            createEvent(
+              newEvent.title,
+              newEvent.decription,
+              newEvent.date,
+              newEvent.startTime,
+              newEvent.endTime
+            )
+          "
+        >
+          SAVE
+        </div>
+      </div>
+    </div>
+    <div class="create-button mx-auto px-3 py-2" @click="showModal">
+      CREATE EVENT
+    </div>
+
+    <div
+      v-if="errorRequest"
+      class="alert alert-danger alert-dismissible fade show mx-auto"
+      style="width: 100%"
+      role="alert"
+    >
+      {{ errorRequest }}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+        style="height: 100%"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div
+      v-if="errorRequest"
+      class="alert alert-danger alert-dismissible fade show mx-auto"
+      style="width: 100%"
+      role="alert"
+    >
+      {{ errorRequest }}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+        style="height: 100%"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
 
     <h1 style="text-align: center">Current events</h1>
     <h2 style="text-align: center">Click one to register</h2>
@@ -109,7 +152,9 @@
           <button @click="$router.push('/events/' + event.id)">here</button>
         </td>
       </tr> -->
-    <h2 class="my-3" style="text-align: center" v-else>No events created yet</h2>
+    <h2 class="my-3" style="text-align: center" v-else>
+      No events created yet
+    </h2>
   </div>
 </template>
 
