@@ -22,12 +22,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #E9E7DB;
 }
 
 .content {
   width: 80%;
   position: relative;
   top: 115px;
+  background: #E9E7DB;
 }
 
 .landing {

@@ -21,7 +21,7 @@
             {{ order.artwork.title }}
           </h5>
           Purchased on: {{ order.orderDate }} <br />
-          <span class="badge badge-pill badge-danger">{{
+          <span class="badge badge-pill badge-success">{{
             order.totalAmount
           }}</span>
         </div>

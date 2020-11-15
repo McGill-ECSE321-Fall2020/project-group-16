@@ -1,11 +1,12 @@
 <template>
   <div id="galleryEvents">
     <h2>Events</h2>
-    <p v-if="errorEvent" style="color: red">{{ errorEvent }}</p>
-
-    <br />
-    <br />
-    <br />
+    <div v-if="errorEvent" class="alert alert-danger alert-dismissible fade show mx-auto" style="width: 100%" role="alert">
+ {{errorEvent}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="height:100%">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
     <h3>Create new Event</h3>
     <table>
@@ -56,10 +57,16 @@
       </tr>
     </table>
     <p>
-      <span v-if="errorRequest" style="color: red"> {{ errorRequest }} </span>
+      <div v-if="errorRequest" class="alert alert-danger alert-dismissible fade show mx-auto" style="width: 100%" role="alert">
+ {{errorRequest}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="height:100%">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
     </p>
 
-    <h1>List of existing events</h1>
+    <h1>Current events</h1>
+    <h2>Click one to register</h2>
     <div v-if="events.length !== 0" class="events my-5">
       <div class="row">
         <div class="col"><h3>Name</h3></div>
@@ -110,5 +117,9 @@ table,
 th,
 td {
   border: 1px solid black;
+}
+
+.close:hover {
+  background: transparent;
 }
 </style>

@@ -2,22 +2,25 @@
   <div id="art-product">
     <div class="container">
       <div class="row-1">
-        <img id="art-img" :src="imageUrl">
-        </div>
-      <div class="row-2">
-        <div class="title">{{title}}</div>
+        <img id="art-img" :src="imageUrl" />
       </div>
       <div class="row-2">
-        <div class="artist">{{artists[0]}}</div>
+        <div class="title">{{ title }}</div>
       </div>
       <div class="row-2">
-        <div class="date">{{creationDate}}</div>
+        <div class="artist">{{ artists[0] }}</div>
       </div>
       <div class="row-2">
-        <div class="for-sale">${{price}}</div>
+        <div class="date">{{ creationDate }}</div>
+      </div>
+      <div class="row-2">
+        <!-- <div class="for-sale">${{price}}</div> -->
+        <span class="badge badge-pill badge-success">${{ price }}</span>
       </div>
       <div class="row-1">
-        <button @click="$router.push({ path: `/artworks/${artworkId}` })">VIEW ARTWORK</button>
+        <button @click="$router.push({ path: `/artworks/${artworkId}` })">
+          VIEW ARTWORK
+        </button>
       </div>
     </div>
   </div>
@@ -80,7 +83,7 @@ img {
   width: 55px;
   background: #006F45;
   border-radius: 3px;
-  
+
   font-family: Lora;
   font-style: normal;
   font-weight: normal;
@@ -91,6 +94,10 @@ img {
   color: #E9E7DB;
 }
 
+.badge {
+  background: #006F45;
+}
+
 button {
   width: 140px;
   height: 30px;
@@ -99,7 +106,7 @@ button {
   color: #000000;
   box-sizing: border-box;
   border-radius: 3px;
-  
+
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;

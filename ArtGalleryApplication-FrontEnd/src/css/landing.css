@@ -10,6 +10,7 @@
     overflow-y: hidden;
     position: relative;
     margin: 0;
+    background: #E9E7DB;
 }
 
 .sign-in-form {
