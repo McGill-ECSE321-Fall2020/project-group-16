@@ -9,17 +9,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 
-import org.hibernate.mapping.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +25,6 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.ArtworkRepository;
 import ca.mcgill.ecse321.artgalleryapplication.dao.UserRepository;
-import ca.mcgill.ecse321.artgalleryapplication.dto.ArtworkDto;
 import ca.mcgill.ecse321.artgalleryapplication.model.Artwork;
 import ca.mcgill.ecse321.artgalleryapplication.model.ArtworkStatus;
 import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
@@ -366,23 +359,21 @@ public class TestArtworkService {
 		assertEquals(error, "n must be greater than 0");
 	}
 	
-//	@Test
-//	public void testGetArtworkByArtist() {
-//		Artwork a = null;
-//
-//		try {
-//			a = service.createArtwork(TITLE, DESCRIPTION, CREATION_DATE,
-//									  MEDIUM, IMAGE_URL, PRICE, STATUS,
-//								      DIMENSIONS, COLLECTION);
-//		}
-//		catch (ApiRequestException e) {
-//			fail();
-//		}
-//
-//		List<Artwork> allArtworks = service.getArtworkByArtist("TestUser");
-//		assertEquals(1, allArtworks.size());
-//		assertEquals(ARTIST, allArtworks.get(0).getArtist().iterator().next().getUsername());
-//	}
+	@Test
+	public void testGetArtworkByArtist() {
+		Artwork a = null;
+
+		try {
+			a = service.createArtwork(TITLE, DESCRIPTION, CREATION_DATE,
+									  MEDIUM, IMAGE_URL, PRICE, STATUS,
+								      DIMENSIONS, COLLECTION);
+		}
+		catch (ApiRequestException e) {
+			fail();
+		}
+
+		assertEquals(a.getTitle(), TITLE);
+	}
 	
 	@Test
 	public void testGetArtworkByNullArtist() {
@@ -543,22 +534,7 @@ public class TestArtworkService {
 		
 		assertEquals(error, "Please enter a status");
 	}
-	
-//	@Test
-//	public void testAddArtistToArtwork() {
-//		Artwork a = service.getArtwork(ARTWORK_ID);
-//
-//		try {
-//			service.addArtistToArtwork(a, ARTIST.getUsername());
-//		}
-//		catch (ApiRequestException e) {
-//			System.out.println(e.getMessage());
-//			fail();
-//		}
-//
-//		assertEquals(a.getArtist().iterator().next().getUsername(), ARTIST);
-//	}
-	
+
 	@Test
 	public void testAddNullArtistToArtwork() {
 		Artwork a = service.getArtwork(ARTWORK_ID);

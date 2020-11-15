@@ -14,9 +14,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
@@ -30,10 +28,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.PaymentRepository;
-import ca.mcgill.ecse321.artgalleryapplication.model.Address;
 import ca.mcgill.ecse321.artgalleryapplication.model.Payment;
 import ca.mcgill.ecse321.artgalleryapplication.model.PaymentForm;
-import ca.mcgill.ecse321.artgalleryapplication.model.Shipment;
 
 @ExtendWith(MockitoExtension.class)
 public class TestPaymentService {

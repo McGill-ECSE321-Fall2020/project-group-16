@@ -6,13 +6,9 @@ import static org.mockito.Mockito.lenient;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import org.apache.catalina.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +21,6 @@ import org.mockito.stubbing.Answer;
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import  ca.mcgill.ecse321.artgalleryapplication.model.*;
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
-import org.mockito.stubbing.OngoingStubbing;
 
 @ExtendWith(MockitoExtension.class)
 public class TestEventService {
