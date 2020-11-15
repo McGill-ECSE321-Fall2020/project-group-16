@@ -26,11 +26,11 @@ The implementation of this system requires:
 ## How to run the Application and where it is deployed to
 Backend deployed to: https://artgalleryapp-backend-0.herokuapp.com/  
 Start the Backend locally by running the Application at: ```ArtGalleryApplication-Backend/src/main/java/ca/mcgill/ecse321/artgalleryapplication/ArtGalleryApplication.java```  
-The backend application will run on localhost:8080  
+The backend application will be hosted on ```localhost:8080```  
 
 Frontend deployed to: https://artgalleryapp-frontend-0.herokuapp.com/  
 Start the Frontend locally by executing the command ```npm run dev``` in ```ArtGalleryApplication-FrontEnd```  
-The backend application will run on localhost:8087  
+The frontend application will be hosted on ```localhost:8087```  
 
   
 ## Important links:
