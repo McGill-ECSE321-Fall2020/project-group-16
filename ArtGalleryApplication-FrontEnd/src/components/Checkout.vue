@@ -184,7 +184,7 @@
 
     <span v-if="errorCheckout" style="color: red"
       >Error: {{ errorCheckout }}
-      </span>
+    </span>
 
     <div v-if="orderId">
       Order Placed

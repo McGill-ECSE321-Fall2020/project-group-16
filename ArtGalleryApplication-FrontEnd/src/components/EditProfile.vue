@@ -33,9 +33,31 @@
         <div class="current-info">
           <img
             class="profile-image my-3"
-            src="../assets/Profile Pic.png"
+            :src="theTargetUser.profileImageUrl"
             alt=""
           />
+
+          <div>
+            <h1>Upload a photo</h1>
+              <div>
+                <div >
+                  <button @click="click1">choose a photo</button>
+                  <input type="file" ref="input1"
+                    style="display: none"
+                    @change="previewImage" accept="image/*" >                
+                </div>
+        
+                <div>                  
+                    <img v-if="imageData!=null" class="preview" height="268" width="356" :src="img1">
+                  <br>
+                </div>   
+              
+              </div>
+
+            <button @click="create">Upload</button>
+          </div>
+
+
           <div class="name">
             <h2 class="">
               {{ theTargetUser.firstName }}&nbsp;{{
