@@ -27,7 +27,18 @@ export default {
   methods: {
     filter: function() {
       console.log(document.getElementById("minprice").value);
-      //AXIOS.get(`/artworks/byArtworkStatus/${}`)
+      console.log(document.getElementById("maxprice").value);
+      console.log(document.getElementById("mindate").value);
+      console.log(document.getElementById("maxdate").value);
+      console.log(document.getElementById('status').value);
+      status = document.getElementById('status').value;
+      AXIOS.get(`/artworks/byArtworkStatus/${status}`).then(response => {
+        this.artwork = response.data[0];
+        console.log(this.artwork);
+      })
+      .catch(e => {
+        console.log(e);
+      });
     }
   }
   
