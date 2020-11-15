@@ -42,6 +42,7 @@
 
     img {
         width: 100%;
+        height: auto;
         padding: 30px;
         border: 1px solid #000000;
     }
