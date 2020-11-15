@@ -2,30 +2,45 @@
   <div id="browse-art">
     <div class="filters">
       <div>
+        <label>Sort By:</label>
+        <select v-model="sortBy">
+          <option disabled value="">Sort By</option>
+          <option value="PriceInc">Price: Low - High</option>
+          <option value="PriceDec">Price: High - Low</option>
+          <option value="DateDec">Newest</option>
+          <option value="DateInc">Oldest</option>
+        </select>
+      </div>
+      <div>
         <label>Status:</label>
-        <select>
+        <select v-model="filter.status">
+          <option disabled value="">Select Artwork Status</option>
           <option value="All">All</option>
-          <option value="For Sale">For Sale</option>
-          <option value="Not For Sale">Not for Sale</option>
+          <option value="ForSale">For Sale</option>
+          <option value="NotForSale">Not for Sale</option>
           <option value="Sold">Sold</option>
         </select>
       </div>
 
       <div>
         <label>Price range:</label>
-        <input type="text" id="minprice" name="minprice" /> to
-        <input type="text" id="maxprice" name="maxprice" />
+        <input type="text" v-model="filter.minPrice" placeholder="Min Price" id="minPrice" name="minPrice" /> to
+        <input type="text" v-model="filter.maxPrice" placeholder="Max Price" id="maxPrice" name="maxPrice" />
       </div>
 
       <div>
         <label>Date created: </label>
         between
-        <input type="date" id="mindate" name="mindate" /> and
-        <input type="date" id="maxdate" name="maxdate" />
+        <input type="date" v-model="filter.from" id="mindate" name="mindate" /> and
+        <input type="date" v-model="filter.to" id="maxdate" name="maxdate" />
       </div>
 
       <div>
-        <button v-on:click="filter()">FILTER</button>
+        <button v-on:click="filterArtworks">FILTER</button>
+      </div>
+
+      <div>
+        <button v-on:click="resetFilters">RESET FILTERS</button>
       </div>
     </div>
 
@@ -33,7 +48,7 @@
       <div
         class="grid-item"
         v-bind:key="artwork.id"
-        v-for="artwork in artworks"
+        v-for="artwork in filteredArtworks"
       >
         <ArtProduct
           v-bind:artworkId="artwork.artworkId"

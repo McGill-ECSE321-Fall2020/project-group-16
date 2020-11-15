@@ -6,7 +6,8 @@
       <div v-if="currentUser" class="border-button py-1 px-2 mx-auto my-4" @click="logOut">LOGOUT</div>
       <p><b>Email: </b>{{user.email}}</p>
       <p><b>Description: </b>{{checkDescription()}}</p>
-      <div v-if="currentUser" class="border-button py-1 px-2 mx-auto" @click="editProfile">EDIT PROFILE</div>
+      //<div v-if="currentUser" class="border-button py-1 px-2 mx-auto" @click="editProfile">EDIT PROFILE</div>
+      <button @click="$router.push({ path: `/create_artwork` })">CREATE ARTWORK</button>
   </div>
 </template>
 

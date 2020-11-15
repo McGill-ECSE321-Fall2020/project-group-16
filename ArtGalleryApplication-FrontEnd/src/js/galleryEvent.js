@@ -20,13 +20,13 @@ export default {
         };
     },
 
-    created: function() {
+    created: function () {
         var self = this;
 
         AXIOS.get("/events")
             .then((response) => {
                 this.events = response.data;
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log(err.response);
                 self.errorEvent = "Error: " + err.response.data.message;
             });
@@ -34,13 +34,13 @@ export default {
 
     methods: {
 
-        createEvent: function(name, description, imageUrl, date, startTime, endTime) {
+        createEvent: function (name, description, date, startTime, endTime) {
             var self = this;
 
             AXIOS.post("/events/".concat(name), {}, {
                 params: {
                     description: description,
-                    imageUrl: imageUrl,
+                    imageUrl: "NULL",
                     date: date,
                     startTime: startTime,
                     endTime: endTime
@@ -56,7 +56,7 @@ export default {
                 this.newEvent.startTime = "09:00";
                 this.newEvent.endTime = "11:00";
 
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log(err.response);
                 self.errorRequest = "Error: " + err.response.data.message;
             });

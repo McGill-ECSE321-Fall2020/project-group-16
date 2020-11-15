@@ -14,13 +14,19 @@ export default {
                 creationDate: "",
                 price: "",
                 imageUrl: "",
-                status: "ForSale"
-            }
+                status: "ForSale",
+            },
+            theCurrentUser: {
+                username: "",
+                admin: "",
+            },
+
+            errorCurrentUser: ''
         };
     },
     created: function() {
         this.artwork.artworkId = this.$route.params.artworkId;
-        console.log(artworkId);
+        console.log(this.artwork.artworkId);
     },
     mounted: function() {
         AXIOS.get(`/artworks/${this.artwork.artworkId}`)
@@ -30,6 +36,15 @@ export default {
             })
             .catch(e => {
                 console.log(e);
+            });
+        
+        AXIOS.get("/users/".concat(localStorage.getItem('username')))
+            .then((response) => {
+                this.theCurrentUser = response.data;
+                console.log(this.theCurrentUser.username)
+            }).catch(function (err) {
+                console.log(err.response);
+                this.errorCurrentUser = "Error: " + err.response.data.message;
             });
     }
 };
