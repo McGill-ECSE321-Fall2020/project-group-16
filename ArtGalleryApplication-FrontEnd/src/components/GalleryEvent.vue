@@ -59,8 +59,8 @@
           class="save-button px-3 py-2 mx-auto mt-3"
           @click="
             createEvent(
-              newEvent.title,
-              newEvent.decription,
+              newEvent.name,
+              newEvent.description,
               newEvent.date,
               newEvent.startTime,
               newEvent.endTime
@@ -93,7 +93,7 @@
       </button>
     </div>
 
-    <div
+    <!-- <div
       v-if="errorRequest"
       class="alert alert-danger alert-dismissible fade show mx-auto"
       style="width: 100%"
@@ -109,7 +109,7 @@
       >
         <span aria-hidden="true">&times;</span>
       </button>
-    </div>
+    </div> -->
 
     <h1 style="text-align: center">Current events</h1>
     <h2 style="text-align: center">Click one to register</h2>
