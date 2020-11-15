@@ -125,6 +125,23 @@ export default {
           return 0;
         });
       }
+    },
+    showFilters() {
+      var show = document.getElementById("filters")
+      var text = document.getElementById("toggle-filters");
+ 
+      if(show.style.display == "none") {
+        show.style.display = "block";
+      } else {
+        show.style.display = "none";
+      }
+
+      if(text.textContent == " + SHOW FILTERS") {
+        text.textContent = " - HIDE FILTERS";
+      }
+      else {
+        text.textContent = " + SHOW FILTERS";
+      }
     }
   }
 

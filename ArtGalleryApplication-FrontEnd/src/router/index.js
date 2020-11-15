@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import BrowseArt from '@/components/BrowseArt'
-import ArtPage from '@/components/ArtPage'
 import VueRouter from 'vue-router'
 import LandingPage from '@/components/LandingPage'
 import ProfilePage from '@/components/ProfilePage'
@@ -82,6 +81,50 @@ const routes = [{
         path: '*',
         redirect: '/404'
     }
+<<<<<<< HEAD
+=======
+},
+{
+    path: '/user/edit/:username',
+    name: 'EditProfile',
+    component: EditProfile
+},
+{
+    path: "/checkout/:username/:artworkId",
+    name: "Checkout",
+    component: Checkout
+},
+{
+    path: "/create_artwork",
+    name: "CreateArtwork",
+    component: CreateArtwork
+},
+{
+    path: '/events',
+    name: 'GalleryEvents',
+    component: GalleryEvent
+},
+{
+    path: '/events/:id',
+    name: 'SpecificEvent',
+    component: SpecificEvent
+},
+{
+    path: '/artworks',
+    name: 'BrowseArt',
+    component: BrowseArt
+},
+{
+    path: "/artworks/:artworkId",
+    name: "ViewArtwork",
+    component: ViewArtwork
+},
+{
+    path: "/upload",
+    name: "ArtworkUpload",
+    component: ArtworkUpload
+}
+>>>>>>> 5e496d01be19bb668b7249d69d8d4013dda434c1
 ]
 
 export

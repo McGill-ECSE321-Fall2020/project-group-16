@@ -46,16 +46,16 @@ public class OrderService {
         Time orderTime = Time.valueOf(LocalTime.now());
 
         if (username.trim().length() == 0)
-            throw new IllegalArgumentException("Customer Username cannot be empty.");
+            throw new ApiRequestException("Customer Username cannot be empty.");
 
         Artwork artwork = artworkRepository.findArtworkByArtworkId(artworkId);
         if (artwork == null) {
-            throw new IllegalArgumentException("No artwork associated with this artworkId.");
+            throw new ApiRequestException("No artwork associated with this artworkId.");
         }
 
         UserProfile customer = userRepository.findByUsername(username);
         if (customer == null) {
-            throw new IllegalArgumentException("No user associated with this username.");
+            throw new ApiRequestException("No user associated with this username.");
         }
 
         Order order = new Order();
@@ -67,41 +67,8 @@ public class OrderService {
         order.setCustomer(customer);
         orderRepository.save(order);
 
-        return order;
-    }
-
-    @Transactional
-    public Order placeOrder(int artworkId, String username,
-                            PaymentForm paymentForm, String cardNumber, Date expirationDate, int cvv,
-                            Boolean toGallery, Time estimatedArrivalTime, Date estimatedArrivalDate,
-                            String retStreetAddress, String retStreetAddress2, String retPostalCode, String retCity, String retProvince, String retCountry,
-                            String destStreetAddress, String destStreetAddress2, String destPostalCode, String destCity, String destProvince, String destCountry){
-        Date orderDate = Date.valueOf(LocalDate.now());
-        Time orderTime = Time.valueOf(LocalTime.now());
-        Date paymentDate = orderDate;
-        Time paymentTime = orderTime;
-
-        if (username.trim().length() == 0)
-            throw new IllegalArgumentException("Customer Username cannot be empty.");
-
-        Artwork artwork = artworkRepository.findArtworkByArtworkId(artworkId);
-        if (artwork == null) {
-            throw new IllegalArgumentException("No artwork associated with this artworkId.");
-        }
-
-        UserProfile customer = userRepository.findByUsername(username);
-        if (customer == null) {
-            throw new IllegalArgumentException("No user associated with this username.");
-        }
-
-        Order order = new Order();
-        order.setOrderStatus(PaymentPending);
-        order.setTotalAmount(artwork.getPrice());
-        order.setOrderDate(orderDate);
-        order.setOrderTime(orderTime);
-        order.setArtwork(artwork);
-        order.setCustomer(customer);
-        orderRepository.save(order);
+        artwork.setArtworkStatus(ArtworkStatus.Sold);
+        artworkRepository.save(artwork);
 
         return order;
     }
@@ -118,7 +85,7 @@ public class OrderService {
     public boolean deleteOrder(int orderId) {
         Order orderTBD = orderRepository.findOrderByOrderId(orderId);
         if (orderTBD == null) {
-            throw new IllegalArgumentException("Order does not exist to be deleted.");
+            throw new ApiRequestException("Order does not exist to be deleted.");
         }
 
         orderRepository.deleteByOrderId(orderId);
@@ -138,7 +105,7 @@ public class OrderService {
         Order order = orderRepository.findOrderByOrderId(orderId);
 
         if (order == null) {
-            throw new IllegalArgumentException("No Order associated with this id.");
+            throw new ApiRequestException("No Order associated with this id.");
         }
 
         return order;
@@ -164,7 +131,7 @@ public class OrderService {
      */
     public List<Order> getOrdersByStatus(OrderStatus orderStatus) {
         if (orderStatus == null)
-            throw new IllegalArgumentException("Not a valid OrderStatus.");
+            throw new ApiRequestException("Not a valid OrderStatus.");
 
         return orderRepository.findByOrderStatus(orderStatus);
     }
@@ -172,7 +139,7 @@ public class OrderService {
     public Order getCurrentOrder(String username) {
         UserProfile customer = userRepository.findByUsername(username);
         if (customer == null)
-            throw new IllegalArgumentException("No user associated with this username.");
+            throw new ApiRequestException("No user associated with this username.");
 
         return orderRepository.findOrdersByCustomerAndOrderStatus(customer, PaymentPending).get(0);
 
@@ -181,7 +148,7 @@ public class OrderService {
     public List<Order> getPastOrders(String username) {
         UserProfile customer = userRepository.findByUsername(username);
         if (customer == null)
-            throw new IllegalArgumentException("No user associated with this username.");
+            throw new ApiRequestException("No user associated with this username.");
 
         List<Order> pastOrders = orderRepository.findByCustomer(customer);
         pastOrders.remove(orderRepository.findOrdersByCustomerAndOrderStatus(customer, PaymentPending).get(0));
@@ -213,9 +180,9 @@ public class OrderService {
         Order updateOrder = orderRepository.findOrderByOrderId(orderId);
         Payment addedPayment = paymentRepository.findPaymentByPaymentId(paymentId);
         if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
+            throw new ApiRequestException("Order does not exist in database.");
         if (addedPayment == null)
-            throw new IllegalArgumentException("Payment does not exist in database.");
+            throw new ApiRequestException("Payment does not exist in database.");
 
         updateOrder.setPayment(addedPayment);
         updateOrder.setOrderStatus(Placed);
@@ -234,9 +201,9 @@ public class OrderService {
         Order updateOrder = orderRepository.findOrderByOrderId(orderId);
         Shipment addedShipment = shipmentRepository.findShipmentByShipmentId(shipmentId);
         if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
+            throw new ApiRequestException("Order does not exist in database.");
         if (addedShipment == null)
-            throw new IllegalArgumentException("Shipment does not exist in database.");
+            throw new ApiRequestException("Shipment does not exist in database.");
 
         updateOrder.setShipment(addedShipment);
         updateOrder.setOrderStatus(Shipped);
@@ -250,11 +217,11 @@ public class OrderService {
         Payment addedPayment = paymentRepository.findPaymentByPaymentId(paymentId);
         Shipment addedShipment = shipmentRepository.findShipmentByShipmentId(shipmentId);
         if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
+            throw new ApiRequestException("Order does not exist in database.");
         if (addedPayment == null)
-            throw new IllegalArgumentException("Payment does not exist in database.");
+            throw new ApiRequestException("Payment does not exist in database.");
         if (addedShipment == null)
-            throw new IllegalArgumentException("Shipment does not exist in database.");
+            throw new ApiRequestException("Shipment does not exist in database.");
 
         updateOrder.setPayment(addedPayment);
         updateOrder.setShipment(addedShipment);
@@ -276,9 +243,9 @@ public class OrderService {
     public Order updateOrderAmount(int orderId, double amount){
        Order updateOrder = orderRepository.findOrderByOrderId(orderId);
         if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
+            throw new ApiRequestException("Order does not exist in database.");
         if (amount < 0)
-            throw new IllegalArgumentException("Amount cannot be negative.");
+            throw new ApiRequestException("Amount cannot be negative.");
 
         updateOrder.setTotalAmount(amount);
         orderRepository.save(updateOrder);
@@ -295,9 +262,9 @@ public class OrderService {
     public Order updateOrderStatus(int orderId, OrderStatus orderStatus){
         Order updateOrder = orderRepository.findOrderByOrderId(orderId);
         if (updateOrder == null)
-            throw new IllegalArgumentException("Order does not exist in database.");
+            throw new ApiRequestException("Order does not exist in database.");
         if (orderStatus == null)
-            throw new IllegalArgumentException("Order Status cannot be empty.");
+            throw new ApiRequestException("Order Status cannot be empty.");
 
         updateOrder.setOrderStatus(orderStatus);
         orderRepository.save(updateOrder);

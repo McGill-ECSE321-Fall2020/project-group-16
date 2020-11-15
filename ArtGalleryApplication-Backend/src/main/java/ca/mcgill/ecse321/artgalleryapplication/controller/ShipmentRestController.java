@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.AddressDto;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class ShipmentRestController {
 									 @RequestParam("estimatedArrivalDate") Date estimatedArrivalDate,
 									 @RequestParam("returnAddressId") int returnAddressId,
 									 @RequestParam("destinationAddressId") int destinationAddressId)
-									 throws IllegalArgumentException{
+									 throws ApiRequestException {
 		
 		Shipment shipment = shipmentService.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, returnAddressId, destinationAddressId);
 		
@@ -57,7 +58,7 @@ public class ShipmentRestController {
 									   @RequestParam("destProvince") String destProvince,
 									   @RequestParam("destCountry") String destCountry
 									   )
-			throws IllegalArgumentException{
+			throws ApiRequestException{
 
 		AddressDto destAddressDto = convertToDto(addressService.createAddress(destStreetAddress, destStreetAddress2, destPostalCode, destCity, destProvince, destCountry));
 
@@ -109,7 +110,7 @@ public class ShipmentRestController {
 	}
 	
 	 @DeleteMapping(value = { "/shipments/{id}", "/shipments/{id}/" })
-	    public void deleteShipment(@PathVariable("id") Integer id) throws IllegalArgumentException {
+	    public void deleteShipment(@PathVariable("id") Integer id) throws ApiRequestException {
 	        shipmentService.deleteShipment(id);
 	    }
 	

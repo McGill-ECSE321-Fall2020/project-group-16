@@ -1,46 +1,71 @@
 <template>
   <div id="browse-art">
     <div class="filters">
-      <div>
-        <label>Sort By:</label>
-        <select v-model="sortBy">
-          <option disabled value="">Sort By</option>
-          <option value="PriceInc">Price: Low - High</option>
-          <option value="PriceDec">Price: High - Low</option>
-          <option value="DateDec">Newest</option>
-          <option value="DateInc">Oldest</option>
-        </select>
-      </div>
-      <div>
-        <label>Status:</label>
-        <select v-model="filter.status">
-          <option disabled value="">Select Artwork Status</option>
-          <option value="All">All</option>
-          <option value="ForSale">For Sale</option>
-          <option value="NotForSale">Not for Sale</option>
-          <option value="Sold">Sold</option>
-        </select>
-      </div>
+      <button id="toggle-filters" textContent=" + SHOW FILTERS" v-on:click="showFilters"> + SHOW FILTERS</button>
+    </div>
+    <div class="filters" id="filters" style="display:none">
+      <div class="filters-row">
+        <div class="filter-item">
+          <label>Sort By:</label>
+          <select v-model="sortBy">
+            <option disabled value="">Sort By</option>
+            <option value="PriceInc">Price: Low - High</option>
+            <option value="PriceDec">Price: High - Low</option>
+            <option value="DateDec">Newest</option>
+            <option value="DateInc">Oldest</option>
+          </select>
+        </div>
 
-      <div>
-        <label>Price range:</label>
-        <input type="text" v-model="filter.minPrice" placeholder="Min Price" id="minPrice" name="minPrice" /> to
-        <input type="text" v-model="filter.maxPrice" placeholder="Max Price" id="maxPrice" name="maxPrice" />
-      </div>
+        <div class="filter-item">
+          <label>Status:</label>
+          <select v-model="filter.status">
+            <option disabled value="">Select Artwork Status</option>
+            <option value="All">All</option>
+            <option value="ForSale">For Sale</option>
+            <option value="NotForSale">Not for Sale</option>
+            <option value="Sold">Sold</option>
+          </select>
+        </div>
 
-      <div>
-        <label>Date created: </label>
-        between
-        <input type="date" v-model="filter.from" id="mindate" name="mindate" /> and
-        <input type="date" v-model="filter.to" id="maxdate" name="maxdate" />
-      </div>
+        <div class="filter-item">
+          <label>Price range:</label>
+          <input
+            type="text"
+            v-model="filter.minPrice"
+            placeholder="Min Price"
+            id="minPrice"
+            name="minPrice"
+          />
+          to
+          <input
+            type="text"
+            v-model="filter.maxPrice"
+            placeholder="Max Price"
+            id="maxPrice"
+            name="maxPrice"
+          />
+        </div>
 
-      <div>
-        <button v-on:click="filterArtworks">FILTER</button>
+        <div class="filter-item">
+          <label>Date created: </label>
+          between
+          <input
+            type="date"
+            v-model="filter.from"
+            id="mindate"
+            name="mindate"
+          />
+          and
+          <input type="date" v-model="filter.to" id="maxdate" name="maxdate" />
+        </div>
       </div>
-
-      <div>
-        <button v-on:click="resetFilters">RESET FILTERS</button>
+      <div class="filters-row">
+        <div class="filter-item">
+          <button v-on:click="filterArtworks">FILTER</button>
+        </div>
+        <div class="filter-item">
+          <button v-on:click="resetFilters">RESET FILTERS</button>
+        </div>
       </div>
     </div>
 
@@ -67,18 +92,17 @@
 <script src="../js/browseArt.js"></script>
 
 <style>
-#brows-eart {
+#browse-art {
   font-family: Montserrat;
   font-style: normal;
-  padding: 60px;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  justify-content: center;
 }
 
 .artproducts {
   display: grid;
-  grid-gap: 50px;
+  grid-gap: 40px;
 }
 
 @media (min-width: 600px) {
@@ -99,10 +123,24 @@
   }
 }
 
+#togglefilters {
+  padding: 10px;
+}
+
 .filters {
   display: flex;
+  flex-direction: column;
   padding-bottom: 30px;
   justify-content: space-evenly;
+}
+
+.filters-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.filter-item {
+  padding: 5px;
 }
 
 .col {
@@ -121,36 +159,17 @@ p {
 select {
   background-color: #e9e7db;
   color: #000000;
+  width: 80px;
 }
-
 input {
   background-color: #e9e7db;
   border: 1px solid black;
 }
 input[type="text"] {
-  width: 70px;
+  width: 80px;
 }
 input[type="date"] {
-  width: 160px;
-}
-
-.container {
-  width: 290px;
-  height: 320px;
-  border: 1px solid black;
-  padding: 10px;
-
-  display: flex;
-  flex-direction: column;
-
-  justify-content: center;
-  align-items: center;
-}
-
-.my-row {
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
+  width: 150px;
 }
 
 img {

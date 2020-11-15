@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.AddressDto;
 //import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.Address;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,17 +24,12 @@ public class AddressRestController {
      * Get address by ID
      * @param id
      * @return
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @GetMapping(value = { "/address/{id}", "/address/{id}/" })
-    public AddressDto getAddress(@PathVariable("id") int id) throws IllegalArgumentException {
+    public AddressDto getAddress(@PathVariable("id") int id) throws ApiRequestException {
         Address address = addressService.getAddressById(id);
         return ConvertToDto.convertToDto(address);
-    }
-
-    @GetMapping(value = { "/address", "/address/" })
-    public List<AddressDto> getAddress() throws IllegalArgumentException {
-        return addressService.getAllAddresses().stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
 
     /**
@@ -45,7 +41,7 @@ public class AddressRestController {
      * @param province
      * @param country
      * @return
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @PostMapping(value = { "/address", "/address/" })
     public AddressDto createAddress(
@@ -55,7 +51,7 @@ public class AddressRestController {
             @RequestParam String city,
             @RequestParam String province,
             @RequestParam String country)
-            throws IllegalArgumentException {
+            throws ApiRequestException {
 
         Address address = addressService.createAddress(streetAddress, streetAddress2, postalCode, city, province, country);
         return ConvertToDto.convertToDto(address);
@@ -64,10 +60,10 @@ public class AddressRestController {
     /**
      * Delete an address
      * @param id
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @DeleteMapping(value = { "/address/{id}", "/address/{id}/" })
-    public void deleteAddress(@PathVariable("id") int id) throws IllegalArgumentException {
+    public void deleteAddress(@PathVariable("id") int id) throws ApiRequestException {
         addressService.deleteAddress(id);
     }
 
@@ -81,7 +77,7 @@ public class AddressRestController {
      * @param province
      * @param country
      * @return
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @PutMapping(value = { "/address/{id}", "/address/{id}/" })
     public AddressDto updateAddress(
@@ -92,7 +88,7 @@ public class AddressRestController {
             @RequestParam String city,
             @RequestParam String province,
             @RequestParam String country)
-            throws IllegalArgumentException {
+            throws ApiRequestException {
 
         Address address = addressService.updateAddress(id, streetAddress, streetAddress2, postalCode, city, province, country);
         return ConvertToDto.convertToDto(address);

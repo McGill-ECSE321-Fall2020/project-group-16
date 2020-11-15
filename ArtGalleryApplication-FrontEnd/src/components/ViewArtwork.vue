@@ -1,31 +1,126 @@
 <template>
-    <div id="viewartwork">
-
-        <img src="../assets/no-img.png" alt="artwork image" style="width:500px, height:200px">
-        <h1>
-            {{artwork.title}}
-        </h1>
-        <h2>
-            {{artwork.dimensions}}
-            {{artwork.medium}}
-            ${{artwork.price}}
-        </h2>
-        <h3>
-            {{artwork.collection}}
-            {{artwork.creationDate}}
-        </h3>
-        <body>
-            {{artwork.description}}
-        </body>
-        <button @click="$router.push({ path: `/checkout/${theCurrentUser.username}/${artwork.artworkId}` })">
-            Purchase
-        </button>    
+  <div id="viewartwork">
+    <div class="box-1">
+      <div class="outline">
+        <img :src="artwork.imageUrl" alt="artwork image" />
+      </div>
     </div>
+
+    <div class="box-2">
+        <p class="title">{{ artwork.title }}</p>
+        <p class="artist">{{ artwork.artists[0] }}</p>
+        <p class="date">{{ artwork.creationDate }}</p>
+        <p class="detail">{{ artwork.collection }}</p>
+        <p class="detail">{{ artwork.dimensions }}</p>
+        <p class="detail">{{ artwork.medium }}</p>
+        <p class="descrip">{{ artwork.description }}</p>
+
+        <p><button class="purchase" @click="$router.push(
+            {path: `/checkout/${theCurrentUser.username}/${artwork.artworkId}`})">
+            PURCHASE - ${{ artwork.price }}
+        </button></p>
+    </div>
+
+  </div>
 </template>
 
-<script src="../js/viewArtwork.js">
-</script>
+<script src="../js/viewArtwork.js"></script>
 
-<style>
+<style scoped>
+    #viewartwork {
+        padding: 30px;
+        display: flex; 
+    }
+    
+    .box-1 {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
 
-</style>
+    img {
+        width: 100%;
+        height: auto;
+        padding: 30px;
+        border: 1px solid #000000;
+    }
+
+    .box-2 {
+        text-align: left;
+        flex: 1;
+        padding: 10px;
+    }
+
+   .title {
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 48px;
+        line-height: 60px;
+        color: #000000;
+    }
+
+    .artist {
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 48px;
+        line-height: 60px;
+        color: #000000;
+    }
+
+    .date {
+        font-family: Montserrat;
+        font-style: italic;
+        font-weight: normal;
+        font-size: 24px;
+        line-height: 30px;
+
+        color: #000000;
+    }
+
+    .detail {
+        font-family: Montserrat;
+        font-style: italic;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 24px;
+
+        color: #000000;
+    }
+
+    .descrip {
+        font-family: Montserrat;
+        font-style: italic;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 24px;
+
+        color: #000000;
+    }
+
+    button {
+        width: 300px;
+        height: 40px;
+        border-radius: 3px;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+        transition: 0.5s;
+    }
+
+    button:hover {
+        background-color: #000000;
+        color: #E9E7DB;
+    }
+
+    .purchase {
+        background: #006F45;
+        color: #E9E7DB;
+    }
+</style>>

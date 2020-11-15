@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.artgalleryapplication.service;
 
 import ca.mcgill.ecse321.artgalleryapplication.dao.*;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ public class PaymentService {
     		nulls.add("paymentTime ");
     	}
     	if(cvv/100 > 9) {
-    		throw new IllegalArgumentException("Your cvv must be 3 digits as most");
+    		throw new ApiRequestException("Your cvv must be 3 digits as most");
     	}
     	if(nulls.size()>0) {
     		String errors = "";
@@ -69,13 +70,13 @@ public class PaymentService {
     			errors += i;
     		}
     		errors += "must not be null";
-    		throw new IllegalArgumentException(errors);
+    		throw new ApiRequestException(errors);
     	}
     	if(expirationDate.before(paymentDate)) {
-    		throw new IllegalArgumentException("card has expired");
+    		throw new ApiRequestException("card has expired");
     	}
     	if(cardNumber.trim().length() == 0) {
-    		throw new IllegalArgumentException("cardNumber must not be empty");
+    		throw new ApiRequestException("cardNumber must not be empty");
     	}
     	
     	Payment payment = new Payment();
@@ -98,7 +99,7 @@ public class PaymentService {
     @Transactional
     public Payment getPayment(int paymentId) {
     	if(paymentRepository.findPaymentByPaymentId(paymentId) == null) {
-    		throw new IllegalArgumentException("No payment with this ID");
+    		throw new ApiRequestException("No payment with this ID");
     	}
     	return paymentRepository.findPaymentByPaymentId(paymentId);
     }
@@ -106,12 +107,12 @@ public class PaymentService {
     @Transactional
     public List<Payment> getAllPaymentsByCardNumber(String cardNumber){
     	if(cardNumber==null || cardNumber.trim().length() == 0) {
-    		throw new IllegalArgumentException("The card number must not be empty");
+    		throw new ApiRequestException("The card number must not be empty");
     	}
     	
     	List<Payment> payments = paymentRepository.findAllPaymentByCardNumber(cardNumber);
     	if (payments.isEmpty()) {
-    		throw new IllegalArgumentException("No payments under this card number");
+    		throw new ApiRequestException("No payments under this card number");
     	}
     	return payments;
     }
@@ -119,12 +120,12 @@ public class PaymentService {
     @Transactional
     public List<Payment> getAllPaymentsByPaymentDate(Date pd){
     	if(pd==null) {
-    		throw new IllegalArgumentException("The date must not be empty");
+    		throw new ApiRequestException("The date must not be empty");
     	}
     	
     	List<Payment> payments = paymentRepository.findAllPaymentByPaymentDate(pd);
     	if (payments.isEmpty()) {
-    		throw new IllegalArgumentException("No payments made on this date");
+    		throw new ApiRequestException("No payments made on this date");
     	}
     	return payments;
     }
@@ -132,12 +133,12 @@ public class PaymentService {
     @Transactional
     public List<Payment> getAllPaymentsByPaymentTime(Time pt){
     	if(pt==null) {
-    		throw new IllegalArgumentException("The time must not be empty");
+    		throw new ApiRequestException("The time must not be empty");
     	}
     	
     	List<Payment> payments = paymentRepository.findAllPaymentByPaymentTime(pt);
     	if (payments.isEmpty()) {
-    		throw new IllegalArgumentException("No payments made at this time");
+    		throw new ApiRequestException("No payments made at this time");
     	}
     	return payments;
     }
@@ -145,7 +146,7 @@ public class PaymentService {
     @Transactional
     public Payment updatePayment(PaymentForm pf, Date pd, String cardNumber, Date expiration, int cvv, int paymentId, Time paymentTime){
     	if(paymentRepository.findPaymentByPaymentId(paymentId)==null) {
-    		throw new IllegalArgumentException("must enter a payment id that is in the table");
+    		throw new ApiRequestException("must enter a payment id that is in the table");
     	}
     	
     	Payment p = paymentRepository.findPaymentByPaymentId(paymentId);
