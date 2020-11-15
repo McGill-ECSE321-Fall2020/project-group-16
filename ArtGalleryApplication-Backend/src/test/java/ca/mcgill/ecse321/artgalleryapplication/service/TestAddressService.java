@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.lenient;
 
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,7 +62,7 @@ public class TestAddressService {
 
         try {
             address = addressService.createAddress(CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 
@@ -81,7 +82,7 @@ public class TestAddressService {
 
         try {
             address = addressService.createAddress(null, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -96,7 +97,7 @@ public class TestAddressService {
 
         try {
             address = addressService.createAddress("", CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -111,7 +112,7 @@ public class TestAddressService {
 
         try {
             address = addressService.createAddress(CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, null, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -126,7 +127,7 @@ public class TestAddressService {
 
         try {
             address = addressService.createAddress(CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, null, CORRECTPROVINCE, CORRECTCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -141,7 +142,7 @@ public class TestAddressService {
 
         try {
             address = addressService.createAddress(CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, null, CORRECTCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -156,7 +157,7 @@ public class TestAddressService {
 
         try {
             address = addressService.createAddress(CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, null);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -168,7 +169,7 @@ public class TestAddressService {
     public void testDeleteCorrectAddress() {
         try {
             addressService.deleteAddress(VALID_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
     }
@@ -179,7 +180,7 @@ public class TestAddressService {
 
         try {
              addressService.deleteAddress(NULL_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
         assertEquals(error, "AddressID is null. Please enter a valid addressID");
@@ -191,7 +192,7 @@ public class TestAddressService {
 
         try {
             addressService.deleteAddress(INVALID_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
         assertEquals(error, "No address in system associated with addressID: " + INVALID_ID);
@@ -203,7 +204,7 @@ public class TestAddressService {
 
         try {
             address = addressService.getAddressById(VALID_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 
@@ -218,7 +219,7 @@ public class TestAddressService {
 
         try {
             address = addressService.getAddressById(NULL_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -233,7 +234,7 @@ public class TestAddressService {
 
         try {
             address = addressService.getAddressById(INVALID_ID);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -256,7 +257,7 @@ public class TestAddressService {
         try {
             // 1 is a fake id we are passing in
             address = addressService.updateAddress(VALID_ID, NEWSTREETADDRESS, NEWSTREETADDRESS2, NEWPOSTALCODE, NEWCITY, NEWPROVINCE, NEWCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 
@@ -278,7 +279,7 @@ public class TestAddressService {
 
         try {
             address = addressService.updateAddress(NULL_ID, CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -293,7 +294,7 @@ public class TestAddressService {
 
         try {
             address = addressService.updateAddress(INVALID_ID, CORRECTSTREETADDRESS, CORRECTSTREETADDRESS2, CORRECTPOSTALCODE, CORRECTCITY, CORRECTPROVINCE, CORRECTCOUNTRY);
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             error = e.getMessage();
         }
 
@@ -309,7 +310,7 @@ public class TestAddressService {
         try {
             // 1 is a fake id we are passing in
             address = addressService.updateAddress(VALID_ID, "", "", NEWPOSTALCODE, "", "", "");
-        } catch (IllegalArgumentException e) {
+        } catch (ApiRequestException e) {
             fail();
         }
 

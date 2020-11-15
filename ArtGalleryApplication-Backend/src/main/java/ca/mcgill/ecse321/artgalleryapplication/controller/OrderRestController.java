@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
+import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus;
 import ca.mcgill.ecse321.artgalleryapplication.model.PaymentForm;
 import ca.mcgill.ecse321.artgalleryapplication.service.OrderService;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,47 +34,16 @@ public class OrderRestController {
      * @param username
      * @param artworkId
      * @return an OrderDto
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @PostMapping(value = { "/orders/place-order/{username}", "/orders/place-order/{username}/" })
     public OrderDto placeOrder(
             @PathVariable("username") String username,
             @RequestParam("artworkId") int artworkId
-    ) throws IllegalArgumentException {
+    ) throws ApiRequestException {
 
         return convertToDto(orderService.placeOrder(artworkId, username));
     }
-
-//    @PostMapping(value = { "/orders/place-order/{username}/{artworkId}", "/orders/place-order/{username}/{artworkId}/" })
-//    public OrderDto placeOrder(
-//            @PathVariable("username") String username,
-//            @PathVariable("artworkId") int artworkId,
-//            @RequestParam("paymentForm") PaymentForm paymentForm,
-//            @RequestParam("cardNumber") String cardNumber,
-//            @RequestParam("expirationDate") Date expirationDate,
-//            @RequestParam("cvv") int cvv,
-//            @RequestParam("toGallery") Boolean toGallery,
-//            @RequestParam("estimatedArrivalTime") Time estimatedArrivalTime,
-//            @RequestParam("estimatedArrivalDate") Date estimatedArrivalDate,
-//            @RequestParam("retStreetAddress") String retStreetAddress,
-//            @RequestParam("retStreetAddress") String retStreetAddress2,
-//            @RequestParam("retStreetAddress") String retPostalCode,
-//            @RequestParam("retStreetAddress") String retCity,
-//            @RequestParam("retStreetAddress") String retProvince,
-//            @RequestParam("retStreetAddress") String retCountry,
-//            @RequestParam("destStreetAddress") String destStreetAddress,
-//            @RequestParam("destStreetAddress") String destStreetAddress2,
-//            @RequestParam("destStreetAddress") String destPostalCode,
-//            @RequestParam("destStreetAddress") String destCity,
-//            @RequestParam("destStreetAddress") String destProvince,
-//            @RequestParam("destStreetAddress") String destCountry
-//    ) throws IllegalArgumentException {
-//
-//        OrderDto initOrder = convertToDto(orderService.placeOrder(artworkId, username));
-//        AddressDto retAddress =
-//
-//        return convertToDto(orderService.placeOrder(artworkId, username));
-//    }
 
 
     // --- Getters --- //
@@ -83,10 +51,10 @@ public class OrderRestController {
     /**
      *
      * @return a list of OrderDtos
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @GetMapping(value = { "/orders", "/orders/" })
-    public List<OrderDto> getAllOrders() throws IllegalArgumentException {
+    public List<OrderDto> getAllOrders() throws ApiRequestException {
         return orderService.getAllOrders().stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
 
@@ -94,10 +62,10 @@ public class OrderRestController {
      *
      * @param id
      * @return an OrderDto
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @GetMapping(value = { "/orders/{id}", "/orders/{id}/" })
-    public OrderDto getOrderById(@PathVariable("id") int id) throws IllegalArgumentException {
+    public OrderDto getOrderById(@PathVariable("id") int id) throws ApiRequestException {
         return convertToDto(orderService.getOrderById(id));
     }
 
@@ -105,10 +73,10 @@ public class OrderRestController {
      *
      * @param status
      * @return a list of OrderDtos
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @GetMapping(value = { "/orders/get-by-status/{status}", "/orders/get-by-status/{status}" })
-    public List<OrderDto> getOrdersByStatus(@PathVariable("status") OrderStatus status) throws IllegalArgumentException {
+    public List<OrderDto> getOrdersByStatus(@PathVariable("status") OrderStatus status) throws ApiRequestException {
         return orderService.getOrdersByStatus(status).stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
 
@@ -116,15 +84,15 @@ public class OrderRestController {
      *
      * @param username
      * @return a list of OrderDtos
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @GetMapping(value = { "/orders/get-by-user/{username}", "/orders/get-by-user/{username}" })
-    public List<OrderDto> getOrdersByUser(@PathVariable("username") String username) throws IllegalArgumentException {
+    public List<OrderDto> getOrdersByUser(@PathVariable("username") String username) throws ApiRequestException {
         return orderService.getOrdersByUser(username).stream().map(ConvertToDto::convertToDto).collect(Collectors.toList());
     }
 
     @GetMapping(value = {"/orders/get-current-order/{username}", "/orders/get-current-order/{username}/"})
-    public OrderDto getCurrentOrder(@PathVariable("username") String username) throws IllegalArgumentException {
+    public OrderDto getCurrentOrder(@PathVariable("username") String username) throws ApiRequestException {
         return convertToDto(orderService.getCurrentOrder(username));
     }
 
@@ -200,10 +168,10 @@ public class OrderRestController {
      *
      * @param id
      * @return boolean
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @DeleteMapping(value = { "/orders/{id}", "/orders/{id}/" })
-    public boolean deleteOrder(@PathVariable("id") int id) throws IllegalArgumentException {
+    public boolean deleteOrder(@PathVariable("id") int id) throws ApiRequestException {
         return orderService.deleteOrder(id);
     }
 
@@ -211,12 +179,12 @@ public class OrderRestController {
      *
      * @param orderDto
      * @return boolean
-     * @throws IllegalArgumentException
+     * @throws ApiRequestException
      */
     @DeleteMapping(value = { "/orders", "/orders/" })
-    public boolean deleteOrder(OrderDto orderDto) throws IllegalArgumentException {
+    public boolean deleteOrder(OrderDto orderDto) throws ApiRequestException {
         if (orderDto == null)
-            throw new IllegalArgumentException("An order is required to be deleted.");
+            throw new ApiRequestException("An order is required to be deleted.");
 
         return orderService.deleteOrder(orderDto.getOrderId());
     }

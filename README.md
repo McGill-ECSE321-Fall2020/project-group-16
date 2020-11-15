@@ -71,11 +71,11 @@ More details about [Sprint 3](https://github.com/McGill-ECSE321-Fall2020/project
 
 |**Team Member**|**Responsibilities**|**Hours**|
 |:-------------:|:-------------------|:-------:|
-|Rodolphe Baladi|                    |         |
-|Alena Midgen   |                    |         |
-|Arian Omidi    |                    |         |
-|Dina Shoham    |                    |         |
-|Evan Wechsler  |                    |         |
+|Rodolphe Baladi|Architecture model, Implementation of Frontend and Integration with Backend  |    30     |
+|Alena Midgen   |Implementation of Frontend, Integration with Backend and Project Report |     30    |
+|Arian Omidi    |Implementation of Frontend, Integration with Backend and Build System, Continuous Integration and Delivery|    30     |
+|Dina Shoham    |Implementation of Frontend, Integration with Backend and Styling in CSS|    30     |
+|Evan Wechsler  |Implementation of Frontend, Integration with Backend and Styling in CSS|     30    |
 
 ### Sprint 4
 
