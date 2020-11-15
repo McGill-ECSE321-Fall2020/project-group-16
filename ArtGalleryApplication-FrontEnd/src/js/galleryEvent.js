@@ -16,17 +16,19 @@ export default {
 
             errorEvent: "",
             errorRequest: "",
-            response: []
+            response: [],
+
+            createModalActive: false
         };
     },
 
-    created: function () {
+    created: function() {
         var self = this;
 
         AXIOS.get("/events")
             .then((response) => {
                 this.events = response.data;
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 self.errorEvent = "Error: " + err.response.data.message;
             });
@@ -34,7 +36,7 @@ export default {
 
     methods: {
 
-        createEvent: function (name, description, date, startTime, endTime) {
+        createEvent: function(name, description, date, startTime, endTime) {
             var self = this;
 
             AXIOS.post("/events/".concat(name), {}, {
@@ -55,11 +57,18 @@ export default {
                 this.newEvent.date = "2020-12-08";
                 this.newEvent.startTime = "09:00";
                 this.newEvent.endTime = "11:00";
+                this.createModalActive = false
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 self.errorRequest = "Error: " + err.response.data.message;
             });
         },
+        showModal: function() {
+            this.createModalActive = true
+        },
+        hideModal: function() {
+            this.createModalActive = false
+        }
     },
 }

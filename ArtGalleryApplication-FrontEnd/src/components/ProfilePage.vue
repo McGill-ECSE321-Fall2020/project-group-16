@@ -23,7 +23,12 @@
       <!--<div class="black-button py-2 px-4" v-if="currentUser" @click="createArtwork">
         CREATE NEW ARTWORK
       </div>-->
-      <button @click="$router.push({ path: `/create_artwork` })">CREATE ARTWORK</button>
+      <div
+        class="black-button px-3 py-2"
+        @click="$router.push({ path: `/create_artwork` })"
+      >
+        CREATE ARTWORK
+      </div>
     </div>
   </div>
 </template>

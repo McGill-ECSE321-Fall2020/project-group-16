@@ -17,6 +17,7 @@ export default {
     },
     methods: {
         getUser(route, obj) {
+            var self = this
             obj.username = route.params.username;
             console.log(localStorage.getItem("username"))
             console.log(obj.username)
@@ -27,6 +28,10 @@ export default {
                     obj.user = response.data;
                 })
                 .catch(function(e) {
+                    if (e.response.data.message === "The user cannot be null") {
+                        self.$router.push('/404')
+                    }
+
                     console.log(e);
                 });
         },

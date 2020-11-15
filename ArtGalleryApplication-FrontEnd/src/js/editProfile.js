@@ -51,7 +51,7 @@ export default {
 
     },
 
-    created: function () {
+    created: function() {
         var self = this;
 
         //first thing: get the username of the requested page
@@ -64,7 +64,7 @@ export default {
             .then((response) => {
                 this.theTargetUser = response.data;
                 this.theTargetUser.profileImageUrl = "../assets/Profile Pic.png"
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response)
                 self.errorTargetUser = err.response.data.message;
             });
@@ -73,7 +73,7 @@ export default {
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
             .then((response) => {
                 this.theCurrentUser = response.data;
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 self.errorCurrentUser = err.response.data.message;
 
@@ -82,7 +82,7 @@ export default {
 
     methods: {
 
-        updateEmail: function (newEmail) {
+        updateEmail: function(newEmail) {
             var self = this;
 
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-email/", {}, {
@@ -97,7 +97,7 @@ export default {
                 this.error = "";
                 this.hideEmailModal()
                 this.success = true
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 self.error = err.response.data.message;
                 this.success = false
@@ -106,7 +106,7 @@ export default {
         },
 
 
-        updateFirstLastName: function (newFirstName, newLastName) {
+        updateFirstLastName: function(newFirstName, newLastName) {
             var self = this;
 
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-name/", {}, {
@@ -124,7 +124,7 @@ export default {
                 this.hideNameModal()
                 this.success = true
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 self.error = err.response.data.message;
                 this.success = false
@@ -133,7 +133,7 @@ export default {
         },
 
 
-        updatePassword: function (verificationPassword, newPassword) {
+        updatePassword: function(verificationPassword, newPassword) {
             var self = this;
 
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-password/", {}, {
@@ -150,7 +150,7 @@ export default {
                 this.error = "";
                 this.hidePasswordModal()
                 this.success = true
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 self.error = err.response.data.message;
                 this.success = false
@@ -159,7 +159,7 @@ export default {
         },
 
 
-        updateDescription: function (newDescription) {
+        updateDescription: function(newDescription) {
             var self = this;
 
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-description/", {}, {
@@ -175,7 +175,7 @@ export default {
                 this.hideDescriptionModal()
                 this.success = true
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 self.error = err.response.data.message;
                 this.success = false
@@ -184,7 +184,7 @@ export default {
         },
 
 
-        updateImage: function (newImageUrl) {
+        updateImage: function(newImageUrl) {
             var self = this;
 
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-profile-image-url/", {}, {
@@ -197,13 +197,13 @@ export default {
                 //reinitialize the field
                 this.newImageUrl = "";
                 this.error = "";
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 self.error = err.response.data.message;
             });
         },
 
-        displayNameModal: function () {
+        displayNameModal: function() {
             this.success = false
             this.error = ""
 
@@ -216,7 +216,7 @@ export default {
 
         },
 
-        displayEmailModal: function () {
+        displayEmailModal: function() {
             this.success = false
             this.error = ""
 
@@ -229,7 +229,7 @@ export default {
 
         },
 
-        displayDescriptionModal: function () {
+        displayDescriptionModal: function() {
             this.success = false
             this.error = ""
 
@@ -241,7 +241,7 @@ export default {
 
         },
 
-        displayPasswordModal: function () {
+        displayPasswordModal: function() {
             this.success = false
             this.error = ""
 
@@ -253,23 +253,23 @@ export default {
 
         },
 
-        hideNameModal: function () {
+        hideNameModal: function() {
             this.nameModalActive = false
         },
 
-        hideEmailModal: function () {
+        hideEmailModal: function() {
             this.emailModalActive = false
         },
 
-        hideDescriptionModal: function () {
+        hideDescriptionModal: function() {
             this.descriptionModalActive = false
         },
 
-        hidePasswordModal: function () {
+        hidePasswordModal: function() {
             this.passwordModalActive = false
         },
 
-        done: function () {
+        done: function() {
             this.$router.push({ name: "ProfilePage", params: { username: this.theTargetUser.username } })
         },
 
@@ -282,7 +282,7 @@ export default {
             firebase.database().ref('PhotoGallery').push(post)
                 .then((response) => {
                     console.log(response)
-                    this.theTargetUser.profileImageUrl = this.img1;
+
                 })
                 .catch(err => {
                     console.log(err)
@@ -301,13 +301,14 @@ export default {
             this.img1 = null;
             const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
             storageRef.on(`state_changed`, snapshot => {
-                this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            }, error => { console.log(error.message) },
+                    this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                }, error => { console.log(error.message) },
                 () => {
                     this.uploadValue = 100;
                     storageRef.snapshot.ref.getDownloadURL().then((url) => {
                         this.img1 = url;
                         console.log(this.img1)
+                        this.theTargetUser.profileImageUrl = this.img1
                     });
                 }
             );

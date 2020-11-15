@@ -86,12 +86,12 @@ public class UserProfileController {
      * @throws DataAccessException
      */
     @GetMapping(value = {"/users/{username}", "/users/{username}/"})
-    public UserProfileDto getUserProfileByUsername(@PathVariable("username") String username) throws DataAccessException {
+    public UserProfileDto getUserProfileByUsername(@PathVariable("username") String username) throws ApiRequestException {
         return convertToDto(userService.getUserProfileByUsername(username));
     }
 
     @GetMapping(value = {"/login/{username}/{password}", "/users/{username}/{password}/"})
-    public boolean getLoginStatus(@PathVariable("username") String username, @PathVariable("password") String password) throws DataAccessException {
+    public boolean getLoginStatus(@PathVariable("username") String username, @PathVariable("password") String password) throws ApiRequestException {
         try{
             userService.getUserProfileByUsername(username, password);
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class UserProfileController {
     // Update methods
     @PutMapping(value = {"/users/{username}/update-email", "/users/{username}/update-email/"})
     public UserProfileDto updateEmail(@PathVariable("username") String username,
-                                      @RequestParam String newEmail) throws DataAccessException {
+                                      @RequestParam String newEmail) throws ApiRequestException {
         return convertToDto(userService.updateEmail(username, newEmail));
     }
 
@@ -121,7 +121,7 @@ public class UserProfileController {
      */
     @PutMapping(value = {"users/{username}/update-address", "users/{username}/update-address/"})
     public UserProfileDto updateAddress(@PathVariable("username") String username,
-                                        @RequestParam int addressId) throws DataAccessException {
+                                        @RequestParam int addressId) throws ApiRequestException {
         return convertToDto(userService.updateAddress(username, addressId));
     }
 
@@ -135,7 +135,7 @@ public class UserProfileController {
     @PutMapping(value = {"users/{username}/update-password", "users/{username}/update-password/"})
     public UserProfileDto updatePassword(@PathVariable("username") String username,
                                          @RequestParam String password,
-                                         @RequestParam String newPassword) throws DataAccessException {
+                                         @RequestParam String newPassword) throws ApiRequestException {
         return convertToDto(userService.updatePassword(username, password, newPassword));
     }
 
@@ -147,7 +147,7 @@ public class UserProfileController {
      */
     @PutMapping(value = {"users/{username}/update-admin-status", "users/{username}/update-admin-status/"})
     public UserProfileDto updateAdminStatus(@PathVariable("username") String username,
-                                            @RequestParam boolean isAdmin) throws DataAccessException {
+                                            @RequestParam boolean isAdmin) throws ApiRequestException {
         return convertToDto(userService.updateAdminStatus(username, isAdmin));
     }
 
@@ -161,7 +161,7 @@ public class UserProfileController {
     @PutMapping(value = {"users/{username}/update-name", "users/{username}/update-name/"})
     public UserProfileDto updateName(@PathVariable("username") String username,
                                      @RequestParam String newFirstName,
-                                     @RequestParam String newLastName) throws DataAccessException {
+                                     @RequestParam String newLastName) throws ApiRequestException {
         return convertToDto(userService.updateName(username, newFirstName, newLastName));
     }
 
@@ -172,7 +172,7 @@ public class UserProfileController {
      * @throws DataAccessException
      */
     @PutMapping(value = {"users/{username}/update-description", "users/{username}/update-description/"})
-    public UserProfileDto updateDescription(@PathVariable("username") String username, @RequestParam String description) throws DataAccessException {
+    public UserProfileDto updateDescription(@PathVariable("username") String username, @RequestParam String description) throws ApiRequestException {
         return convertToDto(userService.updateDescription(username, description));
     }
 
@@ -183,7 +183,7 @@ public class UserProfileController {
      * @throws DataAccessException
      */
     @PutMapping(value = {"users/{username}/update-profile-image-url", "users/{username}/update-profile-image-url/"})
-    public UserProfileDto updateProfileImageUrl(@PathVariable("username") String username, @RequestParam String imageUrl) throws DataAccessException {
+    public UserProfileDto updateProfileImageUrl(@PathVariable("username") String username, @RequestParam String imageUrl) throws ApiRequestException {
         return convertToDto(userService.updateDescription(username, imageUrl));
     }
 
@@ -193,7 +193,7 @@ public class UserProfileController {
      */
     // ----- Deletion methods -----
     @DeleteMapping(value = {"users/{username}", "users/{username}/"})
-    public void deleteUser(@PathVariable("username") String username) throws DataAccessException {
+    public void deleteUser(@PathVariable("username") String username) throws ApiRequestException {
         userService.deleteUserProfile(username);
     }
 }

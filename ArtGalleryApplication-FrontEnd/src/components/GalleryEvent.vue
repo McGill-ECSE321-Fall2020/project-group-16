@@ -1,64 +1,75 @@
 <template>
   <div id="galleryEvents">
-    <h2>Events</h2>
-    <div v-if="errorEvent" class="alert alert-danger alert-dismissible fade show mx-auto" style="width: 100%" role="alert">
- {{errorEvent}}
+    <div v-if="createModalActive" class="modal-container">
+      <div
+          v-if="errorEvent !== ''"
+          class="alert alert-danger alert-dismissible fade show mx-auto mb-4"
+          role="alert"
+        >
+          <strong>{{ error }}</strong>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="edit-modal p-4 modal">
+          <i class="fas fa-times fa-lg close" @click="hideModal()"></i
+          ><br />
+          <h1 class="mb-3">Create Event</h1>
+          <input
+            id="name"
+            v-model="newEvent.name"
+            type="text"
+            placeholder="Event Name"
+          /><br />
+          <textarea rows="5" cols="30"
+            id="description"
+            v-model="newEvent.description"
+            type="text"
+            placeholder="Event Description"
+          /> <br>
+          <input
+            id="date"
+            v-model="newEvent.date"
+            type="date"
+            placeholder="YYYY-MM-DD"
+          /><br />
+          <input type="time" name="" id="start-time" placeholder="HH:MM" v-model="newEvent.startTime">
+          <br>
+          <input type="time" name="" id="end-time" v-model="newEvent.endTime" placeholder="HH:MM">
+          <div
+            class="save-button px-3 py-2 mx-auto mt-3"
+            @click="createEvent(newEvent.title, newEvent.decription, newEvent.date, newEvent.startTime, newEvent.endTime)"
+          >
+            SAVE
+          </div>
+        </div>
+    </div>
+    <div class="create-button mx-auto px-3 py-2" @click="showModal">CREATE EVENT</div>
+  
+    <div v-if="errorRequest" class="alert alert-danger alert-dismissible fade show mx-auto" style="width: 100%" role="alert">
+ {{errorRequest}}
   <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="height:100%">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 
-    <h3>Create new Event</h3>
-    <table>
-      <tr>
-        <td>
-          <input type="text" v-model="newEvent.name" placeholder="Event Name" />
-        </td>
-        <td>
-          <input
-            type="text"
-            v-model="newEvent.description"
-            placeholder="Event Description"
-          />
-        </td>
-        <td>
-          <input type="date" v-model="newEvent.date" placeholder="YYYY-MM-DD" />
-        </td>
-        <td>
-          <input type="time" v-model="newEvent.startTime" placeholder="HH:mm" />
-        </td>
-        <td>
-          <input type="time" v-model="newEvent.endTime" placeholder="HH:mm" />
-        </td>
-        <td>
-          <button
-            v-bind:disabled="!newEvent.name"
-            @click="
-              createEvent(
-                newEvent.name,
-                newEvent.description,
-                newEvent.date,
-                newEvent.startTime,
-                newEvent.endTime
-              )
-            "
-          >
-            Create
-          </button>
-        </td>
-      </tr>
-    </table>
+    
     <p>
       <div v-if="errorRequest" class="alert alert-danger alert-dismissible fade show mx-auto" style="width: 100%" role="alert">
  {{errorRequest}}
   <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="height:100%">
     <span aria-hidden="true">&times;</span>
   </button>
-</div>
+      </div>
     </p>
 
-    <h1>Current events</h1>
-    <h2>Click one to register</h2>
+    <h1 style="text-align: center">Current events</h1>
+    <h2 style="text-align: center">Click one to register</h2>
     <div v-if="events.length !== 0" class="events my-5">
       <div class="row">
         <div class="col"><h3>Name</h3></div>
@@ -98,7 +109,7 @@
           <button @click="$router.push('/events/' + event.id)">here</button>
         </td>
       </tr> -->
-    <p v-else>No events created, yet</p>
+    <h2 class="my-3" style="text-align: center" v-else>No events created yet</h2>
   </div>
 </template>
 
