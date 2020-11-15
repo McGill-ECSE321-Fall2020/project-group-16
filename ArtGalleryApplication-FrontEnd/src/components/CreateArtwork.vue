@@ -1,6 +1,25 @@
 <template>
-    <div id="createartwork">
+    <div id="createartwork" >
+
         <h1>Upload your artwork</h1>
+        <div>            
+            <div>
+                <div >
+                Upload a photo
+                <button @click="click1">choose a photo</button>
+                <input type="file" ref="input1"
+                    style="display: none"
+                    @change="previewImage" accept="image/*" >                
+                </div>
+        
+                <div>                  
+                    <img v-if="imageData!=null" class="preview" height="268" width="356" :src="img1">
+                <br>
+                </div> 
+            </div>    
+
+        </div>
+
         <table>
         <tr>
           <td>
@@ -61,14 +80,16 @@
             placeholder="1000">
             </td>
         </tr>
-        <tr>
+
+
+        <!-- <tr>
             <td>Image URL:</td>
             <td><input 
             type="text"
             v-model = newArtwork.imageUrl
             placeholder="www.">
             </td>
-        </tr>
+        </tr> -->
     </table>
     <button
     v-bind:disabled="!newArtwork.title" 
@@ -81,13 +102,13 @@
         newArtwork.status,
         newArtwork.dimensions, 
         newArtwork.collection
-        )">
+        ); create()">
     Add Artwork
     </button>
 
     <br>
     <br>
-    <div>
+    <div v-if="newArtwork.artworkId">
         <h2>Add Artists to the artwork {{newArtwork.title}}:</h2>
         <table>
             <tr>
@@ -116,7 +137,7 @@
 
     <br>
     <br>
-    <button @click="reloadPage()">Done</button>
+    <button v-bind:disabled="!newArtwork.artworkId" @click="reloadPage()">Done</button>
     
     </div>
 </template>

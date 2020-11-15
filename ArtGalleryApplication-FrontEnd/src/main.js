@@ -38,10 +38,7 @@ new Vue({
             measurementId: "G-QBMV8VKM1V"
         };
         // Initialize Firebase
-        console.log("BEFORE")
         firebase.initializeApp(firebaseConfig);
-        console.log("DURING")
         firebase.analytics();
-        console.log("AFTER")
     }
 })
