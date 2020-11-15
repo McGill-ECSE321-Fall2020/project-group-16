@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.artgalleryapplication.controller;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus;
-import ca.mcgill.ecse321.artgalleryapplication.model.PaymentForm;
 import ca.mcgill.ecse321.artgalleryapplication.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

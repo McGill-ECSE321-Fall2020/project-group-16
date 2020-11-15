@@ -1,10 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication.controller;
 
-import ca.mcgill.ecse321.artgalleryapplication.dto.OrderDto;
 import ca.mcgill.ecse321.artgalleryapplication.dto.UserProfileDto;
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
-import ca.mcgill.ecse321.artgalleryapplication.model.Artwork;
-import ca.mcgill.ecse321.artgalleryapplication.model.GalleryEvent;
 import ca.mcgill.ecse321.artgalleryapplication.model.UserProfile;
 import ca.mcgill.ecse321.artgalleryapplication.service.*;
 
@@ -12,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.Data;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
