@@ -27,8 +27,6 @@ export default {
     },
     created: function() {
         //first thing: get the id of the page
-        var url = window.location.hash;
-        var id = url.substring(url.lastIndexOf('/') + 1);
 
         //get the current user to get admin status
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
@@ -64,7 +62,6 @@ export default {
             )
             AXIOS.post("/artworks/".concat(this.newArtwork.atworkId), {}, {
                 params: {
-                    username: localStorage.getItem('username'),
                     title: this.newArtwork.title,
                     description: this.newArtwork.description,
                     creationDate: this.newArtwork.creationDate,
