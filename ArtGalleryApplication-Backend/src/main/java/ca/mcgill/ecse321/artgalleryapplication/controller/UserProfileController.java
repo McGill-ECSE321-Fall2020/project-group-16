@@ -184,7 +184,7 @@ public class UserProfileController {
      */
     @PutMapping(value = {"users/{username}/update-profile-image-url", "users/{username}/update-profile-image-url/"})
     public UserProfileDto updateProfileImageUrl(@PathVariable("username") String username, @RequestParam String imageUrl) throws DataAccessException {
-        return convertToDto(userService.updateDescription(username, imageUrl));
+        return convertToDto(userService.updateProfileImageUrl(username, imageUrl));
     }
 
     /**
