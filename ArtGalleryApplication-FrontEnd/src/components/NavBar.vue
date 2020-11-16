@@ -89,7 +89,6 @@ export default {
   },
   methods: {
     changeTab: function (e) {
-      console.log(e);
       if (e.target.classList.contains("user")) {
         this.$router.push({ path: `/user/${this.username}` });
       } else if (e.target.classList.contains("browseart")) {
