@@ -123,5 +123,29 @@
 </script>
 
 <style>
+    #createartwork{
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: normal;
+    }
+    input{
+        background-color: #e9e7db;
+    }
+    button {
+        width: 300px;
+        height: 40px;
+        border-radius: 3px;
+        font-family: Montserrat;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+        transition: 0.5s;
+    }
 
+    button:hover {
+        background-color: #000000;
+        color: #E9E7DB;
+    }
 </style>
