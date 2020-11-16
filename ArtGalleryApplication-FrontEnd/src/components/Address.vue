@@ -3,6 +3,7 @@
     <br />
     <form>
       <h6>{{ title }}</h6>
+      <div class="row"></div>
       <input
         type="text"
         v-model="address.streetAddress"
@@ -61,5 +62,18 @@
 
 <script src="../js/address.js"></script>
 
-<style>
+<style scoped>
+input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid black;
+  width: fit-content;
+  color: black;
+  margin: 10px auto;
+  font-family: "Montserrat";
+}
+
+input:focus {
+  outline: none;
+}
 </style>
