@@ -10,11 +10,11 @@
         <div class="box-2">
             <p class="title">{{ artwork.title }}</p>
             <p class="artist" v-if="artwork.artists[0]">{{ artwork.artists[0].firstName }} {{ artwork.artists[0].lastName }}</p>
-            <p class="date">{{ artwork.creationDate }}</p>
-            <p class="detail">{{ artwork.collection }}</p>
-            <p class="detail">{{ artwork.dimensions }}</p>
-            <p class="detail">{{ artwork.medium }}</p>
-            <p class="descrip">{{ artwork.description }}</p>
+            <p class="date">Created: {{ artwork.creationDate }}</p>
+            <p class="detail">Collection: {{ artwork.collection }}</p>
+            <p class="detail">Dimensions: {{ artwork.dimensions }}</p>
+            <p class="detail">Medium: {{ artwork.medium }}</p>
+            <p class="descrip">Description: {{ artwork.description }}</p>
 
             <p><button v-if="!userOwnsArtwork && artwork.artworkStatus === 'ForSale'" class="purchase" @click="$router.push(
                 {path: `/checkout/${theCurrentUser.username}/${artwork.artworkId}`})">
