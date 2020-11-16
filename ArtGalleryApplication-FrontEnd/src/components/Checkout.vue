@@ -1,7 +1,7 @@
 <template>
   <div id="checkout">
     <div><h1>Checkout</h1></div>
-    <hr>
+    <hr />
 
     <div class="container">
       <div class="box-1" v-if="!orderId && !errorCheckout">
@@ -17,78 +17,79 @@
       </div>
     </div>
 
-    <hr>
+    <hr />
 
-    <form @submit="placeOrder(username, artworkId)" v-if="!orderId && !errorCheckout" id="info">
-      <Shipment v-if="!shipmentId"  v-bind:address="shippingAddress" v-on:add-shipment="getShipment($event)" />
-      <Payment v-if="shipmentId && !paymentId" v-bind:payment="payment" v-on:add-payment="getPayment($event)" />
+    <form
+      @submit="placeOrder(username, artworkId)"
+      v-if="!orderId && !errorCheckout"
+      id="info"
+    >
+      <Shipment
+        v-if="!shipmentId"
+        v-bind:address="shippingAddress"
+        v-on:add-shipment="getShipment($event)"
+      />
+      <Payment
+        v-if="shipmentId && !paymentId"
+        v-bind:payment="payment"
+        v-on:add-payment="getPayment($event)"
+      />
 
       <div v-if="shipmentId && paymentId">
-        <h4>Review Order</h4>
-        
-        <br>
+        <h1>Review Order</h1>
 
-        <table>
-          <tr>
-            <th>Street Address:</th>
-            <td>{{ shippingAddress.streetAddress }}</td>
-          </tr>
-          <tr>
-            <th>Street Address 2:</th>
-            <td>{{ shippingAddress.streetAddress2 }}</td>
-          </tr>
-          <tr>
-            <th>Postal Code:</th>
-            <td>{{ shippingAddress.postalCode }}</td>
-          </tr>
-          <tr>
-            <th>City:</th>
-            <td>{{ shippingAddress.city }}</td>
-          </tr>
-           <tr>
-            <th>Province:</th>
-            <td>{{ shippingAddress.province }}</td>
-          </tr>
-           <tr>
-            <th>Country:</th>
-            <td>{{ shippingAddress.country }}</td>
-          </tr>
-        </table>
+        <br />
+        <div class="row">
+          <div class="col"><strong>Street Address:</strong></div>
+          <div class="col">{{ shippingAddress.streetAddress }}</div>
+        </div>
+        <div class="row">
+          <div class="col"><strong>Street Address 2:</strong></div>
+          <div class="col">{{ shippingAddress.streetAddress2 }}</div>
+        </div>
 
-        <br>
-
-       <table>
-          <tr>
-            <th>Card Number:</th>
-            <td>{{ payment.cardNumber }}</td>
-          </tr>
-          <tr>
-            <th>Expires On:</th>
-            <td>{{ payment.expirationDate }}</td>
-          </tr>
-        </table>
-
-        <br>
+        <div class="row">
+          <div class="col"><strong>Postal Code:</strong></div>
+          <div class="col">{{ shippingAddress.postalCode }}</div>
+        </div>
+        <div class="row">
+          <div class="col"><strong>City:</strong></div>
+          <div class="col">{{ shippingAddress.city }}</div>
+        </div>
+        <div class="row">
+          <div class="col"><strong>Province:</strong></div>
+          <div class="col">{{ shippingAddress.province }}</div>
+        </div>
+        <div class="row">
+          <div class="col"><strong>Country:</strong></div>
+          <div class="col">{{ shippingAddress.country }}</div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col"><strong>Card Number:</strong></div>
+          <div class="col">{{ payment.cardNumber }}</div>
+        </div>
+        <div class="row">
+          <div class="col"><strong>Expires On:</strong></div>
+          <div class="col">{{ payment.expirationDate }}</div>
+        </div>
+        <br />
 
         <input
           type="submit"
           value="Place Order"
           class="btn"
-          v-bind:disabled="
-            !username || !artworkId || !shipmentId || !paymentId
-          "
+          v-bind:disabled="!username || !artworkId || !shipmentId || !paymentId"
         />
       </div>
     </form>
 
     <span v-if="errorCheckout" style="color: red"
       >Error: {{ errorCheckout }}
-      </span>
+    </span>
 
-    <div v-if="orderId">
-      Order Placed
-    </div>
-    
+    <div v-if="orderId">Order Placed</div>
+
     <hr />
   </div>
 </template>
@@ -169,18 +170,17 @@ button {
   transition: 0.5s;
 }
 
-
 .btn {
-    width: fit-content;
-    background-color: black;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.5s;
-    color: white;
+  width: fit-content;
+  background: black;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.5s;
+  color: white;
 }
 
 .btn:hover {
-    background-color: #006F45;
+  background-color: #006F45;
 }
 
 button:hover {
@@ -188,5 +188,7 @@ button:hover {
   color: #e9e7db;
 }
 
-
+.row {
+  width: 40%;
+}
 </style>

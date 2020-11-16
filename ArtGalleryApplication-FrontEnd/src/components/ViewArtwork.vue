@@ -45,7 +45,7 @@
             >Sold</span
           >
         </div>
-        <br />
+        <br v-if="artwork.artworkStatus !== 'ForSale'" />
 
         <button
           v-if="!userOwnsArtwork"

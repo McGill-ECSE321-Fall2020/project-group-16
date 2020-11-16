@@ -1,17 +1,21 @@
 <template>
   <div id="browse-art">
-      <div class="black-button px-3 py-2" @click="$router.push({ path: `/create_artwork` })">
-        CREATE ARTWORK
-      </div>
-      <br>
+    <div
+      class="black-button px-3 py-2"
+      @click="$router.push({ path: `/create_artwork` })"
+    >
+      CREATE ARTWORK
+    </div>
+    <br />
     <div class="filters">
       <button
         id="toggle-filters"
         textContent=" + SHOW FILTERS"
         v-on:click="showFilters"
+        style="width: fit-content"
       >
-        + SHOW FILTERS
-      </button>
+        + SHOW FILTERS</button
+      ><br />
     </div>
     <div class="filters" id="filters" style="display: none">
       <div class="filters-row">
@@ -228,15 +232,15 @@ button:hover {
 }
 
 .black-button {
-    width: fit-content;
-    background-color: black;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.5s;
-    color: white;
+  width: fit-content;
+  background-color: black;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.5s;
+  color: white;
 }
 
 .black-button:hover {
-    background-color: #006F45;
+  background-color: #006F45;
 }
 </style>
