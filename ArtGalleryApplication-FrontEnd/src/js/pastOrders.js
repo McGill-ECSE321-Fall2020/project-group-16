@@ -8,23 +8,21 @@ export default {
             orders: [],
         }
     },
-    mounted: function() {
+    mounted: function () {
         var self = this
         AXIOS.get(`/orders/get-by-user/${this.username}`)
             .then((response) => {
-                console.log(response.data);
                 this.orders = response.data
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console.log(error)
             })
     },
     methods: {
-        getHeight: function() {
-            console.log(document.getElementById("profile-info").offsetHeight)
+        getHeight: function () {
             return { height: document.getElementById("profile-info").offsetHeight + "px" }
         },
-        goToArtwork: function(id) {
+        goToArtwork: function (id) {
             this.$router.push({ name: "ViewArtwork", params: { artworkId: id } })
         }
     }

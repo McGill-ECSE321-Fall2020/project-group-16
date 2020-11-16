@@ -15,19 +15,17 @@ export default {
         };
     },
     methods: {
-        updateUser: function(args) {
-            console.log("Update user in landing")
+        updateUser: function (args) {
             this.username = args.username;
             this.isLoggedIn = args.isLoggedIn;
             console.log(this.username + this.isLoggedIn)
         },
-        updateError: function(error) {
+        updateError: function (error) {
             this.error = error;
         }
     },
     watch: {
-        isLoggedIn: function() {
-            console.log("Emit in Landing" + this.isLoggedIn)
+        isLoggedIn: function () {
             this.$emit("update:status", {
                 username: this.username,
                 isLoggedIn: this.isLoggedIn,

@@ -17,7 +17,6 @@ export default {
     components: {
         UserProfileInfo,
         PastOrders,
-
         ArtProduct
     },
 
@@ -33,26 +32,25 @@ export default {
                     console.log(response.data)
                     obj.user = response.data;
                 })
-                .catch(function(e) {
+                .catch(function (e) {
                     if (e.response.data.message === "The user cannot be null") {
                         self.$router.push('/404')
                     }
 
                     console.log(e);
-             });
+                });
 
-             //get the target user's artworks
-            AXIOS.get('/artworks/byArtist/?artist='+obj.username
+            //get the target user's artworks
+            AXIOS.get('/artworks/byArtist/?artist=' + obj.username
             ).then((response) => {
-                console.log(response.data);
                 this.userArtworks = response.data;
-            }).catch(function(e) {
+            }).catch(function (e) {
                 console.log(e);
             });
         },
         setData(user, currentUser) {
             this.user = user,
-            this.currentUser = currentUser
+                this.currentUser = currentUser
         }
     },
     beforeRouteEnter(to, from, next) {

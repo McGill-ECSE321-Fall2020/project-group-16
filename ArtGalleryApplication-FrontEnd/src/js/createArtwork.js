@@ -36,7 +36,7 @@ export default {
                 admin: "",
             },
 
-            img1: '',
+            img1: '../assets/no-img.png',
             imageData: null,
 
             artworkCreated: ""
