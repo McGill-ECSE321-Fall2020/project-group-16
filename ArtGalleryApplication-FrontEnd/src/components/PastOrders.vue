@@ -22,7 +22,7 @@
           </h5>
           Purchased on: {{ order.orderDate }} <br />
           <span class="badge badge-pill badge-success">{{
-            order.totalAmount
+            order.totalAmount.toFixed(2)
           }}</span>
         </div>
       </li>
