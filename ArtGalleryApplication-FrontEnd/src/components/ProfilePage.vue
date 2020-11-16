@@ -13,16 +13,29 @@
       </div>
     </div>
     <div class="mx-auto py-3 seperator"></div>
+
+    <h1>{{ currentUser ? "YOUR" : "THEIR" }} ARTWORK</h1>
     <div
       class="artwork-section mt-3"
       v-bind:style="{
         justifyContent: currentUser ? 'space-between' : 'center',
       }"
     >
-      <h1>{{ currentUser ? "YOUR" : "THEIR" }} ARTWORK</h1>
-      <!--<div class="black-button py-2 px-4" v-if="currentUser" @click="createArtwork">
-        CREATE NEW ARTWORK
-      </div>-->
+      <div class="artproducts">
+        <div class="grid-item" v-bind:key="artwork.id" v-for="artwork in userArtworks">
+          <ArtProduct
+            v-bind:artworkId="artwork.artworkId"
+            v-bind:title="artwork.title"
+            v-bind:artists="artwork.artists"
+            v-bind:creationDate="artwork.creationDate"
+            v-bind:artworkStatus="artwork.artworkStatus"
+            v-bind:price="artwork.price"
+            v-bind:imageUrl="artwork.imageUrl"
+          />
+        </div>
+      </div>
+
+
       <div
         v-if="currentUser"
         class="black-button px-3 py-2"

@@ -1,19 +1,42 @@
 import { AXIOS } from "./axiosInstance";
 import UserProfileInfo from "../components/UserProfileInfo";
 import PastOrders from "../components/PastOrders"
+import ArtProduct from "../components/ArtProduct.vue"
+
 export default {
     name: "ProfilePage",
     data() {
         return {
             username: "",
             user: "",
-            currentUser: false
+            currentUser: false,
 
+            userArtworks: []
         };
     },
     components: {
         UserProfileInfo,
-        PastOrders
+        PastOrders,
+
+        ArtProduct
+    },
+
+    created: function() {
+        //ar self = this;
+
+        //first thing: get the username of the requested page
+        var url = window.location.hash;
+        var username = url.substring(url.lastIndexOf('/') + 1);
+
+        AXIOS.get('/artworks/byArtist/?artist='+username
+        ).then((response) => {
+            //alert(username);
+            console.log(response.data);
+            this.userArtworks = response.data;
+        }).catch(function(e) {
+            console.log(e);
+        });
+
     },
     methods: {
         getUser(route, obj) {
@@ -37,7 +60,7 @@ export default {
         },
         setData(user, currentUser) {
             this.user = user,
-                this.currentUser = currentUser
+            this.currentUser = currentUser
         }
     },
     beforeRouteEnter(to, from, next) {

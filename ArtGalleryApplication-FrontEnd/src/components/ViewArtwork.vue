@@ -27,7 +27,7 @@
             <button v-if="!userOwnsArtwork" @click="$router.push({ path: `/user/${artwork.artists[0].username}` })">
                 More From This Artist
             </button>
-            <button v-if="userOwnsArtwork" @click="deleteArtwork(artwork.artworkId)">
+            <button v-if="userOwnsArtwork && artwork.artworkStatus !== 'Sold'" @click="deleteArtwork(artwork.artworkId)">
                 Delete Artwork
             </button>
             <!--  -->
