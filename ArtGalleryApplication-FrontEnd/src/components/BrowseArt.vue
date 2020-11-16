@@ -1,5 +1,9 @@
 <template>
   <div id="browse-art">
+      <div class="black-button px-3 py-2" @click="$router.push({ path: `/create_artwork` })">
+        CREATE ARTWORK
+      </div>
+      <br>
     <div class="filters">
       <button id="toggle-filters" textContent=" + SHOW FILTERS" v-on:click="showFilters"> + SHOW FILTERS</button>
     </div>
@@ -215,5 +219,18 @@ button {
 button:hover {
   background-color: #000000;
   color: #e9e7db;
+}
+
+.black-button {
+    width: fit-content;
+    background-color: black;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s;
+    color: white;
+}
+
+.black-button:hover {
+    background-color: #006F45;
 }
 </style>
