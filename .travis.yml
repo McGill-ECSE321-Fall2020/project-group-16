@@ -1,3 +1,23 @@
-language: java
-script:
-- ./gradlew build
+matrix:
+  include:
+  - language: java
+    script:
+    - "./gradlew build"
+    deploy:
+      provider: heroku
+      app: artgalleryapp-backend-0
+      api_key:
+        secure: UmBS88yRB4byL3kbuh2dQY51WuKTB45+JInLvS3wBNF8kC57ElPYm3SnVG5F+isiT4JEJAt+6SCwdKYxict7Opyoufy0/eF7quxX9sMG6658EOB4iKf9IV5Y1esZOwmQ+y07x6CDkGRlmsOcdLL5qcSs1FaELtvr5hn49IhhKfcEv++iV+kP0D/CMj0yTWnTEWhm0RIcKiVzjAiR2FugqmWzHIV/14aS4dWU15mS43hZrvYdYYrRPUzgRnjh8Q5c7YiPPa06zmfL4M1CV2UFp35aoncQLTd2DiU4YuU2cTkCkhCa/e8DjkaXuFx6SDANB0hvGK6uh0puxr4ydGXCUzi7nh9EGPrzQ8OAR/BS+BkumwLLs0dlj42NJfVHSC8yvHOPkpGBSRRO10H/fwwTz45TMRvFhJXzZUdwtdEU1vdg+8qNoOPTDyCg5n9ZB2Xmq9PhlmEgILnM3X//ShQof8JdiUGPUXK3nTbYRvgOGU5UBCLLeIvuK6KksUApCxxlLCEmFO5xC1VTULa6gTVtFiGhJQ4Fa5tXe7Zlp+dzgoP8HpZW/O45AF4MNixmwW+uVcztloGGIbJCWyAyMzThhxgke0OQ8nQfGgFjF4bLu1BxT382r6GsERvx1VYAo6DdJ1ap0qyJiTwqBAwLKcHnjijjv9b2KbjjELY1nhsQM4E=
+  - language: node_js
+    node_js:
+    - node
+    before_install:
+    - cd ArtGalleryApplication-Frontend
+    - npm install
+    script:
+    - npm run build
+    deploy:
+      provider: heroku
+      app: artgalleryapp-frontend-0
+      api_key:
+        secure: UmBS88yRB4byL3kbuh2dQY51WuKTB45+JInLvS3wBNF8kC57ElPYm3SnVG5F+isiT4JEJAt+6SCwdKYxict7Opyoufy0/eF7quxX9sMG6658EOB4iKf9IV5Y1esZOwmQ+y07x6CDkGRlmsOcdLL5qcSs1FaELtvr5hn49IhhKfcEv++iV+kP0D/CMj0yTWnTEWhm0RIcKiVzjAiR2FugqmWzHIV/14aS4dWU15mS43hZrvYdYYrRPUzgRnjh8Q5c7YiPPa06zmfL4M1CV2UFp35aoncQLTd2DiU4YuU2cTkCkhCa/e8DjkaXuFx6SDANB0hvGK6uh0puxr4ydGXCUzi7nh9EGPrzQ8OAR/BS+BkumwLLs0dlj42NJfVHSC8yvHOPkpGBSRRO10H/fwwTz45TMRvFhJXzZUdwtdEU1vdg+8qNoOPTDyCg5n9ZB2Xmq9PhlmEgILnM3X//ShQof8JdiUGPUXK3nTbYRvgOGU5UBCLLeIvuK6KksUApCxxlLCEmFO5xC1VTULa6gTVtFiGhJQ4Fa5tXe7Zlp+dzgoP8HpZW/O45AF4MNixmwW+uVcztloGGIbJCWyAyMzThhxgke0OQ8nQfGgFjF4bLu1BxT382r6GsERvx1VYAo6DdJ1ap0qyJiTwqBAwLKcHnjijjv9b2KbjjELY1nhsQM4E=
