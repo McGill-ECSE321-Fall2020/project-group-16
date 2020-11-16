@@ -64,7 +64,6 @@ export default {
             .then((response) => {
                 this.theTargetUser = response.data;
             }).catch(function(err) {
-                console.log(err.response)
                 self.errorTargetUser = err.response.data.message;
             });
 
@@ -73,9 +72,7 @@ export default {
             .then((response) => {
                 this.theCurrentUser = response.data;
             }).catch(function(err) {
-                console.log(err.response);
                 self.errorCurrentUser = err.response.data.message;
-
             });
     },
 
@@ -97,7 +94,6 @@ export default {
                 this.hideEmailModal()
                 this.success = true
             }).catch(function(err) {
-                console.log(err.response);
                 self.error = err.response.data.message;
                 this.success = false
 
@@ -124,7 +120,6 @@ export default {
                 this.success = true
 
             }).catch(function(err) {
-                console.log(err.response);
                 self.error = err.response.data.message;
                 this.success = false
 
@@ -150,7 +145,6 @@ export default {
                 this.hidePasswordModal()
                 this.success = true
             }).catch(function(err) {
-                console.log(err.response);
                 self.error = err.response.data.message;
                 this.success = false
 
@@ -175,7 +169,6 @@ export default {
                 this.success = true
 
             }).catch(function(err) {
-                console.log(err.response);
                 self.error = err.response.data.message;
                 this.success = false
 
@@ -196,9 +189,7 @@ export default {
                 //reinitialize the field
                 this.newImageUrl = "";
                 this.error = "";
-                console.log(this.theTargetUser.profileImageUrl)
             }).catch(function(err) {
-                console.log(err.response);
                 self.error = err.response.data.message;
             });
         },
@@ -281,13 +272,11 @@ export default {
             }
             firebase.database().ref('PhotoGallery').push(post)
                 .then((response) => {
-                    console.log(response)
                     this.updateImage(this.img1)
                     this.imageData = null
 
                 })
                 .catch(err => {
-                    console.log(err)
                 })
         },
         click1() {
@@ -304,12 +293,11 @@ export default {
             const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
             storageRef.on(`state_changed`, snapshot => {
                     this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                }, error => { console.log(error.message) },
+                }, error => {  },
                 () => {
                     this.uploadValue = 100;
                     storageRef.snapshot.ref.getDownloadURL().then((url) => {
                         this.img1 = url;
-                        console.log(this.img1)
                     });
                 }
             );

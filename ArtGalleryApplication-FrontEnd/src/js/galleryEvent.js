@@ -29,7 +29,6 @@ export default {
             .then((response) => {
                 this.events = response.data;
             }).catch(function(err) {
-                console.log(err.response);
                 self.errorEvent = "Error: " + err.response.data.message;
             });
     },
@@ -60,7 +59,6 @@ export default {
                 this.createModalActive = false
 
             }).catch(function(err) {
-                console.log(err.response);
                 self.errorRequest = "Error: " + err.response.data.message;
             });
         },

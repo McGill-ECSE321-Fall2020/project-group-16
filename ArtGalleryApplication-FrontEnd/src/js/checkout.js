@@ -59,13 +59,7 @@ export default {
         this.username = this.$route.params.username
       )
       .catch((e) => {
-        console.log(e);
         this.errorCheckout = e.response //"User Not Found"
-        if (e.response) {
-          console.log(e.response.data);
-          console.log(e.response.status);
-          console.log(e.response.headers);
-        }
       });
     AXIOS.get(`/artworks/${this.$route.params.artworkId}`)
       .then(response => {
@@ -83,7 +77,6 @@ export default {
         this.artwork.imageUrl = response.data.imageUrl
       })
       .catch((e) => {
-        console.log(e);
         this.errorCheckout = "Error Artwork Not Found"
       });
   },
@@ -102,7 +95,6 @@ export default {
         })
         .catch(e => {
           var errorMsg = e.response.data.message;
-          console.log(errorMsg);
           this.errorCheckout = errorMsg;
         });
     },
@@ -120,7 +112,6 @@ export default {
         )
         .catch(e => {
           var errorMsg = e.response.data.message;
-          console.log(errorMsg);
           this.errorCheckout = errorMsg;
         });
     },
@@ -136,7 +127,6 @@ export default {
     showShipping() {
       var show = document.getElementById("shipping");
       var text = document.getElementById("toggle-shipping");
-      console.log(text.textContent)
  
       if(show.style.display == "none") {
         show.style.display = "block";
