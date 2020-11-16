@@ -24,12 +24,8 @@ export default {
         getUser(route, obj) {
             var self = this
             obj.username = route.params.username;
-            console.log(localStorage.getItem("username"))
-            console.log(obj.username)
-            console.log(obj.username + "router")
             AXIOS.get(`/users/${obj.username}`)
                 .then((response) => {
-                    console.log(response.data)
                     obj.user = response.data;
                 })
                 .catch(function (e) {
