@@ -42,7 +42,7 @@ export default {
             artworkCreated: ""
         }
     },
-    created: function () {
+    created: function() {
 
         //first thing: get the id of the page
 
@@ -50,7 +50,7 @@ export default {
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
             .then((response) => {
                 this.theCurrentUser = response.data;
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 this.errorCurrentUser = "Error: " + err.response.data.message;
             });
@@ -59,7 +59,7 @@ export default {
         AXIOS.get("/users/")
             .then((response) => {
                 this.allUsers = response.data;
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log(err.response);
                 this.errorAllUsers = "Error: " + err.response.data.message;
             });
@@ -69,7 +69,7 @@ export default {
 
     methods: {
 
-        createArtwork: function (title, description, creationDate, medium, imageUrl, price, status, dimension, collection) {
+        createArtwork: function(title, description, creationDate, medium, imageUrl, price, status, dimension, collection) {
             var self = this;
 
             console.log(
@@ -85,23 +85,23 @@ export default {
             )
 
             AXIOS.post("/artworks/".concat(this.newArtwork.title), {}, {
-                params: {
+                    params: {
 
-                    title: this.newArtwork.title,
-                    description: this.newArtwork.description,
-                    creationDate: this.newArtwork.creationDate,
-                    medium: this.newArtwork.medium,
-                    imageUrl: this.newArtwork.imageUrl,
-                    price: this.newArtwork.price,
-                    status: "ForSale",
-                    dimensions: this.newArtwork.dimensions,
-                    collection: this.newArtwork.collection,
-                }
-            })
+                        title: this.newArtwork.title,
+                        description: this.newArtwork.description,
+                        creationDate: this.newArtwork.creationDate,
+                        medium: this.newArtwork.medium,
+                        imageUrl: this.newArtwork.imageUrl,
+                        price: this.newArtwork.price,
+                        status: "ForSale",
+                        dimensions: this.newArtwork.dimensions,
+                        collection: this.newArtwork.collection,
+                    }
+                })
                 .then(response => {
                     // JSON responses are automatically parsed.
                     console.log(this.newArtwork)
-                    //this.artworks.push(response.data);
+                        //this.artworks.push(response.data);
                     this.newArtwork.artworkId = response.data.artworkId;
                     this.newArtwork.title = response.data.title
                     this.newArtwork.description = response.data.description
@@ -113,27 +113,28 @@ export default {
                     this.newArtwork.imageUrl = response.data.imageUrl
 
                     this.addArtist(response.data.artworkId, this.theCurrentUser.username)
-                    //indicate that the artwork was indeed created
+                        //indicate that the artwork was indeed created
                     this.artworkCreated = "true"
+
                 })
-                .catch(function (err) {
+                .catch(function(err) {
                     console.log(err.response);
                     self.errorArtwork = "Error: " + err.response.data.message;
                 });
         },
 
-        addArtist: function (artworkId, username) {
+        addArtist: function(artworkId, username) {
             var self = this;
 
             AXIOS.put("/artworks/" + artworkId + "/add-artist/", {}, {
-                params: {
-                    username: username
-                }
-            })
-                .then(response => {
-                    this.reloadPage()
+                    params: {
+                        username: username
+                    }
                 })
-                .catch(function (err) {
+                .then(response => {
+                    this.$router.push('/browseart')
+                })
+                .catch(function(err) {
                     console.log(err.response);
                     self.errorAddArtist = "Error: " + err.response.data.message;
                 });
@@ -148,6 +149,7 @@ export default {
             firebase.database().ref('PhotoGallery').push(post)
                 .then((response) => {
                     console.log(response)
+                    this.imageData = null
                 })
                 .catch(err => {
                     console.log(err)
@@ -166,8 +168,8 @@ export default {
             this.img1 = null;
             const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
             storageRef.on(`state_changed`, snapshot => {
-                this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            }, error => { console.log(error.message) },
+                    this.uploadValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                }, error => { console.log(error.message) },
                 () => {
                     this.uploadValue = 100;
                     storageRef.snapshot.ref.getDownloadURL().then((url) => {
@@ -179,9 +181,7 @@ export default {
             );
         },
 
-        reloadPage: function () {
-            location.reload();
-        }
+
     }
 
 

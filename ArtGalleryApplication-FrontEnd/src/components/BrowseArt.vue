@@ -1,9 +1,15 @@
 <template>
   <div id="browse-art">
     <div class="filters">
-      <button id="toggle-filters" textContent=" + SHOW FILTERS" v-on:click="showFilters"> + SHOW FILTERS</button>
+      <button
+        id="toggle-filters"
+        textContent=" + SHOW FILTERS"
+        v-on:click="showFilters"
+      >
+        + SHOW FILTERS
+      </button>
     </div>
-    <div class="filters" id="filters" style="display:none">
+    <div class="filters" id="filters" style="display: none">
       <div class="filters-row">
         <div class="filter-item">
           <label>Sort By:</label>
@@ -69,7 +75,7 @@
       </div>
     </div>
 
-    <div class="artproducts">
+    <div class="artproducts pb-5">
       <div
         class="grid-item"
         v-bind:key="artwork.id"

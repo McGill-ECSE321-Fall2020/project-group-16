@@ -1,151 +1,139 @@
 <template>
-    <div id="createartwork" >
+  <div id="createartwork">
+    <h1 style="text-align: center">Upload your artwork</h1>
 
-        <h1>Upload your artwork</h1>
-        <div>            
-            <div>
-                <div >
-                Upload a photo
-                <button @click="click1">choose a photo</button>
-                <input type="file" ref="input1"
-                    style="display: none"
-                    @change="previewImage" accept="image/*" >                
-                </div>
-        
-                <div>                  
-                    <img v-if="imageData!=null" class="preview" height="268" width="356" :src="img1">
-                <br>
-                </div> 
-            </div>    
-
+    <div class="mx-auto my-4" style="text-align: center; width: fit-content">
+      <div v-if="newArtwork.imageUrl === ''">
+        <h3>Upload a photo</h3>
+        <div class="button px-3 py-2" @click="click1">CHOOSE A PHOTO</div>
+      </div>
+      <div v-else style="width: fit-content; position: relative">
+        <img :src="newArtwork.imageUrl" alt="" />
+        <div class="button py-2 px-3 my-4 mx-auto" @click="click1">
+          CHANGE PHOTO
         </div>
-
-        <table>
-        <tr>
-          <td>
-              Artwork Title:
-          </td>
-          <td>
-              <input 
-              type="text"
-              v-model = "newArtwork.title"
-              placeholder="Title"
-              :disabled="artworkCreated  == 'true'">
-          </td>
-        </tr>
-        <tr>
-            <td>Description:</td>
-            <td><input 
-            type="text"
-            v-model = "newArtwork.description"
-            placeholder="describe your art here"
-            :disabled="artworkCreated  == 'true'">
-            </td>
-        </tr>
-        <tr>
-            <td>Dimensions:</td>
-            <td><input 
-            type="text"
-            v-model = "newArtwork.dimensions"
-            placeholder="10x10"
-            :disabled="artworkCreated  == 'true'">
-            </td>
-        </tr>
-        <tr>
-            <td>Medium:</td>
-            <td><input 
-            type="text"
-            v-model = "newArtwork.medium"
-            placeholder="paint"
-            :disabled="artworkCreated  == 'true'">
-            </td>
-        </tr>
-        <tr>
-            <td>Collection:</td>
-            <td><input 
-            type="text"
-            v-model = "newArtwork.collection"
-            placeholder="n/a or collection name"
-            :disabled="artworkCreated  == 'true'">
-            </td>
-        </tr>
-        <tr>
-            <td>Creation Date:</td>
-            <td><input 
-            type="date"
-            v-model = "newArtwork.creationDate"
-            placeholder="YYYY-MM-DD"
-            :disabled="artworkCreated  == 'true'">
-            </td>
-        </tr>
-        <tr>
-            <td>Price (in $CAD):</td>
-            <td><input 
-            type="number"
-            v-model = "newArtwork.price"
-            placeholder="1000"
-            :disabled="artworkCreated  == 'true'">
-            </td>
-        </tr>
-
-
-        <!-- <tr>
-            <td>Image URL:</td>
-            <td><input 
-            type="text"
-            v-model = newArtwork.imageUrl
-            placeholder="www.">
-            </td>
-        </tr> -->
-    </table>
-    <p>
-      <span v-if="errorArtwork" style="color: red"> {{ errorArtwork }} </span>
-    </p>
-    <button
-    v-bind:disabled="!newArtwork.title || artworkCreated == 'true'" 
-    v-on:click="createArtwork(
-        newArtwork.title, 
-        newArtwork.description, 
-        newArtwork.creationDate,
-        newArtwork.imageUrl,
-        newArtwork.price,
-        newArtwork.status,
-        newArtwork.dimensions, 
-        newArtwork.collection
-        ); create()">
-    Post Artwork
-    </button>
-
+      </div>
+      <input
+        type="file"
+        ref="input1"
+        style="display: none"
+        @change="previewImage"
+        accept="image/*"
+      />
     </div>
+    <input
+      type="text"
+      name=""
+      id=""
+      placeholder="Title"
+      v-model="newArtwork.title"
+    />
+    <div class="d-none d-sm-block"></div>
+    <textarea
+      name=""
+      id=""
+      cols="30"
+      rows="10"
+      placeholder="Description"
+      v-model="newArtwork.description"
+    ></textarea
+    ><br />
+    <input
+      type="text"
+      name=""
+      id=""
+      placeholder="Dimensions (eg: 10'x10')"
+      v-model="newArtwork.dimensions"
+    />
+    <br />
+    <input
+      type="text"
+      name=""
+      id=""
+      placeholder="Art medium (eg: Paint)"
+      v-model="newArtwork.medium"
+    />
+    <br />
+    <input
+      type="text"
+      name=""
+      id=""
+      placeholder="Art Collection (or n/a)"
+      v-model="newArtwork.collection"
+    />
+    <br />
+    <label>Creation date:</label>
+    <input
+      type="date"
+      name=""
+      id=""
+      placeholder="YYYY-MM-DD"
+      v-model="newArtwork.creationDate"
+    />
+    <br />
+    <label>Price: $</label>
+    <input
+      type="number"
+      name=""
+      id=""
+      placeholder="XX.XX"
+      v-model="newArtwork.price"
+    />
+    <div
+      v-if="errorArtwork !== ''"
+      class="alert alert-warning alert-dismissible fade show mx-auto"
+      role="alert"
+      style="width: fit-content"
+    >
+      {{ errorArtwork }}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div
+      v-if="
+        newArtwork.title !== '' &&
+        newArtwork.description !== '' &&
+        newArtwork.imageUrl !== '' &&
+        newArtwork.price !== '' &&
+        newArtwork.dimensions !== '' &&
+        newArtwork.collection !== ''
+      "
+      class="button px-3 py-2 my-4"
+      v-on:click="
+        createArtwork(
+          newArtwork.title,
+          newArtwork.description,
+          newArtwork.creationDate,
+          newArtwork.imageUrl,
+          newArtwork.price,
+          newArtwork.status,
+          newArtwork.dimensions,
+          newArtwork.collection
+        );
+        create();
+      "
+    >
+      Post Artwork
+    </div>
+    <div
+      v-else
+      class="alert alert-danger mx-auto my-4"
+      style="width: fit-content"
+      role="alert"
+    >
+      Please fill out all the fields.
+    </div>
+  </div>
 </template>
 
 <script src= "../js/createArtwork.js">
 </script>
 
-<style>
-    #createartwork{
-        font-family: Montserrat;
-        font-style: normal;
-        font-weight: normal;
-    }
-    input{
-        background-color: #e9e7db;
-    }
-    button {
-        width: 300px;
-        height: 40px;
-        border-radius: 3px;
-        font-family: Montserrat;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 18px;
-        line-height: 24px;
-        text-align: center;
-        transition: 0.5s;
-    }
-
-    button:hover {
-        background-color: #000000;
-        color: #E9E7DB;
-    }
+<style scoped src="../css/createArtwork.css">
 </style>

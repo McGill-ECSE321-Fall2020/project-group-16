@@ -45,69 +45,70 @@
     background-color: #006F45;
 }
 
-
 .artproducts {
     display: grid;
     grid-gap: 40px;
-  }
-  
-  @media (min-width: 600px) {
+}
+
+@media (min-width: 600px) {
     .artproducts {
-      grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
-  }
-  
-  @media (min-width: 900px) {
+}
+
+@media (min-width: 900px) {
     .artproducts {
-      grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
-  }
-  
-  @media (min-width: 1400px) {
+}
+
+@media (min-width: 1400px) {
     .artproducts {
-      grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
-  }
-  
-  
-  .col {
+}
+
+.col {
     flex-grow: 1;
-  }
-  
-  p {
+}
+
+p {
     font-family: Montserrat;
     font-style: italic;
     font-weight: normal;
     font-size: 18px;
     line-height: 22px;
     color: #000000;
-  }
-  
-  select {
+}
+
+select {
     background-color: #e9e7db;
     color: #000000;
     width: 80px;
-  }
-  
-  img {
+}
+
+img {
     height: 160px;
-  }
-  
-  .title {
+}
+
+.title {
     font-weight: 600;
     font-size: 18px;
     line-height: 22px;
-  }
-  
-  .artist {
+}
+
+.artist {
     font-weight: normal;
     font-size: 18px;
     line-height: 22px;
-  }
-  
-  .date {
+}
+
+.date {
     font-weight: normal;
     font-size: 18px;
     line-height: 22px;
-  }
-  
+}
+
+.center {
+    text-align: center;
+}

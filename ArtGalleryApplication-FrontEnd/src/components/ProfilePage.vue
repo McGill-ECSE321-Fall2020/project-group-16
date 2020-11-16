@@ -14,23 +14,39 @@
     </div>
     <div class="mx-auto py-3 seperator"></div>
 
-    <h1>{{ currentUser ? "YOUR" : "THEIR" }} ARTWORK</h1>
+    <div
+      style="display: flex; align-items: center"
+      v-bind:style="[
+        currentUser
+          ? { 'justify-content': 'space-between' }
+          : { 'justify-content': 'center' },
+      ]"
+    >
+      <h1 class="py-3" v-bind:class="{ center: !currentUser }">
+        {{ currentUser ? "YOUR" : "THEIR" }} ARTWORK
+      </h1>
       <div
         v-if="currentUser"
         class="black-button px-3 py-2"
         @click="$router.push({ path: `/create_artwork` })"
+        style="height: fit-content"
       >
         CREATE ARTWORK
       </div>
-      
+    </div>
+
     <div
-      class="artwork-section mt-3"
+      class="artwork-section my-4"
       v-bind:style="{
         justifyContent: currentUser ? 'space-between' : 'center',
       }"
     >
       <div class="artproducts">
-        <div class="grid-item" v-bind:key="artwork.id" v-for="artwork in userArtworks">
+        <div
+          class="grid-item"
+          v-bind:key="artwork.id"
+          v-for="artwork in userArtworks"
+        >
           <ArtProduct
             v-bind:artworkId="artwork.artworkId"
             v-bind:title="artwork.title"
@@ -42,9 +58,6 @@
           />
         </div>
       </div>
-
-
-
     </div>
   </div>
 </template>
