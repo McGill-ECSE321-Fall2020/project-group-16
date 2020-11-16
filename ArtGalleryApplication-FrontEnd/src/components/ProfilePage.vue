@@ -15,6 +15,14 @@
     <div class="mx-auto py-3 seperator"></div>
 
     <h1>{{ currentUser ? "YOUR" : "THEIR" }} ARTWORK</h1>
+      <div
+        v-if="currentUser"
+        class="black-button px-3 py-2"
+        @click="$router.push({ path: `/create_artwork` })"
+      >
+        CREATE ARTWORK
+      </div>
+      
     <div
       class="artwork-section mt-3"
       v-bind:style="{
@@ -36,13 +44,7 @@
       </div>
 
 
-      <div
-        v-if="currentUser"
-        class="black-button px-3 py-2"
-        @click="$router.push({ path: `/create_artwork` })"
-      >
-        CREATE ARTWORK
-      </div>
+
     </div>
   </div>
 </template>

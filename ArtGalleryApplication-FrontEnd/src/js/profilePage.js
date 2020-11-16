@@ -21,23 +21,6 @@ export default {
         ArtProduct
     },
 
-    created: function() {
-        //ar self = this;
-
-        //first thing: get the username of the requested page
-        var url = window.location.hash;
-        var username = url.substring(url.lastIndexOf('/') + 1);
-
-        AXIOS.get('/artworks/byArtist/?artist='+username
-        ).then((response) => {
-            //alert(username);
-            console.log(response.data);
-            this.userArtworks = response.data;
-        }).catch(function(e) {
-            console.log(e);
-        });
-
-    },
     methods: {
         getUser(route, obj) {
             var self = this
@@ -56,7 +39,16 @@ export default {
                     }
 
                     console.log(e);
-                });
+             });
+
+             //get the target user's artworks
+            AXIOS.get('/artworks/byArtist/?artist='+obj.username
+            ).then((response) => {
+                console.log(response.data);
+                this.userArtworks = response.data;
+            }).catch(function(e) {
+                console.log(e);
+            });
         },
         setData(user, currentUser) {
             this.user = user,
