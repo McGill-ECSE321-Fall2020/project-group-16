@@ -21,7 +21,6 @@
                 PURCHASE - ${{ artwork.price }}
             </button></p>
 
-            <!-- ADDED -->
             <p class="Sold" v-if="artwork.artworkStatus !== 'ForSale'">{{ artwork.artworkStatus }}</p>
 
             <button v-if="!userOwnsArtwork" @click="$router.push({ path: `/user/${artwork.artists[0].username}` })">
@@ -30,15 +29,12 @@
             <button v-if="userOwnsArtwork && artwork.artworkStatus !== 'Sold'" @click="deleteArtwork(artwork.artworkId)">
                 Delete Artwork
             </button>
-            <!--  -->
         </div>
     </div>
 
-    <!-- ADDED -->
     <div v-if="deleted">
         <h1>Artwork Deleted</h1>
     </div>
-    <!--  -->
   </div>
 </template>
 

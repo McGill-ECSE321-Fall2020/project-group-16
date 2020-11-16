@@ -87,16 +87,6 @@
             :disabled="artworkCreated  == 'true'">
             </td>
         </tr>
-
-
-        <!-- <tr>
-            <td>Image URL:</td>
-            <td><input 
-            type="text"
-            v-model = newArtwork.imageUrl
-            placeholder="www.">
-            </td>
-        </tr> -->
     </table>
     <p>
       <span v-if="errorArtwork" style="color: red"> {{ errorArtwork }} </span>

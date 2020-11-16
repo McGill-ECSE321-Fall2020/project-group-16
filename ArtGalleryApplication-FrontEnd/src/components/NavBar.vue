@@ -1,6 +1,6 @@
 <template>
   <div id="nav-bar">
-    <h1 class="title ml-5 py-2">gallery 016</h1>
+    <h1 class="title ml-5 py-2">Art Gallery 16</h1>
     <div
       class="nav-dropdown"
       @focus="displayDropdown()"
@@ -51,7 +51,7 @@
         }"
         v-on:click="changeTab"
       >
-        Artwork
+        Artworks
       </div>
       <div
         class="events nav-tab col-sm px-4 py-2"

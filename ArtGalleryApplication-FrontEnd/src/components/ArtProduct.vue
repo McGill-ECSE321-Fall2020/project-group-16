@@ -16,7 +16,6 @@
         <div class="date">{{ creationDate }}</div>
       </div>
       <div class="row-2">
-        <!-- <div class="for-sale">${{price}}</div> -->
 
         <span
           v-if="artworkStatus === 'ForSale'"
