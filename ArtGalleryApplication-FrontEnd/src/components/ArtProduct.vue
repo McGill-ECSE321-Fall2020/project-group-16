@@ -21,7 +21,7 @@
           v-if="artworkStatus === 'ForSale'"
           class="badge badge-pill"
           style="background: #006F45; color: white"
-          >${{ price }}</span
+          >${{ price.toFixed(2) }}</span
         >
         <span
           v-else-if="artworkStatus === 'NotForSale'"

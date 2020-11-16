@@ -18,7 +18,7 @@
 
             <p><button v-if="!userOwnsArtwork && artwork.artworkStatus === 'ForSale'" class="purchase" @click="$router.push(
                 {path: `/checkout/${theCurrentUser.username}/${artwork.artworkId}`})">
-                PURCHASE - ${{ artwork.price }}
+                PURCHASE - ${{ artwork.price.toFixed(2) }}
             </button></p>
 
             <p class="Sold" v-if="artwork.artworkStatus !== 'ForSale'">{{ artwork.artworkStatus }}</p>
