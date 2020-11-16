@@ -62,9 +62,4 @@
 <script src="../js/address.js"></script>
 
 <style>
-#address {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-  background: #f2ece8;
-}
 </style>

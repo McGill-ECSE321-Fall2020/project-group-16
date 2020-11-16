@@ -140,8 +140,8 @@ export default {
     showPayment() {
       var show = document.getElementById("payment");
       var text = document.getElementById("toggle-payment");
-      
-      if(show.style.display == "none") {
+
+      if (show.style.display == "none") {
         show.style.display = "block";
         text.textContent = " - PAYMENT";
       } else {

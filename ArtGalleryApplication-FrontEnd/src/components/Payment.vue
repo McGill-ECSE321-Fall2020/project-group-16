@@ -27,17 +27,23 @@
       >Error: {{ errorPayment }}
     </span>
 
-    <hr />
-
   </div>
 </template>
 
 <script src="../js/payment.js"></script>
 
 <style>
-#payment {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-  background: #f2ece8;
+.btn {
+    width: fit-content;
+    background-color: black;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s;
+    color: white;
 }
+
+.btn:hover {
+    background-color: #006F45;
+}
+
 </style>

@@ -5,7 +5,6 @@ export default {
     name: "CreateArtwork",
     data() {
         return {
-            //artworks: [],
             newArtwork: {
                 artworkId: '',
                 title: '',
@@ -36,7 +35,7 @@ export default {
                 admin: "",
             },
 
-            img1: '',
+            img1: '../assets/no-img.png',
             imageData: null,
 
             artworkCreated: ""
