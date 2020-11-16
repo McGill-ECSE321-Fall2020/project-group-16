@@ -37,11 +37,7 @@ export default {
       }
       )
         .then(response => {
-          // JSON responses are automatically parsed.
           this.$emit("add-payment", response.data);
-          // this.payment.cardNumber = ''
-          // this.payment.cvv = ''
-          // this.payment.expirationDate = ''
           this.errorPayment = "";
         })
         .catch(e => {

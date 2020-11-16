@@ -19,7 +19,6 @@ export default {
 
   methods: {
     updateAddresses() {
-      console.log(!this.toGallery)
       if (this.toGallery) {
         // reset address inputs 
         this.address.streetAddress = ''
@@ -28,16 +27,14 @@ export default {
         this.address.city = 'Montreal'
         this.address.province = 'QB'
         this.address.country = 'Canada'
-
       } else {
         // sets addresses to Gallery address 
-        this.address.streetAddress = 'GALLERY ADDRESS'
-        this.address.streetAddress2 = 'GALLERY ADDRESS 2'
-        this.address.postalCode = 'GALLERY POSTAL CODE'
+        this.address.streetAddress = '845 Sherbrooke St W'
+        this.address.streetAddress2 = ''
+        this.address.postalCode = 'H3A 0G4'
         this.address.city = 'Montreal'
         this.address.province = 'QB'
         this.address.country = 'Canada'
-
       }
     },
 
@@ -72,7 +69,6 @@ export default {
         }
       })
         .then(response => {
-          // JSON responses are automatically parsed.
           this.$emit("add-shipment", response.data);
           this.errorShipment = "";
         })

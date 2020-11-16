@@ -51,7 +51,7 @@
         }"
         v-on:click="changeTab"
       >
-        Artwork
+        Artworks
       </div>
       <div
         class="events nav-tab col-sm px-4 py-2"

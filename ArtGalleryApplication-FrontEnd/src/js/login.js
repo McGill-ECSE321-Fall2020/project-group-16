@@ -11,17 +11,15 @@ export default {
     },
     methods: {
 
-        login: async function() {
+        login: async function () {
             this.$emit("update:user", { username: "", isLoggedIn: false })
             var self = this;
             try {
-                console.log(this.username + this.password)
                 const response = await AXIOS.get(`/users/${this.username}?password=${this.password}`)
                 if (this.password != response.data.password) {
                     this.errorUser = "Incorrect password."
                     this.$emit("update:error", this.errorUser)
                 } else {
-                    console.log(response.data)
                     this.user = response.data
                     this.$emit("update:user", { username: this.user.username, isLoggedIn: true });
                 }

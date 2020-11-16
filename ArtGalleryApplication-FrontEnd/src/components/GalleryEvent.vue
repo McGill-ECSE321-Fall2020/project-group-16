@@ -93,24 +93,6 @@
       </button>
     </div>
 
-    <!-- <div
-      v-if="errorRequest"
-      class="alert alert-danger alert-dismissible fade show mx-auto"
-      style="width: 100%"
-      role="alert"
-    >
-      {{ errorRequest }}
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-        style="height: 100%"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div> -->
-
     <h1 style="text-align: center">Current events</h1>
     <h2 style="text-align: center">Click one to register</h2>
     <div v-if="events.length !== 0" class="events my-5">
@@ -134,24 +116,6 @@
         <div class="col">{{ event.endTime }}</div>
       </div>
     </div>
-    <!-- <tr>
-        <td>Name</td>
-        <td>Event description</td>
-        <td>Event date</td>
-        <td>Event start time</td>
-        <td>Event end time</td>
-        <td>View event page</td>
-      </tr>
-      <tr v-for="event in events" v-bind:key="event.name">
-        <td>{{event.name}}</td>
-        <td>{{event.eventDescription}}</td>
-        <td>{{event.eventDate}}</td>
-        <td>{{event.startTime}}</td>
-        <td>{{event.endTime}}</td>
-        <td>
-          <button @click="$router.push('/events/' + event.id)">here</button>
-        </td>
-      </tr> -->
     <h2 class="my-3" style="text-align: center" v-else>
       No events created yet
     </h2>

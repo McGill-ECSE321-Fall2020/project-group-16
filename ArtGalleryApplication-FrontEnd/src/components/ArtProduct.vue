@@ -16,13 +16,12 @@
         <div class="date">{{ creationDate }}</div>
       </div>
       <div class="row-2">
-        <!-- <div class="for-sale">${{price}}</div> -->
 
         <span
           v-if="artworkStatus === 'ForSale'"
           class="badge badge-pill"
           style="background: #006F45; color: white"
-          >${{ price }}</span
+          >${{ price.toFixed(2) }}</span
         >
         <span
           v-else-if="artworkStatus === 'NotForSale'"

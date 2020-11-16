@@ -53,9 +53,7 @@ export default {
     methods: {
         isUserOwnerOfArtwork(artists) {
             const curUsername = localStorage.getItem('username')
-            console.log(curUsername)
             artists.forEach(user => {
-                console.log(user.username)
                 if (user.username === curUsername) {
                     this.userOwnsArtwork = true
                 }

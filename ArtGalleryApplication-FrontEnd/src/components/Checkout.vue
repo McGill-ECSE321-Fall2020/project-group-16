@@ -168,24 +168,7 @@ button {
 
   transition: 0.5s;
 }
-/* 
-.btn {
-  width: 140px;
-  height: 40px;
 
-  border: 1px solid #000000;
-  background-color: #e9e7db;
-  color: #000000;
-  box-sizing: border-box;
-  border-radius: 3px;
-
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 17px;
-  text-align: center;
-
-  transition: 0.5s;
-} */
 
 .btn {
     width: fit-content;

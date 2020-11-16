@@ -1,4 +1,3 @@
-import Axios from "axios";
 import { AXIOS } from "./axiosInstance";
 export default {
     name: "SignUpForm",
@@ -14,21 +13,13 @@ export default {
         };
     },
     methods: {
-        signup: async function() {
+        signup: async function () {
             this.$emit("update:user", { username: "", isLoggedIn: false })
             var self = this;
-            console.log(
-                this.firstName,
-                this.lastName,
-                this.username,
-                this.email,
-                this.password
-            );
 
             try {
                 const res = await AXIOS.post(`/users/${this.username}?firstName=${this.firstName}&lastName=${this.lastName}&email=${this.email}&password=${this.password}`)
                 this.user = res.data
-                console.log(res.data)
                 this.$emit("update:user", { username: this.user.username, isLoggedIn: true });
             } catch (e) {
                 console.log(e.response)
