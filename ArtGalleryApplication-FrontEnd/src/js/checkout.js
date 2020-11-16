@@ -137,8 +137,8 @@ export default {
       var show = document.getElementById("shipping");
       var text = document.getElementById("toggle-shipping");
       console.log(text.textContent)
- 
-      if(show.style.display == "none") {
+
+      if (show.style.display == "none") {
         show.style.display = "block";
         text.textContent = " - SHIPPING";
       } else {
@@ -150,8 +150,8 @@ export default {
     showPayment() {
       var show = document.getElementById("payment");
       var text = document.getElementById("toggle-payment");
-      
-      if(show.style.display == "none") {
+
+      if (show.style.display == "none") {
         show.style.display = "block";
         text.textContent = " - PAYMENT";
       } else {

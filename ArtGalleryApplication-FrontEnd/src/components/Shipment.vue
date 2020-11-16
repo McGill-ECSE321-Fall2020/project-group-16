@@ -1,10 +1,10 @@
 <template>
   <div id="shipment">
-    <h4>Shipment</h4>
+    <h4>Shipment Information:</h4>
+    <br>
     <form @submit="createShipment(toGallery, address)">
       <input type="checkbox" v-model="toGallery" @click="updateAddresses" />
       {{ toGallery ? "Shipped to Gallery" : "Delivered" }}
-      <br />
 
       <Address
         title="Shipping Address"
@@ -25,16 +25,24 @@
       />
     </form>
 
-    <hr />
   </div>
 </template>
 
 <script src="../js/shipment.js"></script>
 
 <style>
-#shipment {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  color: #2c3e50;
-  background: #f2ece8;
+.btn {
+    width: fit-content;
+    background-color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s;
+    color: black;
 }
+
+.btn:hover {
+    background-color: #006F45;
+    color: black
+}
+
 </style>
