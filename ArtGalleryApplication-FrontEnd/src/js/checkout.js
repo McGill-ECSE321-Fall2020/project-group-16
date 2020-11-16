@@ -124,30 +124,30 @@ export default {
       this.paymentId = newPayment.paymentId;
     },
 
-    showShipping() {
-      var show = document.getElementById("shipping");
-      var text = document.getElementById("toggle-shipping");
+    // showShipping() {
+    //   var show = document.getElementById("shipping");
+    //   var text = document.getElementById("toggle-shipping");
  
-      if(show.style.display == "none") {
-        show.style.display = "block";
-        text.textContent = " - SHIPPING";
-      } else {
-        show.style.display = "none";
-        text.textContent = " + SHIPPING";
-      }
-    },
+    //   if(show.style.display == "none") {
+    //     show.style.display = "block";
+    //     text.textContent = " - SHIPPING";
+    //   } else {
+    //     show.style.display = "none";
+    //     text.textContent = " + SHIPPING";
+    //   }
+    // },
 
-    showPayment() {
-      var show = document.getElementById("payment");
-      var text = document.getElementById("toggle-payment");
+    // showPayment() {
+    //   var show = document.getElementById("payment");
+    //   var text = document.getElementById("toggle-payment");
 
-      if (show.style.display == "none") {
-        show.style.display = "block";
-        text.textContent = " - PAYMENT";
-      } else {
-        show.style.display = "none";
-        text.textContent = " + PAYMENT";
-      }
-    }
+    //   if (show.style.display == "none") {
+    //     show.style.display = "block";
+    //     text.textContent = " - PAYMENT";
+    //   } else {
+    //     show.style.display = "none";
+    //     text.textContent = " + PAYMENT";
+    //   }
+    // }
   }
 }
