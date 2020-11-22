@@ -88,3 +88,5 @@ More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project
 |Arian Omidi    |                    |         |
 |Dina Shoham    |                    |         |
 |Evan Wechsler  |                    |         |
+
+See code and more information about Sprint 4 [here](https://github.com/McGill-ECSE321-Fall2020/project-group-16/tree/android)
