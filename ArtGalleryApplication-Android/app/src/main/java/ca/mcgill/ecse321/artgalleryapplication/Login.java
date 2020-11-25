@@ -7,6 +7,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -20,6 +22,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class Login extends AppCompatActivity {
     private String error = null;
+    private String successUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +68,11 @@ public class Login extends AppCompatActivity {
 
                         refreshErrorMessage();
                         password.setText("");
+
                         return;
                     }
+                    successUsername = response.get("username").toString();
+                    Log.i("Login", response.toString());
                 }catch (JSONException e) {
                     error += e.getMessage();
                     refreshErrorMessage();
@@ -102,6 +108,7 @@ public class Login extends AppCompatActivity {
      */
     public void goToHomeActivity(View v) {
         Intent intent = new Intent(this, Home.class);
+        intent.putExtra("username", successUsername);
         startActivity(intent);
     }
 

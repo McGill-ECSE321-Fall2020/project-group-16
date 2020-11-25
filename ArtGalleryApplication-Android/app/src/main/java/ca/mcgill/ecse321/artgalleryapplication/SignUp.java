@@ -9,6 +9,8 @@ import com.loopj.android.http.RequestParams;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -22,6 +24,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class SignUp extends AppCompatActivity {
     private String error = null;
+    private String successUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,13 @@ public class SignUp extends AppCompatActivity {
         HttpUtils.post("users/" + username.getText().toString(), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                goToHomeActivity(v);
+                try {
+                    successUsername = response.get("username").toString();
+                    goToHomeActivity(v);
+                } catch ( Exception e) {
+                    Log.d("Sign Up", e.getMessage());
+                }
+
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -114,6 +123,7 @@ public class SignUp extends AppCompatActivity {
      */
     public void goToHomeActivity(View v) {
         Intent intent = new Intent(this, Home.class);
+        intent.putExtra("username", successUsername);
         startActivity(intent);
     }
 
