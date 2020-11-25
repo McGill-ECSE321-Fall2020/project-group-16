@@ -127,6 +127,11 @@ public class SignUp extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToCheckoutActivity(View v) {
+        Intent intent = new Intent(this, Checkout.class);
+        startActivity(intent);
+    }
+
 
 
 

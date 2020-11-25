@@ -13,4 +13,13 @@
 
     <string name="signUp_button">sign Up</string>
     <string name="login_button">login</string>
+
+    <!--    Checkout    -->
+    <string name="userspinner_label">Select Username</string>
+    <string name="artworkspinner_label">Select Artwork</string>
+    <string name="placeorder_button">Place Order</string>
+    <string name="refresh_button">Refresh lists</string>
+    <string name="name_prompt">Select name</string>
+    <string name="artworkId_hint">Artwork Id</string>
+    <string name="checkout_test_button">Checkout {Test}</string>
 </resources>
