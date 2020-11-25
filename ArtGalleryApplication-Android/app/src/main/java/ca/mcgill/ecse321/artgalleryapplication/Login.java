@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MainActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
     private String error = null;
 
     @Override
@@ -62,47 +62,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * SignUp method
-     * @param v
-     */
-    public void signUp(View v) {
-        error = "";
 
-        final TextView firstName = (TextView) findViewById(R.id.user_firstName);
-        final TextView lastName = (TextView) findViewById(R.id.user_lastName);
-        final TextView email = (TextView) findViewById(R.id.user_email);
-        final TextView username = (TextView) findViewById(R.id.user_username);
-        final TextView password = (TextView) findViewById(R.id.user_password);
 
-        RequestParams params = new RequestParams();
-        params.put("email", email.getText());
-        params.put("firstName", firstName.getText());
-        params.put("lastName", lastName.getText());
-        params.put("password", password.getText());
 
-        HttpUtils.post("users/" + username.getText().toString(), params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
 
-                firstName.setText("");
-                lastName.setText("");
-                email.setText("");
-                username.setText("");
-                password.setText("");
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                try {
-                    error += errorResponse.get("message").toString();
-                } catch (JSONException e) {
-                    error += e.getMessage();
-                }
-                refreshErrorMessage();
-            }
-        });
-    }
+
 
     /**
      * Helper method for error handling

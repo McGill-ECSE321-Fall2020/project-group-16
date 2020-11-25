@@ -10,16 +10,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ArtGalleryApplicationAndroid">
+
+        <!--Declaration of the SignUp activity as the first (default)-->
         <activity
-            android:name=".MainActivity"
+            android:name=".SignUp"
             android:label="@string/app_name"
             android:theme="@style/Theme.ArtGalleryApplicationAndroid.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--Declaration of other activities-->
+        <activity
+            android:name=".Login"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ArtGalleryApplicationAndroid.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>

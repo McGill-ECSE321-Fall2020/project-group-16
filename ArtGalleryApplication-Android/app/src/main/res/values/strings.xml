@@ -2,11 +2,11 @@
     <string name="app_name">Art Gallery 16</string>
     <string name="action_settings">Settings</string>
 
-    <string name="username_hint">Your Username</string>
+    <string name="username_hint">Your Desired Username</string>
     <string name="password_hint">Your Password</string>
     <string name="firstName_hint">Your First Name</string>
     <string name="lastName_hint">Your Last Name</string>
     <string name="email_hint">Your Email Address</string>
-
+    <string name="goToLoginActivity_hint">login here</string>
     <string name="signUp_button">signUp</string>
 </resources>
