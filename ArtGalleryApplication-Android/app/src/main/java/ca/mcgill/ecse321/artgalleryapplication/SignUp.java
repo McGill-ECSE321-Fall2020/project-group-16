@@ -85,13 +85,7 @@ public class SignUp extends AppCompatActivity {
         HttpUtils.post("users/" + username.getText().toString(), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
-
-                firstName.setText("");
-                lastName.setText("");
-                email.setText("");
-                username.setText("");
-                password.setText("");
+                goToHomeActivity(v);
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -106,11 +100,20 @@ public class SignUp extends AppCompatActivity {
     }
 
     /**
-     * Go to login page method
+     * Go to login activity method
      * @param v
      */
     public void goToLoginActivity(View v) {
         Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Go to home activity method
+     * @param v
+     */
+    public void goToHomeActivity(View v) {
+        Intent intent = new Intent(this, Home.class);
         startActivity(intent);
     }
 

@@ -1,13 +1,12 @@
 package ca.mcgill.ecse321.artgalleryapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
 import android.view.Menu;
@@ -25,41 +24,85 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_login);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         refreshErrorMessage();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * login method
+     * @param v
+     */
+    public void login(View v) {
+        error = "";
+
+        final TextView username = (TextView) findViewById(R.id.user_username);
+        final TextView password = (TextView) findViewById(R.id.user_password);
+
+        HttpUtils.get("users/" + username.getText().toString() + "?password=" + password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try{
+                    if(!response.get("username").equals(username.getText().toString()) || !response.get("password").equals(password.getText().toString())) {
+                        error += "Incorrect password";
+
+                        refreshErrorMessage();
+                        password.setText("");
+                        return;
+                    }
+                }catch (JSONException e) {
+                    error += e.getMessage();
+                    refreshErrorMessage();
+                    return;
+                }
+
+                goToHomeActivity(v);
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+        });
+    }
+
+    /**
+     * Go to sign up activity method
+     * @param v
+     */
+    public void goToSignUpActivity(View v) {
+        Intent intent = new Intent(this, SignUp.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Go to home activity method
+     * @param v
+     */
+    public void goToHomeActivity(View v) {
+        Intent intent = new Intent(this, Home.class);
+        startActivity(intent);
     }
 
 

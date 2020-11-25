@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SignUp">
+    tools:context=".Login">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
             android:id="@+id/error"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:visibility="gone"
             android:text=""
             android:textColor="#FF0000"/>
@@ -28,28 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:textSize="20sp"
-            android:text="\nCreate an Art Gallery 16 account\n" />
-
-        <EditText
-            android:id="@+id/user_firstName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="@string/firstName_hint" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/user_lastName"
-            android:hint="@string/lastName_hint"/>
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/user_email"
-            android:hint="@string/email_hint"/>
+            android:text="\nLogin to your Art Gallery 16 account\n" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -70,23 +50,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/signUp_button"
-            android:onClick="signUp"/>
+            android:text="@string/login_button"
+            android:onClick="login"/>
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:textSize="17sp"
-            android:text="\n\nAlready have an account?" />
-
+            android:text="\n\nDon't have an account?" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/goToLoginActivity_hint"
-            android:onClick="goToLoginActivity"/>
+            android:text="@string/goToSignUpActivity_hint"
+            android:onClick="goToSignUpActivity"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
