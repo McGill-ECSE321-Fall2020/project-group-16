@@ -100,8 +100,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/checkout_test_button"
-            android:onClick="goToCheckoutActivity"/>
+            android:text="@string/view_artwork_test_button"
+            android:onClick="goToViewArtworkActivity"/>
         <!-- /Delete Later -->
 
     </LinearLayout>

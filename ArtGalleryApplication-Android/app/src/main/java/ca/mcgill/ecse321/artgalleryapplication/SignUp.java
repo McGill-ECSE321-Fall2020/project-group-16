@@ -132,6 +132,11 @@ public class SignUp extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToViewArtworkActivity(View v) {
+        Intent intent = new Intent(this, ViewArtwork.class);
+        startActivity(intent);
+    }
+
 
 
 

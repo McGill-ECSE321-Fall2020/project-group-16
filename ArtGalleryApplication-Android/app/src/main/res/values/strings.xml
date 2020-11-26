@@ -22,4 +22,6 @@
     <string name="name_prompt">Select name</string>
     <string name="artworkId_hint">Artwork Id</string>
     <string name="checkout_test_button">Checkout {Test}</string>
+    <string name="artwork_image_description">Artwork Image</string>
+    <string name="view_artwork_test_button">View Artwork {TEST}</string>
 </resources>

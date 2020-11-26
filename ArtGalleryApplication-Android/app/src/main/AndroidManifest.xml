@@ -39,6 +39,11 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.ArtGalleryApplicationAndroid.NoActionBar">
         </activity>
+        <activity
+            android:name=".ViewArtwork"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.ArtGalleryApplicationAndroid.NoActionBar">
+        </activity>
 
     </application>
 
