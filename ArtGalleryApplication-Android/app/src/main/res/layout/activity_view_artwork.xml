@@ -36,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="8dp">
 
             <ImageView
                 android:id="@+id/artwork_image"
@@ -139,7 +140,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="15dp"
                 android:text="@string/purchase_button"
-                android:clickable="true"
+                android:enabled="false"
                 android:onClick="goToCheckoutActivity"/>
 
         </LinearLayout>

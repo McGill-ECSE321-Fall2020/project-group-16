@@ -33,6 +33,7 @@ public class ViewArtwork extends AppCompatActivity {
     private String username;
     private int artworkId;
     private String artworkImageUri;
+    private String artworkTitle;
     private double price;
 
     @Override
@@ -41,8 +42,8 @@ public class ViewArtwork extends AppCompatActivity {
         setContentView(R.layout.activity_view_artwork);
 
         //@TODO - get passed artworkId
-        this.username = "aomidi1";
-        this.artworkId = 661;
+        this.username = "saidkane";
+        this.artworkId = 663;
 
         getArtworkData();
 
@@ -92,8 +93,7 @@ public class ViewArtwork extends AppCompatActivity {
 
 
     /**
-     * getArtwork
-     * @param v
+     * getArtworkData
      */
     public void getArtworkData() {
         error = "";
@@ -123,12 +123,13 @@ public class ViewArtwork extends AppCompatActivity {
     }
 
     private void updateViews(JSONObject artworkJSON, JSONObject artistJSON) throws JSONException {
-        // format price
-        DecimalFormat df2 = new DecimalFormat("#.##");
-        double price = artworkJSON.getDouble("price");
+        // get var
+        price = artworkJSON.getDouble("price");
+        artworkImageUri = artworkJSON.getString("imageUrl");
+        artworkTitle = artworkJSON.getString("title");
 
         // Set Image to image url
-        addImageToView(artworkJSON.getString("imageUrl"), R.id.artwork_image);
+        addImageToView(artworkImageUri, R.id.artwork_image);
 
         // Get Views
         final TextView titleTV = (TextView) findViewById(R.id.artwork_title);
@@ -142,7 +143,7 @@ public class ViewArtwork extends AppCompatActivity {
 
 
         // Get other fields
-        titleTV.setText(artworkJSON.getString("title"));
+        titleTV.setText(artworkTitle);
         artistNameTV.setText(artistJSON.getString("firstName") + " " + artistJSON.getString("lastName"));
         creationDateTV.setText("Created On: " + artworkJSON.getString("creationDate"));
         mediumTV.setText("Medium: " + artworkJSON.getString("medium"));
@@ -162,7 +163,8 @@ public class ViewArtwork extends AppCompatActivity {
         } else if (artistUsername.equals(username)){
             purchaseButton.setVisibility(View.GONE);
         } else {
-            purchaseButton.setText(String.format("Purchase - $%.2f", artworkJSON.getDouble("price")));
+            purchaseButton.setText(String.format("Purchase - $%.2f", price));
+            purchaseButton.setEnabled(true);
         }
     }
 
@@ -170,6 +172,9 @@ public class ViewArtwork extends AppCompatActivity {
         Intent intent = new Intent(this, Checkout.class);
         intent.putExtra("username", username);
         intent.putExtra("artworkId", artworkId);
+        intent.putExtra("artworkImageUri", artworkImageUri);
+        intent.putExtra("artworkTitle", artworkTitle);
+        intent.putExtra("price", price);
         startActivity(intent);
     }
 

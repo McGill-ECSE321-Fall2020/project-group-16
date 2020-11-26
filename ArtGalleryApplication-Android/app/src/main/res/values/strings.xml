@@ -25,4 +25,16 @@
     <string name="artwork_image_description">Artwork Image</string>
     <string name="view_artwork_test_button">View Artwork {TEST}</string>
     <string name="purchase_button">Purchase</string>
+    <string name="subtotal">"Subtotal</string>
+    <string name="taxes">"Taxes"</string>
+    <string name="total">"Total"</string>
+    <string name="artwork_title">Title</string>
+    <string name="cardnumber_hint">Card Number</string>
+    <string name="cvv_hint">CVV</string>
+    <string name="street_address_1_hint">Street Address 1</string>
+    <string name="street_address_2_hint">Street Address 2</string>
+    <string name="postal_code_hint">Postal Code</string>
+    <string name="city_hint">City</string>
+    <string name="province_hint">Province</string>
+    <string name="country_hint">Country</string>
 </resources>
