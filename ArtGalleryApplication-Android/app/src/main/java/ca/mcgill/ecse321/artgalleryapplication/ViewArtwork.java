@@ -41,9 +41,8 @@ public class ViewArtwork extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_artwork);
 
-        //@TODO - get passed artworkId
-        this.username = "saidkane";
-        this.artworkId = 663;
+        username = getIntent().getStringExtra("username");
+        artworkId = getIntent().getIntExtra("artworkId", 0);
 
         getArtworkData();
 
