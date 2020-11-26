@@ -1,15 +1,20 @@
 package ca.mcgill.ecse321.artgalleryapplication;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
@@ -17,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +30,9 @@ import cz.msebera.android.httpclient.Header;
 
 public class ViewArtwork extends AppCompatActivity {
     private String error = null;
+    private String username;
     private int artworkId;
-    private String title, description, creationDate, medium, dimensions, collection, artistName;
+    private String artworkImageUri;
     private double price;
 
     @Override
@@ -34,12 +41,35 @@ public class ViewArtwork extends AppCompatActivity {
         setContentView(R.layout.activity_view_artwork);
 
         //@TODO - get passed artworkId
-        this.artworkId = 636;
-        title = "Hey";
+        this.username = "aomidi1";
+        this.artworkId = 661;
 
         getArtworkData();
 
         refreshErrorMessage();
+
+        // Initialize navigation
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.pastorders);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.profile:
+                        startActivity(new Intent(getApplicationContext(), Profile.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.home:
+                        startActivity(new Intent(getApplicationContext(), Home.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.pastorders:
+
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -68,9 +98,6 @@ public class ViewArtwork extends AppCompatActivity {
     public void getArtworkData() {
         error = "";
 
-//        final TextView usernameTV = (TextView) findViewById(R.id.username_checkout);
-//        final TextView artworkIdTV = (TextView) findViewById(R.id.artworkId_checkout);
-
         HttpUtils.get("artworks/" + this.artworkId, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -96,6 +123,10 @@ public class ViewArtwork extends AppCompatActivity {
     }
 
     private void updateViews(JSONObject artworkJSON, JSONObject artistJSON) throws JSONException {
+        // format price
+        DecimalFormat df2 = new DecimalFormat("#.##");
+        double price = artworkJSON.getDouble("price");
+
         // Set Image to image url
         addImageToView(artworkJSON.getString("imageUrl"), R.id.artwork_image);
 
@@ -107,6 +138,7 @@ public class ViewArtwork extends AppCompatActivity {
         final TextView dimensionsTV = (TextView) findViewById(R.id.dimensions);
         final TextView collectionTV = (TextView) findViewById(R.id.collection);
         final TextView descriptionTV = (TextView) findViewById(R.id.description);
+        final Button purchaseButton = (Button) findViewById(R.id.purchase_button);
 
 
         // Get other fields
@@ -118,6 +150,27 @@ public class ViewArtwork extends AppCompatActivity {
         collectionTV.setText("Collection: " + artworkJSON.getString("collection"));
         descriptionTV.setText("Description: " + artworkJSON.getString("description"));
 
+        // if artist is not user and artwork not sold allow purchase
+        String artworkStatus = artworkJSON.getString("artworkStatus");
+        String artistUsername = artistJSON.getString("username");
+
+        if (!artworkStatus.equals("ForSale")){
+            purchaseButton.setText("Sold");
+            purchaseButton.setTextSize(17);
+            purchaseButton.setClickable(false);
+            purchaseButton.setBackgroundColor(Color.parseColor("#3ACBF1"));
+        } else if (artistUsername.equals(username)){
+            purchaseButton.setVisibility(View.GONE);
+        } else {
+            purchaseButton.setText(String.format("Purchase - $%.2f", artworkJSON.getDouble("price")));
+        }
+    }
+
+    public void goToCheckoutActivity(View v) {
+        Intent intent = new Intent(this, Checkout.class);
+        intent.putExtra("username", username);
+        intent.putExtra("artworkId", artworkId);
+        startActivity(intent);
     }
 
     /**

@@ -22,17 +22,22 @@ import cz.msebera.android.httpclient.Header;
 
 public class Checkout extends AppCompatActivity {
     private String error = null;
-    private List<String> usernames = new ArrayList<>();
-    private ArrayAdapter<String> userAdapter;
-    private ArrayAdapter<String> artworkAdapter;
-    private List<String> artworkIds = new ArrayList<>();
+    private String username;
+    private int artworkId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
+        username = getIntent().getStringExtra("username");
+        artworkId = getIntent().getIntExtra("artworkId", 0);
 
+        final TextView usernameTV = (TextView) findViewById(R.id.username_checkout);
+        final TextView artworkIdTV = (TextView) findViewById(R.id.artworkId_checkout);
+
+        artworkIdTV.setText(String.valueOf(artworkId));
+        usernameTV.setText(username);
 
         refreshErrorMessage();
     }

@@ -24,4 +24,5 @@
     <string name="checkout_test_button">Checkout {Test}</string>
     <string name="artwork_image_description">Artwork Image</string>
     <string name="view_artwork_test_button">View Artwork {TEST}</string>
+    <string name="purchase_button">Purchase</string>
 </resources>

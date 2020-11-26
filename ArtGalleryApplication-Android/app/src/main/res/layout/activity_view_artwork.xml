@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ViewArtwork">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="56dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
     <LinearLayout
         android:layout_height="wrap_content"
@@ -39,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:layout_gravity="center_horizontal"
-                android:maxHeight="350dp"
+                android:maxHeight="400dp"
                 android:background="@drawable/image_border"
                 android:padding="12dp"
                 android:contentDescription="@string/artwork_image_description"
@@ -119,36 +124,36 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
                     android:paddingHorizontal="10dp"
                     android:layout_gravity="start"
                     android:textSize="17sp"
                     android:text="Description: "/>
 
             </LinearLayout>
-<!--            <EditText-->
-<!--                android:id="@+id/username_checkout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:hint="@string/username_hint"-->
-<!--                android:inputType="text" />-->
 
-<!--            <EditText-->
-<!--                android:id="@+id/artworkId_checkout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:hint="@string/artworkId_hint"-->
-<!--                android:inputType="number" />-->
+            <Button
+                android:id="@+id/purchase_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:text="@string/purchase_button"
+                android:clickable="true"
+                android:onClick="goToCheckoutActivity"/>
 
-<!--            <Button-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:text="@string/placeorder_button"-->
-<!--                android:onClick="placeOrder"/>-->
         </LinearLayout>
 
     </LinearLayout>
+</ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        app:itemBackground="@color/teal_200"
+        app:itemTextColor="@drawable/selector"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/menu_navigation"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
