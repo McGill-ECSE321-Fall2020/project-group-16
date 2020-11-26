@@ -3,7 +3,11 @@ package ca.mcgill.ecse321.artgalleryapplication.controller;
 import ca.mcgill.ecse321.artgalleryapplication.dto.*;
 import ca.mcgill.ecse321.artgalleryapplication.exception.ApiRequestException;
 import ca.mcgill.ecse321.artgalleryapplication.model.OrderStatus;
+import ca.mcgill.ecse321.artgalleryapplication.model.PaymentForm;
+import ca.mcgill.ecse321.artgalleryapplication.service.AddressService;
 import ca.mcgill.ecse321.artgalleryapplication.service.OrderService;
+import ca.mcgill.ecse321.artgalleryapplication.service.PaymentService;
+import ca.mcgill.ecse321.artgalleryapplication.service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +31,13 @@ public class OrderRestController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private PaymentService paymentService;
+    @Autowired
+    private ShipmentService shipmentService;
+    @Autowired
+    private AddressService addressService;
+
 
     // --- Create --- //
 
@@ -42,6 +55,43 @@ public class OrderRestController {
     ) throws ApiRequestException {
 
         return convertToDto(orderService.placeOrder(artworkId, username));
+    }
+
+    /**
+     *
+     * @param username
+     * @param artworkId
+     * @return an OrderDto
+     * @throws ApiRequestException
+     */
+    @PostMapping(value = { "/orders/place-order/full/{username}/{artworkId}", "/orders/place-order/{username}/{artworkId}" })
+    public OrderDto placeOrderFull(
+            @PathVariable("username") String username,
+            @PathVariable("artworkId") int artworkId,
+            @RequestParam("amount") double amount,
+            @RequestParam("paymentForm") PaymentForm paymentForm,
+            @RequestParam("paymentDate") Date paymentDate,
+            @RequestParam("cardNumber") String cardNumber,
+            @RequestParam("expirationDate") Date expirationDate,
+            @RequestParam("cvv") int cvv,
+            @RequestParam("paymentTime") Time paymentTime,
+            @RequestParam("toGallery") Boolean toGallery,
+            @RequestParam("estimatedArrivalTime") Time estimatedArrivalTime,
+            @RequestParam("estimatedArrivalDate") Date estimatedArrivalDate,
+            @RequestParam("destStreetAddress") String destStreetAddress,
+            @RequestParam("destStreetAddress2") String destStreetAddress2,
+            @RequestParam("destPostalCode") String destPostalCode,
+            @RequestParam("destCity") String destCity,
+            @RequestParam("destProvince") String destProvince,
+            @RequestParam("destCountry") String destCountry
+    ) throws ApiRequestException {
+
+        PaymentDto paymentDto = convertToDto(paymentService.createPayment(paymentForm, paymentDate, cardNumber, expirationDate, cvv, paymentTime));
+
+        AddressDto destAddressDto = convertToDto(addressService.createAddress(destStreetAddress, destStreetAddress2, destPostalCode, destCity, destProvince, destCountry));
+        ShipmentDto shipmentDto = convertToDto(shipmentService.createShipment(toGallery, estimatedArrivalTime, estimatedArrivalDate, 0, destAddressDto.getAddressId()));
+
+        return convertToDto(orderService.placeOrder(artworkId, username, amount, paymentDto.getPaymentId(), shipmentDto.getShipmentId()));
     }
 
 

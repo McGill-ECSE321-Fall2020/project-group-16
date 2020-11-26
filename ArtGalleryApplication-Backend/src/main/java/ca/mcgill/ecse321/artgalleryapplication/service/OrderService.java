@@ -73,6 +73,30 @@ public class OrderService {
         return order;
     }
 
+    @Transactional
+    public Order placeOrder(int artworkId, String username, double price, int paymentId, int shipmentId){
+        Order order = placeOrder(artworkId, username);
+        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
+        Shipment shipment = shipmentRepository.findShipmentByShipmentId(shipmentId);
+
+        if (order == null)
+            throw new ApiRequestException("Order does not exist in database.");
+        if (price < 0)
+            throw new ApiRequestException("Price cannot be negative.");
+        if (payment == null)
+            throw new ApiRequestException("Payment does not exist in database.");
+        if (shipment == null)
+            throw new ApiRequestException("Shipment does not exist in database.");
+
+        order.setTotalAmount(price);
+        order.setPayment(payment);
+        order.setShipment(shipment);
+        order.setOrderStatus(Placed);
+        orderRepository.save(order);
+
+        return order;
+    }
+
 
     // --- Delete --- //
 
