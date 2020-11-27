@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring accessors="true" comment="Delete element from project &apos;ArtGalleryApplication-Backend&apos;&#x0A;- Original project: &apos;ArtGalleryApplication-Backend&apos;&#x0A;- Original element: &apos;ArtGalleryApplication-Backend/src/main/java/ca.mcgill.ecse321.eventregistration.dao&apos;" description="Delete element" element1="/src\/main\/java=/gradle_scope=/main=/=/gradle_used_by_scope=/main,test=/&lt;ca.mcgill.ecse321.eventregistration.dao" element2="/src\/main\/java=/gradle_scope=/main=/=/gradle_used_by_scope=/main,test=/&lt;ca.mcgill.ecse321.eventregistration" elements="2" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1601743152331" subPackages="false" version="1.0"/>
-</session>
