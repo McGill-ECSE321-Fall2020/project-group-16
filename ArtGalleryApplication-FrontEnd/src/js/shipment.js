@@ -8,6 +8,10 @@ export default {
     Address
   },
   props: ["address"],
+
+    /**
+     * declaration of the page's data
+     */
   data() {
     return {
       toGallery: false,
@@ -18,6 +22,10 @@ export default {
   },
 
   methods: {
+
+    /**
+     * Update address object
+     */
     updateAddresses() {
       if (this.toGallery) {
         // reset address inputs 
@@ -54,6 +62,9 @@ export default {
       var estimatedArrivalTime = "16:00:00"
       var estimatedArrivalDate = year + '-' + month + '-' + day;
 
+      /**
+       * Post HTTP request to the backend
+       */
       AXIOS.post("/shipments/full/", {}, {
         params: {
           toGallery: toGallery,

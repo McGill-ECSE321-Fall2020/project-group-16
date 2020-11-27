@@ -1,6 +1,10 @@
 import { AXIOS } from "./axiosInstance";
 export default {
     name: "SignUpForm",
+
+    /**
+     * declaration of the page's data
+     */
     data() {
         return {
             username: "",
@@ -13,6 +17,10 @@ export default {
         };
     },
     methods: {
+
+        /**
+         * Signup to the platform
+         */
         signup: async function () {
             this.$emit("update:user", { username: "", isLoggedIn: false })
             var self = this;

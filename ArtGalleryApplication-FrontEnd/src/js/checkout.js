@@ -10,6 +10,9 @@ export default {
         Payment
     },
 
+    /**
+     * declaration of the page's data
+     */
     data() {
         return {
             orderId: '',
@@ -53,7 +56,11 @@ export default {
         }
     },
 
+    /**
+     * Initialiazation of the page's dat on creation of the page
+     */
     created: function() {
+        //get the current user navigating to the page
         AXIOS.get(`/users/${this.$route.params.username}`)
             .then(
                 this.username = this.$route.params.username
@@ -61,6 +68,8 @@ export default {
             .catch((e) => {
                 this.errorCheckout = e.response //"User Not Found"
             });
+        
+        //get the current artwork
         AXIOS.get(`/artworks/${this.$route.params.artworkId}`)
             .then(response => {
                 this.artworkId = this.$route.params.artworkId
@@ -82,7 +91,14 @@ export default {
     },
     methods: {
 
+        /**
+         * Place order method
+         * @param {*} username 
+         * @param {*} artworkId 
+         */
         placeOrder: function(username, artworkId) {
+
+            //HTTP request to the backend to place an order
             AXIOS.post("/orders/place-order/".concat(this.username), {}, {
                     params: {
                         artworkId: this.artworkId
@@ -99,8 +115,17 @@ export default {
                 });
         },
 
+        /**
+         * Add shipment and payment to the order
+         * @param {*} orderId 
+         * @param {*} paymentId 
+         * @param {*} shipmentId 
+         * @param {*} total 
+         */
         addPaymentAndShipment(orderId, paymentId, shipmentId, total) {
             var self = this
+
+            //HTTP request to the backend to update the payment and shipment objects
             AXIOS.put(`/orders/${orderId}/add-payment-shipment`, {}, {
                     params: {
                         paymentId: paymentId,
@@ -118,10 +143,18 @@ export default {
                 });
         },
 
+        /**
+         * Get the shipment object of the order
+         * @param {*} newShipment 
+         */
         getShipment(newShipment) {
             this.shipmentId = newShipment.shipmentId;
         },
 
+        /**
+         * Get the payment object of the order
+         * @param {*} newPayment 
+         */
         getPayment(newPayment) {
             this.paymentId = newPayment.paymentId;
         },

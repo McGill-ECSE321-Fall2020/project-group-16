@@ -2,6 +2,10 @@ import { AXIOS } from "./axiosInstance.js";
 
 export default {
     name: "ViewArtwork",
+
+    /**
+     * declaration of the page's data
+     */
     data() {
         return {
             artwork: {
@@ -33,6 +37,10 @@ export default {
         this.artwork.artworkId = this.$route.params.artworkId;
     },
     mounted: function () {
+
+        /**
+         * get the specific artwork of the page
+         */
         AXIOS.get(`/artworks/${this.artwork.artworkId}`)
             .then(response => {
                 this.artwork = response.data;
@@ -42,6 +50,9 @@ export default {
                 console.log(e);
             });
 
+        /**
+         * get the user that is using the platform
+         */
         AXIOS.get("/users/".concat(localStorage.getItem('username')))
             .then((response) => {
                 this.theCurrentUser = response.data;
@@ -51,6 +62,11 @@ export default {
             });
     },
     methods: {
+
+        /**
+         * returns true if the user using the platform is artist of the artwork
+         * @param {*} artists 
+         */
         isUserOwnerOfArtwork(artists) {
             const curUsername = localStorage.getItem('username')
             artists.forEach(user => {
@@ -60,6 +76,10 @@ export default {
             });
         },
 
+        /**
+         * allows the user (if artist of the artwork), to delete the artwork
+         * @param {*} artworkId 
+         */
         deleteArtwork(artworkId) {
             AXIOS.delete("/artworks/".concat(artworkId), {}, {
             })

@@ -5,6 +5,10 @@ import ArtProduct from "../components/ArtProduct.vue"
 
 export default {
     name: "ProfilePage",
+
+    /**
+     * declaration of the page's data
+     */
     data() {
         return {
             username: "",
@@ -21,6 +25,12 @@ export default {
     },
 
     methods: {
+
+        /**
+         * Get the target user of the profile navigated to
+         * @param {*} route 
+         * @param {*} obj 
+         */
         getUser(route, obj) {
             var self = this
             obj.username = route.params.username;
@@ -49,6 +59,13 @@ export default {
                 this.currentUser = currentUser
         }
     },
+
+    /**
+     * 
+     * @param {*} to 
+     * @param {*} from 
+     * @param {*} next 
+     */
     beforeRouteEnter(to, from, next) {
         next(vm => {
             if (localStorage.getItem("username") === to.params.username) {
@@ -66,6 +83,13 @@ export default {
 
 
     },
+
+    /**
+     * 
+     * @param {*} to 
+     * @param {*} from 
+     * @param {*} next 
+     */
     beforeRouteUpdate(to, from, next) {
         this.user = null
         this.currentUser = false

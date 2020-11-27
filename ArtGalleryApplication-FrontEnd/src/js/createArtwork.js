@@ -3,6 +3,10 @@ import firebase from 'firebase';
 
 export default {
     name: "CreateArtwork",
+
+    /**
+     * declaration of the page's data
+     */
     data() {
         return {
             newArtwork: {
@@ -41,6 +45,10 @@ export default {
             artworkCreated: ""
         }
     },
+
+    /**
+     * Initialization of the page data on creation of the page
+     */
     created: function() {
         var self = this
 
@@ -67,9 +75,22 @@ export default {
 
     methods: {
 
+        /**
+         * Create artwork with the inputted data
+         * @param {*} title 
+         * @param {*} description 
+         * @param {*} creationDate 
+         * @param {*} medium 
+         * @param {*} imageUrl 
+         * @param {*} price 
+         * @param {*} status 
+         * @param {*} dimension 
+         * @param {*} collection 
+         */
         createArtwork: function(title, description, creationDate, medium, imageUrl, price, status, dimension, collection) {
             var self = this;
 
+            // HTTP request to the backend to create the artwork with the given parameters
             AXIOS.post("/artworks/".concat(this.newArtwork.title), {}, {
                     params: {
 
@@ -105,9 +126,15 @@ export default {
                 });
         },
 
+        /**
+         * Add current user as artist to the artwork
+         * @param {*} artworkId 
+         * @param {*} username 
+         */
         addArtist: function(artworkId, username) {
             var self = this;
 
+            // HTTP request to the backend to add the current user to the list of artists of the artwork
             AXIOS.put("/artworks/" + artworkId + "/add-artist/", {}, {
                     params: {
                         username: username
@@ -121,6 +148,9 @@ export default {
                 })
         },
 
+        /**
+         * Create method for the creation of the image in the firebase bucket
+         */
         create() {
 
             const post = {
@@ -136,12 +166,21 @@ export default {
         click1() {
             this.$refs.input1.click()
         },
+
+        /**
+         * Preview image method
+         * @param {*} event 
+         */
         previewImage(event) {
             this.uploadValue = 0;
             this.img1 = null;
             this.imageData = event.target.files[0];
             this.onUpload()
         },
+
+        /**
+         * Method on upload of the image to the firebase bucket
+         */
         onUpload() {
             this.img1 = null;
             const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);

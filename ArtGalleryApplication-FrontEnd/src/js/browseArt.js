@@ -7,6 +7,9 @@ export default {
     ArtProduct
   },
 
+    /**
+     * declaration of the page's data
+     */
   data() {
     return {
       artworks: [],
@@ -24,6 +27,9 @@ export default {
     };
   },
 
+  /**
+   * Page initialization on page creation
+   */
   created: function () {
     AXIOS.get("/artworks")
       .then(response => {
@@ -36,6 +42,10 @@ export default {
   },
 
   methods: {
+
+    /**
+     * Filter the artworks using customizable filters
+     */
     filterArtworks() {
       this.filteredArtworks = []
 
@@ -77,6 +87,10 @@ export default {
         this.sort()
       }
     },
+
+    /**
+     * Reset the filters, on button click
+     */
     resetFilters() {
       this.filter.status = "All"
       this.filter.minPrice = ''
@@ -87,6 +101,10 @@ export default {
 
       this.filteredArtworks = this.artworks
     },
+
+    /**
+     * Sort the artworks based on the filters
+     */
     sort() {
       if (this.sortBy === "PriceInc") {
         this.filteredArtworks.sort(function (a, b) {
@@ -126,6 +144,10 @@ export default {
         });
       }
     },
+
+    /**
+     * Show filters selected by the user, to the user
+     */
     showFilters() {
       var show = document.getElementById("filters")
       var text = document.getElementById("toggle-filters");

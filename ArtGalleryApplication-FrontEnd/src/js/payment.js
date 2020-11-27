@@ -3,12 +3,20 @@ import { AXIOS } from "./axiosInstance";
 export default {
   name: "Payment",
   props: ["payment"],
+
+  /**
+  * declaration of the page's data
+  */
   data() {
     return {
       errorPayment: ''
     }
   },
   methods: {
+
+    /**
+     * create payment method
+     */
     createPayment: function () {
       var today = new Date(),
         month = '' + (today.getMonth() + 1),
@@ -25,6 +33,9 @@ export default {
       var expirationDate = "20" + this.payment.expirationDate.slice(-2) + "-" + this.payment.expirationDate.substring(0, 2) + "-" + "01";
       var cardNumber = this.payment.cardNumber.split(" ").join("");
 
+      /**
+       * post HTTP request to backend to create a payment with the inputted parameters
+       */
       AXIOS.post("/payments/", {}, {
         params: {
           cardNumber: cardNumber,

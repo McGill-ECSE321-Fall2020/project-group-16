@@ -2,6 +2,10 @@ import { AXIOS } from './axiosInstance'
 
 export default {
     name: "galleryEvents",
+    
+    /**
+     * declaration of the page's data
+     */
     data() {
         return {
             events: [],
@@ -22,9 +26,15 @@ export default {
         };
     },
 
+    /**
+     * Initialization of the page on creation
+     */
     created: function() {
         var self = this;
 
+        /**
+         * get all the events
+         */
         AXIOS.get("/events")
             .then((response) => {
                 this.events = response.data;
@@ -35,6 +45,14 @@ export default {
 
     methods: {
 
+        /**
+         * Create an Event method
+         * @param {*} name 
+         * @param {*} description 
+         * @param {*} date 
+         * @param {*} startTime 
+         * @param {*} endTime 
+         */
         createEvent: function(name, description, date, startTime, endTime) {
             var self = this;
 
@@ -62,9 +80,17 @@ export default {
                 self.errorRequest = "Error: " + err.response.data.message;
             });
         },
+
+        /**
+         * Show Modal method
+         */
         showModal: function() {
             this.createModalActive = true
         },
+
+        /**
+         * Show modal method
+         */
         hideModal: function() {
             this.createModalActive = false
         }

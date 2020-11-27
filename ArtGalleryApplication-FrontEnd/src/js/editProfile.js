@@ -3,6 +3,10 @@ import firebase from 'firebase';
 
 export default {
     name: "editProfile",
+
+    /**
+     * declaration of the page's data
+     */
     data() {
         return {
             theTargetUser: {
@@ -51,6 +55,9 @@ export default {
 
     },
 
+    /**
+     * Initialization of the fields on page creation, using http requests to backend
+     */
     created: function() {
         var self = this;
 
@@ -78,6 +85,10 @@ export default {
 
     methods: {
 
+        /**
+         * update the email method
+         * @param {*} newEmail 
+         */
         updateEmail: function(newEmail) {
             var self = this;
 
@@ -101,9 +112,17 @@ export default {
         },
 
 
+        /**
+         * update the first and last names method
+         * @param {*} newFirstName 
+         * @param {*} newLastName 
+         */
         updateFirstLastName: function(newFirstName, newLastName) {
             var self = this;
 
+            /**
+             * http request to the backend to update the names
+             */
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-name/", {}, {
                 params: {
                     newFirstName: newFirstName,
@@ -127,9 +146,17 @@ export default {
         },
 
 
+        /**
+         * update the password
+         * @param {*} verificationPassword 
+         * @param {*} newPassword 
+         */
         updatePassword: function(verificationPassword, newPassword) {
             var self = this;
 
+            /**
+             * http request to update the password
+             */
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-password/", {}, {
                 params: {
                     password: verificationPassword,
@@ -152,9 +179,16 @@ export default {
         },
 
 
+        /**
+         * update description of the user method
+         * @param {*} newDescription 
+         */
         updateDescription: function(newDescription) {
             var self = this;
 
+            /**
+             * http put request to the backend to update the description of the user
+             */
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-description/", {}, {
                 params: {
                     description: newDescription,
@@ -176,9 +210,16 @@ export default {
         },
 
 
+        /**
+         * method to update the profile picture of the user
+         * @param {*} newImageUrl 
+         */
         updateImage: function(newImageUrl) {
             var self = this;
 
+            /**
+             * http request to the backend 
+             */
             AXIOS.put("/users/" + this.theTargetUser.username + "/update-profile-image-url/", {}, {
                 params: {
                     imageUrl: newImageUrl,
@@ -194,6 +235,9 @@ export default {
             });
         },
 
+        /**
+         * method to display name modal
+         */
         displayNameModal: function() {
             this.success = false
             this.error = ""
@@ -207,6 +251,9 @@ export default {
 
         },
 
+        /**
+         * method to display the email modal
+         */
         displayEmailModal: function() {
             this.success = false
             this.error = ""
@@ -220,6 +267,9 @@ export default {
 
         },
 
+        /**
+         * method to display the description modal
+         */
         displayDescriptionModal: function() {
             this.success = false
             this.error = ""
@@ -232,6 +282,9 @@ export default {
 
         },
 
+        /**
+         * method to display the password modal
+         */
         displayPasswordModal: function() {
             this.success = false
             this.error = ""
@@ -244,18 +297,30 @@ export default {
 
         },
 
+        /**
+         * method to hide the name modal
+         */
         hideNameModal: function() {
             this.nameModalActive = false
         },
-
+        
+        /**
+         * method to hide the email modal
+         */
         hideEmailModal: function() {
             this.emailModalActive = false
         },
 
+        /**
+         * method to hide the description modal
+         */
         hideDescriptionModal: function() {
             this.descriptionModalActive = false
         },
 
+        /**
+         * method to hide the password modal
+         */
         hidePasswordModal: function() {
             this.passwordModalActive = false
         },
@@ -265,6 +330,9 @@ export default {
         },
 
 
+        /**
+         * creation of the image
+         */
         create() {
             const post = {
                 photo: this.img1,
@@ -282,12 +350,21 @@ export default {
         click1() {
             this.$refs.input1.click()
         },
+
+        /**
+         * preview image method
+         * @param {*} event 
+         */
         previewImage(event) {
             this.uploadValue = 0;
             this.img1 = null;
             this.imageData = event.target.files[0];
             this.onUpload()
         },
+
+        /**
+         * upload image to the firebase bucket 
+         */
         onUpload() {
             this.img1 = null;
             const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);

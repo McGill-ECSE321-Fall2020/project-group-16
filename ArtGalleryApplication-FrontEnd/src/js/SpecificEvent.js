@@ -2,6 +2,10 @@ import { AXIOS } from "./axiosInstance";
 
 export default {
     name: "specificEvent",
+
+    /**
+     * declaration of the page's data
+     */
     data() {
         return {
             theEvent: {
