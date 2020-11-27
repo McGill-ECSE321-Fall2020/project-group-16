@@ -1,85 +1,3 @@
-<<<<<<< HEAD
-# Art Gallery System - ECSE321 F20 Group 16
-
-## Our Team
-
-[Rodolphe Baladi](https://github.com/rodolphebaladi) is a U2 Software Engineering student at McGill. His favourite ice cream is Oreo!
-
-[Alena Midgen](https://github.com/alenamidgen) is a McGill U2 Software Engineering student, Alena's favourite ice cream flavour is chocolate peanut butter.
-
-[Arian Omidi](https://github.com/ArianOmidi) is a U2 Software Engineering student, Arian's favourite ice cream flavour is cookie dough.
-
-[Dina Shoham](https://github.com/dina-shoham) is a U2 Software Engineering student at McGill. Her favourite ice cream flavour is chocolate chip cookie dough!
-
-[Evan Wechsler](https://github.com/evanwechsler) is a U1 Mechanical Engineering student at McGill. His favourite ice cream flavour is moose tracks :)
-
-
-## Project Overview and Scope
-
-Our ArtGallery website and application provide features for local users to buy, sell and view Artworks.
-The implementation of this system requires:
-* Requirements Engineering
-* Software Modeling
-* Software Development
-* System Validation through unit testing
-* Automation of the software delivery process
-
-## How to run the Application and where it is deployed to
-Backend deployed to: https://artgalleryapp-backend-0.herokuapp.com/  
-Start the Backend locally by running the Application at: ```ArtGalleryApplication-Backend/src/main/java/ca/mcgill/ecse321/artgalleryapplication/ArtGalleryApplication.java```  
-The backend application will be hosted on ```localhost:8080```  
-
-Frontend deployed to: https://artgalleryapp-frontend-0.herokuapp.com/  
-Start the Frontend locally by executing the command ```npm run dev``` in ```ArtGalleryApplication-FrontEnd```  
-The frontend application will be hosted on ```localhost:8087```  
-
-  
-## Important links:
-* [Software Requirements Specification](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification)
-  * [System Requirements](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#2-requirements)
-  * [Use Cases](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki/Software-Requirements-Specification#3-use-cases-)
-
-## Sprints
-
-### Sprint 1
-
-More details about [Sprint 1](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-1)
-
-|**Team Member**|**Responsibilities**|**Hours**|
-|:-------------:|:-------------------|:-------:|
-|Rodolphe Baladi|Persistence testing, use cases, requirements                        |  17  |
-|Alena Midgen   |Persistence layer setup, persistence testing, documentation         |  17  |
-|Arian Omidi    |Continuous integration, persistence layer setup, persistence testing|  17  |
-|Dina Shoham    |UML class diagram, persistence testing, documentation               |  17  |
-|Evan Wechsler  |Documentation, persistence layer, use case diagram                  |  17  |
-* Note: all members were involved in the development of the domain model, system requirements, and use cases
-
-### Sprint 2
-
-More details about [Sprint 2](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-2)
-
-|**Team Member**|**Responsibilities**|**Hours**|
-|:-------------:|:-------------------|:-------:|
-|Rodolphe Baladi|Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
-|Alena Midgen   |Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
-|Arian Omidi    |Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
-|Dina Shoham    |Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
-|Evan Wechsler  |Dto, Service, Controller methods implementation + Unit Test for service + Integration tests for controller|    30   |
-
-### Sprint 3
-
-More details about [Sprint 3](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-3)
-
-|**Team Member**|**Responsibilities**|**Hours**|
-|:-------------:|:-------------------|:-------:|
-|Rodolphe Baladi|Architecture model, Implementation of Frontend and Integration with Backend  |    30     |
-|Alena Midgen   |Implementation of Frontend, Integration with Backend and Project Report |     30    |
-|Arian Omidi    |Implementation of Frontend, Integration with Backend and Build System, Continuous Integration and Delivery|    30     |
-|Dina Shoham    |Implementation of Frontend, Integration with Backend and Styling in CSS|    30     |
-|Evan Wechsler  |Implementation of Frontend, Integration with Backend and Styling in CSS|     30    |
-
-### Sprint 4
-=======
 # Art Gallery Android Application - ECSE321 F20 Group 16
 
 For additional information, see [here](https://github.com/McGill-ECSE321-Fall2020/project-group-16/tree/master#art-gallery-system---ecse321-f20-group-16).  
@@ -96,26 +14,15 @@ For additional information, see [here](https://github.com/McGill-ECSE321-Fall202
 ## Instructions for Android Application  
 -> Wake up the backend by going to https://artgalleryapp-backend-0.herokuapp.com.  
 -> Run the Android application using an emulator, on Android Studio.  
-  
+
 ## Sprint 4
->>>>>>> b3b4c9e1d0d835276d2ac12ca4006c7e3fa7f7e0
 
 More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-4)
 
 |**Team Member**|**Responsibilities**|**Hours**|
 |:-------------:|:-------------------|:-------:|
-<<<<<<< HEAD
-|Rodolphe Baladi|                    |         |
-|Alena Midgen   |                    |         |
-|Arian Omidi    |                    |         |
-|Dina Shoham    |                    |         |
-|Evan Wechsler  |                    |         |
-
-See code and more information about Sprint 4 [here](https://github.com/McGill-ECSE321-Fall2020/project-group-16/tree/android)
-=======
 |Rodolphe Baladi|        |         |
 |Alena Midgen   |        |         |
 |Arian Omidi    |        |         |
 |Dina Shoham    |        |         |
 |Evan Wechsler  |        |         |
->>>>>>> b3b4c9e1d0d835276d2ac12ca4006c7e3fa7f7e0
