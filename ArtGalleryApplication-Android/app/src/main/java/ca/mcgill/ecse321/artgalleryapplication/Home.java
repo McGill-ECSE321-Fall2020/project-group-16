@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.artgalleryapplication;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -9,6 +10,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -27,6 +31,9 @@ import cz.msebera.android.httpclient.Header;
 public class Home extends AppCompatActivity {
     private String error = null;
     private String username;
+    private int artworkId;
+    private String artworkImageUrl;
+    private String artworkTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,11 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         username = getIntent().getStringExtra("username");
+        artworkId = getIntent().getIntExtra("artworkId", 0);
 
-//        refreshErrorMessage();
+        getArtworkData();
+
+        //refreshErrorMessage();
 
         // Initialize navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -83,25 +93,66 @@ public class Home extends AppCompatActivity {
 
 
 
+    private void updateViews(JSONObject artworkJSON, JSONObject artistJSON) throws JSONException {
+        // get image and title
+        artworkImageUrl = artworkJSON.getString("imageUrl");
+        artworkTitle = artworkJSON.getString("title");
+
+        // set image view
+        ImageView artworkImageView = (ImageView) findViewById(R.id.artworkImage);
+        Picasso.get().load(artworkImageUrl).resize(500, 0).into(artworkImageView);
+
+        // set text view
+        final TextView artworkTitleTV = (TextView) findViewById(R.id.artworkDetails);
+        artworkTitleTV.setText(artworkTitle);
+    }
 
 
 
+    /**
+     * getArtworkData
+     */
+    public void getArtworkData() {
+        error = "";
 
+        HttpUtils.get("artworks/" + this.artworkId, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONObject serverResp = new JSONObject(response.toString());
+                    updateViews(serverResp, serverResp.getJSONArray("artists").getJSONObject(0));
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+
+                refreshErrorMessage();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+        });
+    }
 
 
     /**
      * Helper method for error handling
      * Displays error message on the screen, if there is any
      */
-//    private void refreshErrorMessage() {
-//        // set the error message
-//        TextView tvError = (TextView) findViewById(R.id.error);
-//        tvError.setText(error);
-//
-//        if (error == null || error.length() == 0) {
-//            tvError.setVisibility(View.GONE);
-//        } else {
-//            tvError.setVisibility(View.VISIBLE);
-//        }
-//    }
+    private void refreshErrorMessage() {
+        // set the error message
+    /*    TextView tvError = (TextView) findViewById(R.id.error);
+        tvError.setText(error);
+
+        if (error == null || error.length() == 0) {
+            tvError.setVisibility(View.GONE);
+        } else {
+            tvError.setVisibility(View.VISIBLE);
+        }*/
+    }
 }
