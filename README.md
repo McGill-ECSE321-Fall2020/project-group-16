@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Art Gallery System - ECSE321 F20 Group 16
 
 ## Our Team
@@ -78,11 +79,32 @@ More details about [Sprint 3](https://github.com/McGill-ECSE321-Fall2020/project
 |Evan Wechsler  |Implementation of Frontend, Integration with Backend and Styling in CSS|     30    |
 
 ### Sprint 4
+=======
+# Art Gallery Android Application - ECSE321 F20 Group 16
+
+For additional information, see [here](https://github.com/McGill-ECSE321-Fall2020/project-group-16/tree/master#art-gallery-system---ecse321-f20-group-16).  
+
+## Our Team
+
+[Rodolphe Baladi](https://github.com/rodolphebaladi).  
+[Alena Midgen](https://github.com/alenamidgen).  
+[Arian Omidi](https://github.com/ArianOmidi).  
+[Dina Shoham](https://github.com/dina-shoham).  
+[Evan Wechsler](https://github.com/evanwechsler).  
+
+
+## Instructions for Android Application  
+-> Wake up the backend by going to https://artgalleryapp-backend-0.herokuapp.com.  
+-> Run the Android application using an emulator, on Android Studio.  
+  
+## Sprint 4
+>>>>>>> b3b4c9e1d0d835276d2ac12ca4006c7e3fa7f7e0
 
 More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-4)
 
 |**Team Member**|**Responsibilities**|**Hours**|
 |:-------------:|:-------------------|:-------:|
+<<<<<<< HEAD
 |Rodolphe Baladi|                    |         |
 |Alena Midgen   |                    |         |
 |Arian Omidi    |                    |         |
@@ -90,3 +112,10 @@ More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project
 |Evan Wechsler  |                    |         |
 
 See code and more information about Sprint 4 [here](https://github.com/McGill-ECSE321-Fall2020/project-group-16/tree/android)
+=======
+|Rodolphe Baladi|        |         |
+|Alena Midgen   |        |         |
+|Arian Omidi    |        |         |
+|Dina Shoham    |        |         |
+|Evan Wechsler  |        |         |
+>>>>>>> b3b4c9e1d0d835276d2ac12ca4006c7e3fa7f7e0

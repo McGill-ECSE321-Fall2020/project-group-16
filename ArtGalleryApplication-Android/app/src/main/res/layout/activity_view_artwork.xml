@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ViewArtwork">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="56dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/view_artwork_error"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:text=""
+            android:textColor="#FF0000"/>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="8dp">
+
+            <ImageView
+                android:id="@+id/artwork_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_gravity="center_horizontal"
+                android:maxHeight="400dp"
+                android:background="@drawable/image_border"
+                android:padding="12dp"
+                android:contentDescription="@string/artwork_image_description"
+                />
+
+            <TextView
+                android:id="@+id/artwork_title"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingHorizontal="10dp"
+                android:layout_gravity="center"
+                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/artist_name"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingHorizontal="10dp"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:text="" />
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/creation_date"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:layout_gravity="start"
+                    android:textSize="17sp"
+                    android:text="Created On: "/>
+
+                <TextView
+                    android:id="@+id/medium"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:layout_gravity="start"
+                    android:textSize="17sp"
+                    android:text="Medium: "/>
+
+                <TextView
+                    android:id="@+id/dimensions"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:layout_gravity="start"
+                    android:textSize="17sp"
+                    android:text="Dimensions: "/>
+
+                <TextView
+                    android:id="@+id/collection"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:layout_gravity="start"
+                    android:textSize="17sp"
+                    android:text="Collection: "/>
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:paddingHorizontal="10dp"
+                    android:layout_gravity="start"
+                    android:textSize="17sp"
+                    android:text="Description: "/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/purchase_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:text="@string/purchase_button"
+                android:enabled="false"
+                android:onClick="goToCheckoutActivity"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom_navigation"
+        app:itemBackground="@color/teal_200"
+        app:itemTextColor="@drawable/selector"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/menu_navigation"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

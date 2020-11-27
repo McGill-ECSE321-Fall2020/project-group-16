@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Art Gallery 16</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="firstName_hint">First Name</string>
+    <string name="lastName_hint">Last Name</string>
+    <string name="email_hint">Email Address</string>
+
+    <string name="goToLoginActivity_hint">Login here</string>
+    <string name="goToSignUpActivity_hint">Sign Up here</string>
+
+    <string name="signUp_button">sign Up</string>
+    <string name="login_button">login</string>
+
+    <!--    Checkout    -->
+    <string name="userspinner_label">Select Username</string>
+    <string name="artworkspinner_label">Select Artwork</string>
+    <string name="placeorder_button">Place Order</string>
+    <string name="refresh_button">Refresh lists</string>
+    <string name="name_prompt">Select name</string>
+    <string name="artworkId_hint">Artwork Id</string>
+    <string name="checkout_test_button">Checkout {Test}</string>
+    <string name="artwork_image_description">Artwork Image</string>
+    <string name="view_artwork_test_button">View Artwork {TEST}</string>
+    <string name="purchase_button">Purchase</string>
+    <string name="subtotal">"Subtotal</string>
+    <string name="taxes">"Taxes"</string>
+    <string name="total">"Total"</string>
+    <string name="artwork_title">Title</string>
+    <string name="cardnumber_hint">Card Number</string>
+    <string name="cvv_hint">CVV</string>
+    <string name="street_address_1_hint">Street Address 1</string>
+    <string name="street_address_2_hint">Street Address 2</string>
+    <string name="postal_code_hint">Postal Code</string>
+    <string name="city_hint">City</string>
+    <string name="province_hint">Province</string>
+    <string name="country_hint">Country</string>
+</resources>
