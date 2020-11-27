@@ -83,10 +83,10 @@ More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project
 
 |**Team Member**|**Responsibilities**|**Hours**|
 |:-------------:|:-------------------|:-------:|
-|Rodolphe Baladi|                    |         |
-|Alena Midgen   |                    |         |
-|Arian Omidi    |                    |         |
-|Dina Shoham    |                    |         |
-|Evan Wechsler  |                    |         |
+|Rodolphe Baladi| Code Quality, Implementation of Frontend and Project Management|     15    |
+|Alena Midgen   | Code Quality, Implementation of Frontend and Project Management |    15     |
+|Arian Omidi    | Code Quality, Implementation of Frontend and Build System, Continuous Integration and Delivery|     15    |
+|Dina Shoham    | Code Quality, Implementation of Frontend and Project Management|    15     |
+|Evan Wechsler  | Code Quality, Implementation of Frontend and User Documentation|    15     |
 
 See code and more information about Sprint 4 [here](https://github.com/McGill-ECSE321-Fall2020/project-group-16/tree/android)
