@@ -6,11 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,9 +19,6 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.ls.LSOutput;
-
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -76,6 +71,9 @@ public class PastOrders extends AppCompatActivity {
         });
     }
 
+    /**
+     * get the past orders for account with username = this.username
+     */
     public void getPastOrders() {
         error = "";
 

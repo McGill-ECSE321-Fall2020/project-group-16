@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,11 +20,6 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import cz.msebera.android.httpclient.Header;
 
 public class ViewArtwork extends AppCompatActivity {
@@ -41,6 +35,7 @@ public class ViewArtwork extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_artwork);
 
+        // get passed parameters
         username = getIntent().getStringExtra("username");
         artworkId = getIntent().getIntExtra("artworkId", 0);
 
@@ -104,6 +99,7 @@ public class ViewArtwork extends AppCompatActivity {
     public void getArtworkData() {
         error = "";
 
+        // send http request to get artwork with id = artworkId
         HttpUtils.get("artworks/" + this.artworkId, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

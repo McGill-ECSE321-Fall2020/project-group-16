@@ -177,7 +177,6 @@ public class Checkout extends AppCompatActivity {
         sb.append("&expirationDate=" + expDate);
         sb.append("&cvv=" + cvv);
         sb.append("&paymentTime=" + time);
-
         sb.append("&toGallery=false");
         sb.append("&estimatedArrivalDate=" + expDate);
         sb.append("&estimatedArrivalTime=16:00:00");
@@ -188,6 +187,7 @@ public class Checkout extends AppCompatActivity {
         sb.append("&destProvince=" + province);
         sb.append("&destCountry=" + country);
 
+        // send http post request
         HttpUtils.post(sb.toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

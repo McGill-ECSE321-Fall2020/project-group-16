@@ -72,6 +72,7 @@ public class Login extends AppCompatActivity {
 
                         return;
                     }
+                    // get username if password is correct
                     successUsername = response.get("username").toString();
                     Log.i("Login", response.toString());
                 }catch (JSONException e) {

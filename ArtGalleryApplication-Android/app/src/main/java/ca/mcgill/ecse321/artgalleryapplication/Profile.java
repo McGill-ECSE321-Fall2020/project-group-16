@@ -17,7 +17,6 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -37,6 +36,7 @@ public class Profile extends AppCompatActivity {
         context = this;
         setContentView(R.layout.activity_profile);
 
+        // Get text views on create
         firstName = (TextView) findViewById(R.id.firstName);
         lastName = (TextView) findViewById(R.id.lastName);
         username = (TextView) findViewById(R.id.username);
@@ -101,6 +101,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
+                    // Set
                     Log.i("Profile", response.toString());
                     firstName.setText(response.get("firstName").toString());
                     lastName.setText(response.get("lastName").toString());
