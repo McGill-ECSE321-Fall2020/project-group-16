@@ -85,6 +85,7 @@ public class SignUp extends AppCompatActivity {
         params.put("lastName", lastName.getText());
         params.put("password", password.getText());
 
+        // http post request to get the user by his username
         HttpUtils.post("users/" + username.getText().toString(), params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -126,29 +127,7 @@ public class SignUp extends AppCompatActivity {
         intent.putExtra("username", successUsername);
         startActivity(intent);
     }
-
-    public void goToCheckoutActivity(View v) {
-        Intent intent = new Intent(this, Checkout.class);
-        startActivity(intent);
-    }
-
-
-    // todo - delete after Home page is made
-    public void goToViewArtworkActivity(View v) {
-        Intent intent = new Intent(this, ViewArtwork.class);
-        intent.putExtra("username", "test1");
-        intent.putExtra("artworkId", 881);
-        startActivity(intent);
-    }
-
-
-
-
-
-
-
-
-
+    
     /**
      * Helper method for error handling
      * Displays error message on the screen, if there is any
