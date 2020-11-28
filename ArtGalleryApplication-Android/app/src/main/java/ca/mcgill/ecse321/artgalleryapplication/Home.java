@@ -2,29 +2,22 @@ package ca.mcgill.ecse321.artgalleryapplication;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,11 +43,13 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // get username parameters sent
         username = getIntent().getStringExtra("username");
 
+        // get all artworks and add them to the list view
         getArtworks();
 
-
+        // refresh errors
         refreshErrorMessage();
 
         // Initialize navigation
@@ -101,16 +96,20 @@ public class Home extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    /**
+     * get add artworks and add them to listView
+     */
     public void getArtworks() {
         error = "";
 
+        // http request for getting all artworks
         HttpUtils.get("artworks/", new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 JSONArray jsonArray = response;
                 if (jsonArray != null) {
 
+                    // init string array
                     ArrayList<String> list = new ArrayList<>();
                     int len = jsonArray.length();
                     if(len == 0) {
@@ -142,23 +141,25 @@ public class Home extends AppCompatActivity {
                     ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, list);
                     artworks.setAdapter(adapter);
 
-                    final TextView textView = (TextView) findViewById(R.id.textView);
-
+                    // set clickListener for every item in listView
                     artworks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String selectedItem = (String) parent.getItemAtPosition(position);
 
+                            // Get artworkId by finding first int
                             Pattern p = Pattern.compile("\\d+");
                             Matcher m = p.matcher(selectedItem);
                             m.find();
-
                             int artwork_id = Integer.parseInt(m.group());
+
+                            // Go to viewArtwork
                             goToViewArtworkActivity(artwork_id);
                         }
                     });
                 }
 
+                // refresh errors
                 refreshErrorMessage();
             }
 
@@ -174,13 +175,16 @@ public class Home extends AppCompatActivity {
         });
     }
 
+    /**
+     * go to ViewArtwork Activity
+     * @param artworkID
+     */
     public void goToViewArtworkActivity(int artworkID) {
         Intent intent = new Intent(this, ViewArtwork.class);
         intent.putExtra("username", username);
         intent.putExtra("artworkId", artworkID);
         startActivity(intent);
     }
-
 
     /**
      * Helper method for error handling
