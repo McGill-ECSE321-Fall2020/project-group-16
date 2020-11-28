@@ -14,15 +14,3 @@ For additional information, see [here](https://github.com/McGill-ECSE321-Fall202
 ## Instructions for Android Application  
 -> Wake up the backend by going to https://artgalleryapp-backend-0.herokuapp.com.  
 -> Run the Android application using an emulator, on Android Studio.  
-
-## Sprint 4
-
-More details about [Sprint 4](https://github.com/McGill-ECSE321-Fall2020/project-group-16/wiki#sprint-4)
-
-|**Team Member**|**Responsibilities**|**Hours**|
-|:-------------:|:-------------------|:-------:|
-|Rodolphe Baladi|        |         |
-|Alena Midgen   |        |         |
-|Arian Omidi    |        |         |
-|Dina Shoham    |        |         |
-|Evan Wechsler  |        |         |
