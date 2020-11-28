@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.artgalleryapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,42 +11,51 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
 
 public class Home extends AppCompatActivity {
     private String error = null;
     private String username;
-    private int artworkId;
-    private String artworkImageUrl;
-    private String artworkTitle;
+    ListView artworks;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         username = getIntent().getStringExtra("username");
-        artworkId = getIntent().getIntExtra("artworkId", 0);
 
-        getArtworkData();
+        getArtworks();
 
-        //refreshErrorMessage();
+
+        refreshErrorMessage();
 
         // Initialize navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -92,41 +102,66 @@ public class Home extends AppCompatActivity {
     }
 
 
-
-    private void updateViews(JSONObject artworkJSON, JSONObject artistJSON) throws JSONException {
-        // get image and title
-        artworkImageUrl = artworkJSON.getString("imageUrl");
-        artworkTitle = artworkJSON.getString("title");
-
-        // set image view
-        ImageView artworkImageView = (ImageView) findViewById(R.id.artworkImage);
-        Picasso.get().load(artworkImageUrl).resize(500, 0).into(artworkImageView);
-
-        // set text view
-        final TextView artworkTitleTV = (TextView) findViewById(R.id.artworkDetails);
-        artworkTitleTV.setText(artworkTitle);
-    }
-
-
-
-    /**
-     * getArtworkData
-     */
-    public void getArtworkData() {
+    public void getArtworks() {
         error = "";
 
-        HttpUtils.get("artworks/" + this.artworkId, new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("artworks/", new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    JSONObject serverResp = new JSONObject(response.toString());
-                    updateViews(serverResp, serverResp.getJSONArray("artists").getJSONObject(0));
-                } catch (JSONException e) {
-                    error += e.getMessage();
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                JSONArray jsonArray = response;
+                if (jsonArray != null) {
+
+                    ArrayList<String> list = new ArrayList<>();
+                    int len = jsonArray.length();
+                    if(len == 0) {
+                        error += "There are no artworks";
+                    }
+
+                    //treat every JSON object of the JSON array response separately
+                    for (int i=0;i<len;i++){
+                        try {
+                            JSONObject artworkJSON = (JSONObject) jsonArray.get(i);
+                            String artworkId = artworkJSON.get("artworkId").toString();
+                            String artist = artworkJSON.getJSONArray("artists").getJSONObject(0).get("username").toString();
+                            String artworkTitle = artworkJSON.get("title").toString();
+
+                            String artwork =
+                                    "\nArtwork ID: " + artworkId +
+                                            "\nArtwork Title: " + artworkTitle +
+                                            "\nArtist: " + artist;
+
+                            list.add(artwork);
+
+                        } catch (JSONException e) {
+                            error += e.getMessage();
+                        }
+                    }
+
+                    //create the list representation of the orders using an Array Adapter
+                    artworks = (ListView) findViewById(R.id.listview);
+                    ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, list);
+                    artworks.setAdapter(adapter);
+
+                    final TextView textView = (TextView) findViewById(R.id.textView);
+
+                    artworks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String selectedItem = (String) parent.getItemAtPosition(position);
+
+                            Pattern p = Pattern.compile("\\d+");
+                            Matcher m = p.matcher(selectedItem);
+                            m.find();
+
+                            int artwork_id = Integer.parseInt(m.group());
+                            goToViewArtworkActivity(artwork_id);
+                        }
+                    });
                 }
 
                 refreshErrorMessage();
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -139,6 +174,13 @@ public class Home extends AppCompatActivity {
         });
     }
 
+    public void goToViewArtworkActivity(int artworkID) {
+        Intent intent = new Intent(this, ViewArtwork.class);
+        intent.putExtra("username", username);
+        intent.putExtra("artworkId", artworkID);
+        startActivity(intent);
+    }
+
 
     /**
      * Helper method for error handling
@@ -146,13 +188,13 @@ public class Home extends AppCompatActivity {
      */
     private void refreshErrorMessage() {
         // set the error message
-    /*    TextView tvError = (TextView) findViewById(R.id.error);
+        TextView tvError = (TextView) findViewById(R.id.error);
         tvError.setText(error);
 
         if (error == null || error.length() == 0) {
             tvError.setVisibility(View.GONE);
         } else {
             tvError.setVisibility(View.VISIBLE);
-        }*/
+        }
     }
 }
