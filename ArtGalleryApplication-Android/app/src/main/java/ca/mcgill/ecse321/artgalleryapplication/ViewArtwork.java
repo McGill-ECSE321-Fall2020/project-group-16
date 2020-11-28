@@ -56,15 +56,22 @@ public class ViewArtwork extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.profile:
-                        startActivity(new Intent(getApplicationContext(), Profile.class));
+                        Intent orderIntent = new Intent(getApplicationContext(), Profile.class);
+                        orderIntent.putExtra("username", username);
+                        startActivity(orderIntent);
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.home:
-                        startActivity(new Intent(getApplicationContext(), Home.class));
+                        Intent orderIntent1 = new Intent(getApplicationContext(), Home.class);
+                        orderIntent1.putExtra("username", username);
+                        startActivity(orderIntent1);
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.pastorders:
-
+                        Intent orderIntent2 = new Intent(getApplicationContext(), PastOrders.class);
+                        orderIntent2.putExtra("username", username);
+                        startActivity(orderIntent2);
+                        overridePendingTransition(0, 0);
                         return true;
                 }
                 return false;

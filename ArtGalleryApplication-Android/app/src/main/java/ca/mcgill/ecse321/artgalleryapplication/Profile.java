@@ -54,11 +54,15 @@ public class Profile extends AppCompatActivity {
                     case R.id.profile:
                         return true;
                     case R.id.home:
-                        startActivity(new Intent(getApplicationContext(), Home.class));
+                        Intent orderIntent = new Intent(getApplicationContext(), Home.class);
+                        orderIntent.putExtra("username", user);
+                        startActivity(orderIntent);
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.pastorders:
-                        startActivity(new Intent(getApplicationContext(), PastOrders.class));
+                        Intent orderIntent1 = new Intent(getApplicationContext(), PastOrders.class);
+                        orderIntent1.putExtra("username", user);
+                        startActivity(orderIntent1);
                         overridePendingTransition(0, 0);
                         return true;
                 }
