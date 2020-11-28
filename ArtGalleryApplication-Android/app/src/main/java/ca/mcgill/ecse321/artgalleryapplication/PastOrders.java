@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.GridLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,22 +21,28 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.ls.LSOutput;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
 public class PastOrders extends AppCompatActivity {
+
+    //declaration of the fields
     private String error = null;
-    //Context context;
     private String username;
+    private Context context;
+    ListView pastOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context = this;
         super.onCreate(savedInstanceState);
-        //context = this;
         setContentView(R.layout.activity_past_orders);
 
+        // retrieve the username passed by the navbar
         username = getIntent().getStringExtra("username");
 
 
@@ -70,28 +79,52 @@ public class PastOrders extends AppCompatActivity {
     public void getPastOrders() {
         error = "";
 
-        System.out.println("reached this point: username: " + username);
-
+        //http request to backend to retrieve the order by username of the current user
         HttpUtils.get("orders/get-by-user/" + username, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                ArrayList<String> list = new ArrayList<String>();
-                JSONArray jsonArray = (JSONArray) response;
+                JSONArray jsonArray = response;
                 if (jsonArray != null) {
+
+                    ArrayList<String> list = new ArrayList<>();
                     int len = jsonArray.length();
+                    if(len == 0) {
+                        error += "You do not have previous orders";
+                    }
+
+                    //treat every JSON object of the JSON array response separately
                     for (int i=0;i<len;i++){
                         try {
-                            list.add(jsonArray.get(i).toString());
+                            JSONObject orderJSON = (JSONObject) jsonArray.get(i);
+                            String orderId = orderJSON.get("orderId").toString();
+                            String orderDate = orderJSON.get("orderDate").toString();
+                            String totalAmount = orderJSON.get("totalAmount").toString();
+                            String artworkTitle = orderJSON.getJSONObject("artwork").get("title").toString();
+                            String imageUrl = orderJSON.getJSONObject("artwork").get("imageUrl").toString();
+                            String artistName = ((JSONObject) orderJSON.getJSONObject("artwork").getJSONArray("artists").get(0)).get("username").toString();
+
+                            String pastOrder =
+                                            "\nOrder ID: " + orderId +
+                                            "\nArtwork Title: " + artworkTitle +
+                                            "\nArtist: " + artistName +
+                                            "\nOrder Date: "  + orderDate +
+                                            "\nTotal Amount: " + totalAmount +
+                                            "\n";
+
+                            list.add(pastOrder);
 
                         } catch (JSONException e) {
                             error += e.getMessage();
                         }
                     }
+
+                    //create the list representation of the orders using an Array Adapter
+                    pastOrders = (ListView) findViewById(R.id.listview);
+                    ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, list);
+                    pastOrders.setAdapter(adapter);
                 }
-                System.out.println("all the previous orders " + list);
                 refreshErrorMessage();
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 try {
@@ -106,8 +139,10 @@ public class PastOrders extends AppCompatActivity {
     }
 
 
-
-
+    /**
+     * Helper method for error handling
+     * Displays error message on the screen, if there is any
+     */
     private void refreshErrorMessage() {
         // set the error message
         TextView tvError = (TextView) findViewById(R.id.error);

@@ -59,6 +59,7 @@ public class Login extends AppCompatActivity {
         final TextView username = (TextView) findViewById(R.id.user_username);
         final TextView password = (TextView) findViewById(R.id.user_password);
 
+        //http request to the backend to attempt to login the user
         HttpUtils.get("users/" + username.getText().toString() + "?password=" + password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

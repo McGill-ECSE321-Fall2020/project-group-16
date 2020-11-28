@@ -128,6 +128,12 @@ public class ViewArtwork extends AppCompatActivity {
         });
     }
 
+    /**
+     *
+     * @param artworkJSON
+     * @param artistJSON
+     * @throws JSONException
+     */
     private void updateViews(JSONObject artworkJSON, JSONObject artistJSON) throws JSONException {
         // get var
         price = artworkJSON.getDouble("price");
@@ -174,6 +180,10 @@ public class ViewArtwork extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @param v
+     */
     public void goToCheckoutActivity(View v) {
         Intent intent = new Intent(this, Checkout.class);
         intent.putExtra("username", username);
@@ -200,6 +210,11 @@ public class ViewArtwork extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @param uri
+     * @param imageViewId
+     */
     private void addImageToView(String uri, int imageViewId){
         ImageView imageView = (ImageView) findViewById(imageViewId);
         Picasso.get().load(uri).resize(1000, 0).into(imageView);

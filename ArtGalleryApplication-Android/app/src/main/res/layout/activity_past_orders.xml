@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".PastOrders">
 
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/error"
         android:layout_height="wrap_content"
@@ -14,14 +19,6 @@
         android:visibility="gone"
         android:text=""
         android:textColor="#FF0000"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Past Orders"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

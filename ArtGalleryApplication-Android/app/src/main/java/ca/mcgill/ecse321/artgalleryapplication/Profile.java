@@ -76,6 +76,10 @@ public class Profile extends AppCompatActivity {
 
     }
 
+    /**
+     * Helper method for error handling
+     * Displays error message on the screen, if there is any
+     */
     private void refreshErrorMessage() {
         // set the error message
         TextView tvError = (TextView) findViewById(R.id.error);
@@ -88,6 +92,9 @@ public class Profile extends AppCompatActivity {
         }
     }
 
+    /**
+     * method gets the user from the backend, using the username passed in by previous activity
+     */
     public void getUser() {
         error = "";
         HttpUtils.get("users/" + user, new RequestParams(), new JsonHttpResponseHandler() {
@@ -126,6 +133,10 @@ public class Profile extends AppCompatActivity {
 
     }
 
+    /**
+     * logout method, sends user to the login page
+     * @param v
+     */
     public void logout(View v) {
         startActivity(new Intent(this, Login.class));
     }
